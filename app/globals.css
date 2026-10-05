@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background font-sans text-foreground antialiased;
+}
+
+/* 3D helpers */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Neon glow text for accent display headings */
+.text-glow {
+  text-shadow: 0 0 18px rgba(34, 197, 94, 0.45);
+}
+
+/* Gradient animated text */
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(90deg, #4ade80, #22d3ee, #a78bfa, #4ade80);
+  background-size: 200% auto;
+  @apply animate-gradient-pan;
+}
+
+/* Glass panel surface */
+.glass {
+  @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid theme('colors.accent.DEFAULT');
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Hair Adore demo — CSS-3D helpers (scoped, warm-editorial)
+   ============================================================ */
+.ha-perspective {
+  perspective: 1400px;
+}
+.ha-perspective-near {
+  perspective: 900px;
+}
+.ha-preserve {
+  transform-style: preserve-3d;
+}
+
+/* Soft warm depth shadow for elevated cards */
+.ha-shadow {
+  box-shadow: 0 1px 2px rgba(43, 33, 24, 0.06), 0 12px 30px -12px rgba(43, 33, 24, 0.25),
+    0 30px 60px -30px rgba(193, 97, 60, 0.28);
+}
+.ha-shadow-lg {
+  box-shadow: 0 2px 4px rgba(43, 33, 24, 0.08), 0 24px 50px -18px rgba(43, 33, 24, 0.32),
+    0 50px 90px -40px rgba(193, 97, 60, 0.4);
+}
+
+/* Drifting blurred orbs used as parallax depth layers */
+.ha-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(48px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Floating idle motion */
+@keyframes ha-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+@keyframes ha-float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -22px, 0) rotate(3deg);
+  }
+}
+@keyframes ha-blob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(20px, -30px, 0) scale(1.1);
+  }
+  66% {
+    transform: translate3d(-18px, 18px, 0) scale(0.95);
+  }
+}
+@keyframes ha-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Sheen sweep across a card surface */
+@keyframes ha-shine {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  60%,
+  100% {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+
+.ha-float {
+  animation: ha-float 6s ease-in-out infinite;
+}
+.ha-float-slow {
+  animation: ha-float-slow 9s ease-in-out infinite;
+}
+.ha-blob-anim {
+  animation: ha-blob 18s ease-in-out infinite;
+}
+.ha-scroll-x {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(193, 97, 60, 0.35) transparent;
+}
+.ha-scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+.ha-scroll-x::-webkit-scrollbar-thumb {
+  background: rgba(193, 97, 60, 0.35);
+  border-radius: 9999px;
+}
+.ha-spin-slow {
+  animation: ha-spin-slow 26s linear infinite;
+}
+
+.ha-shine {
+  position: relative;
+  overflow: hidden;
+}
+.ha-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  animation: ha-shine 5.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+  pointer-events: none;
+}
+
+/* Layered 3D text depth for headings */
+.ha-depth {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 0 rgba(43, 33, 24, 0.06),
+    0 10px 24px rgba(43, 33, 24, 0.18);
+}
+
+/* Respect reduced motion (design-system checklist) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================================
+   Savour demo site: scoped so the portfolio and other demos
+   are untouched. Espresso canvas, amber accent, cream text.
+   ============================================================ */
+.savour {
+  --sv-canvas: #14100e;
+  --sv-surface: #1d1714;
+  --sv-elevated: #261e19;
+  --sv-line: #3a2e26;
+  --sv-text: #f4ede2;
+  --sv-muted: #a8988a;
+  --sv-accent: #e8a33d;
+  --sv-accent-deep: #c97f22;
+  --sv-veg: #6fbf73;
+  --sv-nonveg: #d1584f;
+  background: var(--sv-canvas);
+  color: var(--sv-text);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+.savour-display {
+  font-family: var(--font-display-serif), Georgia, serif;
+}
+
+.savour .sv-card {
+  background: var(--sv-surface);
+  border: 1px solid var(--sv-line);
+  border-radius: 14px;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+.savour .sv-card:hover {
+  border-color: var(--sv-accent-deep);
+}
+
+.savour .sv-chip {
+  border: 1px solid var(--sv-line);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--sv-muted);
+  background: transparent;
+  cursor: pointer;
+}
+.savour .sv-chip[aria-pressed='true'] {
+  background: var(--sv-accent);
+  border-color: var(--sv-accent);
+  color: #17110b;
+  font-weight: 600;
+}
+.savour .sv-heart[aria-pressed='true'] {
+  color: var(--sv-accent);
+}
+
+/* Pre-mixed instead of color-mix(): older Safari should not fall back to a
+   transparent strip on the degraded-data banner. */
+.savour .sv-degraded {
+  background: #2a1f12;
+  border: 1px solid var(--sv-accent-deep);
+  color: var(--sv-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .savour *,
+  .savour *::before,
+  .savour *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

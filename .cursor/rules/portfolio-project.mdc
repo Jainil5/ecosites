@@ -1,0 +1,31 @@
+---
+description: Core project conventions for the portfolio website (Next.js + Tailwind)
+alwaysApply: true
+---
+
+# Portfolio Project Conventions
+
+## Purpose
+Personal portfolio with two core sections:
+- `/resume` — resume rendered on-page + downloadable PDF (`public/resume/resume.pdf`)
+- `/demos` — gallery of demo websites; each detail page at `/demos/[slug]`
+
+## Stack
+- Next.js (App Router, TypeScript) with static export where possible
+- Tailwind CSS for all styling (no CSS modules, no styled-components)
+- Deploy target: Vercel
+
+## Structure
+- `app/` — routes only; keep page/layout files thin
+- `components/` — reusable UI, one component per file, PascalCase filenames
+- `content/demos/` — one TypeScript file or JSON per demo (`sites.ts` registry)
+- `public/` — static assets; resume PDF in `public/resume/`, screenshots in `public/demos/<slug>/`
+
+## Rules
+- Prefer server components; use `client` components only when interactivity requires it
+- Static data (demo entries, resume content) lives in `content/`, not hardcoded in pages
+- Every demo entry needs: `slug`, `title`, `description`, `techStack`, `liveUrl`, `screenshot`
+- Use absolute imports via the `@/` path alias
+- No new dependencies without a clear need; Next.js + Tailwind + lucide-react cover this project
+- For any UI/design work, follow `.cursor/rules/design-ux.mdc` and use the design skills
+  (`ui-ux-pro-max`, `frontend-design`, `impeccable`, `design-system`, `shadcn`)

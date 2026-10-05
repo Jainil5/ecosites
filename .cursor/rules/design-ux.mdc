@@ -1,0 +1,42 @@
+---
+description: Design/UX skill workflow for building best-in-class UI in this portfolio
+globs: app/**/*.tsx,components/**/*.tsx,app/**/*.css
+alwaysApply: false
+---
+
+# Design & UX Workflow
+
+Use the installed design skills for any UI work. Do not hand-roll generic styling.
+
+## Skill routing (invoke before writing UI)
+
+| Task | Skill to use |
+| --- | --- |
+| Choose aesthetic direction, style, palette, font pairing | `ui-ux-pro-max` |
+| Build a distinctive page/hero that must not look templated | `frontend-design` |
+| Critique, polish, or "make it better / bolder / quieter" | `impeccable` |
+| Define tokens, spacing/typography scales, component specs | `design-system` |
+| Add/organize reusable components with Tailwind theming | `shadcn` + `ui-styling` |
+| Social/hero banners and brand visuals | `banner-design` |
+
+## Portfolio design targets
+
+- Aesthetic direction: run `ui-ux-pro-max` first, then implement with `frontend-design`.
+- Design system: single brand color scale (see `brand` in `tailwind.config.ts`), one
+  type pairing (e.g. Inter / Sora), a consistent spacing rhythm. Extend tokens there —
+  do not scatter arbitrary hex values in components.
+- Layout: mobile-first responsive; 8px spacing base; max-w-5xl content container (already set).
+- Components: prefer accessible primitives; if adding a component library, use `shadcn`.
+- Demos gallery: image-forward cards with hover elevation, consistent 16:10 aspect ratio.
+
+## Quality bar (verify before calling UI done)
+
+- Conformance: semantic HTML, keyboard-operable, visible focus rings, AA contrast.
+- Motion: subtle, purposeful transitions (<=200ms) on interactive elements.
+- No lorem/placeholder copy left in shipped UI; real name, links, and screenshots.
+
+## Process
+
+1. `ui-ux-pro-max` to plan direction + tokens (write decisions into `tailwind.config.ts`).
+2. Implement with `frontend-design` / `shadcn` following existing structure.
+3. `impeccable` to review and refine against the quality bar above.

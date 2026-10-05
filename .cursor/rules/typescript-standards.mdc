@@ -1,0 +1,44 @@
+---
+description: TypeScript coding standards for the portfolio project
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+
+# TypeScript Standards
+
+## Strictness
+- `strict: true` in `tsconfig.json` — never weaken it
+- No `any`; use `unknown` + narrowing when the shape is genuinely unknown
+- Export types alongside data: demo entries use a shared `DemoSite` interface
+
+```typescript
+// content/demos/types.ts
+export interface DemoSite {
+  slug: string;        // kebab-case, matches /demos/[slug]
+  title: string;
+  description: string;
+  techStack: string[];
+  liveUrl?: string;    // external hosted demo
+  screenshot: string;  // path under public/demos/<slug>/
+}
+```
+
+## Style
+- Prefer `interface` for object shapes, `type` for unions/utilities
+- Discriminated unions over optional-field guessing
+- No non-null assertions (`!`); handle undefined explicitly
+- Const-assert registries:
+
+```typescript
+// ❌ BAD
+export const sites = [{ slug: 'shop-demo' }];
+
+// ✅ GOOD
+export const sites = [
+  { slug: 'shop-demo', title: 'Shop Demo', /* ... */ },
+] satisfies DemoSite[];
+```
+
+## Imports
+- `@/` alias for cross-directory imports; relative only within the same folder
+- Type-only imports: `import type { DemoSite } from '@/content/demos/types'`

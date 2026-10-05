@@ -1,0 +1,49 @@
+---
+description: Next.js App Router and React component patterns
+globs: app/**/*.tsx,components/**/*.tsx
+alwaysApply: false
+---
+
+# Next.js & React Patterns
+
+## App Router
+- Every route folder needs `page.tsx`; layouts in `layout.tsx`
+- Dynamic demos route: `app/demos/[slug]/page.tsx` with `generateStaticParams`
+- Add `generateMetadata` for SEO on `/resume` and each `/demos/[slug]`
+
+```typescript
+// app/demos/[slug]/page.tsx
+export async function generateStaticParams() {
+  return sites.map((site) => ({ slug: site.slug }));
+}
+```
+
+## Components
+- Functional + typed with an explicit `Props` interface
+- Default server component; add `'use client'` only when needed (state, effects, handlers)
+- Colocate subcomponents; promote to `components/` only when reused
+
+```tsx
+// ✅ GOOD
+interface DemoCardProps {
+  site: DemoSite;
+}
+export function DemoCard({ site }: DemoCardProps) {
+  return (
+    <Link href={`/demos/${site.slug}`} className="block rounded-lg border p-4 hover:shadow-md">
+      <h3 className="text-lg font-semibold">{site.title}</h3>
+      <p className="text-sm text-gray-600">{site.description}</p>
+    </Link>
+  );
+}
+```
+
+## Styling
+- Tailwind utility classes; extract repeated combos into components, not `@apply`
+- Use `next/image` for all screenshots (configure `remotePatterns` if hosted externally)
+- Responsive-first: mobile base classes, then `sm:`/`md:`/`lg:` overrides
+
+## Accessibility
+- Semantic HTML (`nav`, `main`, `section`, `article`)
+- Every interactive element reachable by keyboard with a visible focus ring
+- Alt text for images; labels for form controls

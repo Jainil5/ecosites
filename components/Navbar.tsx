@@ -1,0 +1,42 @@
+import Link from 'next/link';
+import { Terminal } from 'lucide-react';
+
+const links = [
+  { href: '/', label: 'Apps' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/portfolio/resume', label: 'Resume' },
+  { href: '/portfolio/demos', label: 'Projects' },
+];
+
+export function Navbar() {
+  return (
+    <header className="sticky top-0 z-50">
+      <nav
+        aria-label="Primary"
+        className="mx-auto mt-4 flex max-w-6xl items-center justify-between rounded-2xl glass px-5 py-3 shadow-card"
+      >
+        <Link
+          href="/"
+          className="focus-ring inline-flex items-center gap-2 rounded-lg font-display text-base tracking-tight text-foreground"
+        >
+          <Terminal aria-hidden className="h-5 w-5 text-accent" />
+          <span className="text-glow">jainil</span>
+          <span className="text-subtle">.dev</span>
+        </Link>
+
+        <ul className="flex items-center gap-1 sm:gap-2">
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="focus-ring rounded-lg px-3 py-2 font-mono text-sm text-subtle transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+  );
+}
