@@ -37,3 +37,13 @@ next-env.d.ts
 
 # savour importer output
 scripts/out/
+
+# build / tooling artifacts
+coverage/
+.turbo/
+.netlify/
+test-results/
+playwright-report/
+.eslintcache
+.pnpm-debug.log*
+*.local
