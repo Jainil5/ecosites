@@ -46,19 +46,19 @@ export function ProductsGrid() {
           );
         })}
 
-        <TiltCard max={8} className="rounded-2xl">
-          <div className="flex h-full flex-col justify-between rounded-2xl border border-dashed border-accent/40 p-6">
+        <TiltCard max={8} className="rounded-2xl sm:col-span-2 lg:col-span-3">
+          <div className="flex h-full flex-col justify-between gap-6 rounded-2xl border border-dashed border-accent/40 p-6 sm:flex-row sm:items-center">
             <div>
               <MessagesSquare aria-hidden className="h-6 w-6 text-accent" />
               <h3 className="mt-4 font-display text-xl text-foreground">Something else</h3>
-              <p className="mt-2 text-sm text-subtle">
+              <p className="mt-2 max-w-md text-sm text-subtle">
                 Not sure what you need? Tell us what hurts in your business and we will say
                 honestly whether we can help.
               </p>
             </div>
             <Link
               href="/contact"
-              className="focus-ring mt-5 inline-flex cursor-pointer items-center gap-2 font-mono text-sm text-accent"
+              className="focus-ring inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-xl glass px-4 py-2.5 font-mono text-sm text-accent"
             >
               Talk to us
               <ArrowRight aria-hidden className="h-4 w-4" />

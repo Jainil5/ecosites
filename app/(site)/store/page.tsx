@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Briefcase } from 'lucide-react';
 import { WebsiteCard } from '@/components/WebsiteCard';
 import { SectionHeading } from '@/components/SectionHeading';
 import { websites } from '@/content/websites/sites';
@@ -14,11 +13,8 @@ export default function StorePage() {
   return (
     <div className="space-y-12">
       <SectionHeading eyebrow="Delivered work" title="What we have shipped">
-        <span className="inline-flex items-center gap-2">
-          <Briefcase aria-hidden className="h-4 w-4" />
-          {websites.length} businesses live, each with its own theme and stack. Open any one of
-          them — they are real working sites, not mockups.
-        </span>
+        {websites.length} businesses live, each with its own theme and stack. Open any one of
+        them — they are real working sites, not mockups.
       </SectionHeading>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
