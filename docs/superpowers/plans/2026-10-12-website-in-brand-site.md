@@ -41,7 +41,7 @@ A pure rename with zero URL change, done first so every later task targets a sta
 - Consumes: nothing.
 - Produces: `app/(site)/layout.tsx` as the shared chrome, and `app/(site)/page.tsx` still rendering the Apps gallery at `/`.
 
-- [ ] **Step 1: Confirm the current routes work, to have a baseline**
+- [x] **Step 1: Confirm the current routes work, to have a baseline**
 
 ```bash
 cd /Users/jainil/Documents/development/ecosites
@@ -51,21 +51,21 @@ done
 ```
 Expected: `200` on all seven. If `localhost:3000` is refused, start the server first with `npm run dev` and re-run after "Ready".
 
-- [ ] **Step 2: Rename the folder**
+- [x] **Step 2: Rename the folder**
 
 ```bash
 git mv "app/(portfolio)" "app/(site)"
 ```
 Route groups in parentheses are excluded from the URL, so `/portfolio` stays `/portfolio`.
 
-- [ ] **Step 3: Verify no URL moved**
+- [x] **Step 3: Verify no URL moved**
 
 ```bash
 npm run build 2>&1 | grep -E "Route \(app\)|^├|^┌|^└|Error"
 ```
 Expected: the same route list as before the rename — `/`, `/portfolio`, `/portfolio/demos`, `/portfolio/demos/[slug]`, `/portfolio/resume`, `/hair-adore`, `/savour`, `/savour/[slug]`, `/stock-screener`, `/api/stocks/*`. No `/(site)/...` prefix in any path.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -97,7 +97,7 @@ TDD on the pure helpers. This task has no UI.
   - `company: Company`
   - `whatsappHref(contact: ContactChannels): string`, `telHref(contact: ContactChannels): string`, `mailtoHref(contact: ContactChannels): string`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `test/brand-contact-links.test.ts`:
 
@@ -147,14 +147,14 @@ it('exposes the phone in national form and a separate display form', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail on the missing module**
+- [x] **Step 2: Run it and watch it fail on the missing module**
 
 ```bash
 npx vitest run test/brand-contact-links.test.ts
 ```
 Expected: FAIL — `Failed to load url @/content/brand/links ... Does ... exist?`
 
-- [ ] **Step 3: Write the types**
+- [x] **Step 3: Write the types**
 
 Create `content/brand/types.ts`:
 
@@ -191,7 +191,7 @@ export interface Product {
 }
 ```
 
-- [ ] **Step 4: Write the company registry**
+- [x] **Step 4: Write the company registry**
 
 Create `content/brand/company.ts`:
 
@@ -213,7 +213,7 @@ export const company: Company = {
 };
 ```
 
-- [ ] **Step 5: Write the link helpers**
+- [x] **Step 5: Write the link helpers**
 
 Create `content/brand/links.ts`:
 
@@ -244,14 +244,14 @@ export function mailtoHref(contact: ContactChannels): string {
 }
 ```
 
-- [ ] **Step 6: Run the tests and confirm they pass**
+- [x] **Step 6: Run the tests and confirm they pass**
 
 ```bash
 npx vitest run test/brand-contact-links.test.ts
 ```
 Expected: PASS, 7 tests.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add content/brand test/brand-contact-links.test.ts
@@ -273,7 +273,7 @@ typo cannot break the only route a customer has to reach us."
 - Consumes: `Product`, `ProductIcon` from `content/brand/types.ts`.
 - Produces: `products: Product[]` with slugs `websites`, `ai-services`, `automation`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `test/brand-registries.test.ts`:
 
@@ -318,14 +318,14 @@ describe('company registry', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 ```bash
 npx vitest run test/brand-registries.test.ts
 ```
 Expected: FAIL — cannot resolve `@/content/brand/products`.
 
-- [ ] **Step 3: Write the registry**
+- [x] **Step 3: Write the registry**
 
 Create `content/brand/products.ts`:
 
@@ -370,14 +370,14 @@ export const products: Product[] = [
 ];
 ```
 
-- [ ] **Step 4: Run the tests**
+- [x] **Step 4: Run the tests**
 
 ```bash
 npx vitest run test/brand-registries.test.ts
 ```
 Expected: PASS, 5 tests (3 product, 2 company).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add content/brand/products.ts test/brand-registries.test.ts
@@ -398,7 +398,7 @@ git commit -m "feat: add Website IN product registry"
 - Consumes: `websites` from `content/websites/sites`, `WebsiteCard`, `SectionHeading`.
 - Produces: route `/store`; `resolveRoute(route: string): string | null` used by the registry test.
 
-- [ ] **Step 1: Append the failing store assertions**
+- [x] **Step 1: Append the failing store assertions**
 
 Add to `test/brand-registries.test.ts`, below the existing describes, and add the import at the top:
 
@@ -435,7 +435,7 @@ import path from 'node:path';
 import { websites } from '@/content/websites/sites';
 ```
 
-- [ ] **Step 2: Write the route resolver helper**
+- [x] **Step 2: Write the route resolver helper**
 
 Create `test/helpers/resolve-route.ts`. It maps a URL path to a `page.tsx` under `app/`, dropping route-group folders (the `@/` alias in `vitest.config.ts` points at the repo root, so the `app` tree is not importable as a module).
 
@@ -478,14 +478,14 @@ export function resolveRoute(route: string): string | null {
 `visibleSegments(['(site)'])` is `[]` and `'/'.concat('')` is `/`. That is deliberate: it is how
 the resolver proves the placeholder page in Step 5 serves the base URL.
 
-- [ ] **Step 3: Run it and watch it fail**
+- [x] **Step 3: Run it and watch it fail**
 
 ```bash
 npx vitest run test/brand-registries.test.ts
 ```
 Expected: FAIL on `resolveRoute` returning `null` for every `site.path`, because `app/(site)/page.tsx` is about to move and `/store` does not exist yet.
 
-- [ ] **Step 4: Create the store page**
+- [x] **Step 4: Create the store page**
 
 Create `app/(site)/store/page.tsx`. This is the former Apps page with copy that reads as delivered client work:
 
@@ -529,7 +529,7 @@ export default function StorePage() {
 }
 ```
 
-- [ ] **Step 5: Empty the old Apps page so the resolver finds `/store`**
+- [x] **Step 5: Empty the old Apps page so the resolver finds `/store`**
 
 Replace the whole of `app/(site)/page.tsx` with a placeholder that Task 8 overwrites. It must render, or the build breaks:
 
@@ -539,14 +539,14 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 6: Run the registry tests**
+- [x] **Step 6: Run the registry tests**
 
 ```bash
 npx vitest run test/brand-registries.test.ts
 ```
 Expected: PASS, 8 tests (5 from before plus 3 store assertions). If `resolveRoute` still misses `/hair-adore`, read the set it built — the three client sites live under `app/(sites)/`, and group folders must be dropped.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
@@ -565,7 +565,7 @@ git commit -m "feat: move the site gallery to /store as delivered work"
 - Consumes: `SampleWebsite`.
 - Produces: `SampleWebsite.liveUrl?: string` and `SampleWebsite.year?: number`, consumed by `WebsiteCard` and later by `WorkStrip`.
 
-- [ ] **Step 1: Add the optional fields**
+- [x] **Step 1: Add the optional fields**
 
 In `content/websites/types.ts`, insert above the closing brace of the interface:
 
@@ -576,7 +576,7 @@ In `content/websites/types.ts`, insert above the closing brace of the interface:
   year?: number;
 ```
 
-- [ ] **Step 2: Branch the card link**
+- [x] **Step 2: Branch the card link**
 
 In `components/WebsiteCard.tsx`, replace the `<Link href={site.path} ...>` opening tag and its matching close tag. The card is one link today; with `liveUrl` it must be a plain anchor, because a Next `<Link>` to an external host bypasses the router and drops prefetch semantics.
 
@@ -602,7 +602,7 @@ Replace line 14 (`      <Link`) through line 55 (`      </Link>`) with:
       )}
 ```
 
-- [ ] **Step 3: Extract the card body**
+- [x] **Step 3: Extract the card body**
 
 Still in `components/WebsiteCard.tsx`, add this component above `WebsiteCard`. It holds the markup that was inside the link, so both branches share it, and the `external` flag swaps the arrow icon:
 
@@ -662,14 +662,14 @@ function CardBody({ site, external = false }: { site: SampleWebsite; external?: 
 }
 ```
 
-- [ ] **Step 4: Typecheck and build**
+- [x] **Step 4: Typecheck and build**
 
 ```bash
 npx tsc --noEmit && npm run build 2>&1 | tail -5
 ```
 Expected: no type errors, build succeeds. `liveUrl` is unset on all three entries, so every card still routes in-app.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add content/websites/types.ts components/WebsiteCard.tsx
@@ -687,7 +687,7 @@ git commit -m "feat: allow store entries to link to a client's live domain"
 - Consumes: `company` from `content/brand/company`, `whatsappHref`/`telHref`/`mailtoHref` from `content/brand/links`.
 - Produces: `<ContactCta />` (no props) and `<ContactRow />` for the hero's compact variant. Both are used by Tasks 7 and 9.
 
-- [ ] **Step 1: Write the component**
+- [x] **Step 1: Write the component**
 
 Create `components/brand/ContactCta.tsx`:
 
@@ -753,14 +753,14 @@ export function ContactCta() {
 }
 ```
 
-- [ ] **Step 2: Verify it compiles**
+- [x] **Step 2: Verify it compiles**
 
 ```bash
 npx tsc --noEmit
 ```
 Expected: no errors. Nothing renders it yet.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add components/brand/ContactCta.tsx
@@ -780,7 +780,7 @@ git commit -m "feat: add the Website IN contact call-to-action"
 - Consumes: `company`, `products`, `websites`, `ContactRow`, `SectionHeading`, `TiltCard`.
 - Produces: three server components composed by Task 8, and the `id="services"` anchor that the nav links to.
 
-- [ ] **Step 1: Hero**
+- [x] **Step 1: Hero**
 
 Create `components/brand/Hero.tsx`:
 
@@ -811,7 +811,7 @@ export function Hero() {
 }
 ```
 
-- [ ] **Step 2: Products grid with the `#services` anchor**
+- [x] **Step 2: Products grid with the `#services` anchor**
 
 Create `components/brand/ProductsGrid.tsx`. The icon map is a literal record, because a dynamic lucide name is not statically analyzable and would render `undefined`:
 
@@ -889,7 +889,7 @@ export function ProductsGrid() {
 }
 ```
 
-- [ ] **Step 3: Work strip, derived from the store registry**
+- [x] **Step 3: Work strip, derived from the store registry**
 
 Create `components/brand/WorkStrip.tsx`. It returns `null` on an empty registry rather than rendering "0 businesses":
 
@@ -931,7 +931,7 @@ export function WorkStrip() {
 }
 ```
 
-- [ ] **Step 4: Check every lucide icon name actually exists in the installed version**
+- [x] **Step 4: Check every lucide icon name actually exists in the installed version**
 
 `lucide-react@0.454` is a pinned snapshot; a name that does not exist imports as `undefined` and
 crashes at render, not at compile time. Check before building:
@@ -948,14 +948,14 @@ If `MessageSquareQuestion` prints `MISSING`, use `MessagesSquare` in both the im
 of `ProductsGrid.tsx`. If `Workflow` prints `MISSING`, use `Repeat` and update both the icon map
 and `ProductIcon` in `content/brand/types.ts` so the union still describes the real options.
 
-- [ ] **Step 5: Verify**
+- [x] **Step 5: Verify**
 
 ```bash
 npx tsc --noEmit && npm run build 2>&1 | tail -5
 ```
 Expected: no type errors; build succeeds.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add components/brand
@@ -973,7 +973,7 @@ git commit -m "feat: add hero, products grid and work strip for the company page
 - Consumes: `Hero`, `ProductsGrid`, `WorkStrip`, `ContactCta`.
 - Produces: the `/` route as the business landing page.
 
-- [ ] **Step 1: Replace the placeholder**
+- [x] **Step 1: Replace the placeholder**
 
 Overwrite `app/(site)/page.tsx` entirely:
 
@@ -1009,7 +1009,7 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 2: Verify the page renders the business, not the gallery**
+- [x] **Step 2: Verify the page renders the business, not the gallery**
 
 ```bash
 npm run build 2>&1 | grep -E "Route \(app\)|^├|^┌|^└"
@@ -1017,14 +1017,14 @@ curl -s http://localhost:3000/ | grep -oE "(Website IN|WhatsApp|businesses live|
 ```
 Expected: `/` in the route list, and all four strings present in the HTML. `WhatsApp` proves the contact href reached the server render.
 
-- [ ] **Step 3: Open it and look**
+- [x] **Step 3: Open it and look**
 
 ```bash
 open -a "Google Chrome" "http://localhost:3000/"
 ```
 Check: the wordmark still says `jainil.dev` (fixed in Task 10), the hero reads as a business, products show three cards plus the invitation, and every card is readable at mobile width.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add "app/(site)/page.tsx"
@@ -1042,7 +1042,7 @@ git commit -m "feat: make the base URL the Website IN company page"
 - Consumes: `ContactCta`, `company`.
 - Produces: route `/contact`.
 
-- [ ] **Step 1: Write the page**
+- [x] **Step 1: Write the page**
 
 Create `app/(site)/contact/page.tsx`:
 
@@ -1075,7 +1075,7 @@ export default function ContactPage() {
 }
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 npm run build 2>&1 | grep -E "/contact|Error"
@@ -1083,7 +1083,7 @@ curl -s http://localhost:3000/contact | grep -oE "wa\.me/918238889347|tel:\+9182
 ```
 Expected: `/contact` in the route list and all three hrefs in the HTML.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add "app/(site)/contact"
@@ -1102,7 +1102,7 @@ git commit -m "feat: add the Website IN contact page"
 - Consumes: `company`, `whatsappHref`/`telHref`/`mailtoHref`.
 - Produces: nav pointing at `/#services`, `/store`, `/contact`; footer carrying the portfolio links that left the nav.
 
-- [ ] **Step 1: Replace the nav model**
+- [x] **Step 1: Replace the nav model**
 
 In `components/Navbar.tsx`, replace lines 1-9 (imports plus the `links` array) with:
 
@@ -1132,7 +1132,7 @@ Then replace the wordmark block — the `<Link href="/">` containing `<Terminal>
         </Link>
 ```
 
-- [ ] **Step 2: Rewrite the footer**
+- [x] **Step 2: Rewrite the footer**
 
 Overwrite `components/Footer.tsx` completely. It stops importing `content/resume/data` so the
 brand chrome and the personal resume data are no longer coupled:
@@ -1197,7 +1197,7 @@ export function Footer() {
 }
 ```
 
-- [ ] **Step 3: Verify the anchor target exists, in the browser**
+- [x] **Step 3: Verify the anchor target exists, in the browser**
 
 ```bash
 open -a "Google Chrome" "http://localhost:3000/"
@@ -1205,7 +1205,7 @@ open -a "Google Chrome" "http://localhost:3000/"
 Click **Services** — the products section must scroll into view, not sit still. A nav link to a
 missing anchor is invisible in a build log. `id="services"` came from Task 7 Step 2.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add components/Navbar.tsx components/Footer.tsx
@@ -1226,7 +1226,7 @@ The footer keeps Portfolio and Resume reachable after they left the primary nav.
 - Consumes: `company`.
 - Produces: correct `<title>`, Open Graph base, and documentation matching the new route map.
 
-- [ ] **Step 1: Point metadata at the brand**
+- [x] **Step 1: Point metadata at the brand**
 
 In `app/layout.tsx`, add the import beside the others:
 
@@ -1249,14 +1249,14 @@ export const metadata: Metadata = {
 };
 ```
 
-- [ ] **Step 2: Verify the title tag**
+- [x] **Step 2: Verify the title tag**
 
 ```bash
 curl -s http://localhost:3000/ | grep -oE "<title>[^<]*</title>"
 ```
 Expected: `<title>Website IN — Websites, AI and automation for local businesses</title>`
 
-- [ ] **Step 3: Rewrite the README route table and nav copy**
+- [x] **Step 3: Rewrite the README route table and nav copy**
 
 In `README.md`, replace the first two rows of the route table in §3 so they read:
 
@@ -1278,7 +1278,7 @@ Then update the "Architecture" bullets: `app/(site)/layout.tsx` replaces `app/(p
 becomes "Adding a client project" — step 1 is now `app/(sites)/<slug>/page.tsx`, step 3 is an
 entry in `content/websites/sites.ts` with `path: '/<slug>'`, and `liveUrl` is optional.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add app/layout.tsx README.md
@@ -1295,14 +1295,14 @@ git commit -m "feat: brand the site metadata for websitein.com"
 - Consumes: everything above.
 - Produces: a shippable `main`.
 
-- [ ] **Step 1: Unit tests**
+- [x] **Step 1: Unit tests**
 
 ```bash
 npm test
 ```
 Expected: `Test Files 9 passed`, `Tests 85 passed` — 70 existing, 7 contact links, 8 registries. If a count differs, read which file failed; do not adjust an assertion to match the code.
 
-- [ ] **Step 2: Lint, comparing against the known baseline**
+- [x] **Step 2: Lint, comparing against the known baseline**
 
 ```bash
 npm run lint 2>&1 | tail -15
@@ -1310,7 +1310,7 @@ npm run lint 2>&1 | tail -15
 Expected: only the pre-existing `components/sites/stock-screener/ChartPanel.tsx:115`
 ref-in-cleanup warning. Any new warning is this change's fault.
 
-- [ ] **Step 3: Production build**
+- [x] **Step 3: Production build**
 
 ```bash
 npm run build 2>&1 | grep -E "Route \(app\)|^├|^┌|^└|Error|Warning"
@@ -1319,7 +1319,7 @@ Expected routes: `/`, `/store`, `/contact`, `/hair-adore`, `/savour`, `/savour/[
 `/stock-screener`, `/portfolio`, `/portfolio/demos`, `/portfolio/demos/[slug]`,
 `/portfolio/resume`, `/api/stocks/{chart,news,ohlc}`. No `/(site)/` prefix anywhere.
 
-- [ ] **Step 4: Route sweep, including a link audit**
+- [x] **Step 4: Route sweep, including a link audit**
 
 ```bash
 for p in "/" "/store" "/contact" "/portfolio" "/portfolio/demos" "/portfolio/resume" "/hair-adore" "/savour" "/stock-screener"; do
@@ -1329,7 +1329,7 @@ curl -s http://localhost:3000/ | grep -oE 'href="(https://wa\.me/[^"]*|tel:[^"]*
 ```
 Expected: nine `200`s, and the three contact href forms present with `wa.me/918238889347` spelled exactly that way.
 
-- [ ] **Step 5: Walk the page in the browser**
+- [x] **Step 5: Walk the page in the browser**
 
 ```bash
 open -a "Google Chrome" "http://localhost:3000/"
@@ -1340,12 +1340,12 @@ businesses; footer carries the contact channels and Portfolio + Resume; `/store`
 three sites; no card links to `/showcase/*`. Then narrow the window to 375 px and confirm the nav,
 phone number and product bullets do not overflow.
 
-- [ ] **Step 6: Confirm the personal portfolio still reads as personal**
+- [x] **Step 6: Confirm the personal portfolio still reads as personal**
 
 Open `http://localhost:3000/portfolio` and `http://localhost:3000/portfolio/resume`. Both must
 render as before — the resume PDF download and the three case studies are untouched by this work.
 
-- [ ] **Step 7: Commit whatever the gate changed, then push**
+- [x] **Step 7: Commit whatever the gate changed, then push**
 
 ```bash
 git status --short
@@ -1354,3 +1354,32 @@ git push origin main
 Expected: a clean status, and the push lands the rebrand on GitHub. Deployment stays with you in
 the Vercel dashboard, as decided — `NEXT_PUBLIC_SITE_URL` should become `https://websitein.com`
 once the domain is attached.
+
+---
+
+## Execution notes (2026-10-12)
+
+All twelve tasks shipped. Three places where the plan's expectation differed from reality:
+
+1. **Test count is 84, not 85.** `test/brand-contact-links.test.ts` holds 6 `it` blocks, not 7;
+   every assertion in the plan is present, so the plan's arithmetic was off rather than a test
+   being dropped. `Test Files 9 passed / Tests 84 passed`.
+2. **Lint baseline is 6 warnings, not 1.** Besides `ChartPanel.tsx:115`, there are five pre-existing
+   `@next/next/no-img-element` warnings in `components/sites/hair-adore/`. None come from files this
+   change touched, so the "no new warnings" gate holds.
+3. **`MessageSquareQuestion` does not exist in `lucide-react@0.454`.** Task 7 Step 4 caught it before
+   build; `ProductsGrid.tsx` uses `MessagesSquare`, which Task 7's fallback anticipated.
+
+Two defects the gate found and fixed beyond the plan:
+
+- `app/(site)/portfolio/page.tsx` declared no `metadata`. Once Task 11 changed the root default to
+  the brand tagline, the personal portfolio inherited "Website IN — Websites, AI and automation for
+  local businesses" as its own title. It now carries `title: 'Portfolio'` and a resume-derived
+  description.
+- `public/showcase/hair-adore/preview.png` was a 72-byte 1x1 stub, so the Hair Adore card rendered
+  blank on `/store`. Task 4's "screenshot file exists" assertion passed on it — existence is not a
+  proxy for a usable image. Replaced with a real 1440x900 capture of `/hair-adore`.
+
+Left alone deliberately: the demo banners inside the three client sites still read "part of Jainil's
+portfolio showcase / Back to Apps" and link to `/`, which is now the company page rather than the
+gallery. Spec §9 puts the client sites out of scope; the follow-up is to point them at `/store`.
