@@ -1,20 +1,26 @@
 # ecosites
 
-Portfolio plus three standalone demo sites, built with **Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each site renders full-screen with its own scoped theme, so they can look nothing alike.
+**Website IN** — the brand site for a studio that builds websites, AI services and automation for
+local businesses — plus three standalone demo sites, all in one app built with
+**Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each demo renders
+full-screen with its own scoped theme, so they can look nothing alike.
 
 ## Routes
 
-The portfolio and the demo sites share one app but live in separate route groups.
+The brand site, the personal portfolio and the demo sites share one app but live in separate route groups.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Apps gallery — cards for the demo sites, from `content/websites/sites.ts` |
-| `/portfolio` | Portfolio landing (hero, stack, featured builds) |
+| `/` | Website IN company page — positioning, products, client proof, contact |
+| `/store` | Delivered client work, from `content/websites/sites.ts` |
+| `/contact` | WhatsApp, call and email channels |
+| `/#services` | Products anchor on the company page |
+| `/portfolio` | Personal portfolio landing (hero, stack, featured builds) |
 | `/portfolio/demos` | Project case-study gallery, from `content/demos/sites.ts` |
 | `/portfolio/demos/[slug]` | Case-study detail, statically generated |
 | `/portfolio/resume` | Resume rendered on-page + downloadable PDF |
 
-| Demo site | Route | Notes |
+| Client site | Route | Notes |
 | --- | --- | --- |
 | Hair Adore | `/hair-adore` | Salon marketing site: service menu, before/after gallery, booking |
 | Savour | `/savour`, `/savour/[slug]` | Pune food guide; `/savour/[slug]` is one page per venue |
@@ -23,31 +29,33 @@ The portfolio and the demo sites share one app but live in separate route groups
 `/api/stocks/{ohlc,chart,news}` are server-side proxies that keep the Yahoo Finance
 request and the NVIDIA NIM key out of the browser bundle.
 
-The portfolio lives in the `(portfolio)` route group (dark 3D theme, shared navbar/footer/grid
-background). Demo sites live in `(sites)` and render **full-screen with their own scoped theme** —
-no portfolio chrome.
+The company page and the personal portfolio live in the `(site)` route group (dark 3D theme,
+shared navbar/footer/grid background). Demo sites live in `(sites)` and render **full-screen with
+their own scoped theme** — no brand chrome.
 
 ## Architecture
 
 - **`app/layout.tsx`** — minimal root layout: fonts + default metadata only, so `(sites)` pages stay standalone.
-- **`app/(portfolio)/layout.tsx`** — the portfolio chrome (Navbar, Footer, GridBackground, skip link).
-- **`app/(sites)/<slug>/page.tsx`** — one standalone page per demo site.
-- **`content/`** — data-as-code registries:
+- **`app/(site)/layout.tsx`** — the brand chrome (Navbar, Footer, GridBackground, skip link).
+- **`app/(sites)/<slug>/page.tsx`** — one standalone page per client site.
+- **`content/`** — data-as-code registries; components never hard-code business facts:
+  - `content/brand/` — `company.ts` (name, tagline, pitch, city, contact channels), `products.ts` (the offering list), `links.ts` (WhatsApp/tel/mailto href builders).
   - `content/resume/data.ts` — resume content (single source of truth for name/title/summary).
   - `content/demos/` — `DemoSite` registry for the case studies.
-  - `content/websites/` — `SampleWebsite` registry for the `/` gallery.
+  - `content/websites/` — `SampleWebsite` registry for the `/store` gallery, with optional `liveUrl` (client's own domain) and `year`.
+- **`components/brand/`** — `Hero`, `ProductsGrid`, `WorkStrip`, `ContactCta`; all read `content/brand/`.
 - **`components/`** — shared UI; site-specific components are colocated under `components/sites/<slug>/`.
 - **`supabase/`** — `schema.sql` + `seed.sql` for Savour's project (Row Level Security keeps a device's wishlist to itself).
-- **`design-system/`** — persisted design tokens/decisions for the portfolio theme.
+- **`design-system/`** — persisted design tokens/decisions for the brand theme.
 
-### Adding a new demo site
+### Adding a client project
 
 1. Create `app/(sites)/<slug>/page.tsx` (server component + `metadata`).
 2. Add its components/data under `components/sites/<slug>/`.
-3. Add one entry to `content/websites/sites.ts` with `slug`, `path: '/<slug>'`, `theme`, `accent`, `screenshot`.
+3. Add one entry to `content/websites/sites.ts` with `slug`, `path: '/<slug>'`, `theme`, `accent`, `screenshot` — plus `liveUrl` when the client has their own domain, and `year`.
 4. Drop a preview image at `public/showcase/<slug>/preview.png`.
 
-The `/` gallery reads from the registry automatically.
+The `/store` gallery and the work strip on `/` read from the registry automatically.
 
 ## Getting Started
 
@@ -62,7 +70,7 @@ Other scripts:
 npm run build    # production build
 npm run start    # serve the production build
 npm run lint     # eslint
-npm test         # vitest (Savour catalogue, filters, dishes, wishlist, seed)
+npm test         # vitest (brand registries and contact links, Savour catalogue, filters, dishes, wishlist, seed)
 npm run savour:places  # regenerate Savour venue data
 npm run savour:seed    # generate the Supabase seed
 ```
@@ -78,7 +86,7 @@ variables are absent, so the app builds and runs with an empty `.env.local`.
 
 | Variable | Used by | When unset |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `metadataBase` for canonical/OG tags | Falls back to `https://example.com` |
+| `NEXT_PUBLIC_SITE_URL` | `metadataBase` for canonical/OG tags | Falls back to `https://websitein.com` |
 | `NEXT_PUBLIC_SAVOUR_SUPABASE_URL`<br>`NEXT_PUBLIC_SAVOUR_SUPABASE_PUBLISHABLE_KEY` | Savour catalogue + wishlist | Savour renders `components/sites/savour/fallback-data.ts`; wishlist writes are disabled |
 | `NVIDIA_API_KEY`<br>`NIM_MODEL` | `/api/stocks/news` AI brief | News desk uses keyword mode instead |
 
@@ -94,8 +102,9 @@ This project is zero-config for Vercel (framework preset `nextjs`, see `vercel.j
 1. Push this repo to GitHub.
 2. In the [Vercel dashboard](https://vercel.com/new), **Import** the GitHub repo.
 3. Vercel auto-detects Next.js — accept the defaults.
-4. Add the environment variables above for Production and Preview. At minimum set
-   `NEXT_PUBLIC_SITE_URL` to your Vercel domain.
+4. Add the environment variables above for Production and Preview. Set
+   `NEXT_PUBLIC_SITE_URL` to `https://websitein.com` once the domain is attached (the
+   Vercel `.vercel.app` domain works for previews).
 5. Deploy. Every push to `main` produces a production deploy; PRs get preview URLs.
 
 Note that `NEXT_PUBLIC_*` values are inlined at build time, so changing one requires a
@@ -126,9 +135,11 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 ## Status
 
 - [x] Next.js + Tailwind + TypeScript scaffolded
+- [x] `/` company page — hero, products, client proof, contact
+- [x] `/store` delivered-work gallery + `/contact` channels
 - [x] `/portfolio/resume` with PDF download
 - [x] `/portfolio/demos` listing + `[slug]` detail pages
-- [x] Three standalone demo sites (`/hair-adore`, `/savour`, `/stock-screener`)
+- [x] Three standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
 - [x] Vercel-ready configuration

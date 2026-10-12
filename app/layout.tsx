@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Fira_Code, Fraunces, Inter, Playfair_Display, Share_Tech_Mono } from 'next/font/google';
+import { company } from '@/content/brand/company';
 import './globals.css';
 
 const display = Share_Tech_Mono({
@@ -38,14 +39,14 @@ const displaySerif = Fraunces({
 });
 
 export const metadata: Metadata = {
-  // Set NEXT_PUBLIC_SITE_URL in Vercel (e.g. https://<your-project>.vercel.app)
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com'),
+  // Set NEXT_PUBLIC_SITE_URL in Vercel to the real origin; this fallback keeps
+  // canonical tags correct on a preview build that has no env var.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://websitein.com'),
   title: {
-    default: 'Jainil Patel — Software Engineer',
-    template: '%s | Jainil Patel',
+    default: `${company.name} — ${company.tagline}`,
+    template: `%s | ${company.name}`,
   },
-  description:
-    'Portfolio of Jainil Patel, a software engineer building production systems — data platforms, ETL automation, and cloud infrastructure on AWS.',
+  description: company.pitch,
 };
 
 export default function RootLayout({
