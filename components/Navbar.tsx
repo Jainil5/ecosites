@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import { Terminal } from 'lucide-react';
+import { Globe2 } from 'lucide-react';
 
 const links = [
-  { href: '/', label: 'Apps' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/portfolio/resume', label: 'Resume' },
-  { href: '/portfolio/demos', label: 'Projects' },
+  { href: '/#services', label: 'Services' },
+  { href: '/store', label: 'Work' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Navbar() {
@@ -19,9 +18,9 @@ export function Navbar() {
           href="/"
           className="focus-ring inline-flex items-center gap-2 rounded-lg font-display text-base tracking-tight text-foreground"
         >
-          <Terminal aria-hidden className="h-5 w-5 text-accent" />
-          <span className="text-glow">jainil</span>
-          <span className="text-subtle">.dev</span>
+          <Globe2 aria-hidden className="h-5 w-5 text-accent" />
+          <span className="text-glow">Website</span>
+          <span className="text-accent">IN</span>
         </Link>
 
         <ul className="flex items-center gap-1 sm:gap-2">
