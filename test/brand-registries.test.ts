@@ -1,6 +1,10 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { company } from '@/content/brand/company';
 import { products } from '@/content/brand/products';
+import { websites } from '@/content/websites/sites';
+import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
   it('lists three offerings in selling order', () => {
@@ -34,5 +38,24 @@ describe('company registry', () => {
       .map((p) => `${p.title} ${p.summary} ${p.bullets.join(' ')}`)
       .join(' ')}`;
     expect(text).not.toMatch(/₹|Rs\.?|price[d]? from|starting at/);
+  });
+});
+
+describe('store registry', () => {
+  it('points every entry at a route that exists', () => {
+    for (const site of websites) {
+      expect(resolveRoute(site.path), `${site.slug} -> ${site.path}`).not.toBeNull();
+    }
+  });
+
+  it('has a screenshot file on disk for every entry', () => {
+    for (const site of websites) {
+      const file = path.join(process.cwd(), 'public', site.screenshot.replace(/^\//, ''));
+      expect(existsSync(file), site.screenshot).toBe(true);
+    }
+  });
+
+  it('uses unique slugs', () => {
+    expect(new Set(websites.map((w) => w.slug)).size).toBe(websites.length);
   });
 });
