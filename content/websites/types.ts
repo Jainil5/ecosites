@@ -8,4 +8,8 @@ export interface SampleWebsite {
   accent: string; // hex used for the gallery swatch
   techStack: string[];
   screenshot: string; // path under public/showcase/<slug>/
+  /** Public production URL, when the client has their own domain. */
+  liveUrl?: string;
+  /** Year it shipped. */
+  year?: number;
 }
