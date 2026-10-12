@@ -13,7 +13,8 @@ export interface Company {
   name: string;
   tagline: string;
   pitch: string;
-  city: string;
+  /** Short pill above the hero headline. */
+  badge: string;
   contact: ContactChannels;
 }
 
@@ -22,7 +23,7 @@ export type ProductIcon = 'globe' | 'sparkles' | 'workflow';
 export interface Product {
   slug: string;
   title: string;
-  /** One sentence, written for a shop owner, not an engineer. */
+  /** One sentence, written for a business owner, not an engineer. */
   summary: string;
   /** 3-4 concrete deliverables. */
   bullets: string[];

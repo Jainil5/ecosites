@@ -5,7 +5,7 @@ import { company } from '@/content/brand/company';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: `Talk to ${company.name} about a website, AI or automation job for your business in ${company.city}.`,
+  description: `Talk to ${company.name} about a website, AI or automation job for your business.`,
 };
 
 export default function ContactPage() {
@@ -19,7 +19,7 @@ export default function ContactPage() {
       <ContactCta />
 
       <p className="max-w-2xl font-mono text-sm text-subtle">
-        Serving {company.city} and anywhere a link can reach.
+        Work with us from anywhere — everything is delivered over a link.
       </p>
     </div>
   );

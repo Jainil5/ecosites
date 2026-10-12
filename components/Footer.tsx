@@ -3,11 +3,7 @@ import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 
-const portfolioLinks = [
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/portfolio/resume', label: 'Resume' },
-];
-
+const portfolioLinks = [{ href: '/portfolio', label: 'Portfolio' }];
 export function Footer() {
   const { contact } = company;
   const channels = [
@@ -20,9 +16,7 @@ export function Footer() {
     <footer className="mt-20 border-t border-white/10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-2">
-          <p className="font-display text-base text-foreground">
-            {company.name} <span className="text-subtle">· {company.city}</span>
-          </p>
+          <p className="font-display text-base text-foreground">{company.name}</p>
           <p className="font-mono text-xs text-subtle">
             © {new Date().getFullYear()} {company.name} — {company.tagline.toLowerCase()}
           </p>

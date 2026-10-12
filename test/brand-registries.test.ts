@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { company } from '@/content/brand/company';
@@ -28,7 +28,7 @@ describe('products registry', () => {
 describe('company registry', () => {
   it('has no empty marketing fields', () => {
     expect(company.name).toBe('Website IN');
-    for (const field of [company.tagline, company.pitch, company.city]) {
+    for (const field of [company.tagline, company.pitch, company.badge]) {
       expect(field.trim().length).toBeGreaterThan(0);
     }
   });
@@ -39,6 +39,12 @@ describe('company registry', () => {
       .join(' ')}`;
     expect(text).not.toMatch(/₹|Rs\.?|price[d]? from|starting at/);
   });
+
+  it('sells to businesses of every size, not one city or one kind of shop', () => {
+    const text = `${company.tagline} ${company.pitch}`.toLowerCase();
+    expect(text).not.toContain('pune');
+    expect(text).not.toMatch(/\blocal business|--shop|shops,/);
+  });
 });
 
 describe('store registry', () => {
@@ -48,10 +54,12 @@ describe('store registry', () => {
     }
   });
 
-  it('has a screenshot file on disk for every entry', () => {
+  it('has a real screenshot file for every entry', () => {
     for (const site of websites) {
       const file = path.join(process.cwd(), 'public', site.screenshot.replace(/^\//, ''));
       expect(existsSync(file), site.screenshot).toBe(true);
+      // A 1x1 placeholder passes `existsSync` and renders an empty card.
+      expect(statSync(file).size, site.screenshot).toBeGreaterThan(5_000);
     }
   });
 

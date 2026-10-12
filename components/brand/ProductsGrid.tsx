@@ -15,7 +15,7 @@ const ICONS: Record<ProductIcon, LucideIcon> = {
 export function ProductsGrid() {
   return (
     <section id="services" className="scroll-mt-24">
-      <SectionHeading eyebrow="What we do" title="Three ways we help a shop grow">
+      <SectionHeading eyebrow="What we do" title="Three ways we help a business grow">
         Start with a website, add the AI and automation when it earns for you.
       </SectionHeading>
 

@@ -11,14 +11,14 @@ export function WorkStrip() {
         <div>
           <p className="font-display text-4xl text-accent">{websites.length}</p>
           <p className="mt-1 font-mono text-xs uppercase tracking-wider text-subtle">
-            businesses live
+            demos you can open
           </p>
         </div>
         <Link
           href="/store"
           className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent px-4 py-2.5 font-semibold text-background transition-transform hover:-translate-y-0.5"
         >
-          See the work
+          Browse the demo store
           <ArrowRight aria-hidden className="h-4 w-4" />
         </Link>
       </div>

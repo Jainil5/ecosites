@@ -1,4 +1,4 @@
-import { MapPin } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 import { ContactRow } from '@/components/brand/ContactCta';
 import { company } from '@/content/brand/company';
 
@@ -6,8 +6,8 @@ export function Hero() {
   return (
     <section className="animate-fade-up space-y-6 pt-6">
       <p className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 font-mono text-xs text-accent">
-        <MapPin aria-hidden className="h-3.5 w-3.5" />
-        {company.city} · for local businesses
+        <Leaf aria-hidden className="h-3.5 w-3.5" />
+        {company.badge}
       </p>
 
       <h1 className="max-w-3xl font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
