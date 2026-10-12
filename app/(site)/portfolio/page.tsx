@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Download, FolderGit2, Sparkles, ArrowRight } from 'lucide-react';
 import { resume } from '@/content/resume/data';
@@ -5,6 +6,11 @@ import { sites } from '@/content/demos/sites';
 import { DemoCard } from '@/components/DemoCard';
 import { TiltCard } from '@/components/TiltCard';
 import { SectionHeading } from '@/components/SectionHeading';
+
+export const metadata: Metadata = {
+  title: 'Portfolio',
+  description: `${resume.name} — ${resume.title}. Case studies of production systems: data platforms, ETL automation and cloud infrastructure.`,
+};
 
 const coreStack = [
   'Snowflake',
