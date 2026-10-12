@@ -6,9 +6,19 @@ import { TiltCard } from '@/components/TiltCard';
 
 interface WebsiteCardProps {
   site: SampleWebsite;
+  /** Set for the above-the-fold card so Lighthouse stops flagging the LCP image. */
+  priority?: boolean;
 }
 
-function CardBody({ site, external = false }: { site: SampleWebsite; external?: boolean }) {
+function CardBody({
+  site,
+  external = false,
+  priority = false,
+}: {
+  site: SampleWebsite;
+  external?: boolean;
+  priority?: boolean;
+}) {
   return (
     <>
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-elevated">
@@ -16,6 +26,7 @@ function CardBody({ site, external = false }: { site: SampleWebsite; external?: 
           src={site.screenshot}
           alt={`Preview of ${site.title}`}
           fill
+          priority={priority}
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover opacity-85 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
         />
@@ -57,7 +68,7 @@ function CardBody({ site, external = false }: { site: SampleWebsite; external?: 
   );
 }
 
-export function WebsiteCard({ site }: WebsiteCardProps) {
+export function WebsiteCard({ site, priority = false }: WebsiteCardProps) {
   return (
     <TiltCard className="rounded-2xl" max={8}>
       {site.liveUrl ? (
@@ -67,14 +78,14 @@ export function WebsiteCard({ site }: WebsiteCardProps) {
           rel="noopener noreferrer"
           className="group focus-ring flex h-full flex-col overflow-hidden rounded-2xl glass shadow-card transition-shadow hover:shadow-card-hover"
         >
-          <CardBody site={site} external />
+          <CardBody site={site} external priority={priority} />
         </a>
       ) : (
         <Link
           href={site.path}
           className="group focus-ring flex h-full flex-col overflow-hidden rounded-2xl glass shadow-card transition-shadow hover:shadow-card-hover"
         >
-          <CardBody site={site} />
+          <CardBody site={site} priority={priority} />
         </Link>
       )}
     </TiltCard>

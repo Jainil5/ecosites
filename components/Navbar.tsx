@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { Globe2 } from 'lucide-react';
+import { Logo } from '@/components/brand/Logo';
 
 const links = [
   { href: '/#services', label: 'Services' },
-  { href: '/store', label: 'Work' },
+  { href: '/store', label: 'Demos' },
+  { href: '/portfolio', label: 'Portfolio' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -18,17 +19,17 @@ export function Navbar() {
           href="/"
           className="focus-ring inline-flex items-center gap-2 rounded-lg font-display text-base tracking-tight text-foreground"
         >
-          <Globe2 aria-hidden className="h-5 w-5 text-accent" />
+          <Logo className="h-5 w-5 text-accent" />
           <span className="text-glow">Website</span>
           <span className="text-accent">IN</span>
         </Link>
 
-        <ul className="flex items-center gap-1 sm:gap-2">
+        <ul className="flex items-center gap-0.5 sm:gap-2">
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="focus-ring rounded-lg px-3 py-2 font-mono text-sm text-subtle transition-colors hover:text-foreground"
+                className="focus-ring rounded-lg px-2 py-2 font-mono text-xs text-subtle transition-colors hover:text-foreground sm:px-3 sm:text-sm"
               >
                 {link.label}
               </Link>

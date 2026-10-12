@@ -136,3 +136,23 @@ the favicon (Next serves `app/icon.svg` automatically). `Navbar` drops
 - `/ricoco` (deferred earlier by Jainil).
 - Adding `aman5` — future authors are a data entry in `authors.ts` plus their
   case studies in `content/demos/sites.ts`.
+
+## 9. Execution notes (2026-10-13)
+
+- **The 1×1 placeholder defect the tests could not see.** `public/demos/*/preview.png` were 70-byte
+  1×1 PNGs for all three case studies, so the "file exists" assertion passed while every card
+  rendered empty. The store test for `content/websites` had the same blind spot. Both registries now
+  assert a byte floor (>5 KB), which is what catches a placeholder.
+- **Only one project has a real capture.** `Jainil5/enterprise-productivity-agents` ships
+  `demo/ea1.png`; that is now its preview (1440px, palette-quantised, 82 KB). The other two repos
+  contain no images, so `DemoSite.screenshot` became optional and `components/ProjectCover.tsx`
+  renders a designed cover (accent glow + tree watermark + category) instead of pretending to be a
+  screenshot. The case-study page drops the hero panel entirely when there is no capture — a cover
+  at 16:9 read as an empty box.
+- **LCP.** The first `/store` card image now passes `priority`, which cleared the only new console
+  warning. Remaining lint output is 6 pre-existing warnings inside the client demo sites.
+- **Verification.** 93 tests pass; `tsc --noEmit` and `next lint` clean for changed files;
+  production build prerenders 3 author/case-study routes; route sweep against `npm start` returns
+  200 for every page and 404 for `/portfolio/aman5`, an unknown slug, and the deleted
+  `/portfolio/demos` + `/portfolio/resume`; a crawl of internal links from the five main pages found
+  no dead targets.

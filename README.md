@@ -1,24 +1,23 @@
 # ecosites
 
-**Website IN** — the brand site for a studio that builds websites, AI services and automation for
-local businesses — plus three standalone demo sites, all in one app built with
+**Website IN** — the brand site for a tech company that builds websites, AI services and
+automation for businesses of every size — plus three standalone demo sites, all in one app built with
 **Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each demo renders
 full-screen with its own scoped theme, so they can look nothing alike.
 
 ## Routes
 
-The brand site, the personal portfolio and the demo sites share one app but live in separate route groups.
+The brand site, the portfolio and the demo sites share one app but live in separate route groups.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Website IN company page — positioning, products, client proof, contact |
-| `/store` | Delivered client work, from `content/websites/sites.ts` |
+| `/` | Website IN company page — positioning, products, demo proof, contact |
+| `/store` | Demo store — working demos from `content/websites/sites.ts` |
 | `/contact` | WhatsApp, call and email channels |
 | `/#services` | Products anchor on the company page |
-| `/portfolio` | Personal portfolio landing (hero, stack, featured builds) |
-| `/portfolio/demos` | Project case-study gallery, from `content/demos/sites.ts` |
-| `/portfolio/demos/[slug]` | Case-study detail, statically generated |
-| `/portfolio/resume` | Resume rendered on-page + downloadable PDF |
+| `/portfolio` | Index of builders, one card each, from `content/portfolio/authors.ts` |
+| `/portfolio/[author]` | A builder's bio, stack, links and case studies |
+| `/portfolio/[author]/work/[slug]` | Case-study detail, statically generated |
 
 | Client site | Route | Notes |
 | --- | --- | --- |
@@ -29,7 +28,7 @@ The brand site, the personal portfolio and the demo sites share one app but live
 `/api/stocks/{ohlc,chart,news}` are server-side proxies that keep the Yahoo Finance
 request and the NVIDIA NIM key out of the browser bundle.
 
-The company page and the personal portfolio live in the `(site)` route group (dark 3D theme,
+The company page and the portfolio live in the `(site)` route group (dark 3D theme,
 shared navbar/footer/grid background). Demo sites live in `(sites)` and render **full-screen with
 their own scoped theme** — no brand chrome.
 
@@ -38,24 +37,34 @@ their own scoped theme** — no brand chrome.
 - **`app/layout.tsx`** — minimal root layout: fonts + default metadata only, so `(sites)` pages stay standalone.
 - **`app/(site)/layout.tsx`** — the brand chrome (Navbar, Footer, GridBackground, skip link).
 - **`app/(sites)/<slug>/page.tsx`** — one standalone page per client site.
+- **`app/sitemap.ts`, `app/robots.ts`, `app/icon.svg`** — crawler output and favicon, both built from the registries.
 - **`content/`** — data-as-code registries; components never hard-code business facts:
-  - `content/brand/` — `company.ts` (name, tagline, pitch, city, contact channels), `products.ts` (the offering list), `links.ts` (WhatsApp/tel/mailto href builders).
-  - `content/resume/data.ts` — resume content (single source of truth for name/title/summary).
-  - `content/demos/` — `DemoSite` registry for the case studies.
+  - `content/brand/` — `company.ts` (name, tagline, pitch, badge, contact channels), `products.ts` (the offering list), `links.ts` (WhatsApp/tel/mailto href builders), `site.ts` (canonical origin).
+  - `content/portfolio/` — `PortfolioAuthor` registry; one entry per builder at `/portfolio/<slug>`.
+  - `content/demos/` — `DemoSite` registry for the case studies. Each entry names its `author`; `screenshot` is optional and a designed cover stands in when a project has no capture yet.
   - `content/websites/` — `SampleWebsite` registry for the `/store` gallery, with optional `liveUrl` (client's own domain) and `year`.
-- **`components/brand/`** — `Hero`, `ProductsGrid`, `WorkStrip`, `ContactCta`; all read `content/brand/`.
+- **`components/brand/`** — `Logo` (tree with circuit branches, also the favicon), `Hero`, `ProductsGrid`, `WorkStrip`, `ContactCta`; all read `content/brand/`.
 - **`components/`** — shared UI; site-specific components are colocated under `components/sites/<slug>/`.
 - **`supabase/`** — `schema.sql` + `seed.sql` for Savour's project (Row Level Security keeps a device's wishlist to itself).
 - **`design-system/`** — persisted design tokens/decisions for the brand theme.
 
-### Adding a client project
+### Adding a builder's portfolio
+
+1. Add one entry to `content/portfolio/authors.ts` with a kebab-case `slug`.
+2. Tag their case studies in `content/demos/sites.ts` with `author: '<slug>'`.
+3. Drop previews at `public/demos/<case-study>/preview.png` and set `screenshot`.
+
+`/portfolio`, the author page, the case-study pages, `generateStaticParams` and the sitemap all
+follow from those two files.
+
+### Adding a demo to the store
 
 1. Create `app/(sites)/<slug>/page.tsx` (server component + `metadata`).
 2. Add its components/data under `components/sites/<slug>/`.
 3. Add one entry to `content/websites/sites.ts` with `slug`, `path: '/<slug>'`, `theme`, `accent`, `screenshot` — plus `liveUrl` when the client has their own domain, and `year`.
 4. Drop a preview image at `public/showcase/<slug>/preview.png`.
 
-The `/store` gallery and the work strip on `/` read from the registry automatically.
+The `/store` gallery and the demo strip on `/` read from the registry automatically.
 
 ## Getting Started
 
@@ -135,10 +144,10 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 ## Status
 
 - [x] Next.js + Tailwind + TypeScript scaffolded
-- [x] `/` company page — hero, products, client proof, contact
-- [x] `/store` delivered-work gallery + `/contact` channels
-- [x] `/portfolio/resume` with PDF download
-- [x] `/portfolio/demos` listing + `[slug]` detail pages
+- [x] `/` company page — hero, products, demo proof, contact
+- [x] `/store` demo store + `/contact` channels
+- [x] `/portfolio` builder index, `/portfolio/[author]` and `/portfolio/[author]/work/[slug]`
+- [x] Sitemap, robots and favicon generated from the registries
 - [x] Three standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
