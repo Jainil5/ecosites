@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import type { DemoSite } from '@/content/demos/types';
+import { ProjectCover } from '@/components/ProjectCover';
 import { TiltCard } from '@/components/TiltCard';
 
 interface DemoCardProps {
@@ -12,23 +13,29 @@ export function DemoCard({ site }: DemoCardProps) {
   return (
     <TiltCard className="rounded-2xl" max={8}>
       <Link
-        href={`/portfolio/demos/${site.slug}`}
+        href={`/portfolio/${site.author}/work/${site.slug}`}
         className="group focus-ring flex h-full flex-col overflow-hidden rounded-2xl glass shadow-card transition-shadow hover:shadow-card-hover"
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-elevated">
-          <Image
-            src={site.screenshot}
-            alt={`Screenshot of ${site.title}`}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover opacity-80 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-          {site.category ? (
-            <span className="absolute left-3 top-3 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[11px] text-accent backdrop-blur">
-              {site.category}
-            </span>
-          ) : null}
+          {site.screenshot ? (
+            <>
+              <Image
+                src={site.screenshot}
+                alt={`Screenshot of ${site.title}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover opacity-80 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+              {site.category ? (
+                <span className="absolute left-3 top-3 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[11px] text-accent backdrop-blur">
+                  {site.category}
+                </span>
+              ) : null}
+            </>
+          ) : (
+            <ProjectCover site={site} />
+          )}
         </div>
 
         <div className="flex flex-1 flex-col p-5">

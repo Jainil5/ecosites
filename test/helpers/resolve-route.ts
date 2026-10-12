@@ -8,7 +8,14 @@ function visibleSegments(dirs: string[]): string[] {
   return dirs.filter((d) => !(d.startsWith('(') && d.endsWith(')')));
 }
 
-const routes = new Set<string>();
+/** A `[slug]` folder serves any value in that position, so it matches as a wildcard. */
+function toPattern(dirs: string[]): (string | null)[] {
+  return visibleSegments(dirs).map((dir) =>
+    dir.startsWith('[') && dir.endsWith(']') ? null : dir,
+  );
+}
+
+const patterns: (string | null)[][] = [];
 
 function walk(dirs: string[]): void {
   const abs = path.join(APP_DIR, ...dirs);
@@ -17,7 +24,7 @@ function walk(dirs: string[]): void {
     if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
     const next = [...dirs, entry.name];
     if (existsSync(path.join(APP_DIR, ...next, 'page.tsx'))) {
-      routes.add(`/${visibleSegments(next).join('/')}`);
+      patterns.push(toPattern(next));
     }
     walk(next);
   }
@@ -25,8 +32,16 @@ function walk(dirs: string[]): void {
 
 walk([]);
 
+function matches(pattern: (string | null)[], segments: string[]): boolean {
+  return (
+    pattern.length === segments.length &&
+    pattern.every((segment, i) => segment === null || segment === segments[i])
+  );
+}
+
 /** Returns the normalized route, or null when no page.tsx serves it. */
 export function resolveRoute(route: string): string | null {
   const normalized = route === '/' ? '/' : route.replace(/\/+$/, '');
-  return routes.has(normalized) ? normalized : null;
+  const segments = normalized === '/' ? [] : normalized.slice(1).split('/');
+  return patterns.some((pattern) => matches(pattern, segments)) ? normalized : null;
 }

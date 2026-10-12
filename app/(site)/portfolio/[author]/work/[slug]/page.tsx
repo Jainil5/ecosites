@@ -3,51 +3,51 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ExternalLink, Github, CheckCircle2 } from 'lucide-react';
-import { getAllSlugs, getSiteBySlug } from '@/content/demos/sites';
+import { getAuthorBySlug } from '@/content/portfolio/authors';
+import { getSiteBySlug, sites } from '@/content/demos/sites';
 
-interface DemoPageProps {
-  params: Promise<{ slug: string }>;
+interface CaseStudyPageProps {
+  params: Promise<{ author: string; slug: string }>;
 }
 
 export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  return sites.map((site) => ({ author: site.author, slug: site.slug }));
 }
 
-export async function generateMetadata({ params }: DemoPageProps): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
+  const { author, slug } = await params;
   const site = getSiteBySlug(slug);
 
-  if (!site) {
+  if (!site || site.author !== author) {
     return { title: 'Project not found' };
   }
 
   return {
     title: site.title,
     description: site.description,
-    openGraph: {
-      title: site.title,
-      description: site.description,
-      images: [site.screenshot],
-    },
+    ...(site.screenshot
+      ? { openGraph: { title: site.title, description: site.description, images: [site.screenshot] } }
+      : {}),
   };
 }
 
-export default async function DemoPage({ params }: DemoPageProps) {
-  const { slug } = await params;
+export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+  const { author: authorSlug, slug } = await params;
   const site = getSiteBySlug(slug);
+  const author = getAuthorBySlug(authorSlug);
 
-  if (!site) {
+  if (!site || !author || site.author !== author.slug) {
     notFound();
   }
 
   return (
     <article className="space-y-8">
       <Link
-        href="/portfolio/demos"
+        href={`/portfolio/${author.slug}`}
         className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-mono text-sm text-subtle transition-colors hover:text-accent"
       >
         <ArrowLeft aria-hidden className="h-4 w-4" />
-        All projects
+        {author.name}
       </Link>
 
       <header className="space-y-3">
@@ -58,21 +58,24 @@ export default async function DemoPage({ params }: DemoPageProps) {
             </span>
           ) : null}
           {site.period ? <span className="font-mono text-xs text-subtle">{site.period}</span> : null}
+          <span className="font-mono text-xs text-subtle">by {author.name}</span>
         </div>
         <h1 className="font-display text-4xl text-foreground">{site.title}</h1>
         <p className="max-w-2xl text-lg text-subtle">{site.description}</p>
       </header>
 
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl glass shadow-card">
-        <Image
-          src={site.screenshot}
-          alt={`Screenshot of ${site.title}`}
-          fill
-          sizes="(max-width: 1024px) 100vw, 1024px"
-          className="object-cover"
-          priority
-        />
-      </div>
+      {site.screenshot ? (
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl glass shadow-card">
+          <Image
+            src={site.screenshot}
+            alt={`Screenshot of ${site.title}`}
+            fill
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            className="object-cover"
+            priority
+          />
+        </div>
+      ) : null}
 
       {site.highlights?.length ? (
         <section>

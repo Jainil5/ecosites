@@ -3,13 +3,13 @@ import type { DemoSite } from './types';
 export const sites = [
   {
     slug: 'portfolio-advisor',
+    author: 'jainil-patel',
     title: 'AI Portfolio Advisor',
     description:
       'A Snowflake-backed market data platform and portfolio analytics product with a LangGraph multi-agent recommendation engine.',
     techStack: ['Snowflake', 'Apache Airflow', 'PySpark', 'LangGraph', 'AWS S3'],
     liveUrl: 'https://github.com/Jainil5/portfolio-advisor',
     repo: 'https://github.com/Jainil5/portfolio-advisor',
-    screenshot: '/demos/portfolio-advisor/preview.png',
     period: '2025',
     category: 'Data Platform',
     highlights: [
@@ -20,13 +20,13 @@ export const sites = [
   },
   {
     slug: 'teamsync',
+    author: 'jainil-patel',
     title: 'TeamSync',
     description:
       'An event-driven enterprise collaboration SaaS platform — a Slack-style product with real-time messaging and containerised services.',
     techStack: ['Java', 'Azure', 'Supabase', 'RabbitMQ', 'Docker', 'Kubernetes'],
     liveUrl: 'https://github.com/Jainil5/teamsync',
     repo: 'https://github.com/Jainil5/teamsync',
-    screenshot: '/demos/teamsync/preview.png',
     period: '2025',
     category: 'SaaS',
     highlights: [
@@ -36,6 +36,7 @@ export const sites = [
   },
   {
     slug: 'enterprise-productivity-agents',
+    author: 'jainil-patel',
     title: 'Enterprise Productivity Agents',
     description:
       'A suite of enterprise AI agents served as MCP tools and REST services for document intelligence and Text-to-SQL reporting.',
@@ -52,8 +53,8 @@ export const sites = [
   },
 ] satisfies DemoSite[];
 
-export function getAllSlugs(): string[] {
-  return sites.map((site) => site.slug);
+export function getSitesByAuthor(authorSlug: string): DemoSite[] {
+  return sites.filter((site) => site.author === authorSlug);
 }
 
 export function getSiteBySlug(slug: string): DemoSite | undefined {

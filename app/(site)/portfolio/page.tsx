@@ -1,141 +1,65 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Download, FolderGit2, Sparkles, ArrowRight } from 'lucide-react';
-import { resume } from '@/content/resume/data';
-import { sites } from '@/content/demos/sites';
-import { DemoCard } from '@/components/DemoCard';
-import { TiltCard } from '@/components/TiltCard';
+import { ArrowRight, FolderGit2 } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
+import { TiltCard } from '@/components/TiltCard';
+import { authors } from '@/content/portfolio/authors';
+import { getSitesByAuthor } from '@/content/demos/sites';
+import { company } from '@/content/brand/company';
 
 export const metadata: Metadata = {
   title: 'Portfolio',
-  description: `${resume.name} — ${resume.title}. Case studies of production systems: data platforms, ETL automation and cloud infrastructure.`,
+  description: `Case studies from the ${company.name} builders — data platforms, SaaS and AI-agent systems, each one documented end to end.`,
 };
 
-const coreStack = [
-  'Snowflake',
-  'Apache Airflow',
-  'PySpark',
-  'AWS',
-  'Python',
-  'SQL',
-  'LangGraph',
-  'Docker',
-  'Kubernetes',
-  'PostgreSQL',
-  'Databricks',
-  'RAG',
-];
-
-export default function HomePage() {
+export default function PortfolioIndexPage() {
   return (
-    <div className="space-y-28">
-      {/* HERO */}
-      <section className="relative pt-6">
-        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-center">
-          <div className="animate-fade-up space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 font-mono text-xs text-accent">
-              <Sparkles aria-hidden className="h-3.5 w-3.5" />
-              {resume.title} · Software, Data & AI
-            </div>
+    <div className="space-y-10">
+      <SectionHeading eyebrow="Portfolio" title="Who builds here">
+        Each builder keeps their own page of case studies: what the system had to do, how it was
+        built, and the source. Pick a name to see the work.
+      </SectionHeading>
 
-            <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-              <span className="text-foreground">Hi, I&apos;m </span>
-              <span className="text-gradient text-glow">{resume.name}</span>
-            </h1>
-
-            <p className="max-w-xl text-lg text-subtle">
-              I design and ship production software — from APIs and interfaces to
-              Snowflake-backed data pipelines, ETL automation, and cloud infrastructure on
-              AWS, plus AI-agent systems on top.
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-2">
+      <div className="grid gap-6 sm:grid-cols-2">
+        {authors.map((author) => {
+          const caseStudies = getSitesByAuthor(author.slug);
+          return (
+            <TiltCard key={author.slug} max={6} className="rounded-2xl">
               <Link
-                href="/portfolio/resume"
-                className="focus-ring group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-background shadow-glow transition-transform hover:-translate-y-0.5 hover:bg-accent-soft"
+                href={`/portfolio/${author.slug}`}
+                className="focus-ring group flex h-full flex-col rounded-2xl glass p-6 shadow-card transition-shadow hover:shadow-card-hover"
               >
-                <Download aria-hidden className="h-4 w-4" />
-                View Resume
-              </Link>
-              <Link
-                href="/portfolio/demos"
-                className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-xl glass px-5 py-3 font-semibold text-foreground transition-transform hover:-translate-y-0.5"
-              >
-                <FolderGit2 aria-hidden className="h-4 w-4 text-accent" />
-                Projects
-                <ArrowRight aria-hidden className="h-4 w-4 text-subtle transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-
-            <dl className="flex gap-8 pt-4">
-              {[
-                { k: `${sites.length}`, v: 'Featured builds' },
-                { k: `${resume.experience.length}`, v: 'Roles' },
-                { k: `${resume.skills.length}`, v: 'Skill domains' },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="font-display text-3xl text-accent">{s.k}</dt>
-                  <dd className="font-mono text-xs uppercase tracking-wider text-subtle">{s.v}</dd>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 className="font-display text-2xl text-foreground transition-colors group-hover:text-accent">
+                      {author.name}
+                    </h2>
+                    <p className="mt-1 font-mono text-xs text-accent">
+                      {author.title} · {author.location}
+                    </p>
+                  </div>
+                  <FolderGit2 aria-hidden className="h-6 w-6 shrink-0 text-subtle" />
                 </div>
-              ))}
-            </dl>
-          </div>
 
-          {/* 3D terminal panel */}
-          <TiltCard max={12} className="rounded-2xl">
-            <div className="rounded-2xl glass p-5 shadow-card-hover">
-              <div className="mb-4 flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-400/80" />
-                <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
-                <span className="h-3 w-3 rounded-full bg-accent/80" />
-                <span className="ml-2 font-mono text-xs text-subtle">jainil@data-eng: ~</span>
-              </div>
-              <pre className="overflow-x-auto font-mono text-[13px] leading-relaxed text-foreground/90">
-{`$ whoami
-`}
-                <span className="text-accent">{resume.name}</span>
-                {'\n$ role\n'}
-                <span className="text-cyan-300">{resume.title}</span>
-                {'\n$ stack --top\n'}
-                <span className="text-violet-300">Snowflake · Airflow · PySpark · AWS</span>
-                {'\n$ focus\n'}
-                <span className="text-foreground/70">pipelines · ETL · AI agents · RAG</span>
-                {'\n$ location\n'}
-                <span className="text-foreground/70">{resume.location}</span>
-                {'\n$ '}
-                <span className="animate-glow-pulse text-accent">▋</span>
-              </pre>
-            </div>
-          </TiltCard>
-        </div>
+                <p className="mt-4 line-clamp-3 flex-1 text-sm text-subtle">{author.bio}</p>
 
-        {/* tech marquee */}
-        <div className="relative mt-16 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <ul className="flex w-max animate-none gap-3 py-2">
-            {[...coreStack, ...coreStack].map((tech, i) => (
-              <li
-                key={`${tech}-${i}`}
-                className="whitespace-nowrap rounded-lg border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm text-subtle"
-              >
-                {tech}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* PROJECTS PREVIEW */}
-      <section>
-        <SectionHeading eyebrow="Selected Work" title="Things I have built">
-          Data platforms, SaaS, and AI-agent systems. Each backed by production-grade pipelines.
-        </SectionHeading>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {sites.map((site) => (
-            <DemoCard key={site.slug} site={site} />
-          ))}
-        </div>
-      </section>
+                <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+                  <span className="font-mono text-xs text-subtle">
+                    {caseStudies.length} case {caseStudies.length === 1 ? 'study' : 'studies'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 font-mono text-sm text-accent">
+                    View work
+                    <ArrowRight
+                      aria-hidden
+                      className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+                </div>
+              </Link>
+            </TiltCard>
+          );
+        })}
+      </div>
     </div>
   );
 }
