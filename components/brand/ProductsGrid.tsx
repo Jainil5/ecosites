@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, MessagesSquare, Globe, Sparkles, Workflow } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Icon3D } from '@/components/Icon3D';
 import { TiltCard } from '@/components/TiltCard';
@@ -20,55 +21,64 @@ export function ProductsGrid() {
         Start with a website, add the AI and automation when it earns for you.
       </SectionHeading>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="scene-wide grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((product, i) => {
           const Icon = ICONS[product.icon];
           const first = i === 0;
           return (
-            <TiltCard key={product.slug} max={7} className="rounded-2xl">
-              <div
-                className={`edge group flex h-full flex-col rounded-2xl p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
-                  first
-                    ? 'bg-gradient-to-b from-accent/[0.13] to-white/[0.02]'
-                    : 'bg-gradient-to-b from-white/[0.06] to-white/[0.015]'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <Icon3D icon={Icon} className="pb-5" />
-                  {/* The order is the advice: website first, then the rest. */}
-                  <span
-                    aria-hidden
-                    className={`font-mono text-xs ${first ? 'text-accent' : 'text-subtle/70'}`}
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+            <div
+              key={product.slug}
+              className="plate-in"
+              style={{ '--drift': `${1.8 + i * 0.9}rem` } as CSSProperties}
+            >
+              <TiltCard max={7} className="h-full rounded-2xl">
+                <div
+                  className={`edge group flex h-full flex-col rounded-2xl p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
+                    first
+                      ? 'bg-gradient-to-b from-accent/[0.13] to-white/[0.02]'
+                      : 'bg-gradient-to-b from-white/[0.06] to-white/[0.015]'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <Icon3D icon={Icon} className="pb-5" />
+                    {/* The order is the advice: website first, then the rest. */}
+                    <span
+                      aria-hidden
+                      className={`font-mono text-xs ${first ? 'text-accent' : 'text-subtle/70'}`}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-xl text-foreground">{product.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-subtle">{product.summary}</p>
+
+                  {first ? (
+                    <p className="mt-4 w-fit rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] text-accent">
+                      Start here
+                    </p>
+                  ) : null}
+
+                  <ul className="mt-5 space-y-2 border-t border-white/[0.08] pt-4">
+                    {product.bullets.map((bullet) => (
+                      <li
+                        key={bullet}
+                        className="flex gap-2.5 text-sm leading-snug text-foreground/85"
+                      >
+                        <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                <h3 className="font-display text-xl text-foreground">{product.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-subtle">{product.summary}</p>
-
-                {first ? (
-                  <p className="mt-4 w-fit rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] text-accent">
-                    Start here
-                  </p>
-                ) : null}
-
-                <ul className="mt-5 space-y-2 border-t border-white/[0.08] pt-4">
-                  {product.bullets.map((bullet) => (
-                    <li key={bullet} className="flex gap-2.5 text-sm leading-snug text-foreground/85">
-                      <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </div>
           );
         })}
       </div>
 
       <TiltCard max={4} className="mt-5 rounded-2xl">
-        <div className="edge flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-accent/[0.08] p-6 sm:flex-row sm:items-center">
+        <div className="edge beacon flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-accent/[0.08] p-6 sm:flex-row sm:items-center">
           <div className="flex items-start gap-4">
             <MessagesSquare aria-hidden className="mt-0.5 h-6 w-6 shrink-0 text-accent" />
             <div>

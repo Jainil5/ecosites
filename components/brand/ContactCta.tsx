@@ -46,7 +46,7 @@ export function ContactRow() {
       </a>
       <a
         href={call.href}
-        className="focus-ring edge inline-flex cursor-pointer items-center gap-2 rounded-xl bg-white/[0.06] px-5 py-3 font-semibold text-foreground transition-colors hover:bg-white/[0.1]"
+        className="focus-ring edge beacon inline-flex cursor-pointer items-center gap-2 rounded-xl bg-white/[0.06] px-5 py-3 font-semibold text-foreground transition-colors hover:bg-white/[0.1]"
       >
         <call.Icon aria-hidden className="h-4 w-4 text-accent" />
         Call {call.label}
@@ -64,7 +64,7 @@ export function ContactCta() {
   const [whatsapp, ...others] = channels();
 
   return (
-    <div className="edge rounded-3xl bg-gradient-to-br from-accent/[0.13] via-white/[0.03] to-cyan-400/[0.07] p-6 sm:p-8">
+    <div className="edge beacon rounded-3xl bg-gradient-to-br from-accent/[0.13] via-white/[0.03] to-cyan-400/[0.07] p-6 sm:p-8">
       <div className="grid items-center gap-7 sm:grid-cols-2">
         <a
           href={whatsapp.href}
