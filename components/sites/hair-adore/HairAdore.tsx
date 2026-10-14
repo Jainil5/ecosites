@@ -84,9 +84,8 @@ export function HairAdore() {
       {/* Back to portfolio */}
       <div className="bg-[#2B2118] text-center">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2 text-xs">
-          <span className="text-stone-400">Demo website · part of Jainil&apos;s portfolio showcase</span>
           <Link href="/" className="focus-ring inline-flex items-center gap-1 rounded font-semibold text-[#E7B48F] hover:text-white">
-            <ArrowLeft aria-hidden className="h-3 w-3" /> Back to Apps
+            <ArrowLeft aria-hidden className="h-3 w-3" /> Back to Website IN
           </Link>
         </div>
       </div>
@@ -215,7 +214,7 @@ export function HairAdore() {
               <div className="mb-6 inline-flex items-center gap-3">
                 <span className="h-px w-12 bg-[#C1613C]" />
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-[#9E4A2B]">
-                  <Sparkles aria-hidden className="h-3.5 w-3.5" /> Viman Nagar, Pune
+                  <Sparkles aria-hidden className="h-3.5 w-3.5" /> Viman Nagar
                 </span>
               </div>
             </Reveal>
@@ -230,7 +229,7 @@ export function HairAdore() {
 
             <Reveal delay={160}>
               <p className="mt-6 max-w-xl text-lg font-light leading-relaxed text-stone-600 sm:text-xl">
-                Pune&apos;s most sought-after destination for luxury haircare, precision colour, and
+                The destination for luxury haircare, precision colour, and
                 transformative beauty rituals — presented in an immersive, dimensional experience.
               </p>
             </Reveal>
@@ -295,7 +294,7 @@ export function HairAdore() {
                   <Stars />
                   <span className="text-sm font-bold text-stone-900">4.8</span>
                 </div>
-                <span className="text-[11px] text-stone-500">320+ Google reviews</span>
+                <span className="text-[11px] text-stone-500">320+ guest reviews</span>
               </div>
 
               <div
@@ -321,7 +320,7 @@ export function HairAdore() {
       {/* Info strip */}
       <div className="border-y border-[#C1613C]/20 bg-white py-3">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 px-4 text-sm md:flex-row md:gap-10">
-          <span className="flex items-center gap-2 text-[#9E4A2B]"><MapPin aria-hidden className="h-4 w-4" /> Viman Nagar, Pune</span>
+          <span className="flex items-center gap-2 text-[#9E4A2B]"><MapPin aria-hidden className="h-4 w-4" /> Viman Nagar</span>
           <span className="hidden text-[#C1613C]/30 md:inline">|</span>
           <span className="flex items-center gap-2 text-[#9E4A2B]"><Car aria-hidden className="h-4 w-4" /> Dedicated 2 &amp; 4 Wheeler Parking</span>
           <span className="hidden text-[#C1613C]/30 md:inline">|</span>
@@ -387,12 +386,12 @@ export function HairAdore() {
         </div>
       </section>
 
-      {/* Demo Videos — real Instagram reels */}
+      {/* Instagram reels */}
       <section id="videos" className="scroll-mt-24 py-24">
         <div className="mx-auto max-w-7xl px-4">
           <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <h2 className="ha-depth font-serif text-4xl text-stone-900 sm:text-5xl">Demo Videos</h2>
+              <h2 className="ha-depth font-serif text-4xl text-stone-900 sm:text-5xl">In The Chair</h2>
               <div className="my-4 h-0.5 w-16 bg-[#C1613C]" />
               <p className="max-w-md text-sm leading-relaxed text-stone-500">
                 Fresh from our Instagram — real transformations filmed in the chair.
@@ -464,7 +463,7 @@ export function HairAdore() {
             <div>
               <h2 className="ha-depth font-serif text-4xl text-stone-900 sm:text-5xl">Client Love</h2>
               <div className="my-4 h-0.5 w-16 bg-[#C1613C]" />
-              <p className="text-sm text-stone-500">Rated 4.8/5 across 320+ Google Reviews in Pune.</p>
+              <p className="text-sm text-stone-500">Rated 4.8/5 by 320+ guests.</p>
             </div>
             <div className="ha-shadow flex items-center gap-5 rounded-2xl border border-stone-200 px-8 py-5">
               <div className="font-serif text-5xl font-bold text-stone-900">4.8</div>
@@ -517,7 +516,7 @@ export function HairAdore() {
               Hair <span className="font-light italic text-[#E7B48F]">Adore</span>
             </a>
             <p className="mb-6 text-sm leading-relaxed text-stone-400">
-              Pune&apos;s premier destination for luxury haircare, styling, and makeup.
+              A premier destination for luxury haircare, styling, and makeup.
             </p>
             <div className="flex gap-3">
               {[
@@ -553,7 +552,7 @@ export function HairAdore() {
           <div>
             <h3 className="mb-5 font-serif text-lg text-white">Contact</h3>
             <ul className="space-y-4 text-sm text-stone-400">
-              <li className="flex gap-3"><MapPin aria-hidden className="mt-0.5 h-4 w-4 text-[#E7B48F]" /> Shop No 5, Phoenix Mall Road, Viman Nagar, Pune 411014</li>
+              <li className="flex gap-3"><MapPin aria-hidden className="mt-0.5 h-4 w-4 text-[#E7B48F]" /> Shop No 5, Phoenix Mall Road, Viman Nagar 411014</li>
               <li className="flex gap-3"><Phone aria-hidden className="mt-0.5 h-4 w-4 text-[#E7B48F]" /> +91 98765 43210</li>
               <li className="flex gap-3"><Mail aria-hidden className="mt-0.5 h-4 w-4 text-[#E7B48F]" /> hello@hairadore.in</li>
             </ul>
@@ -569,7 +568,7 @@ export function HairAdore() {
           </div>
         </div>
         <div className="border-t border-stone-700 pt-6 pb-16 text-center text-xs text-stone-500 md:pb-0">
-          <p>© {new Date().getFullYear()} Hair Adore Salon Pune. All Rights Reserved. · Demo website.</p>
+          <p>© {new Date().getFullYear()} Hair Adore Salon. All Rights Reserved.</p>
         </div>
       </footer>
 

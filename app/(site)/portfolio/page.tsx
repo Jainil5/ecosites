@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, FolderGit2 } from 'lucide-react';
+import { Icon3D } from '@/components/Icon3D';
 import { SectionHeading } from '@/components/SectionHeading';
 import { TiltCard } from '@/components/TiltCard';
 import { authors } from '@/content/portfolio/authors';
@@ -38,7 +39,7 @@ export default function PortfolioIndexPage() {
                       {author.title} · {author.location}
                     </p>
                   </div>
-                  <FolderGit2 aria-hidden className="h-6 w-6 shrink-0 text-subtle" />
+                  <Icon3D icon={FolderGit2} size="sm" />
                 </div>
 
                 <p className="mt-4 line-clamp-3 flex-1 text-sm text-subtle">{author.bio}</p>

@@ -4,7 +4,7 @@ export const websites = [
   {
     slug: 'hair-adore',
     title: 'Hair Adore',
-    business: 'Premium unisex salon · Pune',
+    business: 'Premium unisex salon',
     description:
       'A salon marketing site with a service menu, before/after gallery, stylists, reviews, and an online booking flow. Reimagined in a light editorial theme.',
     path: '/hair-adore',
@@ -16,7 +16,7 @@ export const websites = [
   {
     slug: 'stock-screener',
     title: 'Market Pulse',
-    business: 'NSE stock screener · Live data demo',
+    business: 'NSE stock screener · Live market data',
     description:
       'A stock screener streaming live NSE quotes through a Yahoo Finance proxy: market breadth stats, sortable screener with fundamentals, sparklines, 52-week ranges, and per-stock charts with SMA and RSI signals.',
     path: '/stock-screener',
@@ -28,9 +28,9 @@ export const websites = [
   {
     slug: 'savour',
     title: 'Savour',
-    business: 'Pune food guide · Supabase demo',
+    business: 'Restaurant and dish guide',
     description:
-      'A dish-first guide to a dozen real Pune venues: switch between Places and Items over one shared filter set, search menus by dish, and save individual items from different restaurants into named lists with notes. Backed by Supabase, with row-level security keeping each device\'s wishlist to itself.',
+      'A dish-first guide to real restaurants: switch between Places and Items over one shared filter set, search menus by dish, and save individual items from different restaurants into named lists with notes. Backed by Supabase, with row-level security keeping each device\'s wishlist to itself.',
     path: '/savour',
     theme: 'Dark food guide',
     accent: '#E8A33D',

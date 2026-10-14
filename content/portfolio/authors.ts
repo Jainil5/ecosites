@@ -5,7 +5,7 @@ export const authors: PortfolioAuthor[] = [
     slug: 'jainil-patel',
     name: 'Jainil Patel',
     title: 'Software Engineer',
-    location: 'Pune, India',
+    location: 'Remote · worldwide',
     bio: 'I design and ship production software — from APIs and interfaces to Snowflake-backed data pipelines, ETL automation and cloud infrastructure on AWS, with AI-agent systems on top. Most of what is below started as a question nobody would answer for free, so I built the thing that answers it.',
     stack: [
       'Snowflake',

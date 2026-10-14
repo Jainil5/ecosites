@@ -174,7 +174,7 @@ export function StockScreener() {
               className="focus-ring mb-3 inline-flex items-center gap-2 rounded font-mono text-xs text-[#5B6B85] transition-colors hover:text-[#16C784]"
             >
               <ArrowLeft aria-hidden className="h-3.5 w-3.5" />
-              Back to apps
+              Back to Website IN
             </Link>
             <h1 className="flex items-center gap-3 font-mono text-2xl tracking-tight">
               <span className="relative flex h-3 w-3" aria-hidden>
@@ -184,7 +184,7 @@ export function StockScreener() {
               Market Pulse
             </h1>
             <p className="mt-1 font-mono text-xs text-[#5B6B85]">
-              NSE stock screener · live prices via Yahoo Finance · demo project
+              NSE stock screener · live prices via Yahoo Finance
             </p>
           </div>
           <div className="flex items-center gap-2 rounded-lg border border-[#1C2740] bg-[#0A0F1A] px-3 py-2 font-mono text-[11px] text-[#8A98B0]">
@@ -308,8 +308,8 @@ export function StockScreener() {
         <NewsDesk />
 
         <footer className="mt-8 border-t border-[#131C2E] pt-5 font-mono text-[10px] leading-relaxed text-[#3D4C68]">
-          Demo project — prices stream from Yahoo Finance’s public endpoints; fundamentals (P/E, market cap, dividend,
-          EPS) are static reference data bundled with the demo. Not investment advice.
+          Prices stream from Yahoo Finance’s public endpoints; fundamentals (P/E, market cap, dividend,
+          EPS) are reference data refreshed on a schedule. Not investment advice.
         </footer>
       </div>
     </div>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Globe, MessagesSquare, Sparkles, Workflow } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
+import { Icon3D } from '@/components/Icon3D';
 import { TiltCard } from '@/components/TiltCard';
 import { products } from '@/content/brand/products';
 import type { ProductIcon } from '@/content/brand/types';
@@ -25,11 +26,11 @@ export function ProductsGrid() {
           return (
             <TiltCard key={product.slug} max={8} className="rounded-2xl">
               <div
-                className="animate-fade-up flex h-full flex-col rounded-2xl glass p-6 shadow-card"
+                className="animate-fade-up group flex h-full flex-col rounded-2xl glass p-6 shadow-card"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <Icon aria-hidden className="h-6 w-6 text-accent" />
-                <h3 className="mt-4 font-display text-xl text-foreground">{product.title}</h3>
+                <Icon3D icon={Icon} className="pb-5" />
+                <h3 className="font-display text-xl text-foreground">{product.title}</h3>
                 <p className="mt-2 text-sm text-subtle">{product.summary}</p>
                 <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
                   {product.bullets.map((bullet) => (

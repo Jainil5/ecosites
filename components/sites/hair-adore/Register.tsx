@@ -43,7 +43,7 @@ export function Register({ onBack }: { onBack: () => void }) {
             <h1 className="font-serif text-2xl font-bold">
               Hair <span className="font-light italic text-[#E7B48F]">Adore</span> — Owner Register
             </h1>
-            <p className="text-xs text-stone-400">Billing · customer records · sales analytics (demo data stays in this browser)</p>
+            <p className="text-xs text-stone-400">Billing · customer records · sales analytics (records stay in this browser)</p>
           </div>
           <button
             type="button"
@@ -82,11 +82,11 @@ export function Register({ onBack }: { onBack: () => void }) {
           <button
             type="button"
             onClick={() => {
-              if (window.confirm('Reset all orders back to the demo dataset?')) resetDemo();
+              if (window.confirm('Reset all orders back to the starting dataset?')) resetDemo();
             }}
             className="focus-ring my-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-800"
           >
-            <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Reset demo data
+            <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Reset sample data
           </button>
         </div>
       </div>

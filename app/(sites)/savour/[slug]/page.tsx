@@ -22,10 +22,10 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const data = await getPlaceBySlug(slug);
-  if (!data) return { title: 'Savour — Pune Food Guide (Demo)' };
+  if (!data) return { title: 'Savour — Food Guide' };
   return {
-    title: `${data.place.name} — Menu and dishes (Savour demo)`,
-    description: `Dishes to try at ${data.place.name}, ${data.place.area ?? data.place.city}, on Savour's Pune food guide.`,
+    title: `${data.place.name} — Menu and dishes`,
+    description: `Dishes to try at ${data.place.name} — the full menu, curated by Savour.`,
   };
 }
 
@@ -37,7 +37,7 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
     <div className="savour min-h-screen">
       <div className="mx-auto max-w-5xl px-4 py-6">
         <Link href="/savour" className="text-xs text-[var(--sv-muted)] hover:text-[var(--sv-accent)]">
-          ← All of Pune
+          ← All places
         </Link>
         <PlaceHeader place={data.place} />
         <MenuList items={data.items} />

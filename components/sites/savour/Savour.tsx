@@ -38,7 +38,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
       <header className="sticky top-0 z-30 border-b border-[var(--sv-line)] bg-[color:var(--sv-canvas)]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <span className="savour-display text-xl font-semibold tracking-wide">Savour</span>
-          <span className="hidden text-xs text-[var(--sv-muted)] sm:inline">Pune</span>
+          <span className="hidden text-xs text-[var(--sv-muted)] sm:inline">Dish-first guide</span>
           <div className="ml-auto flex items-center gap-2">
             <label className="relative">
               <Search size={15} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--sv-muted)]" />
@@ -62,7 +62,8 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
 
       {catalogue.degraded && (
         <p className="sv-degraded mx-auto max-w-6xl px-4 py-2 text-xs">
-          Demo mode: showing a degraded subset because this deployment has no database configured. Browsing works; saving is disabled.
+          Showing a bundled sample subset — the database is unavailable right now. Browsing works;
+          saving is disabled.
         </p>
       )}
       {w.error && (
@@ -82,7 +83,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
           Save the dish, not the restaurant.
         </h1>
         <p className="mt-3 max-w-xl text-sm text-[var(--sv-muted)]">
-          A Pune guide built around the thing you actually remember: one item, on one menu, at one place.
+          A guide built around the thing you actually remember: one item, on one menu, at one place.
         </p>
       </section>
 
@@ -108,7 +109,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
           contributors). Ratings and review counts were checked by hand against public listings on the date each venue
           shows; menus and prices are curated rather than live, and the 4★-and-up figure is an estimate.
         </p>
-        <p className="mt-2">Demo website built for a portfolio. Not affiliated with the venues shown.</p>
+        <p className="mt-2">Built by Website IN. Not affiliated with the venues shown.</p>
       </footer>
 
       <WishlistDrawer open={drawer} onClose={() => setDrawer(false)} />

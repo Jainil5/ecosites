@@ -210,7 +210,7 @@ export const reviews: Review[] = [
 ];
 
 export const stats = [
-  { value: 320, suffix: '+', label: 'Google Reviews' },
+  { value: 320, suffix: '+', label: 'Guest Reviews' },
   { value: 10, suffix: '', label: 'Years Experience' },
   { value: 4.8, suffix: '', label: 'Star Rating', decimals: 1 },
 ] as const;

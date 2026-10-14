@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { company } from '@/content/brand/company';
 import { products } from '@/content/brand/products';
 import { websites } from '@/content/websites/sites';
+import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
@@ -65,5 +66,24 @@ describe('store registry', () => {
 
   it('uses unique slugs', () => {
     expect(new Set(websites.map((w) => w.slug)).size).toBe(websites.length);
+  });
+
+  // The studio works internationally; no marketing string may pin it to one city.
+  // The gallery is sold as delivered work, so no string may call itself a demo.
+  it('names no city and no demo label in the gallery copy', () => {
+    for (const site of websites) {
+      const text = `${site.title} ${site.business} ${site.description} ${site.theme}`.toLowerCase();
+      expect(text, site.slug).not.toContain('pune');
+      expect(text, site.slug).not.toContain('demo');
+    }
+  });
+});
+
+describe('author registry', () => {
+  it('names no city in the bio copy', () => {
+    for (const author of authors) {
+      const text = `${author.title} ${author.location} ${author.bio}`.toLowerCase();
+      expect(text, author.slug).not.toContain('pune');
+    }
   });
 });

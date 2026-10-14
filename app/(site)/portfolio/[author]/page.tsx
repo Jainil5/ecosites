@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Github, Linkedin, ExternalLink } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { DemoCard } from '@/components/DemoCard';
+import { Icon3D } from '@/components/Icon3D';
 import { SectionHeading } from '@/components/SectionHeading';
 import { getAllAuthorSlugs, getAuthorBySlug } from '@/content/portfolio/authors';
 import { getSitesByAuthor } from '@/content/demos/sites';
@@ -73,9 +74,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-xl glass px-4 py-2 font-mono text-sm text-foreground transition-colors hover:text-accent"
+                  className="focus-ring group flex cursor-pointer items-center gap-3 rounded-xl glass py-2 pr-4 pl-2 font-mono text-sm text-foreground transition-colors hover:text-accent"
                 >
-                  <Icon aria-hidden className="h-4 w-4 text-accent" />
+                  <Icon3D icon={Icon} size="sm" />
                   {link.label}
                 </a>
               </li>

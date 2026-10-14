@@ -12,7 +12,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Route | Purpose |
 | --- | --- |
 | `/` | Website IN company page — positioning, products, demo proof, contact |
-| `/store` | Demo store — working demos from `content/websites/sites.ts` |
+| `/store` | Client work gallery — three full builds from `content/websites/sites.ts` |
 | `/contact` | WhatsApp, call and email channels |
 | `/#services` | Products anchor on the company page |
 | `/portfolio` | Index of builders, one card each, from `content/portfolio/authors.ts` |
@@ -22,7 +22,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Client site | Route | Notes |
 | --- | --- | --- |
 | Hair Adore | `/hair-adore` | Salon marketing site: service menu, before/after gallery, booking |
-| Savour | `/savour`, `/savour/[slug]` | Pune food guide; `/savour/[slug]` is one page per venue |
+| Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
 
 `/api/stocks/{ohlc,chart,news}` are server-side proxies that keep the Yahoo Finance

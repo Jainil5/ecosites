@@ -1,4 +1,6 @@
 import { Mail, MessageCircle, Phone } from 'lucide-react';
+import { Icon3D } from '@/components/Icon3D';
+import { TiltCard } from '@/components/TiltCard';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 
@@ -59,18 +61,19 @@ export function ContactCta() {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {channels().map(({ key, label, href, Icon, external }) => (
-        <a
-          key={key}
-          href={href}
-          target={external ? '_blank' : undefined}
-          rel={external ? 'noopener noreferrer' : undefined}
-          className="focus-ring group flex cursor-pointer items-center gap-3 rounded-2xl glass p-5 shadow-card transition-shadow hover:shadow-card-hover"
-        >
-          <Icon aria-hidden className="h-5 w-5 shrink-0 text-accent" />
-          <span className="min-w-0 break-all font-mono text-sm text-foreground group-hover:text-accent">
-            {label}
-          </span>
-        </a>
+        <TiltCard key={key} max={9} className="rounded-2xl">
+          <a
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            className="focus-ring group scene flex cursor-pointer flex-col gap-4 rounded-2xl glass p-5 shadow-card transition-shadow hover:shadow-card-hover"
+          >
+            <Icon3D icon={Icon} />
+            <span className="min-w-0 break-all font-mono text-sm text-foreground group-hover:text-accent">
+              {label}
+            </span>
+          </a>
+        </TiltCard>
       ))}
     </div>
   );
