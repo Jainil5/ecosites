@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ContactCta } from '@/components/brand/ContactCta';
 import { Hero } from '@/components/brand/Hero';
 import { ProductsGrid } from '@/components/brand/ProductsGrid';
+import { SectionHeading } from '@/components/SectionHeading';
 import { WorkStrip } from '@/components/brand/WorkStrip';
 import { company } from '@/content/brand/company';
 
@@ -14,14 +15,12 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="space-y-24">
+    <div className="space-y-24 sm:space-y-28">
       <Hero />
       <ProductsGrid />
       <WorkStrip />
-      <section className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-          Send one message. We reply the same day.
-        </h2>
+      <section className="reveal">
+        <SectionHeading eyebrow="Next step" title="Send one message. We reply the same day." />
         <ContactCta />
       </section>
     </div>

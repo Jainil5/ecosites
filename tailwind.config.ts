@@ -12,6 +12,9 @@ const config: Config = {
       colors: {
         // Design system: Dark OLED + "code dark + run green"
         background: '#0F172A',
+        // Deeper than the canvas: the band a full-bleed section sits on, so
+        // sections stop reading as one continuous dark field.
+        deep: '#0A1120',
         surface: '#111C31',
         elevated: '#1E293B',
         muted: '#272F42',
