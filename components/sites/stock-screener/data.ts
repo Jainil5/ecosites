@@ -71,3 +71,22 @@ export function capTier(mcapCr: number): 'mega' | 'large' | 'mid' {
   if (mcapCr >= 150000) return 'large';
   return 'mid';
 }
+
+export function symbolToSlug(symbol: string): string {
+  return symbol.toLowerCase();
+}
+
+export function stockBySlug(slug: string): StockMeta | undefined {
+  const upper = slug.toUpperCase();
+  return STOCKS.find((s) => s.symbol === upper);
+}
+
+/** Same-sector stocks first (by mcap desc), filled with the largest others. Never includes `symbol`. */
+export function peersFor(symbol: string, count = 6): StockMeta[] {
+  const self = STOCKS.find((s) => s.symbol === symbol);
+  if (!self) return [];
+  const byMcap = (a: StockMeta, b: StockMeta) => b.mcapCr - a.mcapCr;
+  const same = STOCKS.filter((s) => s.sector === self.sector && s.symbol !== self.symbol).sort(byMcap);
+  const rest = STOCKS.filter((s) => s.sector !== self.sector && s.symbol !== self.symbol).sort(byMcap);
+  return [...same, ...rest].slice(0, count);
+}
