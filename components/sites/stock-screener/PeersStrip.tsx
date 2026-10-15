@@ -9,6 +9,7 @@ import { AnimatedNumber } from './motion/AnimatedNumber';
 import { Reveal } from './motion/Reveal';
 import { Tilt3D } from './motion/Tilt3D';
 import { DUR, vtName } from './motion/tokens';
+import { vtRef } from './motion/vtRef';
 import { navigateWithViewTransition } from './motion/navigate';
 import { changePct, mcapLabel, pct } from './format';
 
@@ -35,7 +36,7 @@ export function PeersStrip({ meta }: { meta: StockMeta }) {
                 <button
                   type="button"
                   onClick={() => navigateWithViewTransition(() => router.push(`/stock-screener/${symbolToSlug(peer.symbol)}`))}
-                  style={{ viewTransitionName: vtName(peer.symbol) }}
+                  ref={vtRef(vtName(peer.symbol))}
                   className="focus-ring w-full rounded-xl border border-[#1C2740] bg-[#0A0F1A] px-3 py-3 text-left transition-colors hover:border-[#16C784]/40"
                 >
                   <p className="font-mono text-sm text-[#E7EEF9]">{peer.symbol.replace('.NS', '')}</p>

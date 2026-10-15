@@ -5,6 +5,7 @@ import { capTier, symbolToSlug, type StockMeta } from './data';
 import type { ChartPoint } from './types';
 import { navigateWithViewTransition } from './motion/navigate';
 import { vtName } from './motion/tokens';
+import { vtRef } from './motion/vtRef';
 import { changePct, pct } from './format';
 
 interface HeatmapProps {
@@ -51,7 +52,8 @@ export function Heatmap({ cells }: HeatmapProps) {
               className={`mp-heat mp-cell-lift mp-rise focus-ring flex flex-col items-center justify-center rounded-md border border-[#131C2E] ${
                 tier === 'mega' ? 'col-span-2 row-span-2' : tier === 'large' ? 'col-span-2' : ''
               }`}
-              style={{ ...tileStyle(change), viewTransitionName: vtName(meta.symbol), '--d': `${Math.min(i, 40) * 25}ms` } as React.CSSProperties}
+              ref={vtRef(vtName(meta.symbol))}
+              style={{ ...tileStyle(change), '--d': `${Math.min(i, 40) * 25}ms` } as React.CSSProperties}
             >
               <span className={`font-mono ${tier === 'mid' ? 'text-[10px]' : 'text-xs'} text-[#E7EEF9]`}>{ticker}</span>
               {quote && (

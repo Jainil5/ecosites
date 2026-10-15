@@ -8,7 +8,7 @@ import type { LiveTick } from './useLiveTicks';
 import { AnimatedNumber } from './motion/AnimatedNumber';
 import { Tilt3D } from './motion/Tilt3D';
 import { vtName } from './motion/tokens';
-import { spark1M } from './indicators';
+import { vtRef } from './motion/vtRef';import { spark1M } from './indicators';
 import { changePct, inr, pct } from './format';
 import { Sparkline } from './Sparkline';
 
@@ -20,7 +20,7 @@ export function StockHero({ meta, quote, live }: { meta: StockMeta; quote?: Char
   return (
     <Tilt3D intensity={5} className="mb-5">
       <div
-        style={{ viewTransitionName: vtName(meta.symbol) }}
+        ref={vtRef(vtName(meta.symbol))}
         className="relative overflow-hidden rounded-2xl border border-[#1C2740]/70 bg-[#0A0F1A]/80 px-6 py-6 backdrop-blur-sm"
       >
         {spark.length > 1 && (
