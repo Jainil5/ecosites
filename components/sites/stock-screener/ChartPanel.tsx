@@ -14,6 +14,7 @@ import {
 } from 'lightweight-charts';
 import type { Candle, ChartPoint } from './types';
 import type { StockMeta } from './data';
+import type { LiveTick } from './useLiveTicks';
 import { useOhlc } from './useOhlc';
 import { bollinger, emaSeries, rsiSeries, smaSeries } from './indicators';
 import { changePct, compact, inr, pct } from './format';
@@ -36,10 +37,11 @@ const INDICATORS: { key: IndicatorKey; label: string; color: string }[] = [
 interface ChartPanelProps {
   meta: StockMeta;
   quote?: ChartPoint;
+  live?: LiveTick;
   refreshKey?: number;
 }
 
-export function ChartPanel({ meta, quote, refreshKey }: ChartPanelProps) {
+export function ChartPanel({ meta, quote, live, refreshKey }: ChartPanelProps) {
   const [tf, setTf] = useState<Tf>('1M');
   const [active, setActive] = useState<Set<IndicatorKey>>(() => new Set(['sma50', 'rsi']));
   const [hover, setHover] = useState<Candle | null>(null);
@@ -192,7 +194,8 @@ export function ChartPanel({ meta, quote, refreshKey }: ChartPanelProps) {
       return next;
     });
 
-  const change = changePct(quote?.price, quote?.prevClose);
+  const price = live?.price ?? quote?.price;
+  const change = changePct(price, quote?.prevClose);
   const up = change != null && change >= 0;
   const legend = useMemo(() => {
     if (!shown) return null;
@@ -210,17 +213,30 @@ export function ChartPanel({ meta, quote, refreshKey }: ChartPanelProps) {
   return (
     <section
       aria-label="Pro chart"
-      className="mb-5 overflow-hidden rounded-xl border border-[#1C2740] bg-[#0A0F1A]"
+      className="mp-rise mp-scene mp-depth relative mb-5 overflow-hidden rounded-xl border border-[#1C2740] bg-[#0A0F1A]"
+      style={{ '--d': '300ms' } as React.CSSProperties}
     >
+      <span aria-hidden key={refreshKey ?? 'boot'} className="mp-sheen" />
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[#131C2E] px-4 py-3">
         <div className="flex items-baseline gap-2">
           <h2 className="font-mono text-sm text-[#E7EEF9]">{meta.symbol.replace('.NS', '')}</h2>
           <span className="font-mono text-[10px] text-[#5B6B85]">{meta.name}</span>
         </div>
-        {quote?.price != null && (
-          <div className="flex items-baseline gap-2 font-mono">
-            <span className={`text-sm ${up ? 'text-[#16C784]' : 'text-[#EA3943]'}`}>{inr(quote.price)}</span>
+        {price != null && (
+          <div
+            key={price}
+            className={`flex items-baseline gap-2 rounded px-1 font-mono ${up ? 'mp-flash-up' : 'mp-flash-down'}`}
+          >
+            <span className={`text-sm ${up ? 'text-[#16C784]' : 'text-[#EA3943]'}`}>{inr(price)}</span>
             <span className={`text-[11px] ${up ? 'text-[#16C784]' : 'text-[#EA3943]'}`}>{pct(change)}</span>
+            {live && live.dir !== 'flat' && (
+              <span
+                aria-label={live.dir === 'up' ? 'price ticking up' : 'price ticking down'}
+                className={`text-[10px] ${live.dir === 'up' ? 'text-[#16C784]' : 'text-[#EA3943]'}`}
+              >
+                {live.dir === 'up' ? '▲' : '▼'}
+              </span>
+            )}
           </div>
         )}
         <div className="ml-auto flex gap-1" role="group" aria-label="Chart timeframe">

@@ -10,7 +10,10 @@ import { Heatmap } from './Heatmap';
 import { IndexStrip } from './IndexStrip';
 import { NewsDesk } from './NewsDesk';
 import { ScreenerTable, type ScreenerRow, type SortKey, type SortState } from './ScreenerTable';
-import { changePct, compact, inr, pct } from './format';
+import { AnimatedNumber } from './motion/AnimatedNumber';
+import { Reveal } from './motion/Reveal';
+import { DUR } from './motion/tokens';
+import { changePct, inr, pct } from './format';
 
 const SYMBOLS = STOCKS.map((s) => s.symbol);
 
@@ -23,35 +26,39 @@ const selectClass =
 function StatCard({
   label,
   value,
+  valueNum,
   sub,
   tone,
   icon,
-  delay = 0,
+  i = 0,
 }: {
   label: string;
   value: string;
+  /** When set, the counter animates toward this number instead of showing `value` statically. */
+  valueNum?: number;
   sub?: string;
   tone?: 'up' | 'down' | 'flat';
   icon?: React.ReactNode;
-  delay?: number;
+  i?: number;
 }) {
   const color = tone === 'up' ? 'text-[#16C784]' : tone === 'down' ? 'text-[#EA3943]' : 'text-[#E7EEF9]';
   const flash = tone === 'up' ? 'mp-flash-up' : tone === 'down' ? 'mp-flash-down' : null;
   return (
-    <div
-      className="mp-rise mp-lift relative flex items-center justify-between gap-3 overflow-hidden rounded-xl border border-[#1C2740] bg-[#0A0F1A] px-4 py-3"
-      style={{ '--d': `${delay}ms` } as React.CSSProperties}
-    >
-      {flash && (
-        <span aria-hidden key={value} className={`pointer-events-none absolute inset-0 ${flash}`} />
-      )}
-      <div>
-        <p className="font-mono text-[10px] uppercase tracking-wider text-[#5B6B85]">{label}</p>
-        <p className={`mt-1 font-mono text-lg ${color}`}>{value}</p>
-        {sub && <p className="font-mono text-[10px] text-[#5B6B85]">{sub}</p>}
+    <Reveal delay={i * DUR.stagger} className="h-full">
+      <div className="mp-lift relative flex h-full items-center justify-between gap-3 overflow-hidden rounded-xl border border-[#1C2740] bg-[#0A0F1A] px-4 py-3">
+        {flash && (
+          <span aria-hidden key={value} className={`pointer-events-none absolute inset-0 ${flash}`} />
+        )}
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-wider text-[#5B6B85]">{label}</p>
+          <p className={`mt-1 font-mono text-lg ${color}`}>
+            {valueNum != null ? <AnimatedNumber value={valueNum} kind="compact" /> : value}
+          </p>
+          {sub && <p className="font-mono text-[10px] text-[#5B6B85]">{sub}</p>}
+        </div>
+        {icon && <span className="text-[#2A3A57]">{icon}</span>}
       </div>
-      {icon && <span className="text-[#2A3A57]">{icon}</span>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -233,24 +240,24 @@ export function StockScreener() {
         <IndexStrip />
 
         <section aria-label="Market breadth" className="mp-scene mb-5 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-          <StatCard delay={60} label="Advancers" value={String(stats.advancers)} tone="up" icon={<TrendingUp aria-hidden className="h-5 w-5" />} />
-          <StatCard delay={120} label="Decliners" value={String(stats.decliners)} tone="down" icon={<TrendingDown aria-hidden className="h-5 w-5" />} />
-          <StatCard delay={180} label="Unchanged" value={String(stats.unchanged)} tone="flat" icon={<Activity aria-hidden className="h-5 w-5" />} />
+          <StatCard i={0} label="Advancers" value={String(stats.advancers)} tone="up" icon={<TrendingUp aria-hidden className="h-5 w-5" />} />
+          <StatCard i={1} label="Decliners" value={String(stats.decliners)} tone="down" icon={<TrendingDown aria-hidden className="h-5 w-5" />} />
+          <StatCard i={2} label="Unchanged" value={String(stats.unchanged)} tone="flat" icon={<Activity aria-hidden className="h-5 w-5" />} />
           <StatCard
-            delay={240}
+            i={3}
             label="Top gainer"
             value={stats.best ? stats.best.meta.symbol.replace('.NS', '') : '—'}
             sub={stats.best ? `${pct(stats.best.change)} · ${inr(ticks[stats.best.meta.symbol]?.price ?? quotes[stats.best.meta.symbol]?.price)}` : undefined}
             tone="up"
           />
           <StatCard
-            delay={300}
+            i={4}
             label="Top loser"
             value={stats.worst ? stats.worst.meta.symbol.replace('.NS', '') : '—'}
             sub={stats.worst ? `${pct(stats.worst.change)} · ${inr(ticks[stats.worst.meta.symbol]?.price ?? quotes[stats.worst.meta.symbol]?.price)}` : undefined}
             tone="down"
           />
-          <StatCard delay={360} label="Tracked volume" value={stats.volume ? compact(stats.volume) : '—'} sub="shares today" />
+          <StatCard i={5} label="Tracked volume" value={stats.volume ? stats.volume.toLocaleString('en-IN') : '—'} valueNum={stats.volume || undefined} sub="shares today" />
         </section>
 
         <Heatmap cells={rows} />

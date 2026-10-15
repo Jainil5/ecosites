@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Star } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { ChartPoint } from './types';
 import type { StockMeta } from './data';
 import { symbolToSlug } from './data';
@@ -11,7 +12,9 @@ import { PingDot } from './PingDot';
 import { Sparkline } from './Sparkline';
 import { spark1M } from './indicators';
 import { navigateWithViewTransition } from './motion/navigate';
-import { changePct, compact, inr, mcapLabel, pct } from './format';
+import { AnimatedNumber } from './motion/AnimatedNumber';
+import { DUR, EASE, SPRINGS } from './motion/tokens';
+import { changePct, compact, mcapLabel, pct } from './format';
 
 export interface ScreenerRow {
   meta: StockMeta;
@@ -104,78 +107,83 @@ export function ScreenerTable({ rows, loading, sort, onSort, watched, onWatchTog
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ meta, quote, tick }, i) => {
-            const price = tick?.price ?? quote?.price;
-            const change = changePct(price, quote?.prevClose);
-            const tone = change == null ? 'flat' : change >= 0 ? 'up' : 'down';
-            const ticker = meta.symbol.replace('.NS', '');
-            return (
-              <tr
-                key={meta.symbol}
-                onClick={() => openStock(meta.symbol)}
-                className="mp-row cursor-pointer border-b border-[#131C2E] transition-colors hover:bg-[#101828]"
-                style={{ '--d': `${Math.min(i, 30) * 26}ms` } as React.CSSProperties}
-              >
-                <td className="px-3 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      aria-label={watched.includes(meta.symbol) ? `Remove ${ticker} from watchlist` : `Add ${ticker} to watchlist`}
-                      aria-pressed={watched.includes(meta.symbol)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onWatchToggle(meta.symbol);
-                      }}
-                      className={`focus-ring rounded p-0.5 transition-colors ${
-                        watched.includes(meta.symbol)
-                          ? 'text-[#F5A623]'
-                          : 'text-[#2A3A57] hover:text-[#8A98B0]'
-                      }`}
-                    >
-                      <Star aria-hidden className="h-3.5 w-3.5" fill={watched.includes(meta.symbol) ? 'currentColor' : 'none'} />
-                    </button>
-                    <div>
-                      <p className="flex items-center gap-2 font-mono text-sm text-[#E7EEF9]">
-                        <Link
-                          href={`/stock-screener/${symbolToSlug(meta.symbol)}`}
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label={`${ticker} — open detail page`}
-                          className="focus-ring rounded hover:text-[#16C784]"
-                        >
-                          {ticker}
-                        </Link>
-                        <PingDot dir={tick?.dir ?? 'flat'} />
-                      </p>
-                      <p className="text-[11px] text-[#5B6B85]">{meta.name}</p>
+          <AnimatePresence initial={false}>
+            {rows.map(({ meta, quote, tick }) => {
+              const price = tick?.price ?? quote?.price;
+              const change = changePct(price, quote?.prevClose);
+              const tone = change == null ? 'flat' : change >= 0 ? 'up' : 'down';
+              const ticker = meta.symbol.replace('.NS', '');
+              return (
+                <motion.tr
+                  key={meta.symbol}
+                  layout="position"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    layout: SPRINGS.layout,
+                    y: { duration: DUR.enter, ease: EASE.enter },
+                    opacity: { duration: DUR.exit, ease: EASE.exit },
+                  }}
+                  onClick={() => openStock(meta.symbol)}
+                  className="cursor-pointer border-b border-[#131C2E] transition-colors hover:bg-[#101828]"
+                >
+                  <td className="px-3 py-2.5">
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        aria-label={watched.includes(meta.symbol) ? `Remove ${ticker} from watchlist` : `Add ${ticker} to watchlist`}
+                        aria-pressed={watched.includes(meta.symbol)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onWatchToggle(meta.symbol);
+                        }}
+                        className={`focus-ring rounded p-0.5 transition-colors ${
+                          watched.includes(meta.symbol)
+                            ? 'text-[#F5A623]'
+                            : 'text-[#2A3A57] hover:text-[#8A98B0]'
+                        }`}
+                      >
+                        <Star aria-hidden className="h-3.5 w-3.5" fill={watched.includes(meta.symbol) ? 'currentColor' : 'none'} />
+                      </button>
+                      <div>
+                        <p className="flex items-center gap-2 font-mono text-sm text-[#E7EEF9]">
+                          <Link
+                            href={`/stock-screener/${symbolToSlug(meta.symbol)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`${ticker} — open detail page`}
+                            className="focus-ring rounded hover:text-[#16C784]"
+                          >
+                            {ticker}
+                          </Link>
+                          <PingDot dir={tick?.dir ?? 'flat'} />
+                        </p>
+                        <p className="text-[11px] text-[#5B6B85]">{meta.name}</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td className="px-3 py-2.5 text-right font-mono text-[#E7EEF9]">
-                  <span
-                    key={price ?? 'pending'}
-                    className={`rounded px-1 ${tone === 'up' ? 'mp-flash-up' : tone === 'down' ? 'mp-flash-down' : ''}`}
-                  >
-                    {inr(price).replace('₹', '')}
-                  </span>
-                </td>
-                <td className={`px-3 py-2.5 text-right font-mono ${tone === 'up' ? 'text-[#16C784]' : tone === 'down' ? 'text-[#EA3943]' : 'text-[#5B6B85]'}`}>
-                  {quote ? pct(change) : '—'}
-                </td>
-                <td className="px-3 py-2.5">
-                  <div className="flex justify-end lg:justify-center">
-                    <Sparkline values={spark1M(quote)} />
-                  </div>
-                </td>
-                <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] lg:table-cell">{compact(quote?.volume)}</td>
-                <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] md:table-cell">{mcapLabel(meta.mcapCr).replace('₹', '')}</td>
-                <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] md:table-cell">{meta.pe.toFixed(1)}</td>
-                <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] xl:table-cell">{meta.dy.toFixed(2)}</td>
-                <td className="hidden px-3 py-2.5 xl:table-cell">
-                  <Week52Bar quote={quote} />
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-mono text-[#E7EEF9]">
+                    <AnimatedNumber value={price} kind="inrPlain" flash className="px-1" />
+                  </td>
+                  <td className={`px-3 py-2.5 text-right font-mono ${tone === 'up' ? 'text-[#16C784]' : tone === 'down' ? 'text-[#EA3943]' : 'text-[#5B6B85]'}`}>
+                    {quote ? pct(change) : '—'}
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <div className="flex justify-end lg:justify-center">
+                      <Sparkline values={spark1M(quote)} />
+                    </div>
+                  </td>
+                  <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] lg:table-cell">{compact(quote?.volume)}</td>
+                  <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] md:table-cell">{mcapLabel(meta.mcapCr).replace('₹', '')}</td>
+                  <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] md:table-cell">{meta.pe.toFixed(1)}</td>
+                  <td className="hidden px-3 py-2.5 text-right font-mono text-[#8A98B0] xl:table-cell">{meta.dy.toFixed(2)}</td>
+                  <td className="hidden px-3 py-2.5 xl:table-cell">
+                    <Week52Bar quote={quote} />
+                  </td>
+                </motion.tr>
+              );
+            })}
+          </AnimatePresence>
           {rows.length === 0 && (
             <tr>
               <td colSpan={COLUMNS.length} className="px-3 py-10 text-center font-mono text-sm text-[#5B6B85]">

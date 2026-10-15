@@ -10,7 +10,7 @@ import { Tilt3D } from './motion/Tilt3D';
 import { AnimatedNumber } from './motion/AnimatedNumber';
 import { DUR } from './motion/tokens';
 import { lastSma, rsi, rsiLabel, trendSignal } from './indicators';
-import { changePct, compact, inr, mcapLabel, pct } from './format';
+import { changePct, inr, mcapLabel, pct } from './format';
 
 interface FundamentalsProps {
   meta: StockMeta;
