@@ -667,3 +667,681 @@ button:focus-visible {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   Market Pulse screener — CSS-3D motion pass (mp-*)
+   An ambient perspective stage, depth plates that lift toward
+   the cursor, and flashes keyed to the 60s data refresh.
+   Entrances use fill backwards so the finished animation never
+   overrides the hover transforms that follow it; every loop
+   rests at its visible end state for reduced motion.
+   ============================================================ */
+
+/* Ambient stage: a grid horizon receding under the terminal and
+   two slow-drifting accent glows behind it all. */
+.mp-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mp-bg-grid {
+  position: absolute;
+  left: -60%;
+  right: -60%;
+  bottom: -16%;
+  height: 50%;
+  background-image: linear-gradient(rgb(28 39 64 / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(28 39 64 / 0.55) 1px, transparent 1px);
+  background-size: 46px 46px;
+  transform: perspective(520px) rotateX(60deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(transparent 10%, black 76%);
+  mask-image: linear-gradient(transparent 10%, black 76%);
+}
+.mp-glow {
+  position: absolute;
+  width: 42rem;
+  height: 42rem;
+  border-radius: 9999px;
+  filter: blur(130px);
+  opacity: 0.13;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mp-bg-grid {
+    animation: mp-grid-crawl 9s linear infinite;
+  }
+  .mp-glow-a {
+    animation: mp-drift 26s ease-in-out infinite;
+  }
+  .mp-glow-b {
+    animation: mp-drift 32s ease-in-out infinite reverse;
+  }
+}
+@keyframes mp-grid-crawl {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 46px, 0 0;
+  }
+}
+@keyframes mp-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4rem, -3rem, 0) scale(1.14);
+  }
+}
+
+/* Perspective parent for plates that then lift on translateZ. */
+.mp-scene {
+  perspective: 1200px;
+}
+
+/* Entrance: a panel rises out of the Z-plane into seat. */
+@media (prefers-reduced-motion: no-preference) {
+  .mp-rise {
+    animation: mp-rise-in 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .mp-row {
+    animation: mp-row-in 500ms ease-out backwards;
+    animation-delay: var(--d, 0ms);
+  }
+}
+@keyframes mp-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, -46px) rotateX(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mp-row-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Hover plates: the card rises toward the visitor and casts depth. */
+.mp-lift {
+  transform-style: preserve-3d;
+  transition: transform 260ms ease-out, box-shadow 260ms ease-out, border-color 260ms ease-out;
+}
+.mp-lift:hover {
+  transform: translateZ(20px);
+  box-shadow: 0 24px 40px -22px rgb(0 0 0 / 0.85);
+  border-color: rgb(42 58 87);
+}
+.mp-lift-soft:hover {
+  transform: translateZ(8px);
+  box-shadow: 0 28px 48px -26px rgb(0 0 0 / 0.85);
+}
+
+/* Heatmap cell: pop forward with a lit edge. */
+.mp-heat {
+  transform-style: preserve-3d;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, filter 200ms ease-out;
+}
+.mp-heat:hover {
+  transform: translateZ(18px) scale(1.05);
+  box-shadow: 0 16px 28px -14px rgb(0 0 0 / 0.9);
+  filter: brightness(1.18);
+  z-index: 1;
+}
+
+/* Refresh flash: a tone-tinted pulse over a plate, re-keyed by React
+   on each data update. Defined only when motion is welcome, so a
+   reduced-motion browser never paints it at all. */
+@media (prefers-reduced-motion: no-preference) {
+  .mp-flash-up,
+  .mp-flash-down {
+    animation: mp-flash-pulse 900ms ease-out forwards;
+  }
+  .mp-flash-up {
+    --mp-flash-color: rgb(22 199 132 / 0.26);
+  }
+  .mp-flash-down {
+    --mp-flash-color: rgb(234 57 67 / 0.26);
+  }
+}
+@keyframes mp-flash-pulse {
+  from {
+    background-color: var(--mp-flash-color, rgb(231 238 249 / 0.12));
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+/* Glass sheen: one raking highlight, replayed by remounting the
+   span with key={updatedAt}. Rests off-screen at both ends. */
+.mp-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mp-sheen::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(
+      100deg,
+      transparent 44%,
+      rgb(231 238 249 / 0.09) 50%,
+      transparent 56%
+    );
+    transform: translateX(-130%) skewX(-14deg);
+    animation: mp-sheen-pass 1s ease-out 150ms forwards;
+  }
+}
+@keyframes mp-sheen-pass {
+  to {
+    transform: translateX(240%) skewX(-14deg);
+  }
+}
+
+/* Cast shadow that seats a wide panel on the stage. */
+.mp-depth {
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 34px 64px -36px rgb(0 0 0 / 0.9);
+}
+
+/* ---- Screener motion pass: shared-element page morph (View Transitions API) ----
+   cubic-bezier(0.16,1,0.3,1) is the CSS mirror of EASE.enter in motion/tokens.ts — change both together. */
+::view-transition-group(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Heatmap cell hover — fake-3D lift, matches .mp-lift energy on smaller targets */
+.mp-cell-lift {
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mp-cell-lift:hover {
+  transform: perspective(600px) translate3d(0, -3px, 6px) rotateX(4deg);
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   Get Online — Terminal Manifesto language (go-*).
+   Borrowed from saze.co.jp's code-brutalism: monospace structure
+   labels, and a cyan→violet gradient reserved for interactive
+   things only, so color itself tells visitors what they can press.
+   Depth motion keeps riding the existing mp- class and plate vocabulary.
+   ============================================================ */
+
+/* The convention: anything gradient-colored is clickable. */
+.go-cta {
+  background: linear-gradient(100deg, #22d3ee, #a78bfa);
+  color: #061019;
+  transition: box-shadow 220ms ease, transform 220ms ease;
+}
+.go-cta:hover {
+  box-shadow: 0 10px 34px -10px rgb(139 92 246 / 0.65);
+  transform: translateY(-2px);
+}
+
+/* Gradient-colored punctuation: the manifesto's full stop. */
+.go-grad {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(100deg, #22d3ee, #a78bfa);
+}
+
+/* Numbered structural label, like a file-tree comment. */
+.go-label {
+  @apply font-mono text-xs uppercase tracking-[0.32em] text-subtle;
+}
+.go-label b {
+  @apply font-normal text-foreground;
+}
+.go-label i {
+  @apply not-italic text-subtle/60;
+  /* the slash between number and name */
+}
+
+/* The manifesto line: monospace, enormous, tight. */
+.go-manifesto {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(3.4rem, 11vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+}
+
+/* Local grid floor for the hero stage (the screener's is fixed). */
+.go-floor {
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: 0;
+  height: 42%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.go-floor::before {
+  content: '';
+  position: absolute;
+  inset: -10% -60% -30%;
+  background-image: linear-gradient(rgb(28 39 64 / 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(28 39 64 / 0.6) 1px, transparent 1px);
+  background-size: 46px 46px;
+  transform: perspective(560px) rotateX(62deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(transparent 6%, black 72%);
+  mask-image: linear-gradient(transparent 6%, black 72%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .go-floor::before {
+    animation: mp-grid-crawl 9s linear infinite;
+  }
+}
+
+/* Compile card: the mock site assembles out of the Z axis, then its
+   lines type in one under the other. Resting state is the finished card. */
+.go-compile {
+  perspective: 900px;
+}
+.go-compile-card {
+  animation: go-compile-in 560ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+@keyframes go-compile-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, -160px) rotateX(14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.go-line {
+  animation: go-line-in 380ms ease-out backwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes go-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Logo3D — the tree-circuit as three lit plates stacked in Z.
+   They fly in from deep behind the screen and seat at --lz, then
+   the whole mark breathes a slow yaw. Hovered, it leans toward
+   the cursor via --gy/--gx written by the component.
+   ============================================================ */
+.go-logo-scene {
+  perspective: 720px;
+}
+.go-logo {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--gx, 0) * 1deg)) rotateY(calc(-14deg + var(--gy, 0) * 1deg));
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.go-logo-plate {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(var(--lz, 0px));
+  animation: go-logo-assemble 900ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+.go-logo-plate > svg {
+  width: 100%;
+  height: 100%;
+}
+@keyframes go-logo-assemble {
+  from {
+    opacity: 0;
+    transform: translateZ(calc(var(--lz, 0px) - 120px)) rotateY(38deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(var(--lz, 0px));
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .go-logo-idle {
+    animation: go-logo-yaw 13s ease-in-out infinite;
+  }
+}
+@keyframes go-logo-yaw {
+  0%,
+  100% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(20deg);
+  }
+}
+
+/* ============================================================
+   Dream Cafe — sunrise editorial (dc-*)
+   Warm ember-to-apricot light over cream, grounded in a deep
+   botanical green. Scoped so the brand shell and the other
+   client sites keep their own tokens.
+   ============================================================ */
+.dream-cafe {
+  --dc-cream: #fbf4e9;
+  --dc-paper: #fffdf8;
+  --dc-ink: #2a211b;
+  --dc-muted: #7a6a5d;
+  --dc-line: rgba(42, 33, 27, 0.12);
+  --dc-ember: #e4572e;
+  --dc-ember-deep: #c03f1c;
+  --dc-apricot: #f2a65a;
+  --dc-honey: #f7d08a;
+  --dc-lilac: #c2a9cb;
+  --dc-green: #1f4d3a;
+  --dc-green-deep: #143026;
+  background: var(--dc-cream);
+  color: var(--dc-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* Display face: Inter pushed heavy and tight, the way a painted board is. */
+.dream-cafe .dc-display {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.dream-cafe .dc-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* --- Hero ---------------------------------------------------- */
+.dream-cafe .dc-hero-title {
+  font-size: clamp(2.6rem, 8.2vw, 5.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  font-weight: 900;
+  text-wrap: balance;
+}
+
+/* Two washes: a fixed scrim for legibility, and a slow sunrise pan
+   that keeps the still photograph moving. */
+.dream-cafe .dc-hero-wash {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(228, 87, 46, 0.72) 0%,
+      rgba(242, 166, 90, 0.42) 34%,
+      rgba(42, 33, 27, 0.34) 60%,
+      rgba(20, 15, 12, 0.82) 100%
+    ),
+    linear-gradient(180deg, rgba(20, 15, 12, 0.42) 0%, transparent 38%, rgba(20, 15, 12, 0.6) 100%);
+}
+
+.dream-cafe .dc-hero-grain {
+  background-image: linear-gradient(
+    115deg,
+    rgba(247, 208, 138, 0.34) 0%,
+    rgba(228, 87, 46, 0.2) 26%,
+    rgba(194, 169, 203, 0.26) 52%,
+    rgba(242, 166, 90, 0.3) 76%,
+    rgba(247, 208, 138, 0.34) 100%
+  );
+  background-size: 320% 320%;
+  mix-blend-mode: soft-light;
+  animation: dc-sunrise 22s ease-in-out infinite alternate;
+}
+
+@keyframes dc-sunrise {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* --- Buttons -------------------------------------------------- */
+.dream-cafe .dc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.85rem;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background-color 180ms ease, color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.dream-cafe .dc-btn-solid {
+  background: var(--dc-ember);
+  color: var(--dc-paper);
+  box-shadow: 0 14px 28px -16px rgba(228, 87, 46, 0.95);
+}
+.dream-cafe .dc-btn-solid:hover {
+  background: var(--dc-ember-deep);
+  transform: translateY(-2px);
+}
+
+.dream-cafe .dc-btn-ghost {
+  border: 1px solid rgba(255, 253, 248, 0.5);
+  color: var(--dc-paper);
+  background: rgba(20, 15, 12, 0.18);
+  backdrop-filter: blur(6px);
+}
+.dream-cafe .dc-btn-ghost:hover {
+  background: rgba(255, 253, 248, 0.16);
+  transform: translateY(-2px);
+}
+
+/* --- Ticker --------------------------------------------------- */
+.dream-cafe .dc-ticker {
+  overflow: hidden;
+  background: var(--dc-green);
+  color: var(--dc-cream);
+  padding: 0.8rem 0;
+  border-block: 1px solid rgba(20, 15, 12, 0.28);
+}
+
+.dream-cafe .dc-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: dc-marquee 34s linear infinite;
+}
+.dream-cafe .dc-ticker:hover .dc-ticker-track {
+  animation-play-state: paused;
+}
+
+.dream-cafe .dc-ticker-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding-inline: 1.6rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+@keyframes dc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- Menu board ----------------------------------------------- */
+.dream-cafe .dc-items {
+  display: grid;
+  gap: 1.6rem 3rem;
+  margin-top: 1.75rem;
+}
+@media (min-width: 900px) {
+  .dream-cafe .dc-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.dream-cafe .dc-item {
+  break-inside: avoid;
+}
+
+/* The dotted leader a printed menu uses, drawn in CSS so it flexes. */
+.dream-cafe .dc-leader {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted rgba(42, 33, 27, 0.38);
+  transform: translateY(-0.28em);
+}
+
+.dream-cafe .dc-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--dc-line);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dc-muted);
+  background: var(--dc-paper);
+}
+
+.dream-cafe .dc-pill-badge {
+  border-color: rgba(228, 87, 46, 0.4);
+  background: rgba(228, 87, 46, 0.09);
+  color: var(--dc-ember-deep);
+  font-weight: 700;
+}
+
+/* --- Story band ----------------------------------------------- */
+.dream-cafe .dc-story {
+  background: var(--dc-green);
+  color: var(--dc-cream);
+}
+
+.dream-cafe .dc-story-glow {
+  background:
+    radial-gradient(58% 46% at 18% 8%, rgba(228, 87, 46, 0.5), transparent 70%),
+    radial-gradient(52% 44% at 84% 92%, rgba(194, 169, 203, 0.34), transparent 72%);
+}
+
+/* --- Cards ---------------------------------------------------- */
+.dream-cafe .dc-card {
+  background: var(--dc-paper);
+  border: 1px solid var(--dc-line);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px -30px rgba(42, 33, 27, 0.55);
+}
+
+/* --- Mosaic --------------------------------------------------- */
+.dream-cafe .dc-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 9rem;
+  gap: 1.1rem;
+}
+@media (min-width: 768px) {
+  .dream-cafe .dc-mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 13rem;
+    gap: 1.5rem;
+  }
+}
+.dream-cafe .dc-mosaic-tall {
+  grid-row: span 2;
+}
+
+.dream-cafe .dc-shot {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 5px solid var(--dc-paper);
+  background: var(--dc-paper);
+  box-shadow: 0 22px 44px -26px rgba(42, 33, 27, 0.7);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease;
+}
+.dream-cafe .dc-shot:hover {
+  transform: rotate(0deg) translateY(-7px) scale(1.015);
+  box-shadow: 0 34px 60px -28px rgba(42, 33, 27, 0.8);
+}
+
+.dream-cafe .dc-shot-caption {
+  position: absolute;
+  left: 0.65rem;
+  bottom: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  background: rgba(20, 15, 12, 0.62);
+  backdrop-filter: blur(5px);
+  color: var(--dc-cream);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dream-cafe .dc-shot-dot {
+  height: 0.35rem;
+  width: 0.35rem;
+  border-radius: 999px;
+  background: var(--dc-honey);
+}
+
+/* --- Footer --------------------------------------------------- */
+.dream-cafe .dc-footer {
+  background: var(--dc-green-deep);
+  color: var(--dc-cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dream-cafe .dc-hero-grain,
+  .dream-cafe .dc-ticker-track {
+    animation: none;
+  }
+  .dream-cafe .dc-ticker {
+    overflow-x: auto;
+  }
+  .dream-cafe .dc-shot,
+  .dream-cafe .dc-shot:hover {
+    transform: none;
+    transition: none;
+  }
+  .dream-cafe .dc-btn:hover {
+    transform: none;
+  }
+}
