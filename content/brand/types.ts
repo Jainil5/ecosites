@@ -18,7 +18,7 @@ export interface Company {
   contact: ContactChannels;
 }
 
-export type ProductIcon = 'globe' | 'sparkles' | 'workflow';
+export type ProductIcon = 'globe' | 'clapperboard' | 'sparkles' | 'workflow';
 
 export interface Product {
   slug: string;
@@ -28,4 +28,6 @@ export interface Product {
   /** 3-4 concrete deliverables. */
   bullets: string[];
   icon: ProductIcon;
+  /** The journey step this product delivers, e.g. 'Get Found'. */
+  step: string;
 }

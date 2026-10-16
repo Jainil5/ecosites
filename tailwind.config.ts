@@ -10,10 +10,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Design system: Dark OLED + "code dark + run green"
+        // Design system: freehand-style paper canvas, warm ink, orange accent.
+        // Brand-scoped on purpose: the demo sites hardcode their own hex and
+        // never read these, so flipping them cannot leak into client work.
+        canvas: '#FFFFFF',
+        paper: '#FDF8F4',
+        band: '#FAF3E8',
+        tint: '#FFF3EB',
+        ink: '#0D0B08',
+        'ink-2': '#4A3A2A',
+        'ink-3': '#7A6855',
+        hairline: '#EAE0D6',
+        dark: '#1C1208',
+        'dark-card': '#2C1D0D',
+        accent: {
+          DEFAULT: '#FE6200',
+          10: '#FAE1D1',
+          20: '#F9BD97',
+          30: '#FB995B',
+          50: '#DE5804',
+          60: '#A04308',
+          80: '#200B00',
+        },
+        // The tree-circuit mark keeps its green; it is a second brand hue, not
+        // the interactive accent.
+        'mark-green': '#22C55E',
+
+        // Legacy dark scale. Still read by the go-* CSS and by brand components
+        // not yet migrated; Task 12 deletes these once nothing references them.
+        // `body` and `.frame` @apply several of them, so they cannot go earlier.
         background: '#0F172A',
-        // Deeper than the canvas: the band a full-bleed section sits on, so
-        // sections stop reading as one continuous dark field.
         deep: '#0A1120',
         surface: '#111C31',
         elevated: '#1E293B',
@@ -21,27 +47,23 @@ const config: Config = {
         border: '#475569',
         foreground: '#F8FAFC',
         subtle: '#94A3B8',
-        accent: {
-          DEFAULT: '#22C55E',
-          soft: '#4ADE80',
-          dark: '#16A34A',
-        },
         brand: {
           DEFAULT: '#1E293B',
           dark: '#0F172A',
         },
       },
       fontFamily: {
-        display: ['var(--font-display)', 'ui-monospace', 'monospace'],
+        // display now resolves to the serif; label and body are new and
+        // brand-only. mono and sans stay with the demos that depend on them.
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        label: ['var(--font-label)', 'ui-monospace', 'monospace'],
+        body: ['var(--font-body)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       boxShadow: {
-        glow: '0 0 20px rgba(34,197,94,0.35)',
-        'glow-lg': '0 0 45px rgba(34,197,94,0.45)',
-        card: '0 10px 30px -12px rgba(0,0,0,0.6)',
-        'card-hover': '0 24px 50px -12px rgba(0,0,0,0.7)',
+        plate: '0 1px 2px rgba(13,11,8,0.04), 0 18px 40px -32px rgba(13,11,8,0.35)',
       },
       backgroundImage: {
         'grid-fade':

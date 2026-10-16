@@ -5,8 +5,9 @@ import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 
 const pages = [
-  { href: '/#services', label: 'Services' },
-  { href: '/store', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/products', label: 'Products' },
+  { href: '/demos', label: 'Demos' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/contact', label: 'Contact' },
 ];

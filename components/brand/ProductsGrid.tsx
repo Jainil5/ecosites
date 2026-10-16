@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, MessagesSquare, Globe, Sparkles, Workflow } from 'lucide-react';
+import { ArrowRight, MessagesSquare, Globe, Sparkles, Workflow, Clapperboard } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { CSSProperties } from 'react';
-import { SectionHeading } from '@/components/SectionHeading';
+import { SectionIntro } from '@/components/brand/SectionIntro';
 import { Icon3D } from '@/components/Icon3D';
 import { TiltCard } from '@/components/TiltCard';
 import { products } from '@/content/brand/products';
@@ -12,16 +12,21 @@ const ICONS: Record<ProductIcon, LucideIcon> = {
   globe: Globe,
   sparkles: Sparkles,
   workflow: Workflow,
+  clapperboard: Clapperboard,
 };
 
-export function ProductsGrid() {
+export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) {
   return (
-    <section id="services" className="reveal scroll-mt-24">
-      <SectionHeading eyebrow="What we do" title="Three ways we help a business grow">
-        Start with a website, add the AI and automation when it earns for you.
-      </SectionHeading>
+    <section id="products" className="reveal scroll-mt-24">
+      {showHeading ? (
+        <SectionIntro index="03" label="products" title="Pick where you enter">
+          Start with a website, add motion, automation and AI when each one earns
+          for you. Every package is a starting point, not a cage — tell us the
+          scope and you approve the quote before any work starts.
+        </SectionIntro>
+      ) : null}
 
-      <div className="scene-wide grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="scene-wide grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((product, i) => {
           const Icon = ICONS[product.icon];
           const first = i === 0;
@@ -32,13 +37,7 @@ export function ProductsGrid() {
               style={{ '--drift': `${1.8 + i * 0.9}rem` } as CSSProperties}
             >
               <TiltCard max={7} className="h-full rounded-2xl">
-                <div
-                  className={`edge group flex h-full flex-col rounded-2xl p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
-                    first
-                      ? 'bg-gradient-to-b from-accent/[0.13] to-white/[0.02]'
-                      : 'bg-gradient-to-b from-white/[0.06] to-white/[0.015]'
-                  }`}
-                >
+                <div className="go-frame edge flex h-full flex-col rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover">
                   <div className="flex items-start justify-between gap-4">
                     <Icon3D icon={Icon} className="pb-5" />
                     {/* The order is the advice: website first, then the rest. */}
@@ -53,8 +52,12 @@ export function ProductsGrid() {
                   <h3 className="font-display text-xl text-foreground">{product.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-subtle">{product.summary}</p>
 
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-subtle/70">
+                    {product.step}
+                  </p>
+
                   {first ? (
-                    <p className="mt-4 w-fit rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] text-accent">
+                    <p className="mt-3 w-fit rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] text-accent">
                       Start here
                     </p>
                   ) : null}
@@ -78,7 +81,7 @@ export function ProductsGrid() {
       </div>
 
       <TiltCard max={4} className="mt-5 rounded-2xl">
-        <div className="edge beacon flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-accent/[0.08] p-6 sm:flex-row sm:items-center">
+        <div className="go-frame edge beacon flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-accent/[0.08] p-6 sm:flex-row sm:items-center">
           <div className="flex items-start gap-4">
             <MessagesSquare aria-hidden className="mt-0.5 h-6 w-6 shrink-0 text-accent" />
             <div>

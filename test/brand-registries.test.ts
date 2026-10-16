@@ -8,8 +8,13 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists three offerings in selling order', () => {
-    expect(products.map((p) => p.slug)).toEqual(['websites', 'ai-services', 'automation']);
+  it('lists four offerings in journey order', () => {
+    expect(products.map((p) => p.slug)).toEqual([
+      'websites',
+      'motion-design',
+      'automation',
+      'ai-services',
+    ]);
   });
 
   it('has unique slugs', () => {
@@ -36,9 +41,9 @@ describe('company registry', () => {
 
   it('never quotes a price in marketing copy', () => {
     const text = `${company.tagline} ${company.pitch} ${products
-      .map((p) => `${p.title} ${p.summary} ${p.bullets.join(' ')}`)
+      .map((p) => `${p.title} ${p.summary} ${p.step} ${p.bullets.join(' ')}`)
       .join(' ')}`;
-    expect(text).not.toMatch(/₹|Rs\.?|price[d]? from|starting at/);
+    expect(text).not.toMatch(/₹|Rs\.?|price[d]? from|starting at|\d{4,5}/);
   });
 
   it('sells to businesses of every size, not one city or one kind of shop', () => {

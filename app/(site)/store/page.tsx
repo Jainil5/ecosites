@@ -6,7 +6,7 @@ import { company } from '@/content/brand/company';
 
 export const metadata: Metadata = {
   title: 'Work',
-  description: `Websites built by ${company.name} — a salon, a live market tool and a restaurant guide. Open any one of them, then ask for the same thing with your own content.`,
+  description: `Websites built by ${company.name} — a salon, a live market tool, a restaurant guide and a bagel bakery. Open any one of them, then ask for the same thing with your own content.`,
 };
 
 export default function StorePage() {

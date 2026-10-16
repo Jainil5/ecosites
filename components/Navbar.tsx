@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { Logo } from '@/components/brand/Logo';
 
 const links = [
-  { href: '/#services', label: 'Services' },
-  { href: '/store', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/products', label: 'Products' },
+  { href: '/demos', label: 'Demos' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/contact', label: 'Contact' },
 ];

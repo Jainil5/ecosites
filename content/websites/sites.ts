@@ -26,6 +26,18 @@ export const websites = [
     screenshot: '/showcase/stock-screener/preview.png',
   },
   {
+    slug: 'dream-cafe',
+    title: 'Dream Cafe',
+    business: 'Bagel and coffee bar',
+    description:
+      'A neighbourhood bagel bakery built around morning light: hand-rolled dough proved overnight, a single espresso base through the day, and a pressed-lunch board. Sunrise editorial theme with a scrolling ticker, full menu in one pass, and a rotated photo mosaic.',
+    path: '/dream-cafe',
+    theme: 'Sunrise editorial',
+    accent: '#E4572E',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
+    screenshot: '/showcase/dream-cafe/preview.png',
+  },
+  {
     slug: 'savour',
     title: 'Savour',
     business: 'Restaurant and dish guide',

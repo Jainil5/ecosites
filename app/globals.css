@@ -1045,6 +1045,148 @@ button:focus-visible {
 }
 
 /* ============================================================
+   Get Online — structure language: ticker band, gradient-frame
+   cards, the journey rail and the proof stats. One card style,
+   one label style, one accent treatment everywhere: the gradient
+   stays reserved for hover, focus and the rail itself.
+   ============================================================ */
+
+/* Ticker band closing the hero: duplicated word list, seamless loop. */
+.go-ticker {
+  overflow: hidden;
+  border-top: 1px solid rgb(255 255 255 / 0.07);
+  border-bottom: 1px solid rgb(255 255 255 / 0.07);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.go-ticker-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+}
+.go-ticker-item {
+  @apply flex items-center gap-8 py-3 font-mono text-xs uppercase tracking-[0.32em] text-subtle;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .go-ticker-track {
+    animation: go-ticker-run 30s linear infinite;
+  }
+}
+@keyframes go-ticker-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* The one card style: flat plate, gradient hairline border on hover/focus. */
+.go-frame {
+  position: relative;
+}
+.go-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(100deg, #22d3ee, #a78bfa);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+.go-frame:hover::before,
+.go-frame:focus-within::before {
+  opacity: 1;
+}
+/* Always-on variant for the closing panel. */
+.go-frame-on::before {
+  opacity: 1;
+}
+
+/* Journey rail: one gradient spine, numbered nodes, cards alternating
+   across it on desktop; left spine with indented cards below lg. */
+.go-rail {
+  position: relative;
+}
+.go-rail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, #22d3ee 6%, #a78bfa 94%, transparent);
+  opacity: 0.45;
+}
+@media (min-width: 1024px) {
+  .go-rail::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.go-step {
+  position: relative;
+  padding-left: 44px;
+}
+@media (min-width: 1024px) {
+  .go-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 6rem;
+    padding-left: 0;
+  }
+  .go-step > .go-step-card {
+    grid-column: 1;
+  }
+  .go-step:nth-child(even) > .go-step-card {
+    grid-column: 2;
+  }
+}
+.go-node {
+  position: absolute;
+  top: 28px;
+  left: 6px;
+  display: grid;
+  place-items: center;
+  height: 20px;
+  width: 20px;
+  border-radius: 9999px;
+  background: #061019;
+  border: 1px solid rgb(167 139 250 / 0.55);
+  box-shadow: 0 0 18px -4px rgb(34 211 238 / 0.35);
+}
+.go-node::after {
+  content: '';
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(100deg, #22d3ee, #a78bfa);
+}
+@media (min-width: 1024px) {
+  .go-node {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Proof band: mono counters over hairline dividers. */
+.go-stat-value {
+  @apply font-mono text-4xl text-foreground sm:text-5xl;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.go-stat-value em {
+  font-style: normal;
+  background-image: linear-gradient(100deg, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================================
    Dream Cafe — sunrise editorial (dc-*)
    Warm ember-to-apricot light over cream, grounded in a deep
    botanical green. Scoped so the brand shell and the other
@@ -1328,9 +1470,346 @@ button:focus-visible {
   color: var(--dc-cream);
 }
 
+/* --- The pour: six plates at real depths, one shared timeline ---- */
+.dream-cafe .dc-pour-scene {
+  --dc-loop: 9s;
+  perspective: 720px;
+}
+
+/* Sized down and faded on small screens so the headline keeps the room,
+   and lifted clear of the bottom edge so the glass stays in the first view. */
+.dream-cafe .dc-pour-anchor {
+  position: absolute;
+  right: -3%;
+  bottom: 21%;
+  width: 41%;
+  max-width: 210px;
+  opacity: 0.46;
+}
+
+@media (min-width: 768px) {
+  .dream-cafe .dc-pour-anchor {
+    top: 52%;
+    bottom: auto;
+    right: 2%;
+    width: 35%;
+    max-width: 320px;
+    transform: translateY(-50%);
+    opacity: 0.7;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dream-cafe .dc-pour-anchor {
+    right: 3.5%;
+    width: 29%;
+    max-width: 350px;
+    opacity: 0.86;
+  }
+}
+
+@media (min-width: 1440px) {
+  .dream-cafe .dc-pour-anchor {
+    right: 6.5%;
+  }
+}
+
+.dream-cafe .dc-pour-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 200 / 260;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--gx, 0) * 1deg)) rotateY(calc(9deg + var(--gy, 0) * 1deg));
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pour-idle {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.dream-cafe .dc-pour-plate {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(var(--lz, 0px));
+  animation: dc-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.dream-cafe .dc-pour-plate > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@keyframes dc-pour-assemble {
+  from {
+    opacity: 0;
+    transform: translateZ(calc(var(--lz, 0px) - 130px)) rotateY(-32deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(var(--lz, 0px));
+  }
+}
+
+/* Every part below rests in its finished state, so a browser that asks for
+   reduced motion gets a full glass with the shot still running into it. */
+.dream-cafe .dc-pour-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dream-cafe .dc-pour-level {
+  transform-box: view-box;
+  transform-origin: 100px 206px;
+}
+
+.dream-cafe .dc-pour-crema {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.9;
+}
+
+.dream-cafe .dc-pour-plume {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(5px);
+  opacity: 0.32;
+}
+
+.dream-cafe .dc-pour-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.dream-cafe .dc-pour-stream {
+  stroke-dasharray: 100;
+}
+
+.dream-cafe .dc-pour-shine {
+  opacity: 0.2;
+}
+
+.dream-cafe .dc-pour-steam {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dream-cafe .dc-pour-idle {
+    animation: dc-pour-yaw 16s ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-halo {
+    animation: dc-pour-halo var(--dc-loop) ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-level {
+    animation: dc-pour-level var(--dc-loop) ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-stream {
+    animation: dc-pour-stream var(--dc-loop) linear infinite;
+    animation-delay: calc(var(--k, 0) * -0.3s);
+  }
+  .dream-cafe .dc-pour-crema {
+    animation: dc-pour-crema var(--dc-loop) ease-out infinite;
+  }
+  .dream-cafe .dc-pour-plume {
+    animation: dc-pour-plume var(--dc-loop) ease-out infinite;
+    animation-delay: calc(var(--k, 0) * -0.55s);
+  }
+  .dream-cafe .dc-pour-ripple {
+    animation: dc-pour-ripple 3s ease-out infinite;
+    animation-delay: calc(var(--k, 0) * 0.8s);
+  }
+  .dream-cafe .dc-pour-shine {
+    animation: dc-pour-shine var(--dc-loop) ease-in-out infinite;
+    animation-delay: calc(var(--k, 0) * -1.2s);
+  }
+  .dream-cafe .dc-pour-steam {
+    animation: dc-pour-steam var(--dc-loop) ease-out infinite;
+    animation-delay: calc(var(--k, 0) * -2.6s);
+  }
+}
+
+@keyframes dc-pour-yaw {
+  0%,
+  100% {
+    transform: rotateY(-6deg);
+  }
+  50% {
+    transform: rotateY(8deg);
+  }
+}
+
+@keyframes dc-pour-halo {
+  0%,
+  100% {
+    opacity: 0.86;
+    transform: scale(1);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* The shot lands, the level swells, then settles back over the rest of the loop. */
+@keyframes dc-pour-level {
+  0%,
+  12% {
+    transform: scaleY(1);
+  }
+  46% {
+    transform: scaleY(1.075);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dc-pour-stream {
+  0%,
+  7% {
+    opacity: 0;
+    stroke-dashoffset: 100;
+  }
+  9% {
+    opacity: 1;
+    stroke-dashoffset: 100;
+  }
+  16%,
+  42% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  48% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 100;
+  }
+}
+
+/* The disc starts spreading the moment the shot reaches the surface. */
+@keyframes dc-pour-crema {
+  0%,
+  14% {
+    opacity: 0.55;
+    transform: scale(0.62);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  58% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(0.62);
+  }
+}
+
+@keyframes dc-pour-plume {
+  0%,
+  16% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-6deg);
+  }
+  40% {
+    opacity: 0.34;
+    transform: scale(1.05) rotate(5deg);
+  }
+  70% {
+    opacity: 0.2;
+    transform: scale(1.25) rotate(12deg);
+  }
+  92%,
+  100% {
+    opacity: 0;
+    transform: scale(1.4) rotate(16deg);
+  }
+}
+
+@keyframes dc-pour-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  22% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+@keyframes dc-pour-shine {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  42% {
+    opacity: 0.46;
+  }
+}
+
+@keyframes dc-pour-steam {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translateY(8px) scaleX(0.9);
+  }
+  60% {
+    opacity: 0.42;
+  }
+  84% {
+    opacity: 0.26;
+    transform: translateY(-14px) scaleX(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-22px) scaleX(1.12);
+  }
+}
+
+/* --- Menu board unfolding on a top hinge -------------------------- */
+.dream-cafe .dc-unfold {
+  opacity: 0;
+  transform: perspective(900px) rotateX(-14deg) scaleY(0.86);
+  transform-origin: top center;
+  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1), opacity 620ms ease-out;
+}
+
+.dream-cafe .dc-unfold[data-open='true'] {
+  opacity: 1;
+  transform: perspective(900px) rotateX(0deg) scaleY(1);
+}
+
+/* Rows light up in reading order once the group has hinged down. */
+.dream-cafe .dc-unfold .dc-item {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms ease-out, transform 420ms ease-out;
+  transition-delay: calc(200ms + var(--i, 0) * 28ms);
+}
+
+.dream-cafe .dc-unfold[data-open='true'] .dc-item {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dream-cafe .dc-hero-grain,
-  .dream-cafe .dc-ticker-track {
+  .dream-cafe .dc-ticker-track,
+  .dream-cafe .dc-pour-plate {
     animation: none;
   }
   .dream-cafe .dc-ticker {
@@ -1343,5 +1822,11 @@ button:focus-visible {
   }
   .dream-cafe .dc-btn:hover {
     transform: none;
+  }
+  .dream-cafe .dc-unfold,
+  .dream-cafe .dc-unfold .dc-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
