@@ -3,6 +3,7 @@ import type { SampleWebsite } from './types';
 export const websites = [
   {
     slug: 'hair-adore',
+    author: 'jainil-patel',
     title: 'Hair Adore',
     business: 'Premium unisex salon',
     description:
@@ -15,6 +16,7 @@ export const websites = [
   },
   {
     slug: 'stock-screener',
+    author: 'jainil-patel',
     title: 'Market Pulse',
     business: 'NSE stock screener · Live market data',
     description:
@@ -27,6 +29,7 @@ export const websites = [
   },
   {
     slug: 'dream-cafe',
+    author: 'jainil-patel',
     title: 'Dream Cafe',
     business: 'Bagel and coffee bar',
     description:
@@ -39,6 +42,7 @@ export const websites = [
   },
   {
     slug: 'savour',
+    author: 'jainil-patel',
     title: 'Savour',
     business: 'Restaurant and dish guide',
     description:
@@ -53,4 +57,9 @@ export const websites = [
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {
   return websites.find((site) => site.slug === slug);
+}
+
+/** Sites shipped by one builder, in registry order — the work page lists these. */
+export function getWebsitesByAuthor(authorSlug: string): SampleWebsite[] {
+  return websites.filter((site) => site.author === authorSlug);
 }

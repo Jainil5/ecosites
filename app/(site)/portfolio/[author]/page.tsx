@@ -4,10 +4,12 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Github, Linkedin, ExternalLink } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { DemoCard } from '@/components/DemoCard';
+import { WebsiteCard } from '@/components/WebsiteCard';
 import { Icon3D } from '@/components/Icon3D';
 import { SectionHeading } from '@/components/SectionHeading';
 import { getAllAuthorSlugs, getAuthorBySlug } from '@/content/portfolio/authors';
 import { getSitesByAuthor } from '@/content/demos/sites';
+import { getWebsitesByAuthor } from '@/content/websites/sites';
 
 interface AuthorPageProps {
   params: Promise<{ author: string }>;
@@ -45,6 +47,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   }
 
   const caseStudies = getSitesByAuthor(author.slug);
+  const delivered = getWebsitesByAuthor(author.slug);
 
   return (
     <div className="space-y-16">
@@ -113,6 +116,21 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
           </div>
         )}
       </section>
+
+      {delivered.length > 0 && (
+        <section>
+          <SectionHeading eyebrow="Client work" title="Sites running right now">
+            {delivered.length} {delivered.length === 1 ? 'business' : 'businesses'} shipped as
+            delivered work — each one opens live, with its own theme and its own data behind it.
+          </SectionHeading>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {delivered.map((site, i) => (
+              <WebsiteCard key={site.slug} site={site} priority={i === 0} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

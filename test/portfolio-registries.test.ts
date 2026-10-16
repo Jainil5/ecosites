@@ -3,6 +3,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { authors, getAllAuthorSlugs, getAuthorBySlug } from '@/content/portfolio/authors';
 import { sites } from '@/content/demos/sites';
+import { websites, getWebsitesByAuthor } from '@/content/websites/sites';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('portfolio authors registry', () => {
@@ -67,5 +68,23 @@ describe('case studies registry', () => {
   it('has unique slugs per author', () => {
     const keys = sites.map((s) => `${s.author}/${s.slug}`);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+});
+
+describe('delivered websites on the builder work page', () => {
+  it('attributes every delivered website to an author that exists', () => {
+    for (const site of websites) {
+      expect(getAuthorBySlug(site.author), `${site.slug} -> ${site.author}`).toBeDefined();
+    }
+  });
+
+  it('lists the delivered sites of an author in registry order', () => {
+    expect(getWebsitesByAuthor('jainil-patel').map((s) => s.slug)).toEqual([
+      'hair-adore',
+      'stock-screener',
+      'dream-cafe',
+      'savour',
+    ]);
+    expect(getWebsitesByAuthor('nobody')).toEqual([]);
   });
 });
