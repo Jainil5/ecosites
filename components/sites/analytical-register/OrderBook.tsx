@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { StoreProvider, useOrderBook } from './store';
 import { Register } from './Register';
+import { OrdersLog } from './OrdersLog';
 import { Settings } from './Settings';
 
 type View = 'register' | 'orders' | 'analytics' | 'menu' | 'settings';
@@ -38,7 +39,8 @@ function Workspace() {
       </header>
       <main className="mx-auto max-w-6xl px-4 py-6">
         {view === 'register' && <Register />}
-        {(view === 'orders' || view === 'analytics' || view === 'menu') && (
+        {view === 'orders' && <OrdersLog />}
+        {(view === 'analytics' || view === 'menu') && (
           <p className="text-[var(--ob-muted)]">This screen is added in Tasks 8–10.</p>
         )}
         {view === 'settings' && <Settings />}
