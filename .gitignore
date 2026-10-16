@@ -47,3 +47,6 @@ playwright-report/
 .eslintcache
 .pnpm-debug.log*
 *.local
+
+# git worktrees (isolated SDD workspaces)
+.worktrees/
