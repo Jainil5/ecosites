@@ -1,6 +1,6 @@
 // components/sites/analytical-register/store.tsx
 'use client';
-import { createContext, useContext, useEffect, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from 'react';
 import { initState, orderbookReducer, type Action, type StoreState } from './reducer';
 
 const KEY = 'orderbook:v1';
@@ -28,10 +28,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // shape on both, then pull the persisted state in via the `hydrate` action
   // after mount.
   const [state, dispatch] = useReducer(orderbookReducer, undefined, () => initState([]));
+  // Persistence must not run before hydration commits, or the first effect
+  // writes the empty pre-hydrate state over the saved `orderbook:v1`.
+  const hydrated = useRef(false);
   useEffect(() => {
     dispatch({ type: 'hydrate', state: load() ?? initState() });
+    hydrated.current = true;
   }, []);
   useEffect(() => {
+    if (!hydrated.current) return;
     try {
       window.localStorage.setItem(KEY, JSON.stringify(state));
     } catch {

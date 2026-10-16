@@ -25,7 +25,9 @@ export function Ticket() {
     // Build the preview order locally so the memo opens immediately.
     const preview: Order = {
       id: order.id,
-      billNumber: state.orders.length + 1,
+      // Same logic as the reducer's nextBill: orders are not contiguous,
+      // so base the preview on the highest existing bill number.
+      billNumber: Math.max(0, ...state.orders.map(o => o.billNumber)) + 1,
       createdAt: order.now,
       lines: state.ticket,
       ...totals,
