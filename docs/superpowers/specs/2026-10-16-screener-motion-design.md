@@ -39,6 +39,9 @@ All three read `useReducedMotion()` and collapse to instant/120ms-fade behavior.
 
 - Selected row / heatmap cell gets `view-transition-name: stock-hero-<slug>`; the detail
   page hero uses the same name → shared-element morph on navigation.
+  (As built the name is `stock-<slug-with-hyphens>` — a CSS custom identifier cannot
+  contain the dot of `reliance.ns`, and the property must be assigned imperatively via a
+  ref because React lowercases the `viewTransitionName` style prop.)
 - Static chrome (`mp-bg` grid, page header shell) keeps matching names so only the stock
   element travels.
 - 420ms expo-out via `::view-transition-* { animation-timing-function }` in `globals.css`.

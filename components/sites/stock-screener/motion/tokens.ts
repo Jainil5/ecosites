@@ -25,5 +25,11 @@ export const DUR = {
   stagger: 0.05,
 } as const;
 
-/** Shared-element morph target naming: heatmap cell ⇄ detail hero. */
-export const vtName = (symbol: string) => `stock-${symbol.toLowerCase()}`;
+/**
+ * Shared-element morph target naming: heatmap cell ⇄ detail hero.
+ * The value must be a CSS custom identifier: dots are replaced with
+ * hyphens (a dotted name is silently rejected by the browser) and
+ * characters an ident cannot start with are dropped (`^NSEI`).
+ */
+export const vtName = (symbol: string) =>
+  `stock-${symbol.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/^-+/, '')}`;

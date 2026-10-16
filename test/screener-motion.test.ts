@@ -6,7 +6,7 @@ import {
   peersFor,
 } from '../components/sites/stock-screener/data';
 import { spark1M } from '../components/sites/stock-screener/indicators';
-import { SPRINGS, EASE, DUR } from '../components/sites/stock-screener/motion/tokens';
+import { SPRINGS, EASE, DUR, vtName } from '../components/sites/stock-screener/motion/tokens';
 
 describe('slug helpers', () => {
   it('round-trips every stock symbol', () => {
@@ -64,5 +64,14 @@ describe('motion tokens (spec §5 — keep verbatim if the spec changes)', () =>
     expect(EASE.enter).toEqual([0.16, 1, 0.3, 1]);
     expect(EASE.exit).toEqual([0.4, 0, 1, 1]);
     expect(DUR).toMatchObject({ enter: 0.5, exit: 0.2, fadeLead: 0.18, stagger: 0.05 });
+  });
+  it('produces valid CSS custom identifiers (dots are rejected by the browser)', () => {
+    expect(vtName('RELIANCE.NS')).toBe('stock-reliance-ns');
+    expect(vtName('BAJAJ-AUTO.NS')).toBe('stock-bajaj-auto-ns');
+    expect(vtName('M&M.NS')).toBe('stock-m-m-ns');
+    expect(vtName('^NSEI')).toBe('stock-nsei');
+    for (const stock of STOCKS) {
+      expect(vtName(stock.symbol)).toMatch(/^[a-zA-Z_-][a-zA-Z0-9_-]*$/);
+    }
   });
 });
