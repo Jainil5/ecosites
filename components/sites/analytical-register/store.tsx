@@ -1,6 +1,6 @@
 // components/sites/analytical-register/store.tsx
 'use client';
-import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useReducer, useState, type ReactNode } from 'react';
 import { initState, orderbookReducer, type Action, type StoreState } from './reducer';
 
 const KEY = 'orderbook:v1';
@@ -30,19 +30,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(orderbookReducer, undefined, () => initState([]));
   // Persistence must not run before hydration commits, or the first effect
   // writes the empty pre-hydrate state over the saved `orderbook:v1`.
-  const hydrated = useRef(false);
+  // A ref cannot gate this: both effects run in the same mount flush, so the
+  // ref is already true when the persist effect sees the pre-hydrate closure.
+  // State flips only on the re-render, which carries the hydrated state.
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     dispatch({ type: 'hydrate', state: load() ?? initState() });
-    hydrated.current = true;
+    setHydrated(true);
   }, []);
   useEffect(() => {
-    if (!hydrated.current) return;
+    if (!hydrated) return;
     try {
       window.localStorage.setItem(KEY, JSON.stringify(state));
     } catch {
       /* private mode / quota — the session still works in memory */
     }
-  }, [state]);
+  }, [state, hydrated]);
   return <Ctx.Provider value={{ state, dispatch }}>{children}</Ctx.Provider>;
 }
 
