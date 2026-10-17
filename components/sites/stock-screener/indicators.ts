@@ -1,3 +1,5 @@
+import type { ChartPoint } from './types';
+
 export function smaSeries(values: number[], period: number): (number | null)[] {
   const out: (number | null)[] = new Array(values.length).fill(null);
   let sum = 0;
@@ -113,4 +115,18 @@ export function rsiLabel(r: number | null): { text: string; tone: 'up' | 'down' 
   if (r >= 70) return { text: 'Overbought', tone: 'down' };
   if (r <= 30) return { text: 'Oversold', tone: 'up' };
   return { text: 'Neutral', tone: 'flat' };
+}
+
+/** 1-month daily closes for the sparkline; moved out of ScreenerTable so the detail hero can reuse it. */
+export function spark1M(quote?: ChartPoint): number[] {
+  const closes = quote?.closes;
+  const timestamps = quote?.timestamps;
+  if (!closes || !timestamps) return [];
+  const lastTs = timestamps[timestamps.length - 1];
+  const cutoff = lastTs - 31 * 24 * 3600;
+  const out: number[] = [];
+  closes.forEach((c, i) => {
+    if (c != null && timestamps[i] >= cutoff) out.push(c);
+  });
+  return out;
 }

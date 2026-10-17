@@ -1,5 +1,7 @@
 export interface SampleWebsite {
   slug: string; // kebab-case, matches the /<slug> route
+  /** PortfolioAuthor.slug — the builder behind this site. */
+  author: string;
   title: string;
   business: string; // what kind of site it is
   description: string;

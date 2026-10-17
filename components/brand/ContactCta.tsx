@@ -1,5 +1,4 @@
 import { ArrowUpRight, Mail, MessageCircle, Phone } from 'lucide-react';
-import { Icon3D } from '@/components/Icon3D';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 
@@ -39,16 +38,13 @@ export function ContactRow() {
         href={whatsapp.href}
         target={whatsapp.external ? '_blank' : undefined}
         rel={whatsapp.external ? 'noopener noreferrer' : undefined}
-        className="focus-ring edge inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-background shadow-glow transition-transform hover:-translate-y-0.5"
+        className="focus-ring gs-btn gs-btn-solid"
       >
         <whatsapp.Icon aria-hidden className="h-4 w-4" />
         {whatsapp.label}
       </a>
-      <a
-        href={call.href}
-        className="focus-ring edge beacon inline-flex cursor-pointer items-center gap-2 rounded-xl bg-white/[0.06] px-5 py-3 font-semibold text-foreground transition-colors hover:bg-white/[0.1]"
-      >
-        <call.Icon aria-hidden className="h-4 w-4 text-accent" />
+      <a href={call.href} className="focus-ring gs-btn gs-btn-ghost">
+        <call.Icon aria-hidden className="h-4 w-4" />
         Call {call.label}
       </a>
     </div>
@@ -64,32 +60,32 @@ export function ContactCta() {
   const [whatsapp, ...others] = channels();
 
   return (
-    <div className="edge beacon rounded-3xl bg-gradient-to-br from-accent/[0.13] via-white/[0.03] to-cyan-400/[0.07] p-6 sm:p-8">
-      <div className="grid items-center gap-7 sm:grid-cols-2">
+    <div className="gs-card p-6 sm:p-9">
+      <div className="grid items-center gap-8 sm:grid-cols-2">
         <a
           href={whatsapp.href}
           target={whatsapp.external ? '_blank' : undefined}
           rel={whatsapp.external ? 'noopener noreferrer' : undefined}
-          className="focus-ring group inline-flex cursor-pointer items-center justify-center gap-3 rounded-2xl bg-accent px-6 py-5 text-lg font-semibold text-background shadow-glow-lg transition-transform hover:-translate-y-0.5"
+          className="focus-ring gs-btn gs-btn-solid w-full text-base"
         >
           <whatsapp.Icon aria-hidden className="h-5 w-5" />
           Message us on {whatsapp.label}
         </a>
 
-        <ul className="grid gap-3">
+        <ul className="grid gap-2">
           {others.map(({ key, label, href, Icon }) => (
             <li key={key}>
               <a
                 href={href}
-                className="focus-ring edge group flex cursor-pointer items-center gap-4 rounded-2xl bg-white/[0.04] px-4 py-3 transition-colors hover:bg-white/[0.08]"
+                className="focus-ring group flex items-center gap-4 border border-hairline bg-canvas px-4 py-3 transition-colors hover:border-plane"
               >
-                <Icon3D icon={Icon} size="sm" />
-                <span className="min-w-0 flex-1 break-all font-mono text-sm text-foreground group-hover:text-accent">
+                <Icon aria-hidden className="h-4 w-4 shrink-0 text-forest" />
+                <span className="min-w-0 flex-1 break-all font-label text-xs uppercase tracking-widest text-ink group-hover:text-forest">
                   {label}
                 </span>
                 <ArrowUpRight
                   aria-hidden
-                  className="h-4 w-4 shrink-0 text-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                  className="h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-forest"
                 />
               </a>
             </li>

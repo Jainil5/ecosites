@@ -18,6 +18,7 @@
 - No "Pune" or local-venue wording in any rendered string (project positioning rule).
 - Keep the existing `mp-*` CSS keyframes (grid crawl, price flash, sheen, ping dot) — do not port them to JS.
 - `view-transition-name` values must be unique within a page: the **heatmap cell** owns `stock-<slug>` on the screener; table price cells deliberately do NOT (duplicate names break the morph).
+- `view-transition-name` must be a valid CSS custom identifier — dots are invalid (`stock-reliance.ns` is silently dropped by the browser), so `vtName` emits `stock-reliance-ns`. The property must also be set imperatively via a ref (`motion/vtRef.ts`): React serializes the `viewTransitionName` style prop to lowercase `view-transition-name`, which browsers reject inside a `style=""` attribute.
 - Two deliberate deviations from the spec: (a) spec §4 gave table price cells a `view-transition-name` too — dropped here because a row and a heatmap cell for the same symbol would collide on one page; (b) spec §4 said "hover tilt" on rows — `transform` on `<tr>` is unreliable across browsers, so rows get hover background elevation only and the tilt budget goes to cards/cells.
 - Test command is `npm test` (vitest run, node env). Typecheck: `npx tsc --noEmit`.
 
@@ -188,7 +189,8 @@ export const DUR = {
 } as const;
 
 /** Shared-element morph target naming: heatmap cell ⇄ detail hero. */
-export const vtName = (symbol: string) => `stock-${symbol.toLowerCase()}`;
+export const vtName = (symbol: string) =>
+  `stock-${symbol.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/^-+/, '')}`;
 ```
 
 `data.ts` append:

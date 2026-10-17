@@ -1,103 +1,109 @@
 import Link from 'next/link';
-import { ArrowRight, MessagesSquare, Globe, Sparkles, Workflow } from 'lucide-react';
+import { Activity, ArrowRight, ClipboardList, MessagesSquare } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import type { CSSProperties } from 'react';
-import { SectionHeading } from '@/components/SectionHeading';
-import { Icon3D } from '@/components/Icon3D';
-import { TiltCard } from '@/components/TiltCard';
+import { SectionIntro } from '@/components/brand/SectionIntro';
 import { products } from '@/content/brand/products';
 import type { ProductIcon } from '@/content/brand/types';
 
 const ICONS: Record<ProductIcon, LucideIcon> = {
-  globe: Globe,
-  sparkles: Sparkles,
-  workflow: Workflow,
+  register: ClipboardList,
+  pulse: Activity,
 };
 
-export function ProductsGrid() {
+/**
+ * The product grid: apps a business runs. Each card names both halves of the
+ * build and either opens the live app or asks for a walkthrough — never both,
+ * and never a route that does not exist yet.
+ */
+export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) {
   return (
-    <section id="services" className="reveal scroll-mt-24">
-      <SectionHeading eyebrow="What we do" title="Three ways we help a business grow">
-        Start with a website, add the AI and automation when it earns for you.
-      </SectionHeading>
+    <section id="products" className="gs-reveal scroll-mt-24">
+      {showHeading ? (
+        <SectionIntro index="04" label="products" title="Apps you run, not projects you wait for">
+          Two products, each with a counter half and a numbers half. Both are built
+          to be afforded by one outlet and to still work when you add the second
+          branch — tell us the scope and you approve the quote before any work starts.
+        </SectionIntro>
+      ) : null}
 
-      <div className="scene-wide grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product, i) => {
+      <div className="grid gap-4 lg:grid-cols-2">
+        {products.map((product) => {
           const Icon = ICONS[product.icon];
-          const first = i === 0;
           return (
-            <div
+            <article
               key={product.slug}
-              className="plate-in"
-              style={{ '--drift': `${1.8 + i * 0.9}rem` } as CSSProperties}
+              className="gs-card gs-card-hover flex h-full flex-col p-6 sm:p-8"
             >
-              <TiltCard max={7} className="h-full rounded-2xl">
-                <div
-                  className={`edge group flex h-full flex-col rounded-2xl p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
-                    first
-                      ? 'bg-gradient-to-b from-accent/[0.13] to-white/[0.02]'
-                      : 'bg-gradient-to-b from-white/[0.06] to-white/[0.015]'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <Icon3D icon={Icon} className="pb-5" />
-                    {/* The order is the advice: website first, then the rest. */}
-                    <span
-                      aria-hidden
-                      className={`font-mono text-xs ${first ? 'text-accent' : 'text-subtle/70'}`}
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-xl text-foreground">{product.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-subtle">{product.summary}</p>
-
-                  {first ? (
-                    <p className="mt-4 w-fit rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[11px] text-accent">
-                      Start here
-                    </p>
-                  ) : null}
-
-                  <ul className="mt-5 space-y-2 border-t border-white/[0.08] pt-4">
-                    {product.bullets.map((bullet) => (
-                      <li
-                        key={bullet}
-                        className="flex gap-2.5 text-sm leading-snug text-foreground/85"
-                      >
-                        <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="flex items-start gap-4">
+                <span className="gs-icon shrink-0">
+                  <Icon aria-hidden className="h-6 w-6" />
+                </span>
+                <div>
+                  <h3 className="gs-display gs-h3">{product.title}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-2">{product.summary}</p>
                 </div>
-              </TiltCard>
-            </div>
+              </div>
+
+              <ul className="mt-6 space-y-2.5">
+                {product.bullets.map((bullet) => (
+                  <li key={bullet} className="flex gap-3 text-sm leading-snug text-ink">
+                    <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-plane" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+
+              <dl className="mt-6 grid gap-px bg-hairline">
+                {product.modules.map((module) => (
+                  <div key={module.name} className="bg-paper p-4">
+                    <dt className="gs-label gs-label-hot">{module.name}</dt>
+                    <dd className="mt-1.5 text-sm leading-relaxed text-ink-2">{module.detail}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-auto flex flex-wrap items-center gap-4 pt-7">
+                {product.demoPath ? (
+                  <Link
+                    href={product.demoPath}
+                    className="focus-ring gs-btn gs-btn-solid"
+                  >
+                    Open it live
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </Link>
+                ) : (
+                  <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
+                    Ask for a walkthrough
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </Link>
+                )}
+                <span className="gs-label">
+                  {product.demoPath ? 'running right now' : 'in build — ask to see it'}
+                </span>
+              </div>
+            </article>
           );
         })}
       </div>
 
-      <TiltCard max={4} className="mt-5 rounded-2xl">
-        <div className="edge beacon flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-accent/[0.08] p-6 sm:flex-row sm:items-center">
-          <div className="flex items-start gap-4">
-            <MessagesSquare aria-hidden className="mt-0.5 h-6 w-6 shrink-0 text-accent" />
-            <div>
-              <h3 className="font-display text-xl text-foreground">Something else</h3>
-              <p className="mt-2 max-w-lg text-sm leading-relaxed text-subtle">
-                Not sure what you need? Tell us what hurts in your business and we will say honestly
-                whether we can help.
-              </p>
-            </div>
+      <div className="gs-card mt-4 flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center">
+        <div className="flex items-start gap-4">
+          <span className="gs-icon shrink-0">
+            <MessagesSquare aria-hidden className="h-6 w-6" />
+          </span>
+          <div>
+            <h3 className="gs-display text-xl">Something else</h3>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-ink-2">
+              Not sure what you need? Tell us what hurts in your business and we will say honestly
+              whether we can help.
+            </p>
           </div>
-          <Link
-            href="/contact"
-            className="focus-ring inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-xl bg-white/[0.07] px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background"
-          >
-            Talk to us
-            <ArrowRight aria-hidden className="h-4 w-4" />
-          </Link>
         </div>
-      </TiltCard>
+        <Link href="/contact" className="focus-ring gs-btn gs-btn-ghost shrink-0">
+          Talk to us
+          <ArrowRight aria-hidden className="h-4 w-4" />
+        </Link>
+      </div>
     </section>
   );
 }

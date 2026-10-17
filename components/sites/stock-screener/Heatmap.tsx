@@ -1,13 +1,15 @@
 'use client';
 
-import { capTier, type StockMeta } from './data';
+import { useRouter } from 'next/navigation';
+import { capTier, symbolToSlug, type StockMeta } from './data';
 import type { ChartPoint } from './types';
+import { navigateWithViewTransition } from './motion/navigate';
+import { vtName } from './motion/tokens';
+import { vtRef } from './motion/vtRef';
 import { changePct, pct } from './format';
 
 interface HeatmapProps {
   cells: { meta: StockMeta; quote?: ChartPoint }[];
-  selectedSymbol: string;
-  onSelect: (symbol: string) => void;
 }
 
 function tileStyle(change: number | null): React.CSSProperties {
@@ -19,13 +21,14 @@ function tileStyle(change: number | null): React.CSSProperties {
   };
 }
 
-export function Heatmap({ cells, selectedSymbol, onSelect }: HeatmapProps) {
+export function Heatmap({ cells }: HeatmapProps) {
+  const router = useRouter();
   const sorted = cells
     .map((c) => ({ ...c, change: changePct(c.quote?.price, c.quote?.prevClose) }))
     .sort((a, b) => b.meta.mcapCr - a.meta.mcapCr);
 
   return (
-    <section aria-label="Market heatmap" className="mb-5 rounded-xl border border-[#1C2740] bg-[#0A0F1A] p-4">
+    <section aria-label="Market heatmap" className="mp-rise mp-scene mp-depth mb-5 rounded-xl border border-[#1C2740] bg-[#0A0F1A] p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <h2 className="font-mono text-xs uppercase tracking-wider text-[#8A98B0]">
           Market heatmap · size = market cap, color = today&apos;s move
@@ -37,19 +40,20 @@ export function Heatmap({ cells, selectedSymbol, onSelect }: HeatmapProps) {
         </div>
       </div>
       <div className="grid auto-rows-[56px] grid-flow-row-dense grid-cols-4 gap-1 sm:grid-cols-6 lg:grid-cols-8">
-        {sorted.map(({ meta, quote, change }) => {
+        {sorted.map(({ meta, quote, change }, i) => {
           const tier = capTier(meta.mcapCr);
           const ticker = meta.symbol.replace('.NS', '');
           return (
             <button
               key={meta.symbol}
               type="button"
-              onClick={() => onSelect(meta.symbol)}
+              onClick={() => navigateWithViewTransition(() => router.push(`/stock-screener/${symbolToSlug(meta.symbol)}`))}
               title={`${meta.name} · ${pct(change)}`}
-              className={`focus-ring flex flex-col items-center justify-center rounded-md border transition-transform hover:scale-[1.03] ${
+              className={`mp-heat mp-cell-lift mp-rise focus-ring flex flex-col items-center justify-center rounded-md border border-[#131C2E] ${
                 tier === 'mega' ? 'col-span-2 row-span-2' : tier === 'large' ? 'col-span-2' : ''
-              } ${meta.symbol === selectedSymbol ? 'border-[#16C784]' : 'border-[#131C2E]'}`}
-              style={tileStyle(change)}
+              }`}
+              ref={vtRef(vtName(meta.symbol))}
+              style={{ ...tileStyle(change), '--d': `${Math.min(i, 40) * 25}ms` } as React.CSSProperties}
             >
               <span className={`font-mono ${tier === 'mid' ? 'text-[10px]' : 'text-xs'} text-[#E7EEF9]`}>{ticker}</span>
               {quote && (

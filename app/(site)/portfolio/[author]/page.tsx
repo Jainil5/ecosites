@@ -4,10 +4,11 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Github, Linkedin, ExternalLink } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { DemoCard } from '@/components/DemoCard';
-import { Icon3D } from '@/components/Icon3D';
+import { WebsiteCard } from '@/components/WebsiteCard';
 import { SectionHeading } from '@/components/SectionHeading';
 import { getAllAuthorSlugs, getAuthorBySlug } from '@/content/portfolio/authors';
 import { getSitesByAuthor } from '@/content/demos/sites';
+import { getWebsitesByAuthor } from '@/content/websites/sites';
 
 interface AuthorPageProps {
   params: Promise<{ author: string }>;
@@ -45,25 +46,24 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   }
 
   const caseStudies = getSitesByAuthor(author.slug);
+  const delivered = getWebsitesByAuthor(author.slug);
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 pt-12 sm:pt-16">
       <Link
         href="/portfolio"
-        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-mono text-sm text-subtle transition-colors hover:text-accent"
+        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-forest"
       >
         <ArrowLeft aria-hidden className="h-4 w-4" />
         All builders
       </Link>
 
-      <section className="animate-fade-up space-y-5">
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
+      <section className="gs-band-rise space-y-5">
+        <p className="gs-label gs-label-hot">
           {author.title} · {author.location}
         </p>
-        <h1 className="font-display text-5xl leading-[1.05] tracking-tight">
-          <span className="text-gradient text-glow">{author.name}</span>
-        </h1>
-        <p className="max-w-2xl text-lg text-subtle">{author.bio}</p>
+        <h1 className="gs-display gs-h2">{author.name}</h1>
+        <p className="max-w-2xl text-lg leading-relaxed text-ink-2">{author.bio}</p>
 
         <ul className="flex flex-wrap gap-3">
           {author.links.map((link) => {
@@ -74,9 +74,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="focus-ring group flex cursor-pointer items-center gap-3 rounded-xl glass py-2 pr-4 pl-2 font-mono text-sm text-foreground transition-colors hover:text-accent"
+                  className="focus-ring gs-btn gs-btn-ghost group"
                 >
-                  <Icon3D icon={Icon} size="sm" />
+                  <Icon aria-hidden className="h-4 w-4" />
                   {link.label}
                 </a>
               </li>
@@ -88,7 +88,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
           {author.stack.map((tech) => (
             <li
               key={tech}
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-foreground/85"
+              className="border border-hairline bg-paper px-3 py-1.5 font-label text-xs tracking-wide text-ink-2"
             >
               {tech}
             </li>
@@ -104,15 +104,30 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         </SectionHeading>
 
         {caseStudies.length === 0 ? (
-          <p className="font-mono text-sm text-subtle">No case studies published yet.</p>
+          <p className="text-sm text-ink-2">No case studies published yet.</p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {caseStudies.map((site) => (
               <DemoCard key={site.slug} site={site} />
             ))}
           </div>
         )}
       </section>
+
+      {delivered.length > 0 && (
+        <section>
+          <SectionHeading eyebrow="Client work" title="Sites running right now">
+            {delivered.length} {delivered.length === 1 ? 'business' : 'businesses'} shipped as
+            delivered work — each one opens live, with its own theme and its own data behind it.
+          </SectionHeading>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {delivered.map((site, i) => (
+              <WebsiteCard key={site.slug} site={site} priority={i === 0} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

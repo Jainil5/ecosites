@@ -41,10 +41,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   }
 
   return (
-    <article className="space-y-8">
+    <article className="space-y-8 pt-12 sm:pt-16">
       <Link
         href={`/portfolio/${author.slug}`}
-        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-mono text-sm text-subtle transition-colors hover:text-accent"
+        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-forest"
       >
         <ArrowLeft aria-hidden className="h-4 w-4" />
         {author.name}
@@ -53,19 +53,19 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           {site.category ? (
-            <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
+            <span className="bg-plane px-3 py-1 font-label text-xs uppercase tracking-widest text-ink">
               {site.category}
             </span>
           ) : null}
-          {site.period ? <span className="font-mono text-xs text-subtle">{site.period}</span> : null}
-          <span className="font-mono text-xs text-subtle">by {author.name}</span>
+          {site.period ? <span className="font-label text-xs tracking-widest text-ink-3">{site.period}</span> : null}
+          <span className="font-label text-xs tracking-widest text-ink-3">by {author.name}</span>
         </div>
-        <h1 className="font-display text-4xl text-foreground">{site.title}</h1>
-        <p className="max-w-2xl text-lg text-subtle">{site.description}</p>
+        <h1 className="gs-display gs-h2">{site.title}</h1>
+        <p className="max-w-2xl text-lg leading-relaxed text-ink-2">{site.description}</p>
       </header>
 
       {site.screenshot ? (
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl glass shadow-card">
+        <div className="relative aspect-[16/9] w-full overflow-hidden border border-hairline bg-paper">
           <Image
             src={site.screenshot}
             alt={`Screenshot of ${site.title}`}
@@ -79,11 +79,11 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
       {site.highlights?.length ? (
         <section>
-          <h2 className="font-display text-2xl text-foreground">What I built</h2>
+          <h2 className="gs-display gs-h3">What I built</h2>
           <ul className="mt-4 space-y-3">
             {site.highlights.map((h) => (
-              <li key={h} className="flex items-start gap-3 text-subtle">
-                <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+              <li key={h} className="flex items-start gap-3 leading-relaxed text-ink-2">
+                <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-forest" />
                 <span>{h}</span>
               </li>
             ))}
@@ -92,12 +92,12 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       ) : null}
 
       <section>
-        <h2 className="font-display text-xl text-foreground">Tech stack</h2>
+        <h2 className="gs-display text-xl">Tech stack</h2>
         <ul className="mt-3 flex flex-wrap gap-2">
           {site.techStack.map((tech) => (
             <li
               key={tech}
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-sm text-foreground/85"
+              className="border border-hairline bg-paper px-3 py-1.5 font-label text-sm tracking-wide text-ink-2"
             >
               {tech}
             </li>
@@ -111,7 +111,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             href={site.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-background shadow-glow transition-transform hover:-translate-y-0.5 hover:bg-accent-soft"
+            className="focus-ring gs-btn gs-btn-solid"
           >
             <ExternalLink aria-hidden className="h-4 w-4" />
             View project
@@ -122,9 +122,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             href={site.repo}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-xl glass px-5 py-3 font-semibold text-foreground transition-transform hover:-translate-y-0.5"
+            className="focus-ring gs-btn gs-btn-ghost"
           >
-            <Github aria-hidden className="h-4 w-4 text-accent" />
+            <Github aria-hidden className="h-4 w-4" />
             Source
           </a>
         ) : null}

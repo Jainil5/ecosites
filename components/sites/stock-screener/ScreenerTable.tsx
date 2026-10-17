@@ -1,16 +1,25 @@
 'use client';
 
-import { Fragment } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Star } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { ChartPoint } from './types';
 import type { StockMeta } from './data';
+import { symbolToSlug } from './data';
+import type { LiveTick } from './useLiveTicks';
+import { PingDot } from './PingDot';
 import { Sparkline } from './Sparkline';
-import { StockDetail } from './StockDetail';
-import { changePct, compact, inr, mcapLabel, pct } from './format';
+import { spark1M } from './indicators';
+import { navigateWithViewTransition } from './motion/navigate';
+import { AnimatedNumber } from './motion/AnimatedNumber';
+import { DUR, EASE, SPRINGS } from './motion/tokens';
+import { changePct, compact, mcapLabel, pct } from './format';
 
 export interface ScreenerRow {
   meta: StockMeta;
   quote?: ChartPoint;
+  tick?: LiveTick;
 }
 
 export type SortKey = 'name' | 'price' | 'change' | 'volume' | 'mcap' | 'pe';
@@ -30,19 +39,6 @@ const COLUMNS: { key: SortKey | null; label: string; numeric?: boolean; hide?: s
   { key: null, label: 'Div %', numeric: true, hide: 'hidden xl:table-cell' },
   { key: null, label: '52W position', hide: 'hidden xl:table-cell' },
 ];
-
-function spark1M(quote?: ChartPoint): number[] {
-  const closes = quote?.closes;
-  const timestamps = quote?.timestamps;
-  if (!closes || !timestamps) return [];
-  const lastTs = timestamps[timestamps.length - 1];
-  const cutoff = lastTs - 31 * 24 * 3600;
-  const out: number[] = [];
-  closes.forEach((c, i) => {
-    if (c != null && timestamps[i] >= cutoff) out.push(c);
-  });
-  return out;
-}
 
 function Week52Bar({ quote }: { quote?: ChartPoint }) {
   if (!quote?.week52Low || !quote?.week52High || quote.price == null || quote.week52High <= quote.week52Low) {
@@ -64,13 +60,14 @@ interface ScreenerTableProps {
   loading: boolean;
   sort: SortState;
   onSort: (key: SortKey) => void;
-  expandedSymbol: string | null;
-  onToggle: (symbol: string) => void;
   watched: string[];
   onWatchToggle: (symbol: string) => void;
 }
 
-export function ScreenerTable({ rows, loading, sort, onSort, expandedSymbol, onToggle, watched, onWatchToggle }: ScreenerTableProps) {
+export function ScreenerTable({ rows, loading, sort, onSort, watched, onWatchToggle }: ScreenerTableProps) {
+  const router = useRouter();
+  const openStock = (symbol: string) =>
+    navigateWithViewTransition(() => router.push(`/stock-screener/${symbolToSlug(symbol)}`));
   if (loading && rows.every((r) => !r.quote)) {
     return (
       <div className="space-y-2 rounded-xl border border-[#1C2740] bg-[#0A0F1A] p-4">
@@ -82,7 +79,7 @@ export function ScreenerTable({ rows, loading, sort, onSort, expandedSymbol, onT
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-[#1C2740] bg-[#0A0F1A]">
+    <div className="mp-rise mp-depth overflow-x-auto rounded-xl border border-[#1C2740] bg-[#0A0F1A]" style={{ '--d': '480ms' } as React.CSSProperties}>
       <table className="w-full min-w-[720px] border-collapse text-sm">
         <thead>
           <tr className="border-b border-[#1C2740] text-left">
@@ -110,17 +107,26 @@ export function ScreenerTable({ rows, loading, sort, onSort, expandedSymbol, onT
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ meta, quote }) => {
-            const change = changePct(quote?.price, quote?.prevClose);
-            const tone = change == null ? 'flat' : change >= 0 ? 'up' : 'down';
-            const expanded = expandedSymbol === meta.symbol;
-            const ticker = meta.symbol.replace('.NS', '');
-            return (
-              <Fragment key={meta.symbol}>
-                <tr
-                  onClick={() => onToggle(meta.symbol)}
-                  aria-expanded={expanded}
-                  className={`cursor-pointer border-b border-[#131C2E] transition-colors hover:bg-[#101828] ${expanded ? 'bg-[#101828]' : ''}`}
+          <AnimatePresence initial={false}>
+            {rows.map(({ meta, quote, tick }) => {
+              const price = tick?.price ?? quote?.price;
+              const change = changePct(price, quote?.prevClose);
+              const tone = change == null ? 'flat' : change >= 0 ? 'up' : 'down';
+              const ticker = meta.symbol.replace('.NS', '');
+              return (
+                <motion.tr
+                  key={meta.symbol}
+                  layout="position"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    layout: SPRINGS.layout,
+                    y: { duration: DUR.enter, ease: EASE.enter },
+                    opacity: { duration: DUR.exit, ease: EASE.exit },
+                  }}
+                  onClick={() => openStock(meta.symbol)}
+                  className="cursor-pointer border-b border-[#131C2E] transition-colors hover:bg-[#101828]"
                 >
                   <td className="px-3 py-2.5">
                     <div className="flex items-center gap-2">
@@ -141,12 +147,24 @@ export function ScreenerTable({ rows, loading, sort, onSort, expandedSymbol, onT
                         <Star aria-hidden className="h-3.5 w-3.5" fill={watched.includes(meta.symbol) ? 'currentColor' : 'none'} />
                       </button>
                       <div>
-                        <p className="font-mono text-sm text-[#E7EEF9]">{ticker}</p>
+                        <p className="flex items-center gap-2 font-mono text-sm text-[#E7EEF9]">
+                          <Link
+                            href={`/stock-screener/${symbolToSlug(meta.symbol)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`${ticker} — open detail page`}
+                            className="focus-ring rounded hover:text-[#16C784]"
+                          >
+                            {ticker}
+                          </Link>
+                          <PingDot dir={tick?.dir ?? 'flat'} />
+                        </p>
                         <p className="text-[11px] text-[#5B6B85]">{meta.name}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-3 py-2.5 text-right font-mono text-[#E7EEF9]">{inr(quote?.price).replace('₹', '')}</td>
+                  <td className="px-3 py-2.5 text-right font-mono text-[#E7EEF9]">
+                    <AnimatedNumber value={price} kind="inrPlain" flash className="px-1" />
+                  </td>
                   <td className={`px-3 py-2.5 text-right font-mono ${tone === 'up' ? 'text-[#16C784]' : tone === 'down' ? 'text-[#EA3943]' : 'text-[#5B6B85]'}`}>
                     {quote ? pct(change) : '—'}
                   </td>
@@ -162,17 +180,10 @@ export function ScreenerTable({ rows, loading, sort, onSort, expandedSymbol, onT
                   <td className="hidden px-3 py-2.5 xl:table-cell">
                     <Week52Bar quote={quote} />
                   </td>
-                </tr>
-                {expanded && quote && (
-                  <tr>
-                    <td colSpan={COLUMNS.length} className="p-0">
-                      <StockDetail meta={meta} quote={quote} />
-                    </td>
-                  </tr>
-                )}
-              </Fragment>
-            );
-          })}
+                </motion.tr>
+              );
+            })}
+          </AnimatePresence>
           {rows.length === 0 && (
             <tr>
               <td colSpan={COLUMNS.length} className="px-3 py-10 text-center font-mono text-sm text-[#5B6B85]">

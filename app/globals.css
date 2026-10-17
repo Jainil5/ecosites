@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  @apply bg-background font-sans text-foreground antialiased;
+  @apply bg-canvas font-body text-ink antialiased;
 }
 
 /* 3D helpers */
@@ -385,65 +385,9 @@ a:hover > .plinth::after {
   }
 }
 
-/* Rim light: a single travelling highlight circling a panel's edge.
-   @property makes the angle interpolable; where it is unsupported the
-   ring simply stays a static gradient, which is still a lit edge. */
-@property --rim-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-.beacon {
-  position: relative;
-}
-.beacon::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--rim-angle),
-    transparent 0 58%,
-    rgb(34 197 94 / 0.85) 74%,
-    rgb(34 211 238 / 0.7) 82%,
-    transparent 92%
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .beacon::after {
-    animation: rim-orbit 5.5s linear infinite;
-  }
-}
-@keyframes rim-orbit {
-  to {
-    --rim-angle: 360deg;
-  }
-}
-
-/* Scroll parallax for the fixed light field behind the shell. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .field-drift {
-      animation: field-rise both linear;
-      animation-timeline: scroll(root);
-    }
-  }
-}
-@keyframes field-rise {
-  to {
-    transform: translate3d(0, calc(var(--rise, 6) * -1vh), 0);
-  }
-}
-
 @layer components {
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
   }
 }
 
@@ -453,6 +397,401 @@ button:focus-visible {
   outline: 2px solid theme('colors.accent.DEFAULT');
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* ============================================================
+   Website IN brand skin — green "cut-plane" language (gs-*).
+   The form was sampled from the reference deck's own pixels, not
+   from its description: flat rotated colour planes, poster-scale
+   heavy caps, a *visible* construction grid, and mono corner
+   labels. Zero radius, zero gradient, zero glass.
+   Depth is real here, unlike the freehand pass: the planes sit on
+   a perspective stage and separate along Z, which is where the 3D
+   motion comes from.
+   ============================================================ */
+
+@layer components {
+  :root {
+    --gs-canvas: #e9f0ea;
+    --gs-paper: #f4f7f3;
+    --gs-ink: #0b1410;
+    --gs-hair: #cbd9cd;
+    --gs-plane: #22c55e;
+    --gs-forest: #14532d;
+    --gs-lime: #bef264;
+  }
+
+  /* The stage: a perspective box that every --pz layer reads against.
+     --mx/--my are written in px by the pointer hook and are unitless
+     multipliers here, so each plane can drift at its own rate. */
+  .gs-stage {
+    position: relative;
+    perspective: 1400px;
+    perspective-origin: 50% 45%;
+    transform-style: preserve-3d;
+  }
+
+  /* Visible construction grid: hairlines at the third and half marks,
+     like the reference. Backdrop only — it never contains layout. */
+  .gs-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to right, var(--gs-hair) 0 1px, transparent 1px),
+      linear-gradient(to right, var(--gs-hair) 0 1px, transparent 1px),
+      linear-gradient(to bottom, var(--gs-hair) 0 1px, transparent 1px);
+    background-size: 33.333% 100%, 33.333% 100%, 100% 50%;
+    opacity: 0.75;
+  }
+
+  /* One flat plane. --pz seats its depth, --rot the few degrees of tilt
+     that make it read as cut paper rather than a CSS box. */
+  .gs-plane {
+    position: absolute;
+    border-radius: 0;
+    transform-style: preserve-3d;
+    transform: translate3d(
+        calc(var(--mx, 0) * var(--dx, 0) * 1px),
+        calc(var(--my, 0) * var(--dy, 0) * 1px),
+        var(--pz, 0)
+      )
+      rotate(var(--rot, 0deg));
+    will-change: transform;
+    /* The transition is what makes the pointer read as weight rather than
+       jitter. It stays inert during gs-plane-in, which animates transform. */
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gs-plane-a {
+    background: var(--gs-plane);
+  }
+  .gs-plane-b {
+    background: var(--gs-forest);
+  }
+
+  /* Poster caps. The whole identity lives in these four declarations. */
+  .gs-display {
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--gs-ink);
+  }
+  .gs-h1 {
+    font-size: clamp(3.1rem, 10.5vw, 9rem);
+  }
+  .gs-h2 {
+    font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+  }
+  .gs-h3 {
+    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono corner labels, tracked wide. The hot variant is the single
+     lime accent the reference reserves for its metadata line. */
+  .gs-label {
+    font-family: var(--font-label), ui-monospace, monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6b7f70;
+  }
+  .gs-label-hot {
+    color: #15803d;
+  }
+
+  /* Square, heavy, no shadow. The fill swap on hover is the feedback. */
+  .gs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0.95rem 1.6rem;
+    font-family: var(--font-label), ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 240ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-btn-solid {
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
+  }
+  .gs-btn-solid:hover {
+    background: var(--gs-plane);
+    color: var(--gs-ink);
+  }
+  .gs-btn-ghost {
+    border-color: var(--gs-ink);
+    color: var(--gs-ink);
+    background: transparent;
+  }
+  .gs-btn-ghost:hover {
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
+  }
+
+  /* One card: flat paper, 1px hairline, square. */
+  .gs-card {
+    background: var(--gs-paper);
+    border: 1px solid var(--gs-hair);
+    border-radius: 0;
+    transition: border-color 240ms ease, transform 240ms ease;
+  }
+  .gs-card-hover:hover {
+    border-color: var(--gs-plane);
+    transform: translateY(-3px);
+  }
+  .gs-rule {
+    border: 0;
+    border-top: 1px solid var(--gs-hair);
+  }
+
+  /* Flat colour plate behind a glyph — the deck puts its icons on cut
+     squares, never on lit glass plinths. */
+  .gs-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--gs-plane);
+    color: var(--gs-ink);
+  }
+  .gs-icon-sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  /* Gooey metaballs. The filter is declared once in the DOM (GooDefs) and
+     referenced by id. It is applied to the blob layer ONLY: an alpha-step
+     filter destroys glyph edges, so any label has to be its own sibling
+     above the filtered element, never a child of it. */
+  .gs-goo {
+    filter: url(#gs-goo);
+    isolation: isolate;
+  }
+  .gs-blob {
+    position: absolute;
+    border-radius: 9999px;
+    background: var(--gs-plane);
+    will-change: transform;
+  }
+  .gs-goo-host {
+    position: relative;
+    display: inline-block;
+  }
+  .gs-goo-host > .gs-goo-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hover tilt: the card leans toward the cursor and its plane layer
+     separates. --rx/--ry are written by Tilt3D. */
+  .gs-tilt {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-tilt-front {
+    transform: translateZ(34px);
+  }
+
+  /* Entrances. Flat rise for bands; the planes arrive from off-canvas
+     and settle, which is the deck's "two native color planes" moment. */
+  @keyframes gs-band-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes gs-plane-in {
+    from {
+      opacity: 0;
+      transform: translate3d(var(--from-x, 30vw), var(--from-y, 0), var(--pz, 0)) rotate(var(--from-r, 12deg));
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, var(--pz, 0)) rotate(var(--rot, 0deg));
+    }
+  }
+  @keyframes gs-caps-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.42em, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes gs-blob-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(var(--bx, 1.4rem), var(--by, -0.9rem), 0) scale(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-band-rise {
+      animation: gs-band-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-plane {
+      animation: gs-plane-in 900ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-caps-rise {
+      animation: gs-caps-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-blob {
+      animation: gs-blob-drift var(--dur, 9s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+  }
+
+  /* Scroll-driven variants, so a band assembles as it enters rather than
+     all at once on load. Falls back to the assembled state when the
+     feature is unsupported. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .gs-reveal {
+        animation: gs-band-rise both linear;
+        animation-timeline: view();
+        animation-range: entry 6% entry 46%;
+      }
+      .gs-reveal-late {
+        animation-range: entry 14% entry 58%;
+      }
+    }
+  }
+
+  /* Seamless client wordmark loop; the mask fades both ends. */
+  .gs-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .gs-marquee-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+  }
+  .gs-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--gs-ink);
+  }
+  @keyframes gs-marquee-run {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-marquee-track {
+      animation: gs-marquee-run 32s linear infinite;
+    }
+    .gs-marquee:hover .gs-marquee-track {
+      animation-play-state: paused;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gs-marquee {
+      overflow-x: auto;
+    }
+  }
+
+  /* The growth band's circuit tree. The trunk draws, each tier of branches
+     cuts in above it, the pads pop last, and the whole crown sways on a long
+     ease so a static logo still reads as something alive. `pathLength={1}` on
+     every stroke means the draw is a 0→1 dash offset — nothing measured in
+     JS. Browsers without a view() timeline (or with reduced motion) simply
+     get the assembled tree, because the hidden states live inside @supports. */
+  .gs-tree {
+    overflow: visible;
+  }
+  .gs-tree-crown,
+  .gs-pad {
+    transform-box: fill-box;
+  }
+  .gs-tree-crown {
+    transform-origin: 50% 100%;
+  }
+  .gs-pad {
+    transform-origin: center;
+  }
+  @keyframes gs-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes gs-pad-pop {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.35);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes gs-tree-sway {
+    0%,
+    100% {
+      transform: rotate(-1.2deg);
+    }
+    50% {
+      transform: rotate(1.2deg);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-tree-crown {
+      animation: gs-tree-sway 11s ease-in-out infinite;
+    }
+    @supports (animation-timeline: view()) {
+      .gs-trunk,
+      .gs-branch {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: gs-draw both linear;
+        animation-timeline: view();
+        animation-range: entry var(--r0, 0%) entry var(--r1, 40%);
+      }
+      .gs-pad {
+        opacity: 0;
+        animation: gs-pad-pop both;
+        animation-timeline: view();
+        animation-range: entry var(--r0, 20%) entry var(--r1, 55%);
+        animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+    }
+  }
 }
 
 /* ============================================================
@@ -666,4 +1005,1297 @@ button:focus-visible {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ============================================================
+   Market Pulse screener — CSS-3D motion pass (mp-*)
+   An ambient perspective stage, depth plates that lift toward
+   the cursor, and flashes keyed to the 60s data refresh.
+   Entrances use fill backwards so the finished animation never
+   overrides the hover transforms that follow it; every loop
+   rests at its visible end state for reduced motion.
+   ============================================================ */
+
+/* Ambient stage: a grid horizon receding under the terminal and
+   two slow-drifting accent glows behind it all. */
+.mp-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mp-bg-grid {
+  position: absolute;
+  left: -60%;
+  right: -60%;
+  bottom: -16%;
+  height: 50%;
+  background-image: linear-gradient(rgb(28 39 64 / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(28 39 64 / 0.55) 1px, transparent 1px);
+  background-size: 46px 46px;
+  transform: perspective(520px) rotateX(60deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(transparent 10%, black 76%);
+  mask-image: linear-gradient(transparent 10%, black 76%);
+}
+.mp-glow {
+  position: absolute;
+  width: 42rem;
+  height: 42rem;
+  border-radius: 9999px;
+  filter: blur(130px);
+  opacity: 0.13;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mp-bg-grid {
+    animation: mp-grid-crawl 9s linear infinite;
+  }
+  .mp-glow-a {
+    animation: mp-drift 26s ease-in-out infinite;
+  }
+  .mp-glow-b {
+    animation: mp-drift 32s ease-in-out infinite reverse;
+  }
+}
+@keyframes mp-grid-crawl {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 46px, 0 0;
+  }
+}
+@keyframes mp-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4rem, -3rem, 0) scale(1.14);
+  }
+}
+
+/* Perspective parent for plates that then lift on translateZ. */
+.mp-scene {
+  perspective: 1200px;
+}
+
+/* Entrance: a panel rises out of the Z-plane into seat. */
+@media (prefers-reduced-motion: no-preference) {
+  .mp-rise {
+    animation: mp-rise-in 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .mp-row {
+    animation: mp-row-in 500ms ease-out backwards;
+    animation-delay: var(--d, 0ms);
+  }
+}
+@keyframes mp-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, -46px) rotateX(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mp-row-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Hover plates: the card rises toward the visitor and casts depth. */
+.mp-lift {
+  transform-style: preserve-3d;
+  transition: transform 260ms ease-out, box-shadow 260ms ease-out, border-color 260ms ease-out;
+}
+.mp-lift:hover {
+  transform: translateZ(20px);
+  box-shadow: 0 24px 40px -22px rgb(0 0 0 / 0.85);
+  border-color: rgb(42 58 87);
+}
+.mp-lift-soft:hover {
+  transform: translateZ(8px);
+  box-shadow: 0 28px 48px -26px rgb(0 0 0 / 0.85);
+}
+
+/* Heatmap cell: pop forward with a lit edge. */
+.mp-heat {
+  transform-style: preserve-3d;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, filter 200ms ease-out;
+}
+.mp-heat:hover {
+  transform: translateZ(18px) scale(1.05);
+  box-shadow: 0 16px 28px -14px rgb(0 0 0 / 0.9);
+  filter: brightness(1.18);
+  z-index: 1;
+}
+
+/* Refresh flash: a tone-tinted pulse over a plate, re-keyed by React
+   on each data update. Defined only when motion is welcome, so a
+   reduced-motion browser never paints it at all. */
+@media (prefers-reduced-motion: no-preference) {
+  .mp-flash-up,
+  .mp-flash-down {
+    animation: mp-flash-pulse 900ms ease-out forwards;
+  }
+  .mp-flash-up {
+    --mp-flash-color: rgb(22 199 132 / 0.26);
+  }
+  .mp-flash-down {
+    --mp-flash-color: rgb(234 57 67 / 0.26);
+  }
+}
+@keyframes mp-flash-pulse {
+  from {
+    background-color: var(--mp-flash-color, rgb(231 238 249 / 0.12));
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+/* Glass sheen: one raking highlight, replayed by remounting the
+   span with key={updatedAt}. Rests off-screen at both ends. */
+.mp-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mp-sheen::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(
+      100deg,
+      transparent 44%,
+      rgb(231 238 249 / 0.09) 50%,
+      transparent 56%
+    );
+    transform: translateX(-130%) skewX(-14deg);
+    animation: mp-sheen-pass 1s ease-out 150ms forwards;
+  }
+}
+@keyframes mp-sheen-pass {
+  to {
+    transform: translateX(240%) skewX(-14deg);
+  }
+}
+
+/* Cast shadow that seats a wide panel on the stage. */
+.mp-depth {
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 34px 64px -36px rgb(0 0 0 / 0.9);
+}
+
+/* ---- Screener motion pass: shared-element page morph (View Transitions API) ----
+   cubic-bezier(0.16,1,0.3,1) is the CSS mirror of EASE.enter in motion/tokens.ts — change both together. */
+::view-transition-group(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Heatmap cell hover — fake-3D lift, matches .mp-lift energy on smaller targets */
+.mp-cell-lift {
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mp-cell-lift:hover {
+  transform: perspective(600px) translate3d(0, -3px, 6px) rotateX(4deg);
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   Dream Cafe — sunrise editorial (dc-*)
+   Warm ember-to-apricot light over cream, grounded in a deep
+   botanical green. Scoped so the brand shell and the other
+   client sites keep their own tokens.
+   ============================================================ */
+.dream-cafe {
+  --dc-cream: #fbf4e9;
+  --dc-paper: #fffdf8;
+  --dc-ink: #2a211b;
+  --dc-muted: #7a6a5d;
+  --dc-line: rgba(42, 33, 27, 0.12);
+  --dc-ember: #e4572e;
+  --dc-ember-deep: #c03f1c;
+  --dc-apricot: #f2a65a;
+  --dc-honey: #f7d08a;
+  --dc-lilac: #c2a9cb;
+  --dc-green: #1f4d3a;
+  --dc-green-deep: #143026;
+  background: var(--dc-cream);
+  color: var(--dc-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* Display face: Inter pushed heavy and tight, the way a painted board is. */
+.dream-cafe .dc-display {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.dream-cafe .dc-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* --- Hero ---------------------------------------------------- */
+.dream-cafe .dc-hero-title {
+  font-size: clamp(2.6rem, 8.2vw, 5.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  font-weight: 900;
+  text-wrap: balance;
+}
+
+/* Two washes: a fixed scrim for legibility, and a slow sunrise pan
+   that keeps the still photograph moving. */
+.dream-cafe .dc-hero-wash {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(228, 87, 46, 0.72) 0%,
+      rgba(242, 166, 90, 0.42) 34%,
+      rgba(42, 33, 27, 0.34) 60%,
+      rgba(20, 15, 12, 0.82) 100%
+    ),
+    linear-gradient(180deg, rgba(20, 15, 12, 0.42) 0%, transparent 38%, rgba(20, 15, 12, 0.6) 100%);
+}
+
+.dream-cafe .dc-hero-grain {
+  background-image: linear-gradient(
+    115deg,
+    rgba(247, 208, 138, 0.34) 0%,
+    rgba(228, 87, 46, 0.2) 26%,
+    rgba(194, 169, 203, 0.26) 52%,
+    rgba(242, 166, 90, 0.3) 76%,
+    rgba(247, 208, 138, 0.34) 100%
+  );
+  background-size: 320% 320%;
+  mix-blend-mode: soft-light;
+  animation: dc-sunrise 22s ease-in-out infinite alternate;
+}
+
+@keyframes dc-sunrise {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* --- Buttons -------------------------------------------------- */
+.dream-cafe .dc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.85rem;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background-color 180ms ease, color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.dream-cafe .dc-btn-solid {
+  background: var(--dc-ember);
+  color: var(--dc-paper);
+  box-shadow: 0 14px 28px -16px rgba(228, 87, 46, 0.95);
+}
+.dream-cafe .dc-btn-solid:hover {
+  background: var(--dc-ember-deep);
+  transform: translateY(-2px);
+}
+
+.dream-cafe .dc-btn-ghost {
+  border: 1px solid rgba(255, 253, 248, 0.5);
+  color: var(--dc-paper);
+  background: rgba(20, 15, 12, 0.18);
+  backdrop-filter: blur(6px);
+}
+.dream-cafe .dc-btn-ghost:hover {
+  background: rgba(255, 253, 248, 0.16);
+  transform: translateY(-2px);
+}
+
+/* Ember on ember disappears, so the picker's primary button inverts. */
+.dream-cafe .dc-btn-cream {
+  background: var(--dc-paper);
+  color: var(--dc-ink);
+  box-shadow: 0 14px 30px rgba(58, 18, 4, 0.28);
+}
+
+.dream-cafe .dc-btn-cream:hover {
+  background: var(--dc-cream);
+  color: var(--dc-ember-deep);
+}
+
+/* --- Ticker --------------------------------------------------- */
+.dream-cafe .dc-ticker {
+  overflow: hidden;
+  background: var(--dc-green);
+  color: var(--dc-cream);
+  padding: 0.8rem 0;
+  border-block: 1px solid rgba(20, 15, 12, 0.28);
+}
+
+.dream-cafe .dc-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: dc-marquee 34s linear infinite;
+}
+.dream-cafe .dc-ticker:hover .dc-ticker-track {
+  animation-play-state: paused;
+}
+
+.dream-cafe .dc-ticker-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding-inline: 1.6rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+@keyframes dc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- Menu board ----------------------------------------------- */
+.dream-cafe .dc-items {
+  display: grid;
+  gap: 1.6rem 3rem;
+  margin-top: 1.75rem;
+}
+@media (min-width: 900px) {
+  .dream-cafe .dc-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.dream-cafe .dc-item {
+  break-inside: avoid;
+}
+
+/* The dotted leader a printed menu uses, drawn in CSS so it flexes. */
+.dream-cafe .dc-leader {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted rgba(42, 33, 27, 0.38);
+  transform: translateY(-0.28em);
+}
+
+.dream-cafe .dc-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--dc-line);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dc-muted);
+  background: var(--dc-paper);
+}
+
+.dream-cafe .dc-pill-badge {
+  border-color: rgba(228, 87, 46, 0.4);
+  background: rgba(228, 87, 46, 0.09);
+  color: var(--dc-ember-deep);
+  font-weight: 700;
+}
+
+/* --- Pick your cup -------------------------------------------- */
+/* The landing screen: the shortlist sits centre-stage on a sunrise
+   wash, the four options orbit it as cream tiles, and selecting one
+   morphs the photo, the name on the cup, and the line beside it. */
+.dream-cafe .dc-pick {
+  background:
+    radial-gradient(120% 95% at 80% 12%, rgba(247, 208, 138, 0.5), transparent 58%),
+    linear-gradient(155deg, #5f1a09 0%, #a83214 30%, #e4572e 64%, #f2a65a 100%);
+}
+
+.dream-cafe .dc-pick-wash {
+  position: absolute;
+  inset: -22%;
+  background:
+    radial-gradient(40% 40% at 24% 30%, rgba(242, 166, 90, 0.55), transparent 70%),
+    radial-gradient(36% 36% at 74% 74%, rgba(247, 208, 138, 0.42), transparent 72%);
+  animation: dc-pick-breathe 15s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes dc-pick-breathe {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.14) translateY(-2%);
+  }
+}
+
+/* --- Tabs ------------------------------------------------------ */
+.dream-cafe .dc-pick-tabs {
+  position: relative;
+  display: inline-flex;
+  margin-top: 2rem;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(42, 21, 12, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(251, 244, 233, 0.18);
+}
+
+.dream-cafe .dc-pick-pill {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  border-radius: 999px;
+  background: var(--dc-paper);
+  box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pick-pill[data-pos='1'] {
+  transform: translateX(100%);
+}
+
+.dream-cafe .dc-pick-tab {
+  position: relative;
+  z-index: 1;
+  min-width: 118px;
+  padding: 0.62rem 1.5rem;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 233, 0.82);
+  transition: color 260ms ease;
+}
+
+.dream-cafe .dc-pick-tab[aria-selected='true'] {
+  color: var(--dc-ink);
+}
+
+/* --- The selected line ----------------------------------------- */
+.dream-cafe .dc-pick-reason {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.7rem;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dc-ink);
+  background: var(--dc-honey);
+}
+
+.dream-cafe .dc-pick-info {
+  margin-top: 1.6rem;
+  animation: dc-pick-rise 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dc-pick-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Stage ----------------------------------------------------- */
+.dream-cafe .dc-pick-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 34px;
+}
+
+.dream-cafe .dc-pick-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.dream-cafe .dc-pick-frame {
+  position: relative;
+  width: min(74vw, 350px);
+  aspect-ratio: 3 / 4;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 44px 90px rgba(58, 18, 4, 0.5);
+}
+
+.dream-cafe .dc-pick-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.86));
+  pointer-events: none;
+}
+
+.dream-cafe .dc-pick-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 640ms ease, transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pick-img-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dream-cafe .dc-pick-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 1;
+  text-align: center;
+  font-size: clamp(24px, 3.2vw, 36px);
+  color: var(--dc-cream);
+  text-shadow: 0 2px 24px rgba(46, 14, 4, 0.75);
+  animation: dc-pick-name 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+@keyframes dc-pick-name {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Orbiting tiles -------------------------------------------- */
+/* `rotate` and `translate` are kept off `transform` so the lean, the
+   bob and the hover lift never fight each other. */
+.dream-cafe .dc-pick-card {
+  position: absolute;
+  width: clamp(82px, 9.4vw, 112px);
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 0;
+  background: var(--dc-paper);
+  border: 3px solid var(--dc-paper);
+  cursor: pointer;
+  box-shadow: 0 20px 42px rgba(58, 18, 4, 0.42);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    rotate 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, border-color 260ms ease;
+  animation: dc-pick-pop 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    dc-pick-float 7s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 95ms), calc(var(--i, 0) * -1.35s);
+}
+
+@keyframes dc-pick-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.72) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dc-pick-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -11px;
+  }
+}
+
+.dream-cafe .dc-pick-card:hover {
+  transform: translateY(-7px) scale(1.06);
+  rotate: 0deg;
+  box-shadow: 0 28px 54px rgba(58, 18, 4, 0.5);
+}
+
+.dream-cafe .dc-pick-card[data-active='true'] {
+  border-color: var(--dc-honey);
+  box-shadow: 0 0 0 4px rgba(247, 208, 138, 0.45), 0 22px 46px rgba(58, 18, 4, 0.5);
+}
+
+/* Two left, two right, each leaning its own way. */
+.dream-cafe .dc-pick-card[data-slot='0'] {
+  left: -3%;
+  top: 5%;
+  rotate: -8deg;
+}
+.dream-cafe .dc-pick-card[data-slot='1'] {
+  left: -7%;
+  bottom: 11%;
+  rotate: 6deg;
+}
+.dream-cafe .dc-pick-card[data-slot='2'] {
+  right: -5%;
+  top: 13%;
+  rotate: 7deg;
+}
+.dream-cafe .dc-pick-card[data-slot='3'] {
+  right: -2%;
+  bottom: 4%;
+  rotate: -6deg;
+}
+
+.dream-cafe .dc-pick-card-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 4px 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--dc-ink);
+  background: var(--dc-paper);
+}
+
+/* --- Narrow screens -------------------------------------------- */
+@media (max-width: 1023px) {
+  .dream-cafe .dc-pick-stage {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-items: center;
+    gap: 10px;
+    padding: 0;
+  }
+  .dream-cafe .dc-pick-hero {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-bottom: 8px;
+  }
+  .dream-cafe .dc-pick-frame {
+    width: min(70vw, 290px);
+  }
+  .dream-cafe .dc-pick-card {
+    position: static;
+    width: 100%;
+    height: 74px;
+    rotate: none;
+    animation: none;
+  }
+  /* The caption on the cup already names it; labels would collide. */
+  .dream-cafe .dc-pick-card-name {
+    display: none;
+  }
+}
+
+/* --- Story band ----------------------------------------------- */
+.dream-cafe .dc-story {
+  background: var(--dc-green);
+  color: var(--dc-cream);
+}
+
+.dream-cafe .dc-story-glow {
+  background:
+    radial-gradient(58% 46% at 18% 8%, rgba(228, 87, 46, 0.5), transparent 70%),
+    radial-gradient(52% 44% at 84% 92%, rgba(194, 169, 203, 0.34), transparent 72%);
+}
+
+/* --- Cards ---------------------------------------------------- */
+.dream-cafe .dc-card {
+  background: var(--dc-paper);
+  border: 1px solid var(--dc-line);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px -30px rgba(42, 33, 27, 0.55);
+}
+
+/* --- Mosaic --------------------------------------------------- */
+.dream-cafe .dc-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 9rem;
+  gap: 1.1rem;
+}
+@media (min-width: 768px) {
+  .dream-cafe .dc-mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 13rem;
+    gap: 1.5rem;
+  }
+}
+.dream-cafe .dc-mosaic-tall {
+  grid-row: span 2;
+}
+
+.dream-cafe .dc-shot {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 5px solid var(--dc-paper);
+  background: var(--dc-paper);
+  box-shadow: 0 22px 44px -26px rgba(42, 33, 27, 0.7);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease;
+}
+.dream-cafe .dc-shot:hover {
+  transform: rotate(0deg) translateY(-7px) scale(1.015);
+  box-shadow: 0 34px 60px -28px rgba(42, 33, 27, 0.8);
+}
+
+.dream-cafe .dc-shot-caption {
+  position: absolute;
+  left: 0.65rem;
+  bottom: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  background: rgba(20, 15, 12, 0.62);
+  backdrop-filter: blur(5px);
+  color: var(--dc-cream);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dream-cafe .dc-shot-dot {
+  height: 0.35rem;
+  width: 0.35rem;
+  border-radius: 999px;
+  background: var(--dc-honey);
+}
+
+/* --- Footer --------------------------------------------------- */
+.dream-cafe .dc-footer {
+  background: var(--dc-green-deep);
+  color: var(--dc-cream);
+}
+
+/* --- The pour: six plates at real depths, one shared timeline ---- */
+.dream-cafe .dc-pour-scene {
+  --dc-loop: 9s;
+  perspective: 720px;
+}
+
+/* Sized down and faded on small screens so the headline keeps the room,
+   and lifted clear of the bottom edge so the glass stays in the first view. */
+.dream-cafe .dc-pour-anchor {
+  position: absolute;
+  right: -3%;
+  bottom: 21%;
+  width: 41%;
+  max-width: 210px;
+  opacity: 0.46;
+}
+
+@media (min-width: 768px) {
+  .dream-cafe .dc-pour-anchor {
+    top: 52%;
+    bottom: auto;
+    right: 2%;
+    width: 35%;
+    max-width: 320px;
+    transform: translateY(-50%);
+    opacity: 0.7;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dream-cafe .dc-pour-anchor {
+    right: 3.5%;
+    width: 29%;
+    max-width: 350px;
+    opacity: 0.86;
+  }
+}
+
+@media (min-width: 1440px) {
+  .dream-cafe .dc-pour-anchor {
+    right: 6.5%;
+  }
+}
+
+.dream-cafe .dc-pour-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 200 / 260;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--gx, 0) * 1deg)) rotateY(calc(9deg + var(--gy, 0) * 1deg));
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pour-idle {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.dream-cafe .dc-pour-plate {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(var(--lz, 0px));
+  animation: dc-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.dream-cafe .dc-pour-plate > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@keyframes dc-pour-assemble {
+  from {
+    opacity: 0;
+    transform: translateZ(calc(var(--lz, 0px) - 130px)) rotateY(-32deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(var(--lz, 0px));
+  }
+}
+
+/* Every part below rests in its finished state, so a browser that asks for
+   reduced motion gets a full glass with the shot still running into it. */
+.dream-cafe .dc-pour-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dream-cafe .dc-pour-level {
+  transform-box: view-box;
+  transform-origin: 100px 206px;
+}
+
+.dream-cafe .dc-pour-crema {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.9;
+}
+
+.dream-cafe .dc-pour-plume {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(5px);
+  opacity: 0.32;
+}
+
+.dream-cafe .dc-pour-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.dream-cafe .dc-pour-stream {
+  stroke-dasharray: 100;
+}
+
+.dream-cafe .dc-pour-shine {
+  opacity: 0.2;
+}
+
+.dream-cafe .dc-pour-steam {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dream-cafe .dc-pour-idle {
+    animation: dc-pour-yaw 16s ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-halo {
+    animation: dc-pour-halo var(--dc-loop) ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-level {
+    animation: dc-pour-level var(--dc-loop) ease-in-out infinite;
+  }
+  .dream-cafe .dc-pour-stream {
+    animation: dc-pour-stream var(--dc-loop) linear infinite;
+    animation-delay: calc(var(--k, 0) * -0.3s);
+  }
+  .dream-cafe .dc-pour-crema {
+    animation: dc-pour-crema var(--dc-loop) ease-out infinite;
+  }
+  .dream-cafe .dc-pour-plume {
+    animation: dc-pour-plume var(--dc-loop) ease-out infinite;
+    animation-delay: calc(var(--k, 0) * -0.55s);
+  }
+  .dream-cafe .dc-pour-ripple {
+    animation: dc-pour-ripple 3s ease-out infinite;
+    animation-delay: calc(var(--k, 0) * 0.8s);
+  }
+  .dream-cafe .dc-pour-shine {
+    animation: dc-pour-shine var(--dc-loop) ease-in-out infinite;
+    animation-delay: calc(var(--k, 0) * -1.2s);
+  }
+  .dream-cafe .dc-pour-steam {
+    animation: dc-pour-steam var(--dc-loop) ease-out infinite;
+    animation-delay: calc(var(--k, 0) * -2.6s);
+  }
+}
+
+@keyframes dc-pour-yaw {
+  0%,
+  100% {
+    transform: rotateY(-6deg);
+  }
+  50% {
+    transform: rotateY(8deg);
+  }
+}
+
+@keyframes dc-pour-halo {
+  0%,
+  100% {
+    opacity: 0.86;
+    transform: scale(1);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* The shot lands, the level swells, then settles back over the rest of the loop. */
+@keyframes dc-pour-level {
+  0%,
+  12% {
+    transform: scaleY(1);
+  }
+  46% {
+    transform: scaleY(1.075);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dc-pour-stream {
+  0%,
+  7% {
+    opacity: 0;
+    stroke-dashoffset: 100;
+  }
+  9% {
+    opacity: 1;
+    stroke-dashoffset: 100;
+  }
+  16%,
+  42% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  48% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 100;
+  }
+}
+
+/* The disc starts spreading the moment the shot reaches the surface. */
+@keyframes dc-pour-crema {
+  0%,
+  14% {
+    opacity: 0.55;
+    transform: scale(0.62);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  58% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(0.62);
+  }
+}
+
+@keyframes dc-pour-plume {
+  0%,
+  16% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-6deg);
+  }
+  40% {
+    opacity: 0.34;
+    transform: scale(1.05) rotate(5deg);
+  }
+  70% {
+    opacity: 0.2;
+    transform: scale(1.25) rotate(12deg);
+  }
+  92%,
+  100% {
+    opacity: 0;
+    transform: scale(1.4) rotate(16deg);
+  }
+}
+
+@keyframes dc-pour-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  22% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+@keyframes dc-pour-shine {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  42% {
+    opacity: 0.46;
+  }
+}
+
+@keyframes dc-pour-steam {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translateY(8px) scaleX(0.9);
+  }
+  60% {
+    opacity: 0.42;
+  }
+  84% {
+    opacity: 0.26;
+    transform: translateY(-14px) scaleX(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-22px) scaleX(1.12);
+  }
+}
+
+/* --- Menu board unfolding on a top hinge -------------------------- */
+.dream-cafe .dc-unfold {
+  opacity: 0;
+  transform: perspective(900px) rotateX(-14deg) scaleY(0.86);
+  transform-origin: top center;
+  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1), opacity 620ms ease-out;
+}
+
+.dream-cafe .dc-unfold[data-open='true'] {
+  opacity: 1;
+  transform: perspective(900px) rotateX(0deg) scaleY(1);
+}
+
+/* Rows light up in reading order once the group has hinged down. */
+.dream-cafe .dc-unfold .dc-item {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms ease-out, transform 420ms ease-out;
+  transition-delay: calc(200ms + var(--i, 0) * 28ms);
+}
+
+.dream-cafe .dc-unfold[data-open='true'] .dc-item {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dream-cafe .dc-hero-grain,
+  .dream-cafe .dc-ticker-track,
+  .dream-cafe .dc-pour-plate {
+    animation: none;
+  }
+  .dream-cafe .dc-ticker {
+    overflow-x: auto;
+  }
+  .dream-cafe .dc-shot,
+  .dream-cafe .dc-shot:hover {
+    transform: none;
+    transition: none;
+  }
+  .dream-cafe .dc-btn:hover {
+    transform: none;
+  }
+  .dream-cafe .dc-unfold,
+  .dream-cafe .dc-unfold .dc-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dream-cafe .dc-pick-wash {
+    animation: none;
+  }
+  .dream-cafe .dc-pick-card {
+    animation: none;
+    transition-duration: 0s;
+  }
+  .dream-cafe .dc-pick-card:hover {
+    transform: none;
+  }
+  .dream-cafe .dc-pick-img {
+    transition: opacity 200ms ease;
+    transform: none;
+  }
+  .dream-cafe .dc-pick-info,
+  .dream-cafe .dc-pick-name {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Market Pulse — section chrome (mps-*).
+   The tab bar, panel heads and meters the News / Analysis / Trends
+   pages are built from. mp-* stays frozen; this block only adds.
+   ============================================================ */
+
+/* Underline text-tabs, the way the reference dashboard navigates. */
+.mps-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.9rem;
+  border-bottom: 1px solid rgb(28 39 64 / 0.9);
+}
+.mps-tab {
+  position: relative;
+  padding: 0.6rem 0.85rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #5b6b85;
+  transition: color 220ms ease;
+}
+.mps-tab::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #16c784, #4da3ff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mps-tab:hover {
+  color: #c9d6ea;
+}
+.mps-tab:focus-visible {
+  outline: 2px solid #16c784;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.mps-tab-on {
+  color: #e7eef9;
+}
+.mps-tab-on::after {
+  transform: scaleX(1);
+}
+
+/* Timeframe / signal chips. The active one is the only green thing in the row. */
+.mps-chip {
+  border: 1px solid #1c2740;
+  border-radius: 999px;
+  background: #0a0f1a;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a98b0;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+.mps-chip:hover {
+  color: #e7eef9;
+  border-color: #2a3a57;
+}
+.mps-chip:focus-visible {
+  outline: 2px solid #16c784;
+  outline-offset: 2px;
+}
+.mps-chip-on {
+  color: #16c784;
+  border-color: rgb(22 199 132 / 0.45);
+  background: rgb(22 199 132 / 0.1);
+}
+
+/* Meters and rotation bars grow into place rather than snapping. */
+@media (prefers-reduced-motion: no-preference) {
+  .mps-bar-segment {
+    transition: width 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Scorecard table: the header row stays a quiet caption, rows answer the pointer. */
+.mps-table tbody tr {
+  transition: background-color 200ms ease;
+}
+.mps-table tbody tr:hover {
+  background: rgb(231 238 249 / 0.03);
+}
+
+/* The section title is the one element shared by every tab, so it morphs
+   between them instead of being replaced. */
+.mps-head {
+  view-transition-name: mps-section-head;
 }

@@ -3,6 +3,7 @@ import type { SampleWebsite } from './types';
 export const websites = [
   {
     slug: 'hair-adore',
+    author: 'jainil-patel',
     title: 'Hair Adore',
     business: 'Premium unisex salon',
     description:
@@ -15,6 +16,7 @@ export const websites = [
   },
   {
     slug: 'stock-screener',
+    author: 'jainil-patel',
     title: 'Market Pulse',
     business: 'NSE stock screener · Live market data',
     description:
@@ -26,7 +28,21 @@ export const websites = [
     screenshot: '/showcase/stock-screener/preview.png',
   },
   {
+    slug: 'dream-cafe',
+    author: 'jainil-patel',
+    title: 'Dream Cafe',
+    business: 'Bagel and coffee bar',
+    description:
+      'A neighbourhood bagel bakery built around morning light: hand-rolled dough proved overnight, a single espresso base through the day, and a pressed-lunch board. Sunrise editorial theme with a scrolling ticker, full menu in one pass, and a rotated photo mosaic.',
+    path: '/dream-cafe',
+    theme: 'Sunrise editorial',
+    accent: '#E4572E',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
+    screenshot: '/showcase/dream-cafe/preview.png',
+  },
+  {
     slug: 'savour',
+    author: 'jainil-patel',
     title: 'Savour',
     business: 'Restaurant and dish guide',
     description:
@@ -41,4 +57,9 @@ export const websites = [
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {
   return websites.find((site) => site.slug === slug);
+}
+
+/** Sites shipped by one builder, in registry order — the work page lists these. */
+export function getWebsitesByAuthor(authorSlug: string): SampleWebsite[] {
+  return websites.filter((site) => site.author === authorSlug);
 }
