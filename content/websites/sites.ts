@@ -53,6 +53,19 @@ export const websites = [
     techStack: ['Next.js', 'Supabase', 'Postgres RLS', 'Tailwind CSS', 'TypeScript'],
     screenshot: '/showcase/savour/preview.png',
   },
+  {
+    slug: 'analytical-register',
+    author: 'jainil-patel',
+    title: 'OrderBook',
+    business: 'Order register & business analytics',
+    description:
+      'A point-of-sale register for any café or shop: tap menu items to build a ticket, capture the customer, generate a GST cash memo, and send the bill on WhatsApp in one tap. Every logged order feeds a live dashboard of revenue, average order value, top items, category mix and weekday-versus-weekend trends.',
+    path: '/analytical-register',
+    theme: 'Light operator POS',
+    accent: '#B5651D',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
+    screenshot: '/showcase/analytical-register/preview.png',
+  },
 ] satisfies SampleWebsite[];
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {

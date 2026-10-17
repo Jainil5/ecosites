@@ -2299,3 +2299,52 @@ button:focus-visible {
 .mps-head {
   view-transition-name: mps-section-head;
 }
+
+/* ============================================================
+   OrderBook (analytical-register) — scoped POS theme.
+   Light, dense, tablet-first operator workspace. Never reads
+   brand tokens; rebranding updates --ob-accent at runtime.
+   ============================================================ */
+.orderbook {
+  --ob-accent: #B5651D;
+  --ob-canvas: #F6F4F0;
+  --ob-card: #FFFFFF;
+  --ob-ink: #1A1612;
+  --ob-muted: #6B615A;
+  --ob-line: #E7E0D7;
+  color-scheme: light;
+  background: var(--ob-canvas);
+  color: var(--ob-ink);
+}
+.orderbook .ob-card {
+  background: var(--ob-card);
+  border: 1px solid var(--ob-line);
+  border-radius: 14px;
+}
+.orderbook .ob-accent-text { color: var(--ob-accent); }
+.orderbook .ob-btn {
+  background: var(--ob-accent);
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+}
+.orderbook .ob-btn-ghost {
+  background: transparent;
+  color: var(--ob-ink);
+  border: 1px solid var(--ob-line);
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}
+.orderbook .ob-tile {
+  border: 1px solid var(--ob-line);
+  border-radius: 12px;
+  background: var(--ob-card);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.orderbook .ob-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+@media (prefers-reduced-motion: reduce) {
+  .orderbook .ob-tile { transition: none; }
+  .orderbook .ob-tile:hover { transform: none; box-shadow: none; }
+}
