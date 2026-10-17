@@ -84,6 +84,7 @@ describe('delivered websites on the builder work page', () => {
       'stock-screener',
       'dream-cafe',
       'savour',
+      'analytical-register',
     ]);
     expect(getWebsitesByAuthor('nobody')).toEqual([]);
   });
