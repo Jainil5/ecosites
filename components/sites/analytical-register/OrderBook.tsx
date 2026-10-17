@@ -5,6 +5,7 @@ import { StoreProvider, useOrderBook } from './store';
 import { Register } from './Register';
 import { OrdersLog } from './OrdersLog';
 import { Analytics } from './AnalyticsView';
+import { MenuManager } from './MenuManager';
 import { Settings } from './Settings';
 
 type View = 'register' | 'orders' | 'analytics' | 'menu' | 'settings';
@@ -42,9 +43,7 @@ function Workspace() {
         {view === 'register' && <Register />}
         {view === 'orders' && <OrdersLog />}
         {view === 'analytics' && <Analytics />}
-        {view === 'menu' && (
-          <p className="text-[var(--ob-muted)]">This screen is added in Tasks 8–10.</p>
-        )}
+        {view === 'menu' && <MenuManager />}
         {view === 'settings' && <Settings />}
       </main>
     </div>
