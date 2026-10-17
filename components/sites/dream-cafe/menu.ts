@@ -31,6 +31,102 @@ const item = (
   badge?: string,
 ): MenuItem => ({ name, note, amount, price: inr(amount), tags, badge });
 
+/** The shortlist we would put in front of a first-timer, priced as on the board. */
+export interface PickItem {
+  id: string;
+  name: string;
+  note: string;
+  price: string;
+  src: string;
+  /** Why this one made the shortlist rather than living only in the board. */
+  reason: string;
+}
+
+export interface PickerTab {
+  id: 'coffee' | 'food';
+  label: string;
+  items: PickItem[];
+}
+
+export const pickerTabs: PickerTab[] = [
+  {
+    id: 'coffee',
+    label: 'Coffee',
+    items: [
+      {
+        id: 'cold-brew',
+        name: 'Cold Brew',
+        note: 'Steeped twelve hours, poured over one big rock',
+        price: '₹260',
+        src: '/dream-cafe/signatures/cold-brew.jpg',
+        reason: 'Weekend favourite',
+      },
+      {
+        id: 'masala-mocha',
+        name: 'Masala Mocha',
+        note: 'Dark cocoa, cardamom, black pepper',
+        price: '₹270',
+        src: '/dream-cafe/signatures/masala-mocha.jpg',
+        reason: 'House-made',
+      },
+      {
+        id: 'filter-coffee',
+        name: 'Filter Coffee',
+        note: 'Chicory blend, frothed milk, poured tall',
+        price: '₹120',
+        src: '/dream-cafe/signatures/filter-coffee.jpg',
+        reason: 'House habit',
+      },
+      {
+        id: 'iced-latte',
+        name: 'Iced Latte',
+        note: 'Double shot, cold milk, no fuss',
+        price: '₹250',
+        src: '/dream-cafe/signatures/iced-latte.jpg',
+        reason: 'Always cold',
+      },
+    ],
+  },
+  {
+    id: 'food',
+    label: 'Food',
+    items: [
+      {
+        id: 'avocado-egg-bagel',
+        name: 'Avocado & Egg Bagel',
+        note: 'Smashed avocado, soft-boiled egg, lemon zest, chilli',
+        price: '₹380',
+        src: '/dream-cafe/signatures/avocado-egg-bagel.jpg',
+        reason: 'Most ordered',
+      },
+      {
+        id: 'everything-bagel',
+        name: 'Everything Bagel',
+        note: 'Sesame, poppy, garlic and caraway on a glossy crust',
+        price: '₹220',
+        src: '/dream-cafe/signatures/everything-bagel.jpg',
+        reason: 'Rolled daily',
+      },
+      {
+        id: 'pressed-toastie',
+        name: 'Pressed Toastie',
+        note: 'Smoked cheddar, caramelised onion, spinach',
+        price: '₹340',
+        src: '/dream-cafe/signatures/pressed-toastie.jpg',
+        reason: 'Off the press',
+      },
+      {
+        id: 'smoked-paneer-bagel',
+        name: 'Smoked Paneer Bagel',
+        note: 'House-smoked paneer, mint labneh, pickled onion',
+        price: '₹360',
+        src: '/dream-cafe/signatures/smoked-paneer-bagel.jpg',
+        reason: 'House-smoked',
+      },
+    ],
+  },
+];
+
 export const menuGroups: MenuGroup[] = [
   {
     id: 'breakfast',

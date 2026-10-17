@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function StorePage() {
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 pt-12 sm:pt-16">
       <SectionHeading eyebrow="Client work" title="Pick something you want for your business">
         Every site below is a full build: the front end, the content model, and the integrations the
         business actually needs. Open them, click around, then tell us which shape fits your

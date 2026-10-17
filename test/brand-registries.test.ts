@@ -8,25 +8,36 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists four offerings in journey order', () => {
-    expect(products.map((p) => p.slug)).toEqual([
-      'websites',
-      'motion-design',
-      'automation',
-      'ai-services',
-    ]);
+  it('lists the two named apps, counter first', () => {
+    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse']);
   });
 
   it('has unique slugs', () => {
     expect(new Set(products.map((p) => p.slug)).size).toBe(products.length);
   });
 
-  it('gives every product 3-4 bullets and a one-sentence summary', () => {
+  it('gives every product 3-4 bullets, two named halves and a one-sentence summary', () => {
     for (const product of products) {
       expect(product.bullets.length).toBeGreaterThanOrEqual(3);
       expect(product.bullets.length).toBeLessThanOrEqual(4);
       expect(product.summary.split('.').filter(Boolean).length).toBe(1);
       expect(product.title).toBe(product.title.trim());
+      // Two halves is the whole read: one purchase that does both jobs.
+      expect(product.modules.length).toBe(2);
+      for (const module of product.modules) {
+        expect(module.name.trim().length).toBeGreaterThan(0);
+        expect(module.detail.trim().length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('never points a button at a route that is not built', () => {
+    // ProductsGrid swaps "Open it live" for "Ask for a walkthrough" when
+    // demoPath is absent, so an unresolvable path here would be a 404 link
+    // the customer clicks on the way to buying something.
+    for (const product of products) {
+      if (!product.demoPath) continue;
+      expect(resolveRoute(product.demoPath), `${product.slug} -> ${product.demoPath}`).not.toBeNull();
     }
   });
 });
@@ -41,7 +52,12 @@ describe('company registry', () => {
 
   it('never quotes a price in marketing copy', () => {
     const text = `${company.tagline} ${company.pitch} ${products
-      .map((p) => `${p.title} ${p.summary} ${p.step} ${p.bullets.join(' ')}`)
+      .map(
+        (p) =>
+          `${p.title} ${p.summary} ${p.modules
+            .map((m) => `${m.name} ${m.detail}`)
+            .join(' ')} ${p.bullets.join(' ')}`,
+      )
       .join(' ')}`;
     expect(text).not.toMatch(/₹|Rs\.?|price[d]? from|starting at|\d{4,5}/);
   });

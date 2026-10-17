@@ -1,34 +1,26 @@
 import type { Metadata } from 'next';
-import { Fira_Code, Fraunces, Fustat, Geist_Mono, Inter, Playfair_Display, Source_Serif_4 } from 'next/font/google';
+import { Archivo, Fira_Code, Fraunces, Geist_Mono, Inter, Playfair_Display } from 'next/font/google';
 import { company } from '@/content/brand/company';
 import { siteUrl } from '@/content/brand/site';
 import './globals.css';
 
-// freehand.ai sets its headlines in the licensed BL Pylon Serif at weight 300.
-// Source Serif 4 is the closest free face that actually ships a 300.
-const display = Source_Serif_4({
+// The brand's poster face. The reference form sets headlines in a heavy
+// grotesque in caps, so display carries both the headlines and body copy —
+// Archivo ships 100-900, which is why one family covers the whole skin.
+const display = Archivo({
   subsets: ['latin'],
-  weight: ['300', '400', '600'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-display',
   display: 'swap',
 });
 
-// Brand-scoped mono and body faces. These deliberately do NOT replace
-// --font-mono or --font-sans: 13 screener files read font-mono, and
-// Dream Cafe's .dc-display inherits var(--font-sans) at weight 800.
+// Brand-scoped mono. This deliberately does NOT replace --font-mono:
+// 13 screener files read font-mono, and Dream Cafe's .dc-display inherits
+// var(--font-sans) at weight 800.
 const label = Geist_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-label',
-  display: 'swap',
-});
-
-// Fustat has no italic axis, so no style is requested here.
-const body = Fustat({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-body',
   display: 'swap',
 });
 
@@ -84,9 +76,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${display.variable} ${label.variable} ${body.variable} ${mono.variable} ${sans.variable} ${serif.variable} ${displaySerif.variable}`}
+      className={`dark ${display.variable} ${label.variable} ${mono.variable} ${sans.variable} ${serif.variable} ${displaySerif.variable}`}
     >
-      <body className="font-sans text-foreground antialiased">{children}</body>
+      <body className="font-body text-ink antialiased">{children}</body>
     </html>
   );
 }

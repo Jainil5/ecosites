@@ -5,6 +5,7 @@ import { Hero } from './Hero';
 import { MenuBoard } from './MenuBoard';
 import { Mosaic } from './Mosaic';
 import { Nav } from './Nav';
+import { PickYourCup } from './PickYourCup';
 import { SiteFooter } from './SiteFooter';
 import { Story } from './Story';
 import { Ticker } from './Ticker';
@@ -32,6 +33,7 @@ export function DreamCafe() {
     <div className="dream-cafe min-h-screen">
       <Nav scrolled={scrolled} />
       <main>
+        <PickYourCup />
         <Hero />
         <Ticker />
         <MenuBoard />

@@ -1,55 +1,61 @@
 import type { Product } from './types';
 
-/** Ordered as the journey: get found, get known, get running, get smart. */
+/**
+ * The products are apps a business runs, not capabilities it buys — the
+ * capabilities live in `services.ts`. Each entry names its halves, because
+ * both of these are sold as one screen for the counter and one for the
+ * numbers behind it.
+ */
 export const products: Product[] = [
   {
-    slug: 'websites',
-    title: 'Websites',
-    summary: 'A fast site that sells for you — services, photos, prices and bookings.',
-    icon: 'globe',
-    step: 'Get Found',
+    slug: 'order-book',
+    title: 'Order Book',
+    summary:
+      'Take the order at the counter and read the numbers back at closing, in one app.',
+    icon: 'register',
     bullets: [
-      'Business site with your services, gallery and prices',
-      'Booking or enquiry button that lands on your phone',
-      'Update menus and offers yourself, no developer needed',
-      'Built mobile-first, because that is where customers are',
+      'Bill screen built for the phone or tablet already on the counter',
+      'GST cash memo with the split worked out, sent on WhatsApp in one tap',
+      'Menu, taxes and offers you edit yourself — no developer in the loop',
+      'Runs in the browser you have open, so nothing new to install',
+    ],
+    modules: [
+      {
+        name: 'The register',
+        detail:
+          'Items, quantities, taxes and the running total, with the finished bill one tap away.',
+      },
+      {
+        name: 'Smart Analytical Register',
+        detail:
+          'The dashboard that reads the day back to you: best sellers, slow items, and the trend since you started keeping records.',
+      },
     ],
   },
   {
-    slug: 'motion-design',
-    title: 'Motion design',
-    summary: 'A design pass that makes the site move — and makes the business look established.',
-    icon: 'clapperboard',
-    step: 'Get Known',
+    slug: 'market-pulse',
+    title: 'Market Pulse',
+    summary:
+      'A screener you set yourself, with live NSE quotes, charts and the news behind the move.',
+    icon: 'pulse',
     bullets: [
-      '3D hero moment and animated logo built into your site',
-      'Scroll reveals and micro-interactions across every page',
-      'Lightweight CSS motion — fast on cheap phones',
-      'Works on a new site or as an upgrade to the one you have',
+      'Sort and filter the list on the numbers that matter to you',
+      'Live quotes streamed from public market endpoints, no broker login',
+      'Per-stock charts with moving averages and momentum signals drawn in the browser',
+      'A news desk that keeps the reason for a move beside the price',
     ],
-  },
-  {
-    slug: 'automation',
-    title: 'Automation',
-    summary: 'The repetitive back-office work runs itself: orders, lists and reminders.',
-    icon: 'workflow',
-    step: 'Get Running',
-    bullets: [
-      'Orders and enquiries into one inbox or sheet',
-      'Follow-up messages on a schedule, not from memory',
-      'Month-end summary without rebuilding a spreadsheet',
+    modules: [
+      {
+        name: 'The screener',
+        detail:
+          'Price, range, earnings and dividend in one sortable table, with a watchlist you control.',
+      },
+      {
+        name: 'Charts and news',
+        detail:
+          'The stock on its own chart with average bands, and the headlines that moved it.',
+      },
     ],
-  },
-  {
-    slug: 'ai-services',
-    title: 'AI assistant',
-    summary: 'An assistant that answers customers in your voice, at any hour.',
-    icon: 'sparkles',
-    step: 'Get Smart',
-    bullets: [
-      'Website assistant for timings, stock and pricing questions',
-      'Drafts for offers, posts and menus from your own details',
-      'Reports that read your numbers so you do not have to',
-    ],
+    demoPath: '/stock-screener',
   },
 ];

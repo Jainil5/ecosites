@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  @apply bg-background font-sans text-foreground antialiased;
+  @apply bg-canvas font-body text-ink antialiased;
 }
 
 /* 3D helpers */
@@ -385,65 +385,9 @@ a:hover > .plinth::after {
   }
 }
 
-/* Rim light: a single travelling highlight circling a panel's edge.
-   @property makes the angle interpolable; where it is unsupported the
-   ring simply stays a static gradient, which is still a lit edge. */
-@property --rim-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-.beacon {
-  position: relative;
-}
-.beacon::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--rim-angle),
-    transparent 0 58%,
-    rgb(34 197 94 / 0.85) 74%,
-    rgb(34 211 238 / 0.7) 82%,
-    transparent 92%
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .beacon::after {
-    animation: rim-orbit 5.5s linear infinite;
-  }
-}
-@keyframes rim-orbit {
-  to {
-    --rim-angle: 360deg;
-  }
-}
-
-/* Scroll parallax for the fixed light field behind the shell. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .field-drift {
-      animation: field-rise both linear;
-      animation-timeline: scroll(root);
-    }
-  }
-}
-@keyframes field-rise {
-  to {
-    transform: translate3d(0, calc(var(--rise, 6) * -1vh), 0);
-  }
-}
-
 @layer components {
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
   }
 }
 
@@ -453,6 +397,401 @@ button:focus-visible {
   outline: 2px solid theme('colors.accent.DEFAULT');
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* ============================================================
+   Website IN brand skin — green "cut-plane" language (gs-*).
+   The form was sampled from the reference deck's own pixels, not
+   from its description: flat rotated colour planes, poster-scale
+   heavy caps, a *visible* construction grid, and mono corner
+   labels. Zero radius, zero gradient, zero glass.
+   Depth is real here, unlike the freehand pass: the planes sit on
+   a perspective stage and separate along Z, which is where the 3D
+   motion comes from.
+   ============================================================ */
+
+@layer components {
+  :root {
+    --gs-canvas: #e9f0ea;
+    --gs-paper: #f4f7f3;
+    --gs-ink: #0b1410;
+    --gs-hair: #cbd9cd;
+    --gs-plane: #22c55e;
+    --gs-forest: #14532d;
+    --gs-lime: #bef264;
+  }
+
+  /* The stage: a perspective box that every --pz layer reads against.
+     --mx/--my are written in px by the pointer hook and are unitless
+     multipliers here, so each plane can drift at its own rate. */
+  .gs-stage {
+    position: relative;
+    perspective: 1400px;
+    perspective-origin: 50% 45%;
+    transform-style: preserve-3d;
+  }
+
+  /* Visible construction grid: hairlines at the third and half marks,
+     like the reference. Backdrop only — it never contains layout. */
+  .gs-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to right, var(--gs-hair) 0 1px, transparent 1px),
+      linear-gradient(to right, var(--gs-hair) 0 1px, transparent 1px),
+      linear-gradient(to bottom, var(--gs-hair) 0 1px, transparent 1px);
+    background-size: 33.333% 100%, 33.333% 100%, 100% 50%;
+    opacity: 0.75;
+  }
+
+  /* One flat plane. --pz seats its depth, --rot the few degrees of tilt
+     that make it read as cut paper rather than a CSS box. */
+  .gs-plane {
+    position: absolute;
+    border-radius: 0;
+    transform-style: preserve-3d;
+    transform: translate3d(
+        calc(var(--mx, 0) * var(--dx, 0) * 1px),
+        calc(var(--my, 0) * var(--dy, 0) * 1px),
+        var(--pz, 0)
+      )
+      rotate(var(--rot, 0deg));
+    will-change: transform;
+    /* The transition is what makes the pointer read as weight rather than
+       jitter. It stays inert during gs-plane-in, which animates transform. */
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gs-plane-a {
+    background: var(--gs-plane);
+  }
+  .gs-plane-b {
+    background: var(--gs-forest);
+  }
+
+  /* Poster caps. The whole identity lives in these four declarations. */
+  .gs-display {
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--gs-ink);
+  }
+  .gs-h1 {
+    font-size: clamp(3.1rem, 10.5vw, 9rem);
+  }
+  .gs-h2 {
+    font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+  }
+  .gs-h3 {
+    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono corner labels, tracked wide. The hot variant is the single
+     lime accent the reference reserves for its metadata line. */
+  .gs-label {
+    font-family: var(--font-label), ui-monospace, monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6b7f70;
+  }
+  .gs-label-hot {
+    color: #15803d;
+  }
+
+  /* Square, heavy, no shadow. The fill swap on hover is the feedback. */
+  .gs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0.95rem 1.6rem;
+    font-family: var(--font-label), ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 240ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-btn-solid {
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
+  }
+  .gs-btn-solid:hover {
+    background: var(--gs-plane);
+    color: var(--gs-ink);
+  }
+  .gs-btn-ghost {
+    border-color: var(--gs-ink);
+    color: var(--gs-ink);
+    background: transparent;
+  }
+  .gs-btn-ghost:hover {
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
+  }
+
+  /* One card: flat paper, 1px hairline, square. */
+  .gs-card {
+    background: var(--gs-paper);
+    border: 1px solid var(--gs-hair);
+    border-radius: 0;
+    transition: border-color 240ms ease, transform 240ms ease;
+  }
+  .gs-card-hover:hover {
+    border-color: var(--gs-plane);
+    transform: translateY(-3px);
+  }
+  .gs-rule {
+    border: 0;
+    border-top: 1px solid var(--gs-hair);
+  }
+
+  /* Flat colour plate behind a glyph — the deck puts its icons on cut
+     squares, never on lit glass plinths. */
+  .gs-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--gs-plane);
+    color: var(--gs-ink);
+  }
+  .gs-icon-sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  /* Gooey metaballs. The filter is declared once in the DOM (GooDefs) and
+     referenced by id. It is applied to the blob layer ONLY: an alpha-step
+     filter destroys glyph edges, so any label has to be its own sibling
+     above the filtered element, never a child of it. */
+  .gs-goo {
+    filter: url(#gs-goo);
+    isolation: isolate;
+  }
+  .gs-blob {
+    position: absolute;
+    border-radius: 9999px;
+    background: var(--gs-plane);
+    will-change: transform;
+  }
+  .gs-goo-host {
+    position: relative;
+    display: inline-block;
+  }
+  .gs-goo-host > .gs-goo-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hover tilt: the card leans toward the cursor and its plane layer
+     separates. --rx/--ry are written by Tilt3D. */
+  .gs-tilt {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-tilt-front {
+    transform: translateZ(34px);
+  }
+
+  /* Entrances. Flat rise for bands; the planes arrive from off-canvas
+     and settle, which is the deck's "two native color planes" moment. */
+  @keyframes gs-band-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes gs-plane-in {
+    from {
+      opacity: 0;
+      transform: translate3d(var(--from-x, 30vw), var(--from-y, 0), var(--pz, 0)) rotate(var(--from-r, 12deg));
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, var(--pz, 0)) rotate(var(--rot, 0deg));
+    }
+  }
+  @keyframes gs-caps-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.42em, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes gs-blob-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(var(--bx, 1.4rem), var(--by, -0.9rem), 0) scale(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-band-rise {
+      animation: gs-band-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-plane {
+      animation: gs-plane-in 900ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-caps-rise {
+      animation: gs-caps-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation-delay: var(--d, 0ms);
+    }
+    .gs-blob {
+      animation: gs-blob-drift var(--dur, 9s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+  }
+
+  /* Scroll-driven variants, so a band assembles as it enters rather than
+     all at once on load. Falls back to the assembled state when the
+     feature is unsupported. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .gs-reveal {
+        animation: gs-band-rise both linear;
+        animation-timeline: view();
+        animation-range: entry 6% entry 46%;
+      }
+      .gs-reveal-late {
+        animation-range: entry 14% entry 58%;
+      }
+    }
+  }
+
+  /* Seamless client wordmark loop; the mask fades both ends. */
+  .gs-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .gs-marquee-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+  }
+  .gs-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--gs-ink);
+  }
+  @keyframes gs-marquee-run {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-marquee-track {
+      animation: gs-marquee-run 32s linear infinite;
+    }
+    .gs-marquee:hover .gs-marquee-track {
+      animation-play-state: paused;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gs-marquee {
+      overflow-x: auto;
+    }
+  }
+
+  /* The growth band's circuit tree. The trunk draws, each tier of branches
+     cuts in above it, the pads pop last, and the whole crown sways on a long
+     ease so a static logo still reads as something alive. `pathLength={1}` on
+     every stroke means the draw is a 0→1 dash offset — nothing measured in
+     JS. Browsers without a view() timeline (or with reduced motion) simply
+     get the assembled tree, because the hidden states live inside @supports. */
+  .gs-tree {
+    overflow: visible;
+  }
+  .gs-tree-crown,
+  .gs-pad {
+    transform-box: fill-box;
+  }
+  .gs-tree-crown {
+    transform-origin: 50% 100%;
+  }
+  .gs-pad {
+    transform-origin: center;
+  }
+  @keyframes gs-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes gs-pad-pop {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.35);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes gs-tree-sway {
+    0%,
+    100% {
+      transform: rotate(-1.2deg);
+    }
+    50% {
+      transform: rotate(1.2deg);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gs-tree-crown {
+      animation: gs-tree-sway 11s ease-in-out infinite;
+    }
+    @supports (animation-timeline: view()) {
+      .gs-trunk,
+      .gs-branch {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: gs-draw both linear;
+        animation-timeline: view();
+        animation-range: entry var(--r0, 0%) entry var(--r1, 40%);
+      }
+      .gs-pad {
+        opacity: 0;
+        animation: gs-pad-pop both;
+        animation-timeline: view();
+        animation-range: entry var(--r0, 20%) entry var(--r1, 55%);
+        animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+    }
+  }
 }
 
 /* ============================================================
@@ -888,305 +1227,6 @@ button:focus-visible {
 }
 
 /* ============================================================
-   Get Online — Terminal Manifesto language (go-*).
-   Borrowed from saze.co.jp's code-brutalism: monospace structure
-   labels, and a cyan→violet gradient reserved for interactive
-   things only, so color itself tells visitors what they can press.
-   Depth motion keeps riding the existing mp- class and plate vocabulary.
-   ============================================================ */
-
-/* The convention: anything gradient-colored is clickable. */
-.go-cta {
-  background: linear-gradient(100deg, #22d3ee, #a78bfa);
-  color: #061019;
-  transition: box-shadow 220ms ease, transform 220ms ease;
-}
-.go-cta:hover {
-  box-shadow: 0 10px 34px -10px rgb(139 92 246 / 0.65);
-  transform: translateY(-2px);
-}
-
-/* Gradient-colored punctuation: the manifesto's full stop. */
-.go-grad {
-  @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(100deg, #22d3ee, #a78bfa);
-}
-
-/* Numbered structural label, like a file-tree comment. */
-.go-label {
-  @apply font-mono text-xs uppercase tracking-[0.32em] text-subtle;
-}
-.go-label b {
-  @apply font-normal text-foreground;
-}
-.go-label i {
-  @apply not-italic text-subtle/60;
-  /* the slash between number and name */
-}
-
-/* The manifesto line: monospace, enormous, tight. */
-.go-manifesto {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: clamp(3.4rem, 11vw, 8.5rem);
-  line-height: 0.94;
-  letter-spacing: -0.02em;
-}
-
-/* Local grid floor for the hero stage (the screener's is fixed). */
-.go-floor {
-  position: absolute;
-  left: -40%;
-  right: -40%;
-  bottom: 0;
-  height: 42%;
-  overflow: hidden;
-  pointer-events: none;
-}
-.go-floor::before {
-  content: '';
-  position: absolute;
-  inset: -10% -60% -30%;
-  background-image: linear-gradient(rgb(28 39 64 / 0.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(28 39 64 / 0.6) 1px, transparent 1px);
-  background-size: 46px 46px;
-  transform: perspective(560px) rotateX(62deg);
-  transform-origin: bottom center;
-  -webkit-mask-image: linear-gradient(transparent 6%, black 72%);
-  mask-image: linear-gradient(transparent 6%, black 72%);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .go-floor::before {
-    animation: mp-grid-crawl 9s linear infinite;
-  }
-}
-
-/* Compile card: the mock site assembles out of the Z axis, then its
-   lines type in one under the other. Resting state is the finished card. */
-.go-compile {
-  perspective: 900px;
-}
-.go-compile-card {
-  animation: go-compile-in 560ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
-}
-@keyframes go-compile-in {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 22px, -160px) rotateX(14deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-.go-line {
-  animation: go-line-in 380ms ease-out backwards;
-  animation-delay: var(--d, 0ms);
-}
-@keyframes go-line-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ============================================================
-   Logo3D — the tree-circuit as three lit plates stacked in Z.
-   They fly in from deep behind the screen and seat at --lz, then
-   the whole mark breathes a slow yaw. Hovered, it leans toward
-   the cursor via --gy/--gx written by the component.
-   ============================================================ */
-.go-logo-scene {
-  perspective: 720px;
-}
-.go-logo {
-  position: relative;
-  transform-style: preserve-3d;
-  transform: rotateX(calc(var(--gx, 0) * 1deg)) rotateY(calc(-14deg + var(--gy, 0) * 1deg));
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.go-logo-plate {
-  position: absolute;
-  inset: 0;
-  transform: translateZ(var(--lz, 0px));
-  animation: go-logo-assemble 900ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  animation-delay: var(--d, 0ms);
-}
-.go-logo-plate > svg {
-  width: 100%;
-  height: 100%;
-}
-@keyframes go-logo-assemble {
-  from {
-    opacity: 0;
-    transform: translateZ(calc(var(--lz, 0px) - 120px)) rotateY(38deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateZ(var(--lz, 0px));
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .go-logo-idle {
-    animation: go-logo-yaw 13s ease-in-out infinite;
-  }
-}
-@keyframes go-logo-yaw {
-  0%,
-  100% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(20deg);
-  }
-}
-
-/* ============================================================
-   Get Online — structure language: ticker band, gradient-frame
-   cards, the journey rail and the proof stats. One card style,
-   one label style, one accent treatment everywhere: the gradient
-   stays reserved for hover, focus and the rail itself.
-   ============================================================ */
-
-/* Ticker band closing the hero: duplicated word list, seamless loop. */
-.go-ticker {
-  overflow: hidden;
-  border-top: 1px solid rgb(255 255 255 / 0.07);
-  border-bottom: 1px solid rgb(255 255 255 / 0.07);
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-}
-.go-ticker-track {
-  display: flex;
-  width: max-content;
-  white-space: nowrap;
-}
-.go-ticker-item {
-  @apply flex items-center gap-8 py-3 font-mono text-xs uppercase tracking-[0.32em] text-subtle;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .go-ticker-track {
-    animation: go-ticker-run 30s linear infinite;
-  }
-}
-@keyframes go-ticker-run {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* The one card style: flat plate, gradient hairline border on hover/focus. */
-.go-frame {
-  position: relative;
-}
-.go-frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(100deg, #22d3ee, #a78bfa);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 260ms ease;
-  pointer-events: none;
-}
-.go-frame:hover::before,
-.go-frame:focus-within::before {
-  opacity: 1;
-}
-/* Always-on variant for the closing panel. */
-.go-frame-on::before {
-  opacity: 1;
-}
-
-/* Journey rail: one gradient spine, numbered nodes, cards alternating
-   across it on desktop; left spine with indented cards below lg. */
-.go-rail {
-  position: relative;
-}
-.go-rail::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 15px;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, #22d3ee 6%, #a78bfa 94%, transparent);
-  opacity: 0.45;
-}
-@media (min-width: 1024px) {
-  .go-rail::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-.go-step {
-  position: relative;
-  padding-left: 44px;
-}
-@media (min-width: 1024px) {
-  .go-step {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 6rem;
-    padding-left: 0;
-  }
-  .go-step > .go-step-card {
-    grid-column: 1;
-  }
-  .go-step:nth-child(even) > .go-step-card {
-    grid-column: 2;
-  }
-}
-.go-node {
-  position: absolute;
-  top: 28px;
-  left: 6px;
-  display: grid;
-  place-items: center;
-  height: 20px;
-  width: 20px;
-  border-radius: 9999px;
-  background: #061019;
-  border: 1px solid rgb(167 139 250 / 0.55);
-  box-shadow: 0 0 18px -4px rgb(34 211 238 / 0.35);
-}
-.go-node::after {
-  content: '';
-  height: 6px;
-  width: 6px;
-  border-radius: 9999px;
-  background: linear-gradient(100deg, #22d3ee, #a78bfa);
-}
-@media (min-width: 1024px) {
-  .go-node {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-/* Proof band: mono counters over hairline dividers. */
-.go-stat-value {
-  @apply font-mono text-4xl text-foreground sm:text-5xl;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-.go-stat-value em {
-  font-style: normal;
-  background-image: linear-gradient(100deg, #22d3ee, #a78bfa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* ============================================================
    Dream Cafe — sunrise editorial (dc-*)
    Warm ember-to-apricot light over cream, grounded in a deep
    botanical green. Scoped so the brand shell and the other
@@ -1306,6 +1346,18 @@ button:focus-visible {
   transform: translateY(-2px);
 }
 
+/* Ember on ember disappears, so the picker's primary button inverts. */
+.dream-cafe .dc-btn-cream {
+  background: var(--dc-paper);
+  color: var(--dc-ink);
+  box-shadow: 0 14px 30px rgba(58, 18, 4, 0.28);
+}
+
+.dream-cafe .dc-btn-cream:hover {
+  background: var(--dc-cream);
+  color: var(--dc-ember-deep);
+}
+
 /* --- Ticker --------------------------------------------------- */
 .dream-cafe .dc-ticker {
   overflow: hidden;
@@ -1384,6 +1436,305 @@ button:focus-visible {
   background: rgba(228, 87, 46, 0.09);
   color: var(--dc-ember-deep);
   font-weight: 700;
+}
+
+/* --- Pick your cup -------------------------------------------- */
+/* The landing screen: the shortlist sits centre-stage on a sunrise
+   wash, the four options orbit it as cream tiles, and selecting one
+   morphs the photo, the name on the cup, and the line beside it. */
+.dream-cafe .dc-pick {
+  background:
+    radial-gradient(120% 95% at 80% 12%, rgba(247, 208, 138, 0.5), transparent 58%),
+    linear-gradient(155deg, #5f1a09 0%, #a83214 30%, #e4572e 64%, #f2a65a 100%);
+}
+
+.dream-cafe .dc-pick-wash {
+  position: absolute;
+  inset: -22%;
+  background:
+    radial-gradient(40% 40% at 24% 30%, rgba(242, 166, 90, 0.55), transparent 70%),
+    radial-gradient(36% 36% at 74% 74%, rgba(247, 208, 138, 0.42), transparent 72%);
+  animation: dc-pick-breathe 15s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes dc-pick-breathe {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.14) translateY(-2%);
+  }
+}
+
+/* --- Tabs ------------------------------------------------------ */
+.dream-cafe .dc-pick-tabs {
+  position: relative;
+  display: inline-flex;
+  margin-top: 2rem;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(42, 21, 12, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(251, 244, 233, 0.18);
+}
+
+.dream-cafe .dc-pick-pill {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  border-radius: 999px;
+  background: var(--dc-paper);
+  box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pick-pill[data-pos='1'] {
+  transform: translateX(100%);
+}
+
+.dream-cafe .dc-pick-tab {
+  position: relative;
+  z-index: 1;
+  min-width: 118px;
+  padding: 0.62rem 1.5rem;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 233, 0.82);
+  transition: color 260ms ease;
+}
+
+.dream-cafe .dc-pick-tab[aria-selected='true'] {
+  color: var(--dc-ink);
+}
+
+/* --- The selected line ----------------------------------------- */
+.dream-cafe .dc-pick-reason {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.7rem;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dc-ink);
+  background: var(--dc-honey);
+}
+
+.dream-cafe .dc-pick-info {
+  margin-top: 1.6rem;
+  animation: dc-pick-rise 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dc-pick-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Stage ----------------------------------------------------- */
+.dream-cafe .dc-pick-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 34px;
+}
+
+.dream-cafe .dc-pick-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.dream-cafe .dc-pick-frame {
+  position: relative;
+  width: min(74vw, 350px);
+  aspect-ratio: 3 / 4;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 44px 90px rgba(58, 18, 4, 0.5);
+}
+
+.dream-cafe .dc-pick-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.86));
+  pointer-events: none;
+}
+
+.dream-cafe .dc-pick-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 640ms ease, transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-pick-img-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dream-cafe .dc-pick-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 1;
+  text-align: center;
+  font-size: clamp(24px, 3.2vw, 36px);
+  color: var(--dc-cream);
+  text-shadow: 0 2px 24px rgba(46, 14, 4, 0.75);
+  animation: dc-pick-name 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+@keyframes dc-pick-name {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Orbiting tiles -------------------------------------------- */
+/* `rotate` and `translate` are kept off `transform` so the lean, the
+   bob and the hover lift never fight each other. */
+.dream-cafe .dc-pick-card {
+  position: absolute;
+  width: clamp(82px, 9.4vw, 112px);
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 0;
+  background: var(--dc-paper);
+  border: 3px solid var(--dc-paper);
+  cursor: pointer;
+  box-shadow: 0 20px 42px rgba(58, 18, 4, 0.42);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    rotate 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, border-color 260ms ease;
+  animation: dc-pick-pop 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    dc-pick-float 7s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 95ms), calc(var(--i, 0) * -1.35s);
+}
+
+@keyframes dc-pick-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.72) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dc-pick-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -11px;
+  }
+}
+
+.dream-cafe .dc-pick-card:hover {
+  transform: translateY(-7px) scale(1.06);
+  rotate: 0deg;
+  box-shadow: 0 28px 54px rgba(58, 18, 4, 0.5);
+}
+
+.dream-cafe .dc-pick-card[data-active='true'] {
+  border-color: var(--dc-honey);
+  box-shadow: 0 0 0 4px rgba(247, 208, 138, 0.45), 0 22px 46px rgba(58, 18, 4, 0.5);
+}
+
+/* Two left, two right, each leaning its own way. */
+.dream-cafe .dc-pick-card[data-slot='0'] {
+  left: -3%;
+  top: 5%;
+  rotate: -8deg;
+}
+.dream-cafe .dc-pick-card[data-slot='1'] {
+  left: -7%;
+  bottom: 11%;
+  rotate: 6deg;
+}
+.dream-cafe .dc-pick-card[data-slot='2'] {
+  right: -5%;
+  top: 13%;
+  rotate: 7deg;
+}
+.dream-cafe .dc-pick-card[data-slot='3'] {
+  right: -2%;
+  bottom: 4%;
+  rotate: -6deg;
+}
+
+.dream-cafe .dc-pick-card-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 4px 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--dc-ink);
+  background: var(--dc-paper);
+}
+
+/* --- Narrow screens -------------------------------------------- */
+@media (max-width: 1023px) {
+  .dream-cafe .dc-pick-stage {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-items: center;
+    gap: 10px;
+    padding: 0;
+  }
+  .dream-cafe .dc-pick-hero {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-bottom: 8px;
+  }
+  .dream-cafe .dc-pick-frame {
+    width: min(70vw, 290px);
+  }
+  .dream-cafe .dc-pick-card {
+    position: static;
+    width: 100%;
+    height: 74px;
+    rotate: none;
+    animation: none;
+  }
+  /* The caption on the cup already names it; labels would collide. */
+  .dream-cafe .dc-pick-card-name {
+    display: none;
+  }
 }
 
 /* --- Story band ----------------------------------------------- */
@@ -1829,4 +2180,122 @@ button:focus-visible {
     transform: none;
     transition: none;
   }
+  .dream-cafe .dc-pick-wash {
+    animation: none;
+  }
+  .dream-cafe .dc-pick-card {
+    animation: none;
+    transition-duration: 0s;
+  }
+  .dream-cafe .dc-pick-card:hover {
+    transform: none;
+  }
+  .dream-cafe .dc-pick-img {
+    transition: opacity 200ms ease;
+    transform: none;
+  }
+  .dream-cafe .dc-pick-info,
+  .dream-cafe .dc-pick-name {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Market Pulse — section chrome (mps-*).
+   The tab bar, panel heads and meters the News / Analysis / Trends
+   pages are built from. mp-* stays frozen; this block only adds.
+   ============================================================ */
+
+/* Underline text-tabs, the way the reference dashboard navigates. */
+.mps-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.9rem;
+  border-bottom: 1px solid rgb(28 39 64 / 0.9);
+}
+.mps-tab {
+  position: relative;
+  padding: 0.6rem 0.85rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #5b6b85;
+  transition: color 220ms ease;
+}
+.mps-tab::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #16c784, #4da3ff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mps-tab:hover {
+  color: #c9d6ea;
+}
+.mps-tab:focus-visible {
+  outline: 2px solid #16c784;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.mps-tab-on {
+  color: #e7eef9;
+}
+.mps-tab-on::after {
+  transform: scaleX(1);
+}
+
+/* Timeframe / signal chips. The active one is the only green thing in the row. */
+.mps-chip {
+  border: 1px solid #1c2740;
+  border-radius: 999px;
+  background: #0a0f1a;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a98b0;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+.mps-chip:hover {
+  color: #e7eef9;
+  border-color: #2a3a57;
+}
+.mps-chip:focus-visible {
+  outline: 2px solid #16c784;
+  outline-offset: 2px;
+}
+.mps-chip-on {
+  color: #16c784;
+  border-color: rgb(22 199 132 / 0.45);
+  background: rgb(22 199 132 / 0.1);
+}
+
+/* Meters and rotation bars grow into place rather than snapping. */
+@media (prefers-reduced-motion: no-preference) {
+  .mps-bar-segment {
+    transition: width 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Scorecard table: the header row stays a quiet caption, rows answer the pointer. */
+.mps-table tbody tr {
+  transition: background-color 200ms ease;
+}
+.mps-table tbody tr:hover {
+  background: rgb(231 238 249 / 0.03);
+}
+
+/* The section title is the one element shared by every tab, so it morphs
+   between them instead of being replaced. */
+.mps-head {
+  view-transition-name: mps-section-head;
 }

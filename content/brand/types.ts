@@ -18,7 +18,13 @@ export interface Company {
   contact: ContactChannels;
 }
 
-export type ProductIcon = 'globe' | 'clapperboard' | 'sparkles' | 'workflow';
+export type ProductIcon = 'register' | 'pulse';
+
+/** One named half of a product, so a two-part build reads as one purchase. */
+export interface ProductModule {
+  name: string;
+  detail: string;
+}
 
 export interface Product {
   slug: string;
@@ -28,6 +34,11 @@ export interface Product {
   /** 3-4 concrete deliverables. */
   bullets: string[];
   icon: ProductIcon;
-  /** The journey step this product delivers, e.g. 'Get Found'. */
-  step: string;
+  modules: ProductModule[];
+  /**
+   * Route of the live app, and only when that route exists on this branch.
+   * `test/brand-registries.test.ts` resolves it, so a product can never ship
+   * a button to a page that is not built yet.
+   */
+  demoPath?: string;
 }

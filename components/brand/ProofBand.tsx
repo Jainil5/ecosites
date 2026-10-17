@@ -45,13 +45,11 @@ function StatCell({ stat, run }: { stat: Stat; run: boolean }) {
   const value = useCountUp(stat.value, run);
   return (
     <div className="px-6 py-8 text-center sm:py-10">
-      <p className="go-stat-value">
+      <p className="gs-display text-5xl sm:text-6xl">
         {String(value).padStart(2, '0')}
-        {stat.suffix ? <em>{stat.suffix}</em> : null}
+        {stat.suffix ? <em className="not-italic text-forest">{stat.suffix}</em> : null}
       </p>
-      <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.25em] text-subtle">
-        {stat.label}
-      </p>
+      <p className="gs-label mt-3 text-ink/65">{stat.label}</p>
     </div>
   );
 }
@@ -80,11 +78,13 @@ export function ProofBand() {
   return (
     <div
       ref={ref}
-      className="grid grid-cols-2 divide-x divide-y divide-white/[0.07] border-y border-white/[0.07] bg-deep/40 sm:grid-cols-4 sm:divide-y-0"
+      className="-mx-6 gs-plane-a border-y border-forest/40"
     >
-      {stats.map((stat) => (
-        <StatCell key={stat.label} stat={stat} run={run} />
-      ))}
+      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-forest/25 sm:grid-cols-4 sm:divide-y-0">
+        {stats.map((stat) => (
+          <StatCell key={stat.label} stat={stat} run={run} />
+        ))}
+      </div>
     </div>
   );
 }

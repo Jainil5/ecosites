@@ -7,7 +7,7 @@ import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 const pages = [
   { href: '/services', label: 'Services' },
   { href: '/products', label: 'Products' },
-  { href: '/demos', label: 'Demos' },
+  { href: '/demos', label: 'Work' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -21,24 +21,24 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-white/[0.07] bg-deep/60">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
+    <footer className="mt-24 border-t border-hairline bg-plane">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
         <div className="space-y-3">
-          <p className="flex items-center gap-2 font-display text-lg text-foreground">
-            <Logo className="h-5 w-5 text-accent" />
-            Website <span className="text-accent">IN</span>
+          <p className="gs-display flex items-center gap-2 text-xl">
+            <Logo className="h-5 w-5" />
+            Website <span>IN</span>
           </p>
-          <p className="max-w-xs text-sm leading-relaxed text-subtle">{company.tagline}</p>
+          <p className="max-w-xs text-sm leading-relaxed text-ink/75">{company.tagline}</p>
         </div>
 
         <nav aria-label="Footer">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Pages</p>
+          <p className="gs-label">pages</p>
           <ul className="mt-4 space-y-2.5">
             {pages.map((page) => (
               <li key={page.href}>
                 <Link
                   href={page.href}
-                  className="focus-ring rounded font-mono text-sm text-subtle transition-colors hover:text-foreground"
+                  className="focus-ring rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
                 >
                   {page.label}
                 </Link>
@@ -48,7 +48,7 @@ export function Footer() {
         </nav>
 
         <nav aria-label="Contact">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent">Talk to us</p>
+          <p className="gs-label">talk to us</p>
           <ul className="mt-4 space-y-2.5">
             {channels.map(({ href, label, Icon, external }) => (
               <li key={label}>
@@ -56,7 +56,7 @@ export function Footer() {
                   href={href}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
-                  className="focus-ring inline-flex items-center gap-2 rounded font-mono text-sm text-subtle transition-colors hover:text-accent"
+                  className="focus-ring inline-flex items-center gap-2 rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
                 >
                   <Icon aria-hidden className="h-3.5 w-3.5" />
                   {label}
@@ -67,8 +67,8 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="mx-auto max-w-6xl border-t border-white/[0.07] px-6 py-5">
-        <p className="font-mono text-xs text-subtle/80">
+      <div className="mx-auto max-w-7xl border-t border-ink/15 px-6 py-5">
+        <p className="gs-label text-ink/60">
           © {new Date().getFullYear()} {company.name}
         </p>
       </div>

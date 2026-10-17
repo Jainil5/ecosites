@@ -10,35 +10,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Design system: freehand-style paper canvas, warm ink, orange accent.
+        // Green "cut-plane" skin. Sampled from the reference deck form and
+        // retuned green: pale sage canvas, near-black green ink, two flat
+        // green planes, one lime accent for the mono corner labels.
         // Brand-scoped on purpose: the demo sites hardcode their own hex and
         // never read these, so flipping them cannot leak into client work.
-        canvas: '#FFFFFF',
-        paper: '#FDF8F4',
-        band: '#FAF3E8',
-        tint: '#FFF3EB',
-        ink: '#0D0B08',
-        'ink-2': '#4A3A2A',
-        'ink-3': '#7A6855',
-        hairline: '#EAE0D6',
-        dark: '#1C1208',
-        'dark-card': '#2C1D0D',
+        canvas: '#E9F0EA',
+        paper: '#F4F7F3',
+        plane: '#22C55E',
+        forest: '#14532D',
+        lime: '#BEF264',
+        ink: '#0B1410',
+        'ink-2': '#33463A',
+        'ink-3': '#6B7F70',
+        hairline: '#CBD9CD',
+
         accent: {
-          DEFAULT: '#FE6200',
-          10: '#FAE1D1',
-          20: '#F9BD97',
-          30: '#FB995B',
-          50: '#DE5804',
-          60: '#A04308',
-          80: '#200B00',
+          DEFAULT: '#22C55E',
+          soft: '#4ADE80',
+          dark: '#16A34A',
         },
-        // The tree-circuit mark keeps its green; it is a second brand hue, not
-        // the interactive accent.
-        'mark-green': '#22C55E',
 
         // Legacy dark scale. Still read by the go-* CSS and by brand components
-        // not yet migrated; Task 12 deletes these once nothing references them.
-        // `body` and `.frame` @apply several of them, so they cannot go earlier.
+        // not yet migrated; the cleanup task deletes these once nothing
+        // references them. `body` and `.frame` @apply several of them, so they
+        // cannot go earlier.
         background: '#0F172A',
         deep: '#0A1120',
         surface: '#111C31',
@@ -53,17 +49,23 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // display now resolves to the serif; label and body are new and
-        // brand-only. mono and sans stay with the demos that depend on them.
-        display: ['var(--font-display)', 'Georgia', 'serif'],
+        // display is the poster grotesque; body shares it at a lighter weight.
+        // label is the mono used for corner labels. mono and sans stay with the
+        // demos that depend on them and must never be repointed.
+        display: ['var(--font-display)', 'Helvetica Neue', 'Arial', 'sans-serif'],
         label: ['var(--font-label)', 'ui-monospace', 'monospace'],
-        body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-display)', 'Helvetica Neue', 'Arial', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       boxShadow: {
-        plate: '0 1px 2px rgba(13,11,8,0.04), 0 18px 40px -32px rgba(13,11,8,0.35)',
+        plate: '0 1px 2px rgba(11,20,16,0.05), 0 18px 40px -32px rgba(11,20,16,0.4)',
+        // Legacy: still referenced by unmigrated components. Deleted with them.
+        glow: '0 0 20px rgba(34,197,94,0.35)',
+        'glow-lg': '0 0 45px rgba(34,197,94,0.45)',
+        card: '0 10px 30px -12px rgba(0,0,0,0.6)',
+        'card-hover': '0 24px 50px -12px rgba(0,0,0,0.7)',
       },
       backgroundImage: {
         'grid-fade':

@@ -19,26 +19,21 @@ export function StockPage({ meta }: { meta: StockMeta }) {
   const live = ticks[meta.symbol];
 
   return (
-    <div className="relative min-h-screen bg-[#04060B] text-[#E7EEF9]">
-      <div aria-hidden className="mp-bg">
-        <div className="mp-bg-grid" />
-      </div>
-      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
-        {failed && (
-          <p className="mb-4 rounded-xl border border-[#EA3943]/40 bg-[#EA3943]/10 px-4 py-3 font-mono text-xs text-[#EA3943]">
-            Market data is temporarily unavailable from the public feed. Retrying automatically.
-          </p>
-        )}
-        <StockHero meta={meta} quote={quote} live={live} />
-        <Reveal className="mb-5">
-          <ChartPanel meta={meta} quote={quote} live={live} />
-        </Reveal>
-        <Reveal className="mb-5">
-          <Fundamentals meta={meta} quote={quote} live={live} loading={loading} />
-        </Reveal>
-        <StockNewsSection meta={meta} />
-        <PeersStrip meta={meta} />
-      </div>
-    </div>
+    <>
+      {failed && (
+        <p className="mb-4 rounded-xl border border-[#EA3943]/40 bg-[#EA3943]/10 px-4 py-3 font-mono text-xs text-[#EA3943]">
+          Market data is temporarily unavailable from the public feed. Retrying automatically.
+        </p>
+      )}
+      <StockHero meta={meta} quote={quote} live={live} />
+      <Reveal className="mb-5">
+        <ChartPanel meta={meta} quote={quote} live={live} />
+      </Reveal>
+      <Reveal className="mb-5">
+        <Fundamentals meta={meta} quote={quote} live={live} loading={loading} />
+      </Reveal>
+      <StockNewsSection meta={meta} />
+      <PeersStrip meta={meta} />
+    </>
   );
 }

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="space-y-20">
+    <div className="space-y-20 pt-12 sm:pt-16">
       <div>
-        <PageHeader index="02" label="services" title="Get online. Then get ahead.">
+        <PageHeader index="03" label="services" title="Get online. Then get ahead.">
           Most businesses stop at having a website. The ones that grow treat going
           online as a sequence — each step making the next one worth more. Here is
           the whole path, in order.
@@ -21,8 +21,8 @@ export default function ServicesPage() {
         <ServicesJourney detailed />
       </div>
 
-      <section className="reveal">
-        <PageHeader index="05" label="next step" title="Send one message. We reply the same day." />
+      <section className="gs-reveal">
+        <PageHeader index="06" label="next step" title="Send one message. We reply the same day." />
         <ContactCta />
       </section>
     </div>

@@ -4,6 +4,8 @@ import { Clapperboard, Globe, Sparkles, Workflow } from 'lucide-react';
 /** One step of the "get online" journey, in build order. */
 export interface ServiceStep {
   key: string;
+  /** What the customer buys at this step, said plainly. */
+  service: string;
   title: string;
   tagline: string;
   /** The pain, in the owner's words. */
@@ -18,6 +20,7 @@ export interface ServiceStep {
 export const serviceSteps: ServiceStep[] = [
   {
     key: 'get-found',
+    service: 'Website',
     title: 'Get Found',
     tagline: 'A website that answers for you',
     problem:
@@ -29,6 +32,7 @@ export const serviceSteps: ServiceStep[] = [
   },
   {
     key: 'get-known',
+    service: 'Motion design',
     title: 'Get Known',
     tagline: 'Motion design that makes you look established',
     problem:
@@ -40,6 +44,7 @@ export const serviceSteps: ServiceStep[] = [
   },
   {
     key: 'get-running',
+    service: 'Automation',
     title: 'Get Running',
     tagline: 'The back office runs itself',
     problem:
@@ -51,6 +56,7 @@ export const serviceSteps: ServiceStep[] = [
   },
   {
     key: 'get-smart',
+    service: 'AI assistant',
     title: 'Get Smart',
     tagline: 'AI that answers at 11pm',
     problem:

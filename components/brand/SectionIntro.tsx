@@ -13,13 +13,11 @@ interface SectionIntroProps {
 export function SectionIntro({ index, label, title, children }: SectionIntroProps) {
   return (
     <div className="mb-10 max-w-2xl">
-      <p className="go-label">
-        <b>{index}</b> <i>/</i> {label}
+      <p className="gs-label">
+        <span className="gs-label-hot">{index}</span> <span aria-hidden>/</span> {label}
       </p>
-      <h2 className="slice mt-3 font-display text-3xl text-foreground sm:text-4xl">
-        <span className="slice-scroll">{title}</span>
-      </h2>
-      {children ? <p className="mt-3 leading-relaxed text-subtle">{children}</p> : null}
+      <h2 className="gs-display gs-h3 mt-3">{title}</h2>
+      {children ? <p className="mt-4 leading-relaxed text-ink-2">{children}</p> : null}
     </div>
   );
 }

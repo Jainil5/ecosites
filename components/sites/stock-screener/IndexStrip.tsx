@@ -1,25 +1,28 @@
 'use client';
 
 import { useStocks } from './useStocks';
-import { useLiveTicks } from './useLiveTicks';
+import type { LiveTick } from './useLiveTicks';
 import { PingDot } from './PingDot';
 import { AnimatedNumber } from './motion/AnimatedNumber';
 import { Reveal } from './motion/Reveal';
 import { DUR } from './motion/tokens';
 import { changePct } from './format';
 
-const INDICES = [
+export const INDICES = [
   { symbol: '^NSEI', name: 'NIFTY 50' },
   { symbol: '^BSESN', name: 'SENSEX' },
   { symbol: '^NSEBANK', name: 'NIFTY BANK' },
   { symbol: '^CNXIT', name: 'NIFTY IT' },
 ] as const;
 
-const INDEX_SYMBOLS = INDICES.map((i) => i.symbol);
+export const INDEX_SYMBOLS = INDICES.map((i) => i.symbol);
 
-export function IndexStrip() {
+/**
+ * The live band under the masthead. Ticks come from the shell so the header
+ * status pill and these cards read off one stream, not two.
+ */
+export function IndexStrip({ ticks }: { ticks: Record<string, LiveTick> }) {
   const { quotes } = useStocks(INDEX_SYMBOLS);
-  const { ticks } = useLiveTicks(INDEX_SYMBOLS);
 
   return (
     <section
