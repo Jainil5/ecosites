@@ -1386,6 +1386,50 @@ button:focus-visible {
   }
 }
 
+/* --- Category filter tabs ---------------------------------------
+   One row of pills above the grid. The menu shows everything by
+   default; a tab is just a shortcut for the customer who only wants
+   coffee. The grid underneath never changes shape. */
+.dream-cafe .dc-cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dream-cafe .dc-cat-tab {
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid rgba(251, 244, 233, 0.35);
+  border-radius: 999px;
+  background: rgba(20, 8, 3, 0.22);
+  color: rgba(251, 244, 233, 0.85);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease,
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-cat-tab:hover {
+  border-color: rgba(251, 244, 233, 0.65);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.dream-cafe .dc-cat-tab[aria-selected='true'] {
+  background: var(--dc-honey);
+  border-color: var(--dc-honey);
+  color: var(--dc-ink-deep, #2a1408);
+}
+
+.dream-cafe .dc-cat-tab:focus-visible {
+  outline: 2px solid var(--dc-honey);
+  outline-offset: 3px;
+}
+
 /* --- Square tile grid ------------------------------------------- */
 /* Every item on the menu as one grid of square tiles; the Gen Z /
    Traditional switch only restyles the tile skin, never the layout. */
@@ -1393,6 +1437,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  perspective: 900px;
 }
 @media (min-width: 640px) {
   .dream-cafe .dc-square-grid {
@@ -1413,7 +1458,38 @@ button:focus-visible {
   cursor: pointer;
   text-align: left;
   overflow: hidden;
+  animation: dc-float 6s ease-in-out infinite;
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
+}
+
+/* Ambient 3D breathing: tiles bob and lean under the grid's perspective.
+   It rides the individual translate/rotate properties so the pointer-tilt
+   hover transform composes on top instead of being overridden. */
+@keyframes dc-float {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: x 0deg;
+  }
+  50% {
+    translate: 0 -6px;
+    rotate: x 2deg;
+  }
+}
+
+.dream-cafe .dc-tile:nth-child(4n + 2) {
+  animation-duration: 7s;
+  animation-delay: -1.4s;
+}
+
+.dream-cafe .dc-tile:nth-child(4n + 3) {
+  animation-duration: 5.6s;
+  animation-delay: -2.8s;
+}
+
+.dream-cafe .dc-tile:nth-child(4n) {
+  animation-duration: 6.4s;
+  animation-delay: -4.2s;
 }
 
 .dream-cafe .dc-tile:hover {
@@ -1442,6 +1518,20 @@ button:focus-visible {
 
 .dream-cafe .dc-tile:hover .dc-tile-img img {
   transform: scale(1.07);
+}
+
+/* 3D pointer tilt — only mice and trackpads get the lean; the photo
+   drifts against the tilt for parallax depth. Touch keeps the plain
+   press-squash above, and the reduce block disables this entirely. */
+@media (hover: hover) and (pointer: fine) {
+  .dream-cafe .dc-tile:hover {
+    transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+      translateY(-4px);
+  }
+
+  .dream-cafe .dc-tile:hover .dc-tile-img img {
+    transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(1.12);
+  }
 }
 
 .dream-cafe .dc-tile-cap {
@@ -1630,9 +1720,12 @@ button:focus-visible {
 }
 
 /* --- Mode toggle (Gen Z / Traditional) ------------------------- */
+/* Two equal columns, each at least as wide as its label: the pill stays
+   at 50% while "Traditional" never gets clipped by a shrinking button. */
 .dream-cafe .dc-mode {
   position: relative;
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(max-content, 1fr));
   padding: 4px;
   border-radius: 999px;
   background: rgba(42, 21, 12, 0.34);
@@ -1655,8 +1748,6 @@ button:focus-visible {
 .dream-cafe .dc-mode-btn {
   position: relative;
   z-index: 1;
-  flex: 1 1 0;
-  min-width: 0;
   padding: 0.5rem 1.05rem;
   border-radius: 999px;
   font-size: 11px;
@@ -1932,6 +2023,28 @@ button:focus-visible {
   margin-bottom: 12px;
 }
 
+.dream-cafe .dc-tray-restart {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  border: 2px solid var(--dc-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dc-ink);
+  font-family: var(--font-display), serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.dream-cafe .dc-tray-restart:hover {
+  background: var(--dc-ink);
+  color: var(--dc-paper);
+}
+
 /* --- Item dialog --------------------------------------------------
    Tapping a tile opens the item centred: photo, full story, and one
    big add control. Everything inside is sized for a thumb. */
@@ -2165,6 +2278,10 @@ button:focus-visible {
   .dream-cafe .dc-tray-step span {
     min-width: 26px;
     font-size: 15px;
+  }
+
+  .dream-cafe .dc-mode-btn {
+    min-height: 44px;
   }
 
   /* The star icon stays on tiles, but its text reason pill has no room
@@ -2593,6 +2710,9 @@ button:focus-visible {
   .dream-cafe .dc-tile:active {
     transform: none;
     transition: none;
+    animation: none;
+    translate: none;
+    rotate: none;
   }
   .dream-cafe .dc-tile-img img,
   .dream-cafe .dc-tile:hover .dc-tile-img img {

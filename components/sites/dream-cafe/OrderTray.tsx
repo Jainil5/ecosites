@@ -25,14 +25,14 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
   return (
     <aside className="dc-tray" aria-label="Your order">
       <div className="dc-tray-panel">
-        {ticket ? (
+        {ticket && lines.length === 0 ? (
           <div className="dc-ticket" key={ticket}>
             <p className="dc-ticket-stamp dc-display">Order placed</p>
             <p className="dc-ticket-no dc-display">{ticket}</p>
             <p className="dc-ticket-eta">
               Ready at the counter in about 15 minutes. We will call this number, not your name.
             </p>
-            <button type="button" className="dc-flip-btn" onClick={() => setTicket(null)}>
+            <button type="button" className="dc-tray-restart" onClick={() => setTicket(null)}>
               Start another order
             </button>
           </div>

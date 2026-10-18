@@ -218,6 +218,116 @@ describe('dream cafe square tile grid', () => {
   });
 });
 
+describe('dream cafe category filter tabs', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+  const css = read('app/globals.css');
+
+  it('offers one tab per menu section plus All last, defaulting to Coffee', () => {
+    expect(src).toMatch(/useState<'all' \| string>\('coffee'\)/);
+    // Coffee leads the tab row, then the food sections, with All last.
+    expect(src).toMatch(/filter\(\(g\) => g\.id === 'coffee'\)/);
+    expect(src).toMatch(/tabGroups\.map[\s\S]*?dc-cat-tab/);
+    expect(src.search(/tabGroups\.map/)).toBeLessThan(src.search(/>\s*All\s*</));
+  });
+
+  it('filters the one grid instead of restructuring it', () => {
+    // All items carry their group id; the visible list is a filter of it.
+    expect(src).toMatch(/groupId: group\.id/);
+    expect(src).toMatch(/cat === 'all' \|\| .*groupId/);
+    // One grid renders the filtered list.
+    expect(src).toMatch(/visible\.map/);
+  });
+
+  it('sits the tabs above the grid, so the switch is seen before the cards', () => {
+    expect(src).toMatch(/role="tablist"/);
+    expect(src).toMatch(/aria-selected/);
+    expect(src.search(/dc-cat-tabs/)).toBeLessThan(src.search(/dc-square-grid/));
+    // The mode switch stays below the grid.
+    expect(src.search(/dc-square-grid/)).toBeLessThan(src.search(/className="dc-mode"/));
+  });
+
+  it('keeps the tabs thumb-sized pills in both skins', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-cat-tab\s*\{/);
+    expect(css).toMatch(/\.dream-cafe \.dc-cat-tabs\s*\{/);
+  });
+});
+
+describe('dream cafe mode switch fits its labels', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const css = read('app/globals.css');
+
+  it('never clips the Traditional label', () => {
+    // Two equal columns sized to the wider label, so the sliding pill
+    // still covers 50% while "Traditional" keeps its full text width.
+    expect(css).toMatch(/\.dream-cafe \.dc-mode\s*\{[^}]*display:\s*inline-grid/);
+    expect(css).toMatch(/\.dream-cafe \.dc-mode\s*\{[^}]*grid-template-columns:\s*repeat\(\s*2,\s*minmax\(\s*max-content,\s*1fr\s*\)\s*\)/);
+  });
+
+  it('gives the switch a thumb-sized tap target on phones', () => {
+    expect(css).toMatch(/@media \(max-width: 1023px\)[\s\S]*?\.dream-cafe \.dc-mode-btn\s*\{[^}]*min-height:\s*44px/);
+  });
+});
+
+describe('dream cafe tile 3D pointer tilt', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+  const css = read('app/globals.css');
+
+  it('leans the hovered tile toward the pointer in perspective', () => {
+    expect(src).toMatch(/onPointerMove=/);
+    expect(src).toMatch(/onPointerLeave=/);
+    expect(src).toMatch(/setProperty\('--ry'/);
+    expect(src).toMatch(/setProperty\('--rx'/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tile:hover\s*\{[^}]*perspective\([^)]*\)\s*rotateX\(var\(--rx/);
+    expect(css).toMatch(/rotateY\(var\(--ry/);
+  });
+
+  it('drifts the photo under the caption for depth', () => {
+    expect(src).toMatch(/setProperty\('--px'/);
+    expect(css).toMatch(/\.dc-tile:hover \.dc-tile-img img\s*\{[^}]*translate3d\(var\(--px/);
+  });
+
+  it('only tilts on hover-capable fine pointers', () => {
+    expect(css).toMatch(/@media \(hover: hover\) and \(pointer: fine\)/);
+    expect(src).toMatch(/matchMedia\('\(hover: hover\)'\)/);
+  });
+
+  it('stays still when the customer asks for reduced motion', () => {
+    expect(src).toMatch(/matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
+    // The reduce block already zeroes the tile hover transform.
+    expect(css).toMatch(/prefers-reduced-motion: reduce[\s\S]*?\.dream-cafe \.dc-tile,?\s*\.dream-cafe \.dc-tile:hover/);
+  });
+});
+
+describe('dream cafe ambient 3D float', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const css = read('app/globals.css');
+
+  it('breathes every tile with a 3D wobble on all devices', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-square-grid\s*\{[^}]*perspective:\s*\d+px/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tile\s*\{[^}]*animation:\s*dc-float/);
+  });
+
+  it('animates the individual transform properties so the hover tilt still composes', () => {
+    const kf = css.match(/@keyframes dc-float\s*\{[\s\S]*?\n\}/)?.[0] ?? '';
+    expect(kf).toContain('translate:');
+    expect(kf).toContain('rotate:');
+    // transform inside the keyframes would override the pointer-tilt hover rule.
+    expect(kf).not.toContain('transform');
+  });
+
+  it('staggers the float so the grid moves like a wave, not in lockstep', () => {
+    expect(css).toMatch(/\.dc-tile:nth-child\(4n \+ 2\)\s*\{[^}]*animation-(delay|duration)/);
+    expect(css).toMatch(/\.dc-tile:nth-child\(4n \+ 3\)\s*\{[^}]*animation-(delay|duration)/);
+    expect(css).toMatch(/\.dc-tile:nth-child\(4n\)\s*\{[^}]*animation-(delay|duration)/);
+  });
+
+  it('stops the float for reduced motion', () => {
+    expect(css).toMatch(/prefers-reduced-motion: reduce[\s\S]{0,1600}\.dream-cafe \.dc-tile,\s*\.dream-cafe \.dc-tile:hover,[\s\S]{0,160}?animation: none/);
+  });
+});
+
 describe('dream cafe order tray after the grid redesign', () => {
   const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
   const tray = read('components/sites/dream-cafe/OrderTray.tsx');
@@ -291,6 +401,16 @@ describe('dream cafe imagery', () => {
       expect(shot.alt.length, shot.src).toBeGreaterThan(15);
     }
     expect(galleryShots.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('prioritizes the above-the-fold tiles and defers everything else', () => {
+    const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+    // The menu opens the page, so the first grid row is the LCP candidate;
+    // the story hero sits below it and must not compete for priority.
+    const grid = read('components/sites/dream-cafe/MenuExperience.tsx');
+    expect(grid).toMatch(/priority=\{i < 4\}/);
+    expect(grid).toMatch(/loading=\{i < 4 \? undefined : 'lazy'\}/);
+    expect(read('components/sites/dream-cafe/Hero.tsx')).not.toMatch(/priority/);
   });
 
   it('keeps the ticker short enough to loop without wrapping', () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useReducer, useState } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
 import Image from 'next/image';
 import { isRecommended, menuGroups } from './menu';
 import { cartReducer, loadCart, saveCart } from './cart';
@@ -12,7 +12,7 @@ import { Reveal } from './Reveal';
 type Mode = 'genz' | 'trad';
 
 const allItems = menuGroups.flatMap((group) =>
-  group.items.map((item) => ({ item, groupTitle: group.title })),
+  group.items.map((item) => ({ item, groupTitle: group.title, groupId: group.id })),
 );
 
 function MenuStar({ label }: { label: string }) {
@@ -29,8 +29,32 @@ function MenuStar({ label }: { label: string }) {
   );
 }
 
+const TILT_DEG = 7;
+const DRIFT_PX = 10;
+
+// 3D lean toward the cursor; CSS only applies it under (hover: hover),
+// and phones never fire pointermove over a still card.
+function tiltTo(e: PointerEvent<HTMLButtonElement>) {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t = e.currentTarget;
+  const r = t.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  t.style.setProperty('--ry', `${(x * 2 * TILT_DEG).toFixed(2)}deg`);
+  t.style.setProperty('--rx', `${(-y * 2 * TILT_DEG).toFixed(2)}deg`);
+  t.style.setProperty('--px', `${(-x * DRIFT_PX).toFixed(1)}px`);
+  t.style.setProperty('--py', `${(-y * DRIFT_PX).toFixed(1)}px`);
+}
+
+function untilt(e: PointerEvent<HTMLButtonElement>) {
+  const style = e.currentTarget.style;
+  for (const v of ['--rx', '--ry', '--px', '--py']) style.removeProperty(v);
+}
+
 export function MenuExperience() {
   const [mode, setMode] = useState<Mode>('genz');
+  const [cat, setCat] = useState<'all' | string>('coffee');
   const [openedId, setOpenedId] = useState<string | null>(null);
 
   const [cart, dispatch] = useReducer(cartReducer, {});
@@ -46,6 +70,11 @@ export function MenuExperience() {
   }, [cart, cartReady]);
 
   const opened = openedId ? allItems.find((x) => x.item.id === openedId) : null;
+  const visible = allItems.filter((x) => cat === 'all' || x.groupId === cat);
+  const tabGroups = [
+    ...menuGroups.filter((g) => g.id === 'coffee'),
+    ...menuGroups.filter((g) => g.id !== 'coffee'),
+  ];
 
   return (
     <section id="top" aria-label="The menu" className="dc-menu relative overflow-hidden">
@@ -64,14 +93,42 @@ export function MenuExperience() {
           <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
             <div className="min-w-0">
               <Reveal>
+                <div className="dc-cat-tabs" role="tablist" aria-label="Menu section">
+                  {tabGroups.map((g) => (
+                    <button
+                      key={g.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={cat === g.id}
+                      className="dc-display dc-cat-tab"
+                      onClick={() => setCat(g.id)}
+                    >
+                      {g.title}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={cat === 'all'}
+                    className="dc-display dc-cat-tab"
+                    onClick={() => setCat('all')}
+                  >
+                    All
+                  </button>
+                </div>
+              </Reveal>
+
+              <Reveal>
                 <div className="dc-square-grid" data-mode={mode}>
-                  {allItems.map(({ item, groupTitle }, i) => (
+                  {visible.map(({ item, groupTitle }, i) => (
                     <button
                       key={item.id}
                       type="button"
                       className="dc-tile"
                       style={{ '--i': i } as CSSProperties}
                       onClick={() => setOpenedId(item.id)}
+                      onPointerMove={tiltTo}
+                      onPointerLeave={untilt}
                       aria-label={`${item.name}, ${item.price}, ${groupTitle}. Open for details`}
                     >
                       <span className="dc-tile-img">
@@ -80,6 +137,7 @@ export function MenuExperience() {
                           alt=""
                           width={480}
                           height={480}
+                          priority={i < 4}
                           loading={i < 4 ? undefined : 'lazy'}
                           className="!h-full !w-full object-cover"
                         />
