@@ -26,14 +26,20 @@ describe('dream cafe store registry entry', () => {
 });
 
 describe('dream cafe menu data', () => {
-  it('serves three groups in eating order', () => {
-    expect(menuGroups.map((g) => g.id)).toEqual(['breakfast', 'coffee', 'lunch']);
+  it('serves three sections: Coffee, Food, Beverages', () => {
+    expect(menuGroups.map((g) => g.id)).toEqual(['coffee', 'food', 'beverages']);
+  });
+
+  it('expands the menu to 31 items across the sections', () => {
+    const counts = Object.fromEntries(menuGroups.map((g) => [g.id, g.items.length]));
+    expect(counts).toEqual({ coffee: 9, food: 17, beverages: 5 });
+    expect(menuGroups.flatMap((g) => g.items).length).toBe(31);
   });
 
   it('keeps every group long enough to fill a board', () => {
     for (const group of menuGroups) {
       expect(group.items.length, group.id).toBeGreaterThanOrEqual(5);
-      expect(group.items.length, group.id).toBeLessThanOrEqual(9);
+      expect(group.items.length, group.id).toBeLessThanOrEqual(18);
       expect(group.title.trim().length).toBeGreaterThan(0);
       expect(group.blurb.trim().length).toBeGreaterThan(0);
     }
@@ -48,30 +54,42 @@ describe('dream cafe menu data', () => {
     const byGroup = Object.fromEntries(
       menuGroups.map((g) => [g.id, g.items.map((i) => i.name)]),
     ) as Record<string, string[]>;
-    expect(byGroup.breakfast).toEqual([
+    expect(byGroup.coffee).toEqual([
+      'Espresso',
+      'Flat White',
+      'Cappuccino',
+      'Cortado',
+      'Vanilla Latte',
+      'Cold Brew',
+      'Frappé',
+      'Iced Latte',
+      'Hot Chocolate',
+    ]);
+    expect(byGroup.food).toEqual([
       'Everything Bagel',
       'Avocado & Egg Bagel',
       'Scramble Bagel',
       'Almond Croissant',
       'Blueberry Muffin',
       'Coconut Chia Bowl',
-    ]);
-    expect(byGroup.coffee).toEqual([
-      'Espresso',
-      'Flat White',
-      'Cappuccino',
-      'Cortado',
-      'Cold Brew',
-      'Iced Latte',
-      'Hot Chocolate',
-    ]);
-    expect(byGroup.lunch).toEqual([
       'Pressed Toastie',
       'Roasted Tomato Soup',
       'Grilled Chicken Sandwich',
       'Mushroom & Egg Bowl',
       'Caesar Salad',
       'Salt & Vinegar Fries',
+      'Bombay Grilled Sandwich',
+      'Margherita Pizza',
+      'Cheese Burst Pizza',
+      'Pink Sauce Pasta',
+      'Paneer Tikka Roll',
+    ]);
+    expect(byGroup.beverages).toEqual([
+      'Mint Lemonade',
+      'Peach Iced Tea',
+      'Fresh Lime Soda',
+      'Mango Lassi',
+      'Diet Coke',
     ]);
   });
 
@@ -86,9 +104,9 @@ describe('dream cafe menu data', () => {
 
   it('prompts each category and pre-picks exactly one featured item', () => {
     const prompts: Record<string, string> = {
-      breakfast: 'Select your bagel',
       coffee: 'Select your coffee',
-      lunch: 'Select your plate',
+      food: 'Select your plate',
+      beverages: 'Select your drink',
     };
     for (const group of menuGroups) {
       expect(group.prompt, group.id).toBe(prompts[group.id]);
@@ -110,11 +128,14 @@ describe('dream cafe menu data', () => {
       .filter(isRecommended)
       .map((i) => i.name);
     expect(starred).toEqual([
+      'Cold Brew',
+      'Frappé',
       'Everything Bagel',
       'Avocado & Egg Bagel',
-      'Cold Brew',
       'Pressed Toastie',
       'Roasted Tomato Soup',
+      'Cheese Burst Pizza',
+      'Mango Lassi',
     ]);
   });
 
@@ -176,11 +197,14 @@ describe('dream cafe square tile grid', () => {
     expect(src).not.toMatch(/dc-pick-card-star"/);
   });
 
-  it('restyles rather than restructures when the mode switches', () => {
-    // One grid; the Gen Z / Traditional switch only changes the tile skin.
-    expect(src).toMatch(/dc-square-grid[^>]*data-mode=\{mode\}/);
-    expect(css).toMatch(/\.dc-square-grid\[data-mode='genz'\]/);
-    expect(css).toMatch(/\.dc-square-grid\[data-mode='trad'\]/);
+  it('keeps the floating grid for Gen Z and prints a listing for Traditional', () => {
+    // The switch now restructures: trad renders a menu listing instead
+    // of the tile grid. He asked for it 2026-10-18, replacing the old
+    // "restyles rather than restructures" contract.
+    expect(src).toMatch(/mode === 'trad'/);
+    expect(src).toMatch(/dc-menu-list/);
+    expect(src).toMatch(/dc-square-grid/);
+    expect(css).toMatch(/\.dream-cafe \.dc-menu-list\s*\{/);
   });
 
   it('sits the mode switch below the grid, as customers see cards first', () => {
@@ -253,6 +277,31 @@ describe('dream cafe category filter tabs', () => {
   });
 });
 
+describe('dream cafe coffee-stain background', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+  const css = read('app/globals.css');
+
+  it('paints the menu on a deep espresso-to-caramel wash', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-menu\s*\{[^}]*#241108[^}]*#a85a20/);
+  });
+
+  it('lays decorative coffee rings and bean swirls behind the grid', () => {
+    // Both layers are rendered, aria-hidden, and never eat a click.
+    expect(src).toMatch(/<div aria-hidden className="dc-stains" \/>/);
+    expect(src).toMatch(/<div aria-hidden className="dc-beans" \/>/);
+    expect(css).toMatch(/\.dream-cafe \.dc-stains\s*\{[^}]*radial-gradient\([^)]*transparent[^}]*pointer-events:\s*none/);
+    // Beans + steam ship as an inline SVG pattern: no extra network asset.
+    expect(css).toMatch(/\.dream-cafe \.dc-beans\s*\{[^}]*url\("data:image\/svg\+xml/);
+  });
+
+  it('drifts the bean pattern slowly and stops for reduced motion', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-beans\s*\{[^}]*animation:\s*dc-beans-drift/);
+    expect(css).toMatch(/@keyframes dc-beans-drift/);
+    expect(css).toMatch(/prefers-reduced-motion: reduce[\s\S]*?\.dream-cafe \.dc-beans\s*\{[^}]*animation: none/);
+  });
+});
+
 describe('dream cafe mode switch fits its labels', () => {
   const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
   const css = read('app/globals.css');
@@ -266,6 +315,35 @@ describe('dream cafe mode switch fits its labels', () => {
 
   it('gives the switch a thumb-sized tap target on phones', () => {
     expect(css).toMatch(/@media \(max-width: 1023px\)[\s\S]*?\.dream-cafe \.dc-mode-btn\s*\{[^}]*min-height:\s*44px/);
+  });
+});
+
+describe('dream cafe traditional printed listing', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+  const css = read('app/globals.css');
+
+  it('lists each section under a printed heading and honors the tab filter', () => {
+    // Sections come from the same tabGroups/cat state the grid uses.
+    expect(src).toMatch(/tabGroups[\s\S]{0,80}cat === 'all' \|\| g\.id === cat/);
+    expect(src).toMatch(/dc-list-heading/);
+  });
+
+  it('prints rows with a thumbnail, dotted leader and price', () => {
+    expect(src).toMatch(/dc-list-thumb/);
+    expect(src).toMatch(/dc-list-leader/);
+    expect(src).toMatch(/dc-list-price/);
+    expect(css).toMatch(/\.dc-list-leader\s*\{[^}]*border-bottom:[^}]*dotted/);
+    expect(css).toMatch(/\.dc-list-name\s*\{[^}]*--font-serif/);
+  });
+
+  it('opens the same center dialog from a listing row', () => {
+    expect(src).toMatch(/dc-list-row[\s\S]{0,220}setOpenedId\(item\.id\)/);
+  });
+
+  it('keeps rows thumb-sized and shows tray counts', () => {
+    expect(css).toMatch(/\.dc-list-row\s*\{[^}]*min-height:\s*44px/);
+    expect(src).toMatch(/dc-list-qty/);
   });
 });
 

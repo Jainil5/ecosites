@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { menuGroups } from '@/components/sites/dream-cafe/menu';
 import {
   CART_KEY,
   MAX_QTY,
@@ -14,10 +13,11 @@ import {
   type KvStore,
 } from '@/components/sites/dream-cafe/cart';
 
-const id = (group: number, item: number) => menuGroups[group].items[item].id;
-const coldBrew = id(1, 4);
-const flatWhite = id(1, 1);
-const everythingBagel = id(0, 0);
+// Reference items by id, not position: the menu sections were restructured
+// (Coffee · Food · Beverages) and index lookups were brittle.
+const coldBrew = 'cold-brew';
+const flatWhite = 'flat-white';
+const everythingBagel = 'everything-bagel';
 
 const fakeStore = (initial: Record<string, string> = {}): KvStore & { data: Record<string, string> } => {
   const data = { ...initial };
@@ -68,7 +68,7 @@ describe('cart reducer', () => {
   it('totals the tray in menu order', () => {
     const s: CartState = { [coldBrew]: 2, [everythingBagel]: 1 };
     const lines = lineItems(s);
-    expect(lines.map((l) => l.item.id)).toEqual([everythingBagel, coldBrew]);
+    expect(lines.map((l) => l.item.id)).toEqual([coldBrew, everythingBagel]);
     expect(cartTotal(s)).toBe(220 + 260 * 2);
   });
 });

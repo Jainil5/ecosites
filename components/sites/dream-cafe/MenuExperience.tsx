@@ -79,6 +79,8 @@ export function MenuExperience() {
   return (
     <section id="top" aria-label="The menu" className="dc-menu relative overflow-hidden">
       <div aria-hidden className="dc-pick-wash" />
+      <div aria-hidden className="dc-stains" />
+      <div aria-hidden className="dc-beans" />
       <div aria-hidden className="dc-hero-grain absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
@@ -119,7 +121,50 @@ export function MenuExperience() {
               </Reveal>
 
               <Reveal>
-                <div className="dc-square-grid" data-mode={mode}>
+                {mode === 'trad' ? (
+                  <div className="dc-menu-list">
+                    {tabGroups
+                      .filter((g) => cat === 'all' || g.id === cat)
+                      .map((group) => (
+                        <section key={group.id} aria-label={group.title}>
+                          <h2 className="dc-serif dc-list-heading">{group.title}</h2>
+                          {group.items.map((item) => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              className="dc-list-row"
+                              onClick={() => setOpenedId(item.id)}
+                              aria-label={`${item.name}, ${item.price}, ${group.title}. Open for details`}
+                            >
+                              <span className="dc-list-thumb">
+                                <Image
+                                  src={item.src}
+                                  alt=""
+                                  width={96}
+                                  height={96}
+                                  className="!h-full !w-full object-cover"
+                                />
+                              </span>
+                              <span className="dc-list-name">{item.name}</span>
+                              {isRecommended(item) ? (
+                                <span className="dc-list-star" aria-hidden>
+                                  ★
+                                </span>
+                              ) : null}
+                              <span className="dc-list-leader" aria-hidden />
+                              {cart[item.id] ? (
+                                <span className="dc-list-qty" aria-label={`${cart[item.id]} on your tray`}>
+                                  {cart[item.id]}
+                                </span>
+                              ) : null}
+                              <span className="dc-list-price">{item.price}</span>
+                            </button>
+                          ))}
+                        </section>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="dc-square-grid">
                   {visible.map(({ item, groupTitle }, i) => (
                     <button
                       key={item.id}
@@ -155,7 +200,8 @@ export function MenuExperience() {
                       ) : null}
                     </button>
                   ))}
-                </div>
+                  </div>
+                )}
               </Reveal>
 
               <Reveal delay={80}>
