@@ -31,7 +31,7 @@ export default function AboutPage() {
         </SectionIntro>
         <dl className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
           {pillars.map((pillar, i) => (
-            <div key={pillar.title} className={i === 0 ? 'bg-plane p-6 sm:col-span-2 lg:col-span-1' : 'bg-canvas p-6'}>
+            <div key={pillar.title} className={i === 0 ? 'bg-plane-deep p-6 sm:col-span-2 lg:col-span-1' : 'bg-canvas p-6'}>
               <dt className="gs-display text-base text-ink">{pillar.title}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-ink-2">{pillar.detail}</dd>
             </div>

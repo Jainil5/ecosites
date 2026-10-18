@@ -14,7 +14,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-hairline bg-plane">
+    <footer className="mt-24 border-t border-hairline bg-plane-deep text-ink">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
         <div className="space-y-3">
           <p className="gs-display flex items-center gap-2 text-xl">

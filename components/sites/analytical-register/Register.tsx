@@ -1,6 +1,7 @@
 // components/sites/analytical-register/Register.tsx
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { useOrderBook } from './store';
 import { Ticket } from './Ticket';
 import type { MenuItem } from './types';
@@ -27,6 +28,15 @@ export function Register() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {shown.map((m) => (
             <button key={m.id} onClick={() => add(m)} className="ob-tile p-3 text-left">
+              {m.src && (
+                <Image
+                  src={m.src}
+                  alt=""
+                  width={96}
+                  height={96}
+                  className="mb-2 h-16 w-16 rounded-lg object-cover"
+                />
+              )}
               <div className="font-semibold">{m.name}</div>
               {m.note && <div className="text-xs text-[var(--ob-muted)]">{m.note}</div>}
               <div className="mt-1 ob-accent-text font-bold">₹{m.price}</div>

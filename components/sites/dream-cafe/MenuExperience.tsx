@@ -4,6 +4,7 @@ import { useEffect, useReducer, useState } from 'react';
 import type { CSSProperties, PointerEvent } from 'react';
 import Image from 'next/image';
 import { isRecommended, menuGroups } from './menu';
+import { BeansField } from './BeansField';
 import { cartReducer, loadCart, saveCart } from './cart';
 import { OrderTray } from './OrderTray';
 import { ItemDialog } from './ItemDialog';
@@ -77,10 +78,11 @@ export function MenuExperience() {
   ];
 
   return (
-    <section id="top" aria-label="The menu" className="dc-menu relative overflow-hidden">
+    <section id="top" aria-label="The menu" className="dc-menu relative">
       <div aria-hidden className="dc-pick-wash" />
       <div aria-hidden className="dc-stains" />
       <div aria-hidden className="dc-beans" />
+      <BeansField />
       <div aria-hidden className="dc-hero-grain absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
@@ -225,10 +227,10 @@ export function MenuExperience() {
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <a href="#visit" className="focus-ring dc-btn dc-btn-cream">
+                    <a href="/dream-cafe#visit" className="focus-ring dc-btn dc-btn-cream">
                       Find the door
                     </a>
-                    <a href="#room" className="focus-ring dc-btn dc-btn-ghost">
+                    <a href="/dream-cafe#room" className="focus-ring dc-btn dc-btn-ghost">
                       See the room
                     </a>
                   </div>

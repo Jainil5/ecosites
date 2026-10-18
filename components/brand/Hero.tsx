@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { HeroStage } from '@/components/brand/HeroStage';
 import { SiteCompiler } from '@/components/brand/SiteCompiler';
-import { audiences } from '@/content/brand/audiences';
 import { products } from '@/content/brand/products';
 import { serviceSteps } from '@/content/brand/services';
 import { websites } from '@/content/websites/sites';
@@ -108,7 +107,7 @@ function GooCluster({ className = '' }: { className?: string }) {
  */
 export function Hero() {
   return (
-    <section className="gs-hero relative -mx-6 overflow-hidden border-b border-hairline bg-canvas">
+    <section className="gs-hero relative -mx-6 overflow-hidden border-b border-hairline">
       <span aria-hidden className="gs-grid" />
 
       <HeroStage className="relative mx-auto max-w-7xl px-6 pb-16 pt-8 lg:pb-20 lg:pt-10">
@@ -170,11 +169,11 @@ export function Hero() {
 
             <div className="gs-caps-rise" style={{ '--d': '480ms' } as CSSProperties}>
               <div className="flex flex-wrap gap-3">
-                <Link href={audiences[0].path} className="focus-ring gs-btn gs-btn-solid">
-                  {audiences[0].cta}
+                <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
+                  Get Started
                 </Link>
-                <Link href={audiences[1].path} className="focus-ring gs-btn gs-btn-ghost">
-                  Explore Enterprise Solutions
+                <Link href="/demos" className="focus-ring gs-btn gs-btn-ghost">
+                  See Our Work
                 </Link>
               </div>
               <p className="gs-label mt-4 text-ink-3">
@@ -184,7 +183,7 @@ export function Hero() {
           </div>
 
           <div className="relative">
-            <GooCluster className="opacity-80" />
+            <GooCluster className="opacity-40" />
             <div
               className="gs-caps-rise relative z-10"
               style={{ '--d': '560ms' } as CSSProperties}
@@ -199,7 +198,7 @@ export function Hero() {
         <dl className="relative mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-3">
           {FACTS.map((fact) => (
             <div key={fact.label} className="bg-canvas p-4">
-              <dt className="gs-display text-3xl text-forest">{fact.value}</dt>
+              <dt className="gs-display text-3xl text-plane">{fact.value}</dt>
               <dd className="gs-label mt-1 text-ink-3">{fact.label}</dd>
             </div>
           ))}

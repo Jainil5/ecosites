@@ -32,8 +32,6 @@ describe('Phase 1 IA', () => {
 
   it('nav points only at built routes with the agreed labels', () => {
     expect(navLinks.map((l) => l.href)).toEqual([
-      '/local-business',
-      '/enterprise',
       '/services',
       '/products',
       '/demos',
@@ -41,6 +39,13 @@ describe('Phase 1 IA', () => {
     ]);
     for (const l of navLinks) expect(resolveRoute(l.href), l.href).not.toBeNull();
     expect(ctaLink).toEqual({ href: '/contact', label: 'Get Started' });
+  });
+
+  it('audiences live only in the footer, never in the nav', () => {
+    expect(navLinks.map((l) => l.href)).not.toContain('/local-business');
+    expect(navLinks.map((l) => l.href)).not.toContain('/enterprise');
+    expect(footerLinks.map((l) => l.href)).toContain('/local-business');
+    expect(footerLinks.map((l) => l.href)).toContain('/enterprise');
   });
 
   it('footer covers services first, then the audiences, then contact and portfolio', () => {

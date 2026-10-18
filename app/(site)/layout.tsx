@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { BrandBackground } from '@/components/brand/BrandBackground';
 import { GooDefs } from '@/components/brand/GooDefs';
 
 export default function PortfolioLayout({
@@ -8,12 +9,14 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-canvas">
+    <div className="relative flex min-h-screen flex-col bg-transparent">
+      {/* The animated field the glass cards frost over. */}
+      <BrandBackground />
       {/* The gooey layers reference this by id; it must exist once per route. */}
       <GooDefs />
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-3 focus:py-2 focus:text-canvas"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-canvas focus:px-3 focus:py-2 focus:text-ink"
       >
         Skip to content
       </a>

@@ -26,7 +26,7 @@ export function IndustryGrid() {
             {industry.proof ? (
               <span aria-hidden className="absolute -right-4 -top-4 h-12 w-12 rotate-12 bg-plane/25" />
             ) : (
-              <span aria-hidden className="absolute -right-4 -top-4 h-12 w-12 rotate-12 bg-forest/15" />
+              <span aria-hidden className="absolute -right-4 -top-4 h-12 w-12 rotate-12 bg-plane/15" />
             )}
             <p className="gs-label text-ink-3">
               {String(i + 1).padStart(2, '0')}
@@ -41,7 +41,7 @@ export function IndustryGrid() {
                 </li>
               ))}
             </ul>
-            <p className="gs-label mt-5 text-forest">
+            <p className="gs-label mt-5 text-plane">
               {industry.proof ? `proof — ${label}` : 'we build for this vertical'}
             </p>
           </li>

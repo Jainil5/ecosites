@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import Image from 'next/image';
 import { cafe } from './cafe';
+import { BeansField } from './BeansField';
 import { PourScene } from './PourScene';
 import { Reveal } from './Reveal';
 
@@ -23,6 +25,7 @@ export function Hero() {
       />
       <div aria-hidden className="dc-hero-wash absolute inset-0" />
       <div aria-hidden className="dc-hero-grain absolute inset-0" />
+      <BeansField />
 
       <PourScene className="dc-pour-anchor" />
 
@@ -31,6 +34,12 @@ export function Hero() {
           <p className="dc-serif max-w-xl text-2xl leading-snug text-white sm:text-3xl">
             {cafe.intro}
           </p>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <Link href="/dream-cafe/menu" className="focus-ring dc-btn dc-btn-solid dc-hero-cta mt-9">
+            View our menu
+          </Link>
         </Reveal>
 
         <Reveal delay={120}>

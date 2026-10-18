@@ -2,8 +2,18 @@
 'use client';
 import { createContext, useContext, useEffect, useReducer, useState, type ReactNode } from 'react';
 import { initState, orderbookReducer, type Action, type StoreState } from './reducer';
+import { mergePublished, readPublished } from '../order-bridge';
 
-const KEY = 'orderbook:v1';
+// v2: the register rebrands to the shared Dream Cafe menu; v1 payloads would
+// hydrate the old catalogue, so they re-seed instead.
+const KEY = 'orderbook:v2';
+
+// Cafe orders published through the bridge join the book on hydrate;
+// mergePublished dedupes by id so persistence + re-hydrate can't double-count.
+function withPublished(st: StoreState): StoreState {
+  const published = readPublished(window.localStorage);
+  return published.length ? { ...st, orders: mergePublished(st.orders, published, st.brand) } : st;
+}
 
 // Read localStorage safely; null = nothing saved (or corrupt shape -> re-seed).
 function load(): StoreState | null {
@@ -35,7 +45,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // State flips only on the re-render, which carries the hydrated state.
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    dispatch({ type: 'hydrate', state: load() ?? initState() });
+    dispatch({ type: 'hydrate', state: withPublished(load() ?? initState()) });
     setHydrated(true);
   }, []);
   useEffect(() => {

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AudiencePaths } from '@/components/brand/AudiencePaths';
 import { ClientMarquee } from '@/components/brand/ClientMarquee';
 import { Hero } from '@/components/brand/Hero';
 import { IndustryGrid } from '@/components/brand/IndustryGrid';
@@ -26,11 +25,9 @@ export default function HomePage() {
     <div className="space-y-28 sm:space-y-36">
       <Hero />
 
-      <AudiencePaths />
-
       <ServicesGrid
         heading={{
-          index: '03',
+          index: '02',
           label: 'services',
           title: 'The right technology for your next stage.',
           intro:
@@ -40,7 +37,7 @@ export default function HomePage() {
 
       <section className="gs-reveal">
         <SectionIntro
-          index="04"
+          index="03"
           label="industry solutions"
           title="Built around the way your industry works."
         >
@@ -66,17 +63,17 @@ export default function HomePage() {
         <span aria-hidden className="gs-grid opacity-20" />
         <div className="relative mx-auto max-w-7xl px-6">
           <p className="gs-label">
-            <span className="gs-label-hot">09</span> <span aria-hidden>/</span> next step
+            <span className="gs-label-hot">08</span> <span aria-hidden>/</span> next step
           </p>
-          <h2 className="gs-display gs-h2 mt-3 text-canvas">
+          <h2 className="gs-display gs-h2 mt-3">
             Let&apos;s build what your business needs next.
           </h2>
-          <p className="mt-5 max-w-xl leading-relaxed text-canvas/80">
+          <p className="mt-5 max-w-xl leading-relaxed text-ink-2">
             Whether you need a website, a business system, a dashboard, or an AI
             solution, start with a conversation about the problem you want to solve.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/contact" className="focus-ring gs-btn bg-canvas text-ink hover:bg-lime">
+            <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
               Get Started
             </Link>
             <a
@@ -86,7 +83,7 @@ export default function HomePage() {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring gs-btn gs-btn-ghost !border-canvas !text-canvas"
+              className="focus-ring gs-btn gs-btn-ghost"
             >
               Discuss an Enterprise Project
             </a>

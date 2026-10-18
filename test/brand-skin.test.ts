@@ -17,18 +17,33 @@ function walk(rel: string): string[] {
 describe('brand skin tokens', () => {
   const config = read('tailwind.config.ts');
 
-  it('defines the green cut-plane scale', () => {
+  it('defines the dark-glass scale', () => {
     for (const [token, hex] of [
-      ['canvas', '#E9F0EA'],
-      ['paper', '#F4F7F3'],
+      ['canvas', '#0C0D0C'],
+      ['paper', '#FFFFFF0D'],
       ['plane', '#22C55E'],
-      ['forest', '#14532D'],
+      ['forest', '#4ADE80'],
       ['lime', '#BEF264'],
-      ['ink', '#0B1410'],
-      ['hairline', '#CBD9CD'],
+      ['ink', '#F2F5F2'],
+      ['ink-2', '#B6C2B8'],
+      ['ink-3', '#7E8F82'],
+      ['hairline', '#FFFFFF1F'],
+      ['plane-deep', '#0E2417'],
+      ['plane-ink', '#071209'],
     ] as const) {
       expect(config, token).toContain(hex.toUpperCase());
     }
+  });
+
+  it('separates text-on-plane from text-on-field', () => {
+    // ink is light now, so anything sitting on a filled green plane needs the
+    // near-black plane-ink instead; without the token, brand components would
+    // hardcode the hex one per button.
+    expect(config).toMatch(/'plane-ink':/);
+    const css = read('app/globals.css');
+    expect(css).toContain('--gs-plane-ink');
+    const solid = css.slice(css.indexOf('.gs-btn-solid {'), css.indexOf('.gs-btn-solid:hover'));
+    expect(solid).toContain('var(--gs-plane-ink)');
   });
 
   it('keeps the interactive accent green so the mark and the UI agree', () => {
@@ -116,15 +131,44 @@ describe('brand skin primitives', () => {
     // Every entrance and loop sits behind a no-preference query.
     expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
   });
+
+  it('frosts the card surface so panels read as glass', () => {
+    // The backdrop blur is what makes the animated field visible *through*
+    // the cards; without it the skin is just a dark theme.
+    const card = css.slice(css.indexOf('.gs-card {'));
+    expect(card.slice(0, 400)).toContain('backdrop-filter');
+  });
+
+  it('ships the three background effects behind the reduced-motion gate', () => {
+    for (const keyframe of ['@keyframes brand-bg-ripple', '@keyframes brand-bg-wave', '@keyframes brand-bg-orbit']) {
+      expect(css, keyframe).toContain(keyframe);
+    }
+    expect(css).toContain('.brand-bg');
+  });
 });
 
-describe('brand routes carry no dark-skin classes', () => {
-  // Tailwind drops unknown utility classes silently, so a leftover from the
-  // old dark shell renders as invisible ink-on-canvas text rather than an
-  // error. The list is what the migration replaced, token by token.
+describe('background effect component contract', () => {
+  const src = read('components/brand/BrandBackground.tsx');
+
+  it('offers exactly the ripple, wave, and orbit effects', () => {
+    expect(src).toContain("'ripple'");
+    expect(src).toContain("'wave'");
+    expect(src).toContain("'orbit'");
+    expect(src).not.toContain("'drift'");
+  });
+
+  it('is mounted by the brand layout', () => {
+    expect(read('app/(site)/layout.tsx')).toContain('BrandBackground');
+  });
+});
+
+describe('brand routes carry no light-skin leftovers', () => {
+  // The dark skin flipped token semantics: text that sat on paper now sits
+  // on the glass field. These are the classes the migration replaced, and a
+  // leftover renders as invisible ink-on-ink text rather than an error.
+  // (bg-ink is legitimate now: ink is light, so it fills light chips/badges.)
   const forbidden = [
-    'text-foreground', 'text-subtle', 'bg-deep', 'bg-surface', 'bg-elevated',
-    'shadow-card', 'shadow-glow', 'bg-white/[0', 'border-white/', 'glass',
+    'text-forest', 'focus:bg-ink', '!border-canvas', '!text-canvas',
     'beacon', 'go-cta', 'go-label', 'go-stat-value', 'go-compile',
   ];
   const files = [
@@ -143,6 +187,9 @@ describe('brand routes carry no dark-skin classes', () => {
     for (const token of forbidden) {
       expect(src, `${file} still uses ${token}`).not.toContain(token);
     }
+    // Staying token-driven is what made this re-skin a config edit; a stray
+    // arbitrary value would pin one component to one skin forever.
+    expect(src, `${file} hardcodes a colour`).not.toMatch(/(?:bg|text|border)-\[#/);
   });
 });
 

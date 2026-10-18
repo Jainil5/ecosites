@@ -52,7 +52,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     <div className="space-y-16 pt-12 sm:pt-16">
       <Link
         href="/portfolio"
-        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-forest"
+        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-plane"
       >
         <ArrowLeft aria-hidden className="h-4 w-4" />
         All builders

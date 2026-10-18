@@ -24,22 +24,23 @@ export function seedOrders(
   const now = opts.now ?? new Date();
   const rand = rng(opts.seed ?? 20261017);
   const active = menu.filter((m) => m.active);
-  // Popularity weights: coffee and bakes sell most.
+  // Popularity weights: coffee pours most, then food, then cold drinks.
   const weight = (m: MenuItem) =>
-    m.category === 'Coffee' ? 3 : m.category === 'Bakes' ? 2 : m.category === 'Tea' ? 2 : 1;
+    m.category === 'Coffee' ? 3 : m.category === 'Food' ? 2 : 1;
   const orders: Order[] = [];
   let bill = 1;
 
   for (let d = days - 1; d >= 0; d--) {
     const date = new Date(now.getTime() - d * 86400000);
-    const weekend = date.getDay() === 0 || date.getDay() === 6;
+    const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
     // Gentle growth toward the present + weekend boost.
     const trend = 0.8 + (days - d) / days * 0.5;
     const count = Math.max(2, Math.round((weekend ? 14 : 9) * trend * (0.7 + rand() * 0.6)));
     for (let i = 0; i < count; i++) {
       const hour = 8 + Math.floor(rand() * 12); // 8:00–19:59
       const ts = new Date(date);
-      ts.setHours(hour, Math.floor(rand() * 60), 0, 0);
+      // UTC clock, matching the analytics (slice/getUTC*) that read these.
+      ts.setUTCHours(hour, Math.floor(rand() * 60), 0, 0);
       const lineCount = 1 + Math.floor(rand() * 3);
       const lines: OrderLine[] = [];
       for (let k = 0; k < lineCount; k++) {

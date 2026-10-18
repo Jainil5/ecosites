@@ -23,8 +23,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50">
       <nav
         aria-label="Primary"
-        className={`border-b bg-canvas transition-colors duration-300 ${
-          sealed ? 'border-hairline' : 'border-transparent'
+        className={`border-b backdrop-blur-xl transition-colors duration-300 ${
+          sealed ? 'border-hairline bg-canvas/90' : 'border-transparent bg-canvas/40'
         }`}
       >
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">
@@ -62,7 +62,7 @@ export function Navbar() {
             <li>
               <Link
                 href={ctaLink.href}
-                className="focus-ring gs-label ml-2 inline-block bg-forest px-4 py-2.5 text-canvas transition-colors hover:bg-ink"
+                className="focus-ring gs-label ml-2 inline-block bg-plane px-4 py-2.5 text-plane-ink transition-colors hover:bg-lime hover:text-plane-ink"
               >
                 {ctaLink.label}
               </Link>

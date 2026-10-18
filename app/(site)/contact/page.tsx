@@ -53,7 +53,7 @@ export default function ContactPage() {
           >
             <p className="gs-display gs-h3">{row.question}</p>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-2">{row.detail}</p>
-            <p className="mt-5 inline-flex items-center gap-2 font-label text-xs uppercase tracking-widest text-forest">
+            <p className="mt-5 inline-flex items-center gap-2 font-label text-xs uppercase tracking-widest text-plane">
               <MessageCircle aria-hidden className="h-4 w-4" />
               {row.label}
               <ArrowUpRight

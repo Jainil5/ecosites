@@ -52,7 +52,7 @@ export default function PortfolioIndexPage() {
                   <span className="font-label text-xs tracking-widest text-ink-3">
                     {builds} {builds === 1 ? 'build' : 'builds'} shipped
                   </span>
-                  <span className="inline-flex items-center gap-1.5 font-label text-sm font-medium text-forest">
+                  <span className="inline-flex items-center gap-1.5 font-label text-sm font-medium text-plane">
                     View work
                     <ArrowRight
                       aria-hidden

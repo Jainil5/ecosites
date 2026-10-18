@@ -6,7 +6,7 @@ export function WhyUs() {
   return (
     <section className="gs-reveal">
       <SectionIntro
-        index="08"
+        index="07"
         label="why website intelligence"
         title="One partner across the whole stack."
       >
@@ -14,7 +14,7 @@ export function WhyUs() {
       </SectionIntro>
       <dl className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {whyPoints.map((point, i) => (
-          <div key={point.title} className={i === 0 ? 'bg-plane p-6' : 'bg-canvas p-6'}>
+          <div key={point.title} className={i === 0 ? 'bg-plane-deep p-6' : 'bg-canvas p-6'}>
             <dt className="gs-display text-base text-ink">{point.title}</dt>
             <dd className="mt-2 text-sm leading-relaxed text-ink-2">{point.detail}</dd>
           </div>

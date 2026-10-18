@@ -79,13 +79,13 @@ export function ContactCta() {
                 href={href}
                 className="focus-ring group flex items-center gap-4 border border-hairline bg-canvas px-4 py-3 transition-colors hover:border-plane"
               >
-                <Icon aria-hidden className="h-4 w-4 shrink-0 text-forest" />
-                <span className="min-w-0 flex-1 break-all font-label text-xs uppercase tracking-widest text-ink group-hover:text-forest">
+                <Icon aria-hidden className="h-4 w-4 shrink-0 text-plane" />
+                <span className="min-w-0 flex-1 break-all font-label text-xs uppercase tracking-widest text-ink group-hover:text-plane">
                   {label}
                 </span>
                 <ArrowUpRight
                   aria-hidden
-                  className="h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-forest"
+                  className="h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-plane"
                 />
               </a>
             </li>

@@ -16,6 +16,8 @@ export interface MenuItem {
   category: string;
   price: number;
   note?: string;
+  /** Cafe photo path, shared with the Dream Cafe menu. */
+  src?: string;
   active: boolean;
 }
 

@@ -1,18 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Menu, X } from 'lucide-react';
 import { SunriseMark } from './SunriseMark';
 
 const links = [
-  { href: '#menu', label: 'Menu' },
-  { href: '#room', label: 'The room' },
-  { href: '#visit', label: 'Visit' },
+  { href: '/dream-cafe/menu', label: 'Menu' },
+  { href: '/dream-cafe#room', label: 'The room' },
+  { href: '/dream-cafe#feed', label: 'Feed' },
+  { href: '/dream-cafe/testimonials', label: 'Voices' },
+  { href: '/dream-cafe#visit', label: 'Visit' },
 ];
 
-export function Nav({ scrolled }: { scrolled: boolean }) {
+export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 40);
+        ticking = false;
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <>
@@ -37,13 +55,13 @@ export function Nav({ scrolled }: { scrolled: boolean }) {
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-          <a href="#top" className="focus-ring dc-brand group flex items-center gap-2.5">
+          <Link href="/dream-cafe" className="focus-ring dc-brand group flex items-center gap-2.5">
             <SunriseMark className="h-7 w-7 text-[var(--dc-ember)]" />
             <span className="dc-display text-xl leading-none">
               <span className="dc-serif italic font-normal text-[var(--dc-ember)]">Dream</span>
               <span className="ml-1 uppercase tracking-[0.14em]">Cafe</span>
             </span>
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-9 md:flex">
             {links.map((l) => (
@@ -55,7 +73,7 @@ export function Nav({ scrolled }: { scrolled: boolean }) {
                 {l.label}
               </a>
             ))}
-            <a href="#visit" className="focus-ring dc-btn dc-btn-solid">
+            <a href="/dream-cafe/menu" className="focus-ring dc-btn dc-btn-solid">
               Order ahead
             </a>
           </nav>
@@ -85,7 +103,7 @@ export function Nav({ scrolled }: { scrolled: boolean }) {
                 </a>
               ))}
               <a
-                href="#visit"
+                href="/dream-cafe/menu"
                 onClick={() => setOpen(false)}
                 className="focus-ring dc-btn dc-btn-solid mt-1 w-full"
               >

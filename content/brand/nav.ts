@@ -1,11 +1,10 @@
 /**
- * The primary navigation split by audience: the two paths come first, then
- * the shared pages. Every href here must be a built route — the IA test
- * validates it against the filesystem.
+ * The primary navigation: four tabs plus the CTA. The audience pages
+ * (/local-business, /enterprise) stay built and reachable from the footer,
+ * but they are no longer top-level destinations. Every href here must be a
+ * built route — the IA test validates it against the filesystem.
  */
 export const navLinks = [
-  { href: '/local-business', label: 'Local Business' },
-  { href: '/enterprise', label: 'Enterprise' },
   { href: '/services', label: 'Services' },
   { href: '/products', label: 'Products' },
   { href: '/demos', label: 'Work' },

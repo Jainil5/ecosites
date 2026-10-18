@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import {
+  cartCount,
   cartTotal,
   inr,
   lineItems,
@@ -10,20 +11,43 @@ import {
   type CartAction,
   type CartState,
 } from './cart';
+import { publishOrder } from '../order-bridge';
 
 export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (action: CartAction) => void }) {
   const [ticket, setTicket] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   const lines = lineItems(cart);
   const total = cartTotal(cart);
+  const count = cartCount(cart);
 
   const place = () => {
-    setTicket(orderNumber());
+    const num = orderNumber();
+    // Hand the bill to the OrderBook demo so the two stories stay connected.
+    publishOrder(window.localStorage, {
+      id: `dc-${Date.now()}-${num}`,
+      createdAt: new Date().toISOString(),
+      lines: lines.map(({ item, qty }) => ({ menuItemId: item.id, name: item.name, qty, unitPrice: item.amount })),
+    });
+    setTicket(num);
     dispatch({ type: 'clear' });
   };
 
   return (
-    <aside className="dc-tray" aria-label="Your order">
+    <aside className="dc-tray" aria-label="Your order" data-open={open ? 'true' : 'false'}>
+      {/* Phones and tablets get the tray as a constant bar pinned over the
+          scrolling menu; desktop hides it and keeps the sticky side panel. */}
+      <button
+        type="button"
+        className="dc-tray-bar dc-display"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span>{count > 0 ? `${count} on your tray` : 'Your order'}</span>
+        <span className="dc-tray-bar-total" key={total}>{inr(total)}</span>
+        <span className="dc-tray-bar-chev" aria-hidden>{open ? '▾' : '▴'}</span>
+      </button>
+      <div className="dc-tray-scrim" aria-hidden onClick={() => setOpen(false)} />
       <div className="dc-tray-panel">
         {ticket && lines.length === 0 ? (
           <div className="dc-ticket" key={ticket}>

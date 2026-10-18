@@ -29,4 +29,12 @@ describe('seedOrders', () => {
       expect(o.currency).toBe(defaultBrand.currency);
     }
   });
+  it('serves during cafe hours on the UTC clock the analytics read', () => {
+    const orders = seedOrders(defaultMenu, defaultBrand, { days: 30, seed: 3 });
+    for (const o of orders) {
+      const hour = new Date(o.createdAt).getUTCHours();
+      expect(hour).toBeGreaterThanOrEqual(8);
+      expect(hour).toBeLessThanOrEqual(19);
+    }
+  });
 });

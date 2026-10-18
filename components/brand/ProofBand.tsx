@@ -48,7 +48,7 @@ function StatCell({ stat, run }: { stat: Stat; run: boolean }) {
     <div className="px-6 py-8 text-center sm:py-10">
       <p className="gs-display text-5xl sm:text-6xl">
         {String(value).padStart(2, '0')}
-        {stat.suffix ? <em className="not-italic text-forest">{stat.suffix}</em> : null}
+        {stat.suffix ? <em className="not-italic text-plane">{stat.suffix}</em> : null}
       </p>
       <p className="gs-label mt-3 text-ink/65">{stat.label}</p>
     </div>

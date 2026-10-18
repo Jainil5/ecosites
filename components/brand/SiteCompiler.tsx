@@ -83,7 +83,7 @@ export function SiteCompiler() {
             >
               <span aria-hidden className="h-2 w-2 rounded-full bg-plane" />
               <span aria-hidden className="h-2 w-2 rounded-full bg-lime" />
-              <span aria-hidden className="h-2 w-2 rounded-full bg-forest" />
+              <span aria-hidden className="h-2 w-2 rounded-full bg-plane" />
               <span className="ml-3 truncate font-label text-[11px] tracking-widest text-ink-3">
                 www.{slugOf(compiled)}.in
               </span>
@@ -102,7 +102,7 @@ export function SiteCompiler() {
               <h3 className="gs-caps-rise gs-display gs-h3 mt-5" style={d(400)}>
                 {compiled}
               </h3>
-              <p className="gs-caps-rise mt-2 text-sm font-semibold text-forest" style={d(520)}>
+              <p className="gs-caps-rise mt-2 text-sm font-semibold text-plane" style={d(520)}>
                 {taglineFor(compiled)}
               </p>
               <div

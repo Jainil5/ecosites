@@ -404,6 +404,40 @@ describe('dream cafe ambient 3D float', () => {
   it('stops the float for reduced motion', () => {
     expect(css).toMatch(/prefers-reduced-motion: reduce[\s\S]{0,1600}\.dream-cafe \.dc-tile,\s*\.dream-cafe \.dc-tile:hover,[\s\S]{0,160}?animation: none/);
   });
+
+  it('rocks the tiles harder on phones', () => {
+    // He reported "cards are not moving" at 375px: the 6px laptop bob reads
+    // as still on a small high-density screen, so phones get a bigger swing.
+    expect(css).toMatch(/@keyframes dc-float\s*\{[\s\S]*?translate:\s*0 var\(--dc-bob/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tile\s*\{[^}]*--dc-bob:\s*-6px/);
+    expect(css).toMatch(/@media \(max-width: 639px\)[\s\S]*?\.dream-cafe \.dc-tile\s*\{[^}]*--dc-bob:\s*-1[0-9]px/);
+  });
+});
+
+describe('dream cafe mobile floating order bar', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const tray = read('components/sites/dream-cafe/OrderTray.tsx');
+  const css = read('app/globals.css');
+
+  it('keeps a constant order bar pinned to the bottom on phones', () => {
+    // His ask: the order part "should be there" while the menu scrolls.
+    expect(tray).toMatch(/dc-tray-bar/);
+    expect(tray).toMatch(/aria-expanded=\{open\}/);
+    expect(tray).toMatch(/cartCount/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tray-bar\s*\{[^}]*display:\s*none/);
+    expect(css).toMatch(/@media \(max-width: 1023px\)[\s\S]*?\.dream-cafe \.dc-tray-bar\s*\{[^}]*position:\s*fixed/);
+  });
+
+  it('opens the full tray as a bottom sheet over a dimmed scrim', () => {
+    expect(tray).toMatch(/dc-tray-scrim/);
+    expect(tray).toMatch(/data-open=\{open \? 'true' : 'false'\}/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tray-panel\s*\{[^}]*transform:\s*translateY\(1\d\d%\)/);
+    expect(css).toMatch(/\.dream-cafe \.dc-tray\[data-open='true'\] \.dc-tray-panel\s*\{[^}]*transform:\s*none/);
+  });
+
+  it('clears the last menu row from under the bar', () => {
+    expect(css).toMatch(/@media \(max-width: 1023px\)[\s\S]*?\.dream-cafe \.dc-menu\s*\{[^}]*padding-bottom:\s*(8\d|9\d|1\d\d)px/);
+  });
 });
 
 describe('dream cafe order tray after the grid redesign', () => {
@@ -415,6 +449,14 @@ describe('dream cafe order tray after the grid redesign', () => {
     // The ticket shows only while the tray is empty: a fresh + goes straight
     // back to the line list instead of hiding behind a stale ticket.
     expect(tray).toMatch(/ticket\s*&&\s*lines\.length\s*===\s*0/);
+  });
+
+  it('never clips the section that hosts the sticky tray', () => {
+    // overflow-hidden on an ancestor silently traps position: sticky —
+    // the desktop tray slid off-screen when the menu section had it.
+    const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+    const menu = src.match(/className="dc-menu[^"]*"/)?.[0] ?? '';
+    expect(menu).not.toContain('overflow-hidden');
   });
 
   it('styles its restart control with a class that still exists', () => {
@@ -461,6 +503,66 @@ describe('dream cafe identity', () => {
   });
 });
 
+describe('dream cafe landing/menu route split', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+
+  it('keeps the landing free of the menu board', () => {
+    const landing = read('components/sites/dream-cafe/DreamCafe.tsx');
+    expect(landing).not.toMatch(/MenuExperience/);
+    expect(landing).toMatch(/<Hero/);
+    expect(landing).toMatch(/<Mosaic/);
+  });
+
+  it('serves the menu board at /dream-cafe/menu', () => {
+    const route = read('app/(sites)/dream-cafe/menu/page.tsx');
+    expect(route).toMatch(/CafeMenuPage/);
+    const page = read('components/sites/dream-cafe/CafeMenuPage.tsx');
+    expect(page).toMatch(/<MenuExperience/);
+    expect(page).toMatch(/<Nav/);
+    expect(page).toMatch(/<SiteFooter/);
+  });
+
+  it('invites customers from the hero into the menu page', () => {
+    const hero = read('components/sites/dream-cafe/Hero.tsx');
+    expect(hero).toMatch(/href="\/dream-cafe\/menu"/);
+    expect(hero).toMatch(/View our menu/);
+  });
+
+  it('points the nav Menu link and Order ahead at the menu route', () => {
+    const nav = read('components/sites/dream-cafe/Nav.tsx');
+    expect(nav).toMatch(/'\/dream-cafe\/menu'/);
+    expect(nav).toMatch(/'\/dream-cafe#room'/);
+  });
+});
+
+describe('dream cafe floating bean field', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const css = read('app/globals.css');
+
+  it('renders individual drifting bean glyphs, hidden from a11y tooling', () => {
+    const beans = read('components/sites/dream-cafe/BeansField.tsx');
+    expect(beans).toMatch(/aria-hidden/);
+    expect(beans).toMatch(/dc-bean\b/);
+    // Each bean gets its own loop timing via inline custom properties.
+    expect(beans).toMatch(/--dur/);
+    expect(beans).toMatch(/--delay/);
+  });
+
+  it('animates each bean and stops for reduced motion', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-bean\s*\{[^}]*animation:\s*dc-bean-float/);
+    expect(css).toMatch(/@keyframes dc-bean-float/);
+    expect(css).toMatch(/\.dream-cafe \.dc-beans-field\s*\{[^}]*pointer-events:\s*none/);
+    expect(css).toMatch(
+      /prefers-reduced-motion: reduce[\s\S]*?\.dream-cafe \.dc-bean\s*\{[^}]*animation: none/,
+    );
+  });
+
+  it('floats beans on the landing hero and behind the menu board', () => {
+    expect(read('components/sites/dream-cafe/Hero.tsx')).toMatch(/<BeansField/);
+    expect(read('components/sites/dream-cafe/MenuExperience.tsx')).toMatch(/<BeansField/);
+  });
+});
+
 describe('dream cafe imagery', () => {
   it('ships every referenced photo in public/', () => {
     const shots = [
@@ -497,5 +599,88 @@ describe('dream cafe imagery', () => {
       expect(phrase.length).toBeLessThanOrEqual(34);
       expect(phrase).not.toMatch(/[.!]$/);
     }
+  });
+});
+
+describe('dream cafe instagram feed', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+
+  it('ships exactly the three links he rotates, as a one-line-swap data file', async () => {
+    const { instaFeed } = await import('@/components/sites/dream-cafe/instaFeed');
+    expect(instaFeed).toHaveLength(3);
+    for (const post of instaFeed) {
+      expect(post.url).toMatch(/^https:\/\/www\.instagram\.com\/(?:[\w.-]+\/)?(p|reel)\/[\w-]+\/?$/);
+      expect(post.caption.length).toBeGreaterThan(10);
+    }
+    // The three he passed on 2026-10-19:
+    expect(instaFeed.map((p) => p.url)).toEqual([
+      'https://www.instagram.com/starbucks/p/DaWEQ3vEgYh/',
+      'https://www.instagram.com/starbucks/reel/DYkcaYbvk7l/',
+      'https://www.instagram.com/starbucks/p/DZZ6InukqOE/',
+    ]);
+  });
+
+  it('embeds the live post with a graceful fallback link', () => {
+    const post = read('components/sites/dream-cafe/InstagramPost.tsx');
+    expect(post).toMatch(/embed\/captioned/);
+    expect(post).toMatch(/\(p\|reel\)/);
+    expect(post).toMatch(/addEventListener\('message'/);
+    expect(post).toMatch(/rel="noopener noreferrer"/);
+    expect(post).toMatch(/target="_blank"/);
+  });
+
+  it('sits the feed on the landing between the room and the visit block', () => {
+    const landing = read('components/sites/dream-cafe/DreamCafe.tsx');
+    expect(landing).toMatch(/<Feed/);
+    expect(landing.search(/<Mosaic/)).toBeLessThan(landing.search(/<Feed/));
+    expect(landing.search(/<Feed/)).toBeLessThan(landing.search(/<Visit/));
+    const feed = read('components/sites/dream-cafe/Feed.tsx');
+    expect(feed).toMatch(/id="feed"/);
+    expect(feed).toMatch(/InstagramPost/);
+  });
+});
+
+describe('dream cafe 3d testimonials', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const css = read('app/globals.css');
+
+  it('tags every demo voice to a real menu item', async () => {
+    const { testimonials } = await import('@/components/sites/dream-cafe/testimonialsData');
+    expect(testimonials.length).toBeGreaterThanOrEqual(6);
+    const ids = new Set(menuGroups.flatMap((g) => g.items.map((i) => i.id)));
+    for (const t of testimonials) {
+      expect(ids.has(t.itemId), `${t.name} -> ${t.itemId}`).toBe(true);
+      expect(t.quote.length).toBeGreaterThan(30);
+      expect(t.quote).not.toMatch(/@|\.com|\+\d{8}/);
+    }
+  });
+
+  it('serves the voices at /dream-cafe/testimonials', () => {
+    const route = read('app/(sites)/dream-cafe/testimonials/page.tsx');
+    expect(route).toMatch(/Testimonials/);
+    const page = read('components/sites/dream-cafe/Testimonials.tsx');
+    expect(page).toMatch(/dc-voices/);
+    expect(page).toMatch(/dc-voice\b/);
+    expect(page).toMatch(/<Nav/);
+    expect(page).toMatch(/<SiteFooter/);
+  });
+
+  it('floats the cards in a real 3D field with depth, tilt and an active lift', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-voices\s*\{[^}]*perspective:/);
+    expect(css).toMatch(/\.dream-cafe \.dc-voice\s*\{[^}]*translateZ\(var\(--z/);
+    expect(css).toMatch(/animation:\s*dc-voice-float/);
+    expect(css).toMatch(/@keyframes dc-voice-float/);
+    expect(css).toMatch(/\.dream-cafe \.dc-voice\[data-active='true'\]/);
+    expect(css).toMatch(
+      /prefers-reduced-motion: reduce[\s\S]*?\.dream-cafe \.dc-voice\s*\{[^}]*animation: none/,
+    );
+  });
+
+  it('wires the nav and the visit block into both new surfaces', () => {
+    const nav = read('components/sites/dream-cafe/Nav.tsx');
+    expect(nav).toMatch(/'\/dream-cafe#feed'/);
+    expect(nav).toMatch(/'\/dream-cafe\/testimonials'/);
+    const visit = read('components/sites/dream-cafe/Visit.tsx');
+    expect(visit).toMatch(/\/dream-cafe\/testimonials/);
   });
 });

@@ -10,20 +10,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Green "cut-plane" skin. Sampled from the reference deck form and
-        // retuned green: pale sage canvas, near-black green ink, two flat
-        // green planes, one lime accent for the mono corner labels.
+        // Dark-glass skin, sampled from shaders.com's pixels: near-black
+        // field, frosted translucent panels, hairline glass edges, and the
+        // same green/lime accents the cut-plane skin earned. Token roles are
+        // unchanged (canvas = field, ink = text), only their values flipped —
+        // so every gs-* component re-skins with this table.
         // Brand-scoped on purpose: the demo sites hardcode their own hex and
         // never read these, so flipping them cannot leak into client work.
-        canvas: '#E9F0EA',
-        paper: '#F4F7F3',
+        canvas: '#0C0D0C',
+        // Translucent white, not a tinted black: this is the glass fill, so a
+        // bg-paper panel and a .gs-card must read as the same material.
+        paper: '#FFFFFF0D',
         plane: '#22C55E',
-        forest: '#14532D',
+        forest: '#4ADE80',
         lime: '#BEF264',
-        ink: '#0B1410',
-        'ink-2': '#33463A',
-        'ink-3': '#6B7F70',
-        hairline: '#CBD9CD',
+        ink: '#F2F5F2',
+        'ink-2': '#B6C2B8',
+        'ink-3': '#7E8F82',
+        hairline: '#FFFFFF1F',
+        // The deep panel fill (CTA bands, nav pill) the old forest provided.
+        // Named plane-deep: a bare `deep` already exists in the legacy scale.
+        'plane-deep': '#0E2417',
+        // Ink that sits *on* a filled plane: near-black text on bright green,
+        // where `ink` (the light text colour) would vanish.
+        'plane-ink': '#071209',
 
         accent: {
           DEFAULT: '#22C55E',

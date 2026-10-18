@@ -15,6 +15,12 @@ export function Visit() {
           <h2 className="dc-display mt-3 text-4xl text-[var(--dc-ink)] sm:text-5xl">
             The yellow door on Sunrise Lane
           </h2>
+          <a
+            href="/dream-cafe/testimonials"
+            className="focus-ring dc-btn dc-btn-ghost mt-6"
+          >
+            What people say
+          </a>
         </Reveal>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
