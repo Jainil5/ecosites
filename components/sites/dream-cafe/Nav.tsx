@@ -23,7 +23,7 @@ export function Nav({ scrolled }: { scrolled: boolean }) {
             className="focus-ring inline-flex items-center gap-1.5 rounded text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--dc-cream)]/80 transition-colors hover:text-[var(--dc-cream)]"
           >
             <ArrowLeft aria-hidden className="h-3 w-3" />
-            Back to Website IN
+            Back to Website Intelligence
           </Link>
         </div>
       </div>

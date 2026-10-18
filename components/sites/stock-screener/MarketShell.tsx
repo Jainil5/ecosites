@@ -113,7 +113,7 @@ export function MarketShell({ children }: { children: React.ReactNode }) {
               href="/"
               className="focus-ring rounded transition-colors hover:text-[#16C784]"
             >
-              Market Pulse · a live terminal built by Website IN
+              Market Pulse · a live terminal built by Website Intelligence
             </Link>
           </p>
         </footer>

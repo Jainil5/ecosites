@@ -2,14 +2,14 @@ import type { Product } from './types';
 
 /**
  * The products are apps a business runs, not capabilities it buys — the
- * capabilities live in `services.ts`. Each entry names its halves, because
+ * capabilities live in `capabilities.ts`. Each entry names its halves, because
  * both of these are sold as one screen for the counter and one for the
  * numbers behind it.
  */
 export const products: Product[] = [
   {
     slug: 'order-book',
-    title: 'Order Book',
+    title: 'OrderBook',
     summary:
       'Take the order at the counter and read the numbers back at closing, in one app.',
     icon: 'register',
@@ -31,6 +31,7 @@ export const products: Product[] = [
           'The dashboard that reads the day back to you: best sellers, slow items, and the trend since you started keeping records.',
       },
     ],
+    demoPath: '/analytical-register',
   },
   {
     slug: 'market-pulse',

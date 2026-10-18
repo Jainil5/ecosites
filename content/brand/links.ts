@@ -10,9 +10,12 @@ function fullNumber(phone: string): string {
   return digits;
 }
 
+export function whatsappHrefMessage(contact: ContactChannels, message: string): string {
+  return `https://wa.me/${fullNumber(contact.phone)}?text=${encodeURIComponent(message)}`;
+}
+
 export function whatsappHref(contact: ContactChannels): string {
-  const message = encodeURIComponent(contact.whatsappMessage);
-  return `https://wa.me/${fullNumber(contact.phone)}?text=${message}`;
+  return whatsappHrefMessage(contact, contact.whatsappMessage);
 }
 
 export function telHref(contact: ContactChannels): string {

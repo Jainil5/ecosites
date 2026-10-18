@@ -85,7 +85,7 @@ export function HairAdore() {
       <div className="bg-[#2B2118] text-center">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2 text-xs">
           <Link href="/" className="focus-ring inline-flex items-center gap-1 rounded font-semibold text-[#E7B48F] hover:text-white">
-            <ArrowLeft aria-hidden className="h-3 w-3" /> Back to Website IN
+            <ArrowLeft aria-hidden className="h-3 w-3" /> Back to Website Intelligence
           </Link>
         </div>
       </div>

@@ -7,12 +7,10 @@ interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  /** `lift` fades and raises; `unfold` hinges the block down like a written board. */
-  variant?: 'lift' | 'unfold';
 }
 
 /** Fades and lifts children in once they intersect; reveals at once under reduced motion. */
-export function Reveal({ children, className = '', delay = 0, variant = 'lift' }: RevealProps) {
+export function Reveal({ children, className = '', delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -45,13 +43,9 @@ export function Reveal({ children, className = '', delay = 0, variant = 'lift' }
       ref={ref}
       data-open={String(visible)}
       style={{ transitionDelay: `${delay}ms` }}
-      className={
-        variant === 'unfold'
-          ? `dc-unfold ${className}`
-          : `transition-all duration-700 ease-out ${
-              visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            } ${className}`
-      }
+      className={`transition-all duration-700 ease-out ${
+        visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+      } ${className}`}
     >
       {children}
     </div>

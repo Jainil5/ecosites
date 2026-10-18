@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { industries } from '@/content/brand/industries';
 import { websites } from '@/content/websites/sites';
 
 interface Stat {
@@ -11,7 +12,7 @@ interface Stat {
 
 const stats: Stat[] = [
   { value: websites.length, label: 'businesses live right now' },
-  { value: websites.length, label: 'industries served' },
+  { value: industries.length, label: 'industry verticals we build for' },
   { value: 7, suffix: 'd', label: 'typical time to first draft' },
   { value: 24, suffix: 'h', label: 'maximum time to a reply' },
 ];

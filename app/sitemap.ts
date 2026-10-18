@@ -16,6 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${siteUrl}/` },
     { url: `${siteUrl}/services` },
+    { url: `${siteUrl}/local-business` },
+    { url: `${siteUrl}/enterprise` },
+    { url: `${siteUrl}/about` },
     { url: `${siteUrl}/products` },
     { url: `${siteUrl}/demos` },
     { url: `${siteUrl}/store` },

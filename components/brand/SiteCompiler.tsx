@@ -33,7 +33,7 @@ function taglineFor(name: string): string {
 function previewHref(name: string): string {
   return whatsappHref({
     ...company.contact,
-    whatsappMessage: `Hi Website IN! I just saw "${name}" online on your site — I want this for my business.`,
+    whatsappMessage: `Hi Website Intelligence! I just saw "${name}" online on your site — I want this for my business.`,
   });
 }
 

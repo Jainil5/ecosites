@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react';
-import { ContactRow } from '@/components/brand/ContactCta';
+import Link from 'next/link';
 import { HeroStage } from '@/components/brand/HeroStage';
 import { SiteCompiler } from '@/components/brand/SiteCompiler';
+import { audiences } from '@/content/brand/audiences';
 import { products } from '@/content/brand/products';
 import { serviceSteps } from '@/content/brand/services';
 import { websites } from '@/content/websites/sites';
@@ -147,15 +148,15 @@ export function Hero() {
         <div className="relative grid gap-x-16 gap-y-14 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-9">
             <p className="gs-label gs-caps-rise">
-              <span className="gs-label-hot">01</span> <span aria-hidden>/</span> manifesto
+              <span className="gs-label-hot">web</span> · software · data · ai
             </p>
 
             <h1 className="gs-display gs-h2">
               <span className="block gs-caps-rise" style={{ '--d': '120ms' } as CSSProperties}>
-                Get online<span className="text-plane">.</span>
+                Technology for
               </span>
               <span className="block gs-caps-rise" style={{ '--d': '220ms' } as CSSProperties}>
-                Then get ahead<span className="text-plane">.</span>
+                Every Business<span className="text-plane">.</span>
               </span>
             </h1>
 
@@ -163,14 +164,22 @@ export function Hero() {
               className="gs-caps-rise max-w-xl text-lg leading-relaxed text-ink-2"
               style={{ '--d': '380ms' } as CSSProperties}
             >
-              You exist offline. Your customers search, compare and book with whoever
-              answers first. We get you online — then keep stacking the advantages:
-              motion that makes you look established, automation that never forgets,
-              AI that answers at 11pm.
+              From your first business website to intelligent software and AI-powered
+              workflows, we help you build the digital tools your business needs to grow.
             </p>
 
             <div className="gs-caps-rise" style={{ '--d': '480ms' } as CSSProperties}>
-              <ContactRow />
+              <div className="flex flex-wrap gap-3">
+                <Link href={audiences[0].path} className="focus-ring gs-btn gs-btn-solid">
+                  {audiences[0].cta}
+                </Link>
+                <Link href={audiences[1].path} className="focus-ring gs-btn gs-btn-ghost">
+                  Explore Enterprise Solutions
+                </Link>
+              </div>
+              <p className="gs-label mt-4 text-ink-3">
+                Start with what you need today. Add more as your business grows.
+              </p>
             </div>
           </div>
 

@@ -3,14 +3,7 @@ import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { Logo } from '@/components/brand/Logo';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
-
-const pages = [
-  { href: '/services', label: 'Services' },
-  { href: '/products', label: 'Products' },
-  { href: '/demos', label: 'Work' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
-];
+import { footerLinks } from '@/content/brand/nav';
 
 export function Footer() {
   const { contact } = company;
@@ -26,7 +19,7 @@ export function Footer() {
         <div className="space-y-3">
           <p className="gs-display flex items-center gap-2 text-xl">
             <Logo className="h-5 w-5" />
-            Website <span>IN</span>
+            Website <span>Intelligence</span>
           </p>
           <p className="max-w-xs text-sm leading-relaxed text-ink/75">{company.tagline}</p>
         </div>
@@ -34,7 +27,7 @@ export function Footer() {
         <nav aria-label="Footer">
           <p className="gs-label">pages</p>
           <ul className="mt-4 space-y-2.5">
-            {pages.map((page) => (
+            {footerLinks.map((page) => (
               <li key={page.href}>
                 <Link
                   href={page.href}

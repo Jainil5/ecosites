@@ -4,14 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Logo } from '@/components/brand/Logo';
-
-const links = [
-  { href: '/services', label: 'Services' },
-  { href: '/products', label: 'Products' },
-  { href: '/demos', label: 'Work' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
-];
+import { ctaLink, navLinks } from '@/content/brand/nav';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -40,11 +33,11 @@ export function Navbar() {
             className="focus-ring inline-flex items-center gap-2 font-display text-base font-extrabold uppercase tracking-tight text-ink"
           >
             <Logo className="h-5 w-5 text-accent" />
-            Website<span className="text-accent">IN</span>
+            Website <span className="text-accent">Intelligence</span>
           </Link>
 
           <ul className="flex flex-wrap items-center justify-end gap-x-1 gap-y-1 sm:gap-4">
-            {links.map((link) => {
+            {navLinks.map((link) => {
               const active = link.href.split('#')[0] === pathname;
               return (
                 <li key={link.href}>
@@ -66,6 +59,14 @@ export function Navbar() {
                 </li>
               );
             })}
+            <li>
+              <Link
+                href={ctaLink.href}
+                className="focus-ring gs-label ml-2 inline-block bg-forest px-4 py-2.5 text-canvas transition-colors hover:bg-ink"
+              >
+                {ctaLink.label}
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

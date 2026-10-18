@@ -1,51 +1,96 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { AudiencePaths } from '@/components/brand/AudiencePaths';
 import { ClientMarquee } from '@/components/brand/ClientMarquee';
-import { ContactCta } from '@/components/brand/ContactCta';
-import { GrowBand } from '@/components/brand/GrowBand';
 import { Hero } from '@/components/brand/Hero';
-import { ProductsGrid } from '@/components/brand/ProductsGrid';
+import { IndustryGrid } from '@/components/brand/IndustryGrid';
+import { ProcessBand } from '@/components/brand/ProcessBand';
+import { ProductFeature } from '@/components/brand/ProductFeature';
 import { ProofBand } from '@/components/brand/ProofBand';
-import { ServicesJourney } from '@/components/brand/ServicesJourney';
+import { SectionIntro } from '@/components/brand/SectionIntro';
+import { ServicesGrid } from '@/components/brand/ServicesGrid';
+import { WhyUs } from '@/components/brand/WhyUs';
 import { WorkStrip } from '@/components/brand/WorkStrip';
 import { company } from '@/content/brand/company';
+import { whatsappHrefMessage } from '@/content/brand/links';
 
 export const metadata: Metadata = {
   // No title: the root default from app/layout.tsx is already
-  // "Website IN — <tagline>", and setting one here would push it through the
-  // "%s | Website IN" template and print the brand name twice.
+  // "Website Intelligence — <tagline>", and setting one here would push it through the
+  // "%s | Website Intelligence" template and print the brand name twice.
   description: company.pitch,
 };
 
 export default function HomePage() {
   return (
     <div className="space-y-28 sm:space-y-36">
-      <div className="space-y-10 sm:space-y-14">
-        <Hero />
+      <Hero />
+
+      <AudiencePaths />
+
+      <ServicesGrid
+        heading={{
+          index: '03',
+          label: 'services',
+          title: 'The right technology for your next stage.',
+          intro:
+            'Choose a focused service or combine capabilities into a solution designed around your business.',
+        }}
+      />
+
+      <section className="gs-reveal">
+        <SectionIntro
+          index="04"
+          label="industry solutions"
+          title="Built around the way your industry works."
+        >
+          Every business has different customers, workflows, and priorities. Start with a
+          solution designed for your type of business, then tailor it to your needs.
+        </SectionIntro>
+        <IndustryGrid />
+      </section>
+
+      <ProductFeature />
+
+      <ProcessBand />
+
+      <div className="space-y-16">
         <ProofBand />
         <ClientMarquee />
+        <WorkStrip />
       </div>
 
-      <GrowBand />
-      <ServicesJourney />
-      <ProductsGrid />
-      <WorkStrip />
+      <WhyUs />
 
       <section className="gs-reveal -mx-6 gs-plane-b relative overflow-hidden py-16 sm:py-20">
         <span aria-hidden className="gs-grid opacity-20" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div>
-            <p className="gs-label text-lime">
-              <span className="text-canvas">06</span> <span aria-hidden>/</span> next step
-            </p>
-            <h2 className="gs-display gs-h2 mt-3 text-canvas">
-              Send one message. We reply the same day.
-            </h2>
-            <p className="mt-5 max-w-xl leading-relaxed text-canvas/75">
-              One WhatsApp message is enough. Tell us the business, we will tell
-              you exactly what step one looks like — and when it can be live.
-            </p>
+        <div className="relative mx-auto max-w-7xl px-6">
+          <p className="gs-label">
+            <span className="gs-label-hot">09</span> <span aria-hidden>/</span> next step
+          </p>
+          <h2 className="gs-display gs-h2 mt-3 text-canvas">
+            Let&apos;s build what your business needs next.
+          </h2>
+          <p className="mt-5 max-w-xl leading-relaxed text-canvas/80">
+            Whether you need a website, a business system, a dashboard, or an AI
+            solution, start with a conversation about the problem you want to solve.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/contact" className="focus-ring gs-btn bg-canvas text-ink hover:bg-lime">
+              Get Started
+            </Link>
+            <a
+              href={whatsappHrefMessage(
+                company.contact,
+                'Discuss an enterprise project with Website Intelligence',
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring gs-btn gs-btn-ghost !border-canvas !text-canvas"
+            >
+              Discuss an Enterprise Project
+            </a>
           </div>
-          <ContactCta />
         </div>
       </section>
     </div>

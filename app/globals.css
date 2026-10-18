@@ -400,7 +400,7 @@ button:focus-visible {
 }
 
 /* ============================================================
-   Website IN brand skin — green "cut-plane" language (gs-*).
+   Website Intelligence brand skin — green "cut-plane" language (gs-*).
    The form was sampled from the reference deck's own pixels, not
    from its description: flat rotated colour planes, poster-scale
    heavy caps, a *visible* construction grid, and mono corner
@@ -1263,14 +1263,6 @@ button:focus-visible {
 }
 
 /* --- Hero ---------------------------------------------------- */
-.dream-cafe .dc-hero-title {
-  font-size: clamp(2.6rem, 8.2vw, 5.4rem);
-  line-height: 0.94;
-  letter-spacing: -0.045em;
-  font-weight: 900;
-  text-wrap: balance;
-}
-
 /* Two washes: a fixed scrim for legibility, and a slow sunrise pan
    that keeps the still photograph moving. */
 .dream-cafe .dc-hero-wash {
@@ -1394,28 +1386,204 @@ button:focus-visible {
   }
 }
 
-/* --- Menu board ----------------------------------------------- */
-.dream-cafe .dc-items {
+/* --- Square tile grid ------------------------------------------- */
+/* Every item on the menu as one grid of square tiles; the Gen Z /
+   Traditional switch only restyles the tile skin, never the layout. */
+.dream-cafe .dc-square-grid {
   display: grid;
-  gap: 1.6rem 3rem;
-  margin-top: 1.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
-@media (min-width: 900px) {
-  .dream-cafe .dc-items {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (min-width: 640px) {
+  .dream-cafe .dc-square-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .dream-cafe .dc-square-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-.dream-cafe .dc-item {
-  break-inside: avoid;
+.dream-cafe .dc-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
 }
 
-/* The dotted leader a printed menu uses, drawn in CSS so it flexes. */
-.dream-cafe .dc-leader {
-  flex: 1 1 auto;
-  min-width: 1.5rem;
-  border-bottom: 1px dotted rgba(42, 33, 27, 0.38);
-  transform: translateY(-0.28em);
+.dream-cafe .dc-tile:hover {
+  transform: translateY(-4px);
+}
+
+.dream-cafe .dc-tile:active {
+  transform: translateY(-1px) scale(0.97);
+  transition-duration: 110ms;
+}
+
+.dream-cafe .dc-tile:focus-visible {
+  outline: 2px solid var(--dc-honey);
+  outline-offset: 3px;
+}
+
+.dream-cafe .dc-tile-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.dream-cafe .dc-tile-img img {
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-tile:hover .dc-tile-img img {
+  transform: scale(1.07);
+}
+
+.dream-cafe .dc-tile-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 22px 10px 9px;
+}
+
+.dream-cafe .dc-tile-name {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.dream-cafe .dc-tile-price {
+  flex-shrink: 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.dream-cafe .dc-tile-cat {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.dream-cafe .dc-tile-qty {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--dc-ember);
+  color: #fff;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 3px 10px rgba(20, 8, 3, 0.35);
+}
+
+/* The star steps aside when a tray count owns the corner. */
+.dream-cafe .dc-tile:has(.dc-tile-qty) .dc-card-star {
+  right: 40px;
+}
+
+/* Gen Z: full-bleed photo tiles with a dusk-gradient caption. */
+.dream-cafe .dc-square-grid[data-mode='genz'] .dc-tile {
+  border-radius: 18px;
+  box-shadow: 0 16px 34px -18px rgba(20, 8, 3, 0.6);
+}
+
+.dream-cafe .dc-square-grid[data-mode='genz'] .dc-tile-cap {
+  background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.88));
+}
+
+.dream-cafe .dc-square-grid[data-mode='genz'] .dc-tile-name {
+  color: var(--dc-cream);
+}
+
+.dream-cafe .dc-square-grid[data-mode='genz'] .dc-tile-price {
+  color: var(--dc-honey);
+}
+
+.dream-cafe .dc-square-grid[data-mode='genz'] .dc-tile-cat {
+  color: var(--dc-ink);
+  background: rgba(255, 253, 248, 0.9);
+}
+
+/* Traditional: paper-framed tiles with a printed-menu caption. */
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile {
+  background: var(--dc-paper);
+  border: 3px solid var(--dc-paper);
+  border-radius: 10px;
+  box-shadow: 0 14px 30px -18px rgba(42, 33, 27, 0.55);
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile:hover {
+  box-shadow: 0 26px 44px -22px rgba(42, 33, 27, 0.7);
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile-img {
+  inset: 0 0 52px;
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile-cap {
+  min-height: 52px;
+  align-items: center;
+  background: var(--dc-paper);
+  border-top: 1px dashed var(--dc-line);
+  padding: 6px 9px 8px;
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile-name {
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile-price {
+  color: var(--dc-ember);
+}
+
+.dream-cafe .dc-square-grid[data-mode='trad'] .dc-tile-cat {
+  color: rgba(251, 244, 233, 0.95);
+  background: rgba(20, 8, 3, 0.55);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* --- Menu footer: the mode switch lives under the cards --------- */
+.dream-cafe .dc-menu-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 22px;
 }
 
 .dream-cafe .dc-pill {
@@ -1431,18 +1599,10 @@ button:focus-visible {
   background: var(--dc-paper);
 }
 
-.dream-cafe .dc-pill-badge {
-  border-color: rgba(228, 87, 46, 0.4);
-  background: rgba(228, 87, 46, 0.09);
-  color: var(--dc-ember-deep);
-  font-weight: 700;
-}
-
-/* --- Pick your cup -------------------------------------------- */
-/* The landing screen: the shortlist sits centre-stage on a sunrise
-   wash, the four options orbit it as cream tiles, and selecting one
-   morphs the photo, the name on the cup, and the line beside it. */
-.dream-cafe .dc-pick {
+/* --- The menu section ------------------------------------------- */
+/* The whole menu on one sunrise wash: square tiles first, the style
+   switch and the wayfinding buttons underneath them. */
+.dream-cafe .dc-menu {
   background:
     radial-gradient(120% 95% at 80% 12%, rgba(247, 208, 138, 0.5), transparent 58%),
     linear-gradient(155deg, #5f1a09 0%, #a83214 30%, #e4572e 64%, #f2a65a 100%);
@@ -1469,67 +1629,47 @@ button:focus-visible {
   }
 }
 
-/* --- Tabs ------------------------------------------------------ */
-.dream-cafe .dc-pick-tabs {
+/* --- Mode toggle (Gen Z / Traditional) ------------------------- */
+.dream-cafe .dc-mode {
   position: relative;
   display: inline-flex;
-  margin-top: 2rem;
-  padding: 5px;
+  padding: 4px;
   border-radius: 999px;
   background: rgba(42, 21, 12, 0.34);
   box-shadow: inset 0 0 0 1px rgba(251, 244, 233, 0.18);
 }
 
-.dream-cafe .dc-pick-pill {
+.dream-cafe .dc-mode-pill {
   position: absolute;
-  top: 5px;
-  bottom: 5px;
-  left: 5px;
-  width: calc(50% - 5px);
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
   border-radius: 999px;
-  background: var(--dc-paper);
-  box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
+  background: var(--dc-honey);
+  transform: translateX(calc(var(--pos, 0) * 100%));
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
 }
 
-.dream-cafe .dc-pick-pill[data-pos='1'] {
-  transform: translateX(100%);
-}
-
-.dream-cafe .dc-pick-tab {
+.dream-cafe .dc-mode-btn {
   position: relative;
   z-index: 1;
-  min-width: 118px;
-  padding: 0.62rem 1.5rem;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.5rem 1.05rem;
   border-radius: 999px;
-  font-size: 12px;
-  letter-spacing: 0.16em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
   color: rgba(251, 244, 233, 0.82);
   transition: color 260ms ease;
 }
 
-.dream-cafe .dc-pick-tab[aria-selected='true'] {
+.dream-cafe .dc-mode-btn[aria-pressed='true'] {
   color: var(--dc-ink);
-}
-
-/* --- The selected line ----------------------------------------- */
-.dream-cafe .dc-pick-reason {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0.22rem 0.7rem;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--dc-ink);
-  background: var(--dc-honey);
-}
-
-.dream-cafe .dc-pick-info {
-  margin-top: 1.6rem;
-  animation: dc-pick-rise 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes dc-pick-rise {
@@ -1543,196 +1683,493 @@ button:focus-visible {
   }
 }
 
-/* --- Stage ----------------------------------------------------- */
-.dream-cafe .dc-pick-stage {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  padding: 8px 0 34px;
-}
-
-.dream-cafe .dc-pick-hero {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.dream-cafe .dc-pick-frame {
-  position: relative;
-  width: min(74vw, 350px);
-  aspect-ratio: 3 / 4;
-  border-radius: 26px;
-  overflow: hidden;
-  box-shadow: 0 44px 90px rgba(58, 18, 4, 0.5);
-}
-
-.dream-cafe .dc-pick-frame::after {
-  content: '';
+.dream-cafe .dc-card-star {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 40%;
-  background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.86));
+  top: 7px;
+  right: 7px;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 999px;
+  background: rgba(20, 8, 3, 0.66);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  color: var(--dc-honey);
+}
+
+.dream-cafe .dc-star-icon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  filter: drop-shadow(0 1px 3px rgba(20, 8, 3, 0.5));
+}
+
+.dream-cafe .dc-card-star-label {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 6px);
+  transform: translateY(-50%) translateX(5px);
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--dc-paper);
+  color: var(--dc-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.dream-cafe .dc-pick-img {
-  position: absolute;
+.dream-cafe .dc-tile:hover .dc-card-star-label,
+.dream-cafe .dc-tile:focus-visible .dc-card-star-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dream-cafe .dc-card-star {
+    animation: dc-star-pulse 2.9s ease-in-out infinite;
+  }
+  @keyframes dc-star-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.14);
+    }
+  }
+}
+
+/* --- Order tray ---------------------------------------------------- */
+.dream-cafe .dc-tray {
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .dream-cafe .dc-tray {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.dream-cafe .dc-tray-panel {
+  background: var(--dc-paper);
+  border: 1px solid var(--dc-line);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 18px 40px -24px rgba(58, 18, 4, 0.45);
+}
+
+.dream-cafe .dc-tray-head {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-tray-empty p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dc-muted);
+}
+
+.dream-cafe .dc-tray-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dream-cafe .dc-tray-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: dc-line-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dc-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+.dream-cafe .dc-tray-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dream-cafe .dc-tray-line-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dream-cafe .dc-tray-each {
+  font-size: 11px;
+  color: var(--dc-muted);
+}
+
+.dream-cafe .dc-tray-step {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dream-cafe .dc-tray-step button {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--dc-line);
+  background: var(--dc-cream);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--dc-ink);
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-tray-step button:hover {
+  background: var(--dc-honey);
+  transform: scale(1.1);
+}
+
+.dream-cafe .dc-tray-step button:active {
+  transform: scale(0.9);
+}
+
+.dream-cafe .dc-tray-step span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-tray-line-total {
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--dc-ember);
+}
+
+.dream-cafe .dc-tray-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 2px dashed rgba(42, 33, 27, 0.25);
+  font-size: 13px;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-tray-total {
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--dc-ember);
+  animation: dc-pick-rise 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dream-cafe .dc-tray-place {
+  width: 100%;
+  margin-top: 12px;
+  justify-content: center;
+  background: var(--dc-ember);
+  color: #fff;
+  border-color: var(--dc-ember);
+}
+
+.dream-cafe .dc-tray-place:hover {
+  background: var(--dc-ember-deep);
+}
+
+/* --- Order ticket --------------------------------------------------- */
+.dream-cafe .dc-ticket {
+  text-align: center;
+  padding: 18px 14px;
+  background: var(--dc-cream);
+  border: 2px dashed var(--dc-ember);
+  border-radius: 12px;
+  animation: dc-ticket-print 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dc-ticket-print {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scaleY(0.9);
+  }
+}
+
+.dream-cafe .dc-ticket-stamp {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dc-ember-deep);
+}
+
+.dream-cafe .dc-ticket-no {
+  font-size: 30px;
+  margin: 6px 0;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-ticket-eta {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--dc-muted);
+  margin-bottom: 12px;
+}
+
+/* --- Item dialog --------------------------------------------------
+   Tapping a tile opens the item centred: photo, full story, and one
+   big add control. Everything inside is sized for a thumb. */
+.dream-cafe .dc-dialog-scrim {
+  position: fixed;
   inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(20, 8, 3, 0.62);
+  backdrop-filter: blur(6px);
+  animation: dc-scrim-fade 220ms ease;
+}
+
+.dream-cafe .dc-dialog {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: min(86vh, 720px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--dc-paper);
+  border-radius: 22px;
+  box-shadow: 0 40px 90px rgba(10, 4, 1, 0.55);
+  animation: dc-dialog-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dc-scrim-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dc-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+}
+
+.dream-cafe .dc-dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(20, 8, 3, 0.55);
+  color: #fff;
+  cursor: pointer;
+  transition: background 200ms ease, transform 180ms ease;
+}
+
+.dream-cafe .dc-dialog-close:hover {
+  background: rgba(20, 8, 3, 0.78);
+  transform: scale(1.06);
+}
+
+.dream-cafe .dc-dialog-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dream-cafe .dc-dialog-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.dream-cafe .dc-dialog-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 640ms ease, transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.dream-cafe .dc-pick-img-on {
-  opacity: 1;
-  transform: scale(1);
+.dream-cafe .dc-dialog-body {
+  padding: 18px 20px 22px;
 }
 
-.dream-cafe .dc-pick-name {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 20px;
-  z-index: 1;
-  text-align: center;
-  font-size: clamp(24px, 3.2vw, 36px);
-  color: var(--dc-cream);
-  text-shadow: 0 2px 24px rgba(46, 14, 4, 0.75);
-  animation: dc-pick-name 560ms cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-
-@keyframes dc-pick-name {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* --- Orbiting tiles -------------------------------------------- */
-/* `rotate` and `translate` are kept off `transform` so the lean, the
-   bob and the hover lift never fight each other. */
-.dream-cafe .dc-pick-card {
-  position: absolute;
-  width: clamp(82px, 9.4vw, 112px);
-  aspect-ratio: 1;
-  border-radius: 18px;
-  overflow: hidden;
-  padding: 0;
-  background: var(--dc-paper);
-  border: 3px solid var(--dc-paper);
-  cursor: pointer;
-  box-shadow: 0 20px 42px rgba(58, 18, 4, 0.42);
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    rotate 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, border-color 260ms ease;
-  animation: dc-pick-pop 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards,
-    dc-pick-float 7s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 95ms), calc(var(--i, 0) * -1.35s);
-}
-
-@keyframes dc-pick-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.72) translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes dc-pick-float {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -11px;
-  }
-}
-
-.dream-cafe .dc-pick-card:hover {
-  transform: translateY(-7px) scale(1.06);
-  rotate: 0deg;
-  box-shadow: 0 28px 54px rgba(58, 18, 4, 0.5);
-}
-
-.dream-cafe .dc-pick-card[data-active='true'] {
-  border-color: var(--dc-honey);
-  box-shadow: 0 0 0 4px rgba(247, 208, 138, 0.45), 0 22px 46px rgba(58, 18, 4, 0.5);
-}
-
-/* Two left, two right, each leaning its own way. */
-.dream-cafe .dc-pick-card[data-slot='0'] {
-  left: -3%;
-  top: 5%;
-  rotate: -8deg;
-}
-.dream-cafe .dc-pick-card[data-slot='1'] {
-  left: -7%;
-  bottom: 11%;
-  rotate: 6deg;
-}
-.dream-cafe .dc-pick-card[data-slot='2'] {
-  right: -5%;
-  top: 13%;
-  rotate: 7deg;
-}
-.dream-cafe .dc-pick-card[data-slot='3'] {
-  right: -2%;
-  bottom: 4%;
-  rotate: -6deg;
-}
-
-.dream-cafe .dc-pick-card-name {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 4px 5px;
+.dream-cafe .dc-dialog-cat {
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-align: center;
-  color: var(--dc-ink);
-  background: var(--dc-paper);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dc-muted);
+  margin-bottom: 4px;
 }
 
-/* --- Narrow screens -------------------------------------------- */
+.dream-cafe .dc-dialog-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dream-cafe .dc-dialog-name {
+  font-family: var(--font-display), serif;
+  font-size: 26px;
+  line-height: 1.1;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-dialog-price {
+  font-family: var(--font-display), serif;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  color: var(--dc-ember-deep);
+}
+
+.dream-cafe .dc-dialog-reason {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dc-ink);
+  background: var(--dc-honey);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.dream-cafe .dc-dialog-note {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(38, 22, 12, 0.82);
+}
+
+.dream-cafe .dc-dialog-label {
+  margin: 16px 0 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dc-muted);
+}
+
+.dream-cafe .dc-dialog-text {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--dc-ink);
+}
+
+.dream-cafe .dc-dialog-kcal {
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--dc-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.dream-cafe .dc-dialog-add {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  min-height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: var(--dc-ember);
+  color: #fff;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease;
+}
+
+.dream-cafe .dc-dialog-add:hover {
+  background: var(--dc-ember-deep);
+  transform: translateY(-1px);
+}
+
+.dream-cafe .dc-dialog-add:active {
+  transform: scale(0.97);
+}
+
+.dream-cafe .dc-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.dream-cafe .dc-dialog-line-total {
+  font-family: var(--font-display), serif;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  color: var(--dc-ink);
+  margin-right: auto;
+}
+
+.dream-cafe .dc-dialog-done {
+  min-height: 44px;
+  padding: 0 22px;
+  border: 2px solid var(--dc-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dc-ink);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.dream-cafe .dc-dialog-done:hover {
+  background: var(--dc-ink);
+  color: var(--dc-paper);
+}
+
+/* --- Touch targets -------------------------------------------------
+   The menu is ordered from phones, so at phone/tablet widths every
+   ordering control grows to a comfortable ~44px tap area without
+   changing the compact desktop pills. */
 @media (max-width: 1023px) {
-  .dream-cafe .dc-pick-stage {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    justify-items: center;
-    gap: 10px;
-    padding: 0;
+  .dream-cafe .dc-tray-step button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
   }
-  .dream-cafe .dc-pick-hero {
-    grid-column: 1 / -1;
-    justify-self: center;
-    margin-bottom: 8px;
+
+  .dream-cafe .dc-tray-step span {
+    min-width: 26px;
+    font-size: 15px;
   }
-  .dream-cafe .dc-pick-frame {
-    width: min(70vw, 290px);
-  }
-  .dream-cafe .dc-pick-card {
-    position: static;
-    width: 100%;
-    height: 74px;
-    rotate: none;
-    animation: none;
-  }
-  /* The caption on the cup already names it; labels would collide. */
-  .dream-cafe .dc-pick-card-name {
+
+  /* The star icon stays on tiles, but its text reason pill has no room
+     inside a square phone tile. */
+  .dream-cafe .dc-card-star-label {
     display: none;
   }
 }
@@ -2131,32 +2568,6 @@ button:focus-visible {
   }
 }
 
-/* --- Menu board unfolding on a top hinge -------------------------- */
-.dream-cafe .dc-unfold {
-  opacity: 0;
-  transform: perspective(900px) rotateX(-14deg) scaleY(0.86);
-  transform-origin: top center;
-  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1), opacity 620ms ease-out;
-}
-
-.dream-cafe .dc-unfold[data-open='true'] {
-  opacity: 1;
-  transform: perspective(900px) rotateX(0deg) scaleY(1);
-}
-
-/* Rows light up in reading order once the group has hinged down. */
-.dream-cafe .dc-unfold .dc-item {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 420ms ease-out, transform 420ms ease-out;
-  transition-delay: calc(200ms + var(--i, 0) * 28ms);
-}
-
-.dream-cafe .dc-unfold[data-open='true'] .dc-item {
-  opacity: 1;
-  transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .dream-cafe .dc-hero-grain,
   .dream-cafe .dc-ticker-track,
@@ -2174,29 +2585,44 @@ button:focus-visible {
   .dream-cafe .dc-btn:hover {
     transform: none;
   }
-  .dream-cafe .dc-unfold,
-  .dream-cafe .dc-unfold .dc-item {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
   .dream-cafe .dc-pick-wash {
     animation: none;
   }
-  .dream-cafe .dc-pick-card {
-    animation: none;
-    transition-duration: 0s;
+  .dream-cafe .dc-tile,
+  .dream-cafe .dc-tile:hover,
+  .dream-cafe .dc-tile:active {
+    transform: none;
+    transition: none;
   }
-  .dream-cafe .dc-pick-card:hover {
+  .dream-cafe .dc-tile-img img,
+  .dream-cafe .dc-tile:hover .dc-tile-img img {
+    transform: none;
+    transition: none;
+  }
+  .dream-cafe .dc-card-star {
+    animation: none;
+  }
+  .dream-cafe .dc-card-star-label {
+    transition: none;
+  }
+  .dream-cafe .dc-tray-line,
+  .dream-cafe .dc-ticket,
+  .dream-cafe .dc-tray-total {
+    animation: none;
+  }
+  .dream-cafe .dc-tray-step button:hover,
+  .dream-cafe .dc-tray-step button:active,
+  .dream-cafe .dc-dialog-add:hover,
+  .dream-cafe .dc-dialog-add:active,
+  .dream-cafe .dc-dialog-close:hover {
     transform: none;
   }
-  .dream-cafe .dc-pick-img {
-    transition: opacity 200ms ease;
-    transform: none;
-  }
-  .dream-cafe .dc-pick-info,
-  .dream-cafe .dc-pick-name {
+  .dream-cafe .dc-dialog-scrim,
+  .dream-cafe .dc-dialog {
     animation: none;
+  }
+  .dream-cafe .dc-mode-pill {
+    transition: none;
   }
 }
 

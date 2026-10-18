@@ -2,7 +2,15 @@ import { existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { company } from '@/content/brand/company';
+import { audiences } from '@/content/brand/audiences';
+import { capabilities } from '@/content/brand/capabilities';
+import { whatsappHrefMessage } from '@/content/brand/links';
 import { products } from '@/content/brand/products';
+import type { Proof } from '@/content/brand/proof';
+import { industries } from '@/content/brand/industries';
+import { processSteps } from '@/content/brand/process';
+import { solutions } from '@/content/brand/solutions';
+import { whyPoints } from '@/content/brand/whyus';
 import { websites } from '@/content/websites/sites';
 import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
@@ -40,11 +48,25 @@ describe('products registry', () => {
       expect(resolveRoute(product.demoPath), `${product.slug} -> ${product.demoPath}`).not.toBeNull();
     }
   });
+
+  it('features OrderBook with its live demo and the parent brand', () => {
+    expect(products[0].title).toBe('OrderBook');
+    expect(products[0].slug).toBe('order-book');
+    expect(products[0].demoPath).toBe('/analytical-register');
+  });
+});
+
+describe('contextual WhatsApp links', () => {
+  it('encodes a custom first message once', () => {
+    const href = whatsappHrefMessage(company.contact, 'Discuss an enterprise project');
+    expect(href).toContain('wa.me/918238889347');
+    expect(href).toContain('Discuss%20an%20enterprise%20project');
+  });
 });
 
 describe('company registry', () => {
   it('has no empty marketing fields', () => {
-    expect(company.name).toBe('Website IN');
+    expect(company.name).toBe('Website Intelligence');
     for (const field of [company.tagline, company.pitch, company.badge]) {
       expect(field.trim().length).toBeGreaterThan(0);
     }
@@ -106,5 +128,63 @@ describe('author registry', () => {
       const text = `${author.title} ${author.location} ${author.bio}`.toLowerCase();
       expect(text, author.slug).not.toContain('pune');
     }
+  });
+});
+
+describe('IA registries', () => {
+  it('has exactly two audiences', () => {
+    expect(audiences.map((a) => a.key)).toEqual(['local', 'enterprise']);
+    expect(audiences.map((a) => a.campaign)).toEqual(['Grow Online.', 'Build Smarter.']);
+  });
+
+  it('has six capabilities, eight industries and five solutions with unique slugs', () => {
+    expect(capabilities).toHaveLength(6);
+    expect(industries).toHaveLength(8);
+    expect(solutions).toHaveLength(5);
+    for (const list of [capabilities, industries, solutions]) {
+      expect(new Set(list.map((e) => e.slug)).size).toBe(list.length);
+    }
+  });
+
+  it('resolves every proof path to a real route', () => {
+    const proofs = [
+      ...industries.map((i) => i.proof),
+      ...solutions.map((s) => s.proof),
+    ].filter((p): p is Proof => p !== null);
+    for (const proof of proofs) {
+      expect(resolveRoute(proof.path), `${proof.kind} -> ${proof.path}`).not.toBeNull();
+    }
+  });
+
+  it('keeps verticals without a delivered build unproven, not faked', () => {
+    const unproven = industries.filter((i) => i.proof === null).map((i) => i.slug);
+    expect(unproven.sort()).toEqual(
+      ['b2b', 'clinics-and-healthcare', 'home-services', 'real-estate'].sort(),
+    );
+  });
+
+  it('requires proof for every enterprise solution', () => {
+    for (const solution of solutions) expect(solution.proof).toBeTruthy();
+    expect(solutions.map((s) => s.slug)).toEqual([
+      'custom-software',
+      'data-and-bi',
+      'ai-and-automation',
+      'apis-and-integrations',
+      'cloud-and-modernisation',
+    ]);
+  });
+
+  it('has four process steps and five why points', () => {
+    expect(processSteps.map((p) => p.name)).toEqual(['Understand', 'Plan', 'Build', 'Improve']);
+    expect(whyPoints).toHaveLength(5);
+  });
+
+  it('keeps city names and prices out of registry copy', () => {
+    const text = [...capabilities, ...industries, ...solutions, ...audiences, ...whyPoints]
+      .map((e) => JSON.stringify(e))
+      .join(' ')
+      .toLowerCase();
+    expect(text).not.toContain('pune');
+    expect(text).not.toMatch(/₹|price[d]? from|starting at/);
   });
 });
