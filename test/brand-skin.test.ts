@@ -220,6 +220,50 @@ describe('scroll motion contract', () => {
     expect(read('components/brand/MotionField.tsx')).toContain('scrollState.velocity');
     expect(read('components/brand/scroll-state.ts')).toContain('velocity');
   });
+
+  it('dives bands in and tips them away on their own view timelines', () => {
+    // Two animations, two comma-separated timelines and ranges. A single
+    // `animation-range` would silently unpair them and kill the exit.
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation:\s*gs-dive both linear,\s*gs-away both linear/s);
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation-timeline:\s*view\(\),\s*view\(\)/s);
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation-range:[^;]*exit/s);
+  });
+
+  it('keeps perspective on both ends of every 3D keyframe', () => {
+    // A transform list that gains or loses perspective() mid-flight interpolates
+    // by matrix decomposition, which flattens the tilt instead of rotating it.
+    for (const name of ['gs-dive', 'gs-away', 'gs-fan-in']) {
+      const block = css.match(new RegExp(`@keyframes ${name}\\s*\\{([\\s\\S]*?)\\n  \\}`));
+      expect(block, name).not.toBeNull();
+      const steps = block![1].split(/\b(?:from|to|\d+%)\s*\{/).slice(1);
+      expect(steps.length).toBeGreaterThanOrEqual(2);
+      for (const step of steps) expect(step).toContain('perspective(');
+    }
+  });
+
+  it('fans the landing page registers across their cells', () => {
+    expect(css).toMatch(/\.gs-fan\s*>\s*\*\s*\{[^}]*animation-timeline:\s*view\(\)/s);
+    expect(css).toMatch(/\.gs-fan\s*>\s*:nth-child\(3n - 1\)/);
+    for (const file of [
+      'components/brand/ServicesGrid.tsx',
+      'components/brand/ProcessBand.tsx',
+      'components/brand/WorkStrip.tsx',
+      'components/brand/WhyUs.tsx',
+    ]) {
+      expect(read(file), file).toContain('gs-fan');
+    }
+  });
+
+  it('flies the camera down the mesh as the page descends', () => {
+    const field = read('components/brand/MotionField.tsx');
+    // Scroll re-seats every row's depth and wraps it back into the band, with a
+    // near-edge fade over the seam — otherwise a recycled row pops at the lens.
+    expect(field).toContain('scrollState.progress');
+    expect(field).toMatch(/const seat = \(u: number\)/);
+    expect(field).toContain('seamBand');
+    expect(field).toMatch(/ctx\.rotate\(fling \* params\.roll\)/);
+    expect(field).toContain('ctx.restore()');
+  });
 });
 
 describe('brand routes carry no light-skin leftovers', () => {

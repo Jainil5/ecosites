@@ -19,7 +19,7 @@ export function ServicesGrid({
           {heading.intro}
         </SectionIntro>
       ) : null}
-      <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+      <div className="gs-fan grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {capabilities.map((capability, i) => (
           <article key={capability.slug} className="bg-canvas p-6">
             <p className="gs-label text-ink-3">{String(i + 1).padStart(2, '0')}</p>

@@ -637,6 +637,44 @@ button:focus-visible {
       transform: none;
     }
   }
+  /* Scroll dive. `gs-dive` tips a band up from below the viewport's horizon
+     and `gs-away` tips it back down as it leaves, so reading the page is one
+     continuous camera move instead of a stack of fades. Both ends of each pair
+     keep the same transform-function list — `perspective()` first, always —
+     because a mismatched list interpolates by matrix decomposition and the
+     perspective would collapse to flat halfway through. */
+  @keyframes gs-dive {
+    from {
+      opacity: 0;
+      transform: perspective(900px) rotateX(16deg) translate3d(0, 3.2rem, -180px);
+    }
+    to {
+      opacity: 1;
+      transform: perspective(900px) rotateX(0deg) translate3d(0, 0, 0);
+    }
+  }
+  @keyframes gs-away {
+    from {
+      opacity: 1;
+      transform: perspective(900px) rotateX(0deg) translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0.45;
+      transform: perspective(900px) rotateX(-11deg) translate3d(0, -2.4rem, -160px);
+    }
+  }
+  /* The fan: the same dive on a single card, turned on its other axis so a
+     register of cells opens like a deck being dealt rather than fading in. */
+  @keyframes gs-fan-in {
+    from {
+      opacity: 0;
+      transform: perspective(800px) rotateY(-13deg) translate3d(-1.6rem, 1.4rem, -220px);
+    }
+    to {
+      opacity: 1;
+      transform: perspective(800px) rotateY(0deg) translate3d(0, 0, 0);
+    }
+  }
   @keyframes gs-plane-in {
     from {
       opacity: 0;
@@ -691,13 +729,35 @@ button:focus-visible {
      feature is unsupported. */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
+      /* Two animations on one element, each on its own view() timeline: the
+         dive owns the entry range, the away-tip owns the exit. They never
+         overlap, and out of range a `both` fill holds each one's settled
+         value — so the band sits perfectly flat for the whole time it is
+         simply being read. */
       .gs-reveal {
-        animation: gs-band-rise both linear;
-        animation-timeline: view();
-        animation-range: entry 6% entry 46%;
+        animation: gs-dive both linear, gs-away both linear;
+        animation-timeline: view(), view();
+        animation-range: entry 4% entry 44%, exit 52% exit 100%;
       }
       .gs-reveal-late {
-        animation-range: entry 14% entry 58%;
+        animation-range: entry 12% entry 52%, exit 60% exit 100%;
+      }
+
+      /* One class on a grid fans its cells on their own view timelines, each
+         column trailing the one before it — staggered by nth-child so no
+         per-item index has to be threaded through the components. */
+      .gs-fan > * {
+        animation: gs-fan-in both linear;
+        animation-timeline: view();
+        animation-range: entry var(--f0, 2%) entry var(--f1, 40%);
+      }
+      .gs-fan > :nth-child(3n - 1) {
+        --f0: 8%;
+        --f1: 48%;
+      }
+      .gs-fan > :nth-child(3n) {
+        --f0: 15%;
+        --f1: 56%;
       }
     }
   }
@@ -999,12 +1059,16 @@ html.lenis body {
     opacity: calc(var(--hero-rec, 0) * 0.62);
   }
 
-  /* Momentum lean. The poster caps lag a few pixels behind the scroll and the
-     construction grid slides at its own rate, so a fling visibly drags the
-     typography. --scroll-v decays to zero, which means a settled page is
-     exactly as straight as it was before this existed. */
+  /* Momentum lean, in depth. The poster caps tip toward or away from the
+     camera with the fling (up to 5 degrees) and drag 7px behind it, while the
+     construction grid slides at its own rate — so a hard scroll separates the
+     typography in Z instead of just shifting it. Perspective lives on the
+     heading itself, so no wrapper transform is involved and the text stays
+     selectable. --scroll-v decays to zero, which means a settled page is
+     exactly as straight as it was before any of this existed. */
   .gs-display {
-    transform: translate3d(0, calc(var(--scroll-v, 0) * 7px), 0);
+    transform: perspective(700px) rotateX(calc(var(--scroll-v, 0) * -5deg))
+      translate3d(0, calc(var(--scroll-v, 0) * 7px), 0);
   }
   .gs-grid {
     transform: translate3d(0, calc(var(--scroll-v, 0) * 22px), 0);
