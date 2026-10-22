@@ -13,7 +13,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | --- | --- |
 | `/` | Website Intelligence company page — hero, services, industries, products, demo proof, contact |
 | `/services` | Six capabilities and how they combine into a solution |
-| `/products` | The two owned apps: OrderBook and Market Pulse |
+| `/products` | The three owned apps: OrderBook, Market Pulse and TeamSync |
 | `/demos` | Work gallery — five full builds from `content/websites/sites.ts` |
 | `/store` | Kept as an alias of `/demos` for older links |
 | `/about` | Mission, process and pillars |
@@ -162,4 +162,5 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
 - [x] OrderBook POS register, GST billing and analytics dashboard
+- [x] TeamSync team communication platform with AI search and meeting notes
 - [x] Vercel-ready configuration

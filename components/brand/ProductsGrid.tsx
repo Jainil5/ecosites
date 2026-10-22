@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Activity, ArrowRight, ClipboardList, MessagesSquare } from 'lucide-react';
+import { Activity, ArrowRight, ClipboardList, MessagesSquare, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { SectionIntro } from '@/components/brand/SectionIntro';
 import { products } from '@/content/brand/products';
@@ -8,6 +8,7 @@ import type { ProductIcon } from '@/content/brand/types';
 const ICONS: Record<ProductIcon, LucideIcon> = {
   register: ClipboardList,
   pulse: Activity,
+  teams: Users,
 };
 
 /**
@@ -20,9 +21,9 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
         <SectionIntro index="04" label="products" title="Apps you run, not projects you wait for">
-          Two products, each with a counter half and a numbers half. Both are built
-          to be afforded by one outlet and to still work when you add the second
-          branch — tell us the scope and you approve the quote before any work starts.
+          Three products, each built around a real job. Every one is scoped to a
+          single team or outlet and keeps working as you add people — tell us the
+          scope and you approve the quote before any work starts.
         </SectionIntro>
       ) : null}
 
@@ -71,6 +72,16 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                     Open it live
                     <ArrowRight aria-hidden className="h-4 w-4" />
                   </Link>
+                ) : product.repoUrl ? (
+                  <a
+                    href={product.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring gs-btn gs-btn-solid"
+                  >
+                    View the build
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </a>
                 ) : (
                   <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
                     Ask for a walkthrough
@@ -78,7 +89,11 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                   </Link>
                 )}
                 <span className="gs-label">
-                  {product.demoPath ? 'running right now' : 'in build — ask to see it'}
+                  {product.demoPath
+                    ? 'running right now'
+                    : product.repoUrl
+                      ? 'source available on GitHub'
+                      : 'in build — ask to see it'}
                 </span>
               </div>
             </article>

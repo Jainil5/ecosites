@@ -16,8 +16,8 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists the two named apps, counter first', () => {
-    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse']);
+  it('lists the three named apps, counter first', () => {
+    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse', 'teamsync']);
   });
 
   it('has unique slugs', () => {
@@ -46,6 +46,15 @@ describe('products registry', () => {
     for (const product of products) {
       if (!product.demoPath) continue;
       expect(resolveRoute(product.demoPath), `${product.slug} -> ${product.demoPath}`).not.toBeNull();
+    }
+  });
+
+  it('links every externally hosted product to a public https build', () => {
+    for (const product of products) {
+      if (!product.repoUrl) continue;
+      expect(product.repoUrl, product.slug).toMatch(/^https:\/\//);
+      // A product links either to an in-app demo or to an external build, never both.
+      expect(product.demoPath, product.slug).toBeUndefined();
     }
   });
 
