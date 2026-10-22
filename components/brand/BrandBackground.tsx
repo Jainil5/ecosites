@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { MotionField } from './MotionField';
+import { MotionReel } from './MotionReel';
 
 export type BrandEffect = 'ripple' | 'wave' | 'orbit';
 
@@ -29,6 +30,10 @@ export function BrandBackground() {
 
   return (
     <div aria-hidden className="brand-bg" data-effect={effect}>
+      {/* Footage sits behind the landing page only. Every other route — and
+          every client demo — keeps the canvas field alone, so nobody else
+          pays half a megabyte for the film. */}
+      {pathname === '/' ? <MotionReel /> : null}
       <span className="brand-bg-layer brand-bg-ripple" />
       <span className="brand-bg-layer brand-bg-wave" />
       <span className="brand-bg-layer brand-bg-orbit">

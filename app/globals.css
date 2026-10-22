@@ -912,6 +912,23 @@ button:focus-visible {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
 }
+
+/* The footage layer, under everything else and only on the landing page.
+   Two wireframe planes — the film's and the canvas's — would moiré into each
+   other at full strength, so the clip is pre-softened at build time and held
+   at half light here, and the radial mask keeps its rectangle from ever
+   reading as a box. Reduced motion needs no rule: the element is never told
+   to play, so it stays on its poster, which is the same picture. */
+.brand-bg-reel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 42%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(120% 100% at 50% 42%, #000 0%, transparent 78%);
+}
 .brand-bg[data-effect='ripple'] .brand-bg-ripple,
 .brand-bg[data-effect='wave'] .brand-bg-wave,
 .brand-bg[data-effect='orbit'] .brand-bg-orbit {

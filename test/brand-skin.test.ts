@@ -266,6 +266,50 @@ describe('scroll motion contract', () => {
   });
 });
 
+describe('landing reel contract', () => {
+  const reel = read('components/brand/MotionReel.tsx');
+  const kb = 1024;
+
+  it('ships the clip and its poster, inside the landing page weight budget', () => {
+    // A background film on shared hosting has to have a number attached to it,
+    // or it grows every time someone "just" re-renders it at a higher bitrate.
+    const size = (rel: string) => statSync(path.join(process.cwd(), rel)).size;
+    expect(size('public/brand/reel.mp4')).toBeLessThan(640 * kb);
+    expect(size('public/brand/reel-480.mp4')).toBeLessThan(320 * kb);
+    expect(size('public/brand/reel-poster.webp')).toBeLessThan(96 * kb);
+    // The phone source has to be the smaller one, or the media query is a lie.
+    expect(size('public/brand/reel-480.mp4')).toBeLessThan(size('public/brand/reel.mp4'));
+  });
+
+  it('keeps the keyframes and the encoder recipe in the repo', () => {
+    for (const frame of ['key-01.webp', 'key-02.webp', 'key-03.webp']) {
+      expect(existsSync(path.join(process.cwd(), 'public/brand/frames', frame)), frame).toBe(true);
+    }
+    const script = read('scripts/brand-reel.sh');
+    // xfade back to the first keyframe is what makes the loop seamless.
+    expect(script).toContain('xfade');
+    expect(script).toContain('reel-480.mp4');
+  });
+
+  it('lets the motion preference decide before it downloads anything', () => {
+    // Not self-starting anywhere in the file: the moment the element begins on
+    // its own, the motion preference below it is a race rather than a gate.
+    expect(reel).not.toMatch(/autoplay/i);
+    expect(reel).toContain('prefers-reduced-motion');
+    expect(reel).toContain('video.play()');
+    expect(reel).toContain('preload="metadata"');
+    expect(reel).toContain('poster="/brand/reel-poster.webp"');
+  });
+
+  it('plays behind the landing page and nowhere else', () => {
+    expect(read('components/brand/BrandBackground.tsx')).toMatch(
+      /pathname === '\/' \? <MotionReel/
+    );
+    expect(read('app/(site)/layout.tsx')).not.toContain('MotionReel');
+    expect(read('app/globals.css')).toContain('.brand-bg-reel');
+  });
+});
+
 describe('brand routes carry no light-skin leftovers', () => {
   // The dark skin flipped token semantics: text that sat on paper now sits
   // on the glass field. These are the classes the migration replaced, and a

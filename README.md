@@ -55,6 +55,25 @@ their own scoped theme** — no brand chrome.
 - **`supabase/`** — `schema.sql` + `seed.sql` for Savour's project (Row Level Security keeps a device's wishlist to itself).
 - **`design-system/`** — persisted design tokens/decisions for the brand theme.
 
+### Brand motion layers
+
+Three layers, all gated on `prefers-reduced-motion`, none of them touching the client demo themes:
+
+| Layer | What it does | Where |
+| --- | --- | --- |
+| `ScrollMotion` | Runs Lenis smooth scroll on the brand pages and publishes `--scroll-v` (momentum), `--scroll-p` (progress) and `--hero-rec` (hero travel) on `<html>` | `components/brand/ScrollMotion.tsx` |
+| `MotionField` | Canvas 3D wireframe plane: crest travel, perspective dolly with page progress, camera bank with momentum | `components/brand/MotionField.tsx` |
+| `MotionReel` | Ten-second AI-generated film loop of the same scene, behind the landing page only | `components/brand/MotionReel.tsx`, `public/brand/` |
+
+Every scroll effect reads the three custom properties rather than adding its own listener — see `gs-dive` / `gs-away` (bands tip in and away on `view()` timelines), `gs-fan` (a grid's cells deal in on their own timelines) and the momentum lean on `gs-display` / `gs-plane`.
+
+The reel is committed, not generated at request time, and `test/brand-skin.test.ts` fails if its weight budget slips. To rebuild it after changing the keyframes in `public/brand/frames/`:
+
+```bash
+pip install imageio-ffmpeg   # or put any ffmpeg on PATH and set FFMPEG=/path/to/ffmpeg
+bash scripts/brand-reel.sh
+```
+
 ### Adding a builder's portfolio
 
 1. Add one entry to `content/portfolio/authors.ts` with a kebab-case `slug`.
