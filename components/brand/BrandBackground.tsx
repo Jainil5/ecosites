@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { MotionField } from './MotionField';
 
 export type BrandEffect = 'ripple' | 'wave' | 'orbit';
 
@@ -36,6 +37,9 @@ export function BrandBackground() {
           <span className="brand-bg-orbit-glow brand-bg-orbit-glow-b" />
         </span>
       </span>
+      {/* The moving 3D plane, drawn per frame rather than shipped as footage:
+          it re-tints with the brand tokens and costs a few KB, not a video. */}
+      <MotionField effect={effect} />
     </div>
   );
 }

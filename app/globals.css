@@ -837,6 +837,18 @@ button:focus-visible {
   display: none;
   place-items: center;
 }
+
+/* The canvas plane: a perspective floor under the fold, faded out at both
+   ends so no moving line sits directly behind a headline or a form field. */
+.brand-bg-motion {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
+}
 .brand-bg[data-effect='ripple'] .brand-bg-ripple,
 .brand-bg[data-effect='wave'] .brand-bg-wave,
 .brand-bg[data-effect='orbit'] .brand-bg-orbit {

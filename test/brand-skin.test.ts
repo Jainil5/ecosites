@@ -162,6 +162,26 @@ describe('background effect component contract', () => {
   });
 });
 
+describe('motion field contract', () => {
+  const src = read('components/brand/MotionField.tsx');
+
+  it('gates its loop on the visitor motion preference', () => {
+    expect(src).toContain('prefers-reduced-motion');
+    // Reduced motion still paints one composed still, never an empty field.
+    expect(src).toContain('draw(0)');
+  });
+
+  it('stops painting when the tab is hidden and when it unmounts', () => {
+    expect(src).toContain('visibilitychange');
+    expect(src).toContain('cancelAnimationFrame');
+  });
+
+  it('is mounted by the background and styled by the skin', () => {
+    expect(read('components/brand/BrandBackground.tsx')).toContain('<MotionField');
+    expect(read('app/globals.css')).toContain('.brand-bg-motion');
+  });
+});
+
 describe('brand routes carry no light-skin leftovers', () => {
   // The dark skin flipped token semantics: text that sat on paper now sits
   // on the glass field. These are the classes the migration replaced, and a
