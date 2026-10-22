@@ -8,6 +8,7 @@ import { BeansField } from './BeansField';
 import { cartReducer, loadCart, saveCart } from './cart';
 import { OrderTray } from './OrderTray';
 import { ItemDialog } from './ItemDialog';
+import { BarrelGallery } from './BarrelGallery';
 import { Reveal } from './Reveal';
 
 type Mode = 'genz' | 'trad';
@@ -72,6 +73,7 @@ export function MenuExperience() {
 
   const opened = openedId ? allItems.find((x) => x.item.id === openedId) : null;
   const visible = allItems.filter((x) => cat === 'all' || x.groupId === cat);
+  const activeGroup = menuGroups.find((g) => g.id === cat);
   const tabGroups = [
     ...menuGroups.filter((g) => g.id === 'coffee'),
     ...menuGroups.filter((g) => g.id !== 'coffee'),
@@ -165,7 +167,7 @@ export function MenuExperience() {
                         </section>
                       ))}
                   </div>
-                ) : (
+                ) : cat === 'all' ? (
                   <div className="dc-square-grid">
                   {visible.map(({ item, groupTitle }, i) => (
                     <button
@@ -203,6 +205,16 @@ export function MenuExperience() {
                     </button>
                   ))}
                   </div>
+                ) : (
+                  /* One section at a time goes on the barrel: the cards stand
+                     around a cylinder and the customer spins the board. */
+                  <BarrelGallery
+                    key={cat}
+                    label={activeGroup?.title ?? 'Menu'}
+                    entries={visible}
+                    cart={cart}
+                    onOpen={setOpenedId}
+                  />
                 )}
               </Reveal>
 

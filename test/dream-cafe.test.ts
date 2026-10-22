@@ -184,7 +184,11 @@ describe('dream cafe square tile grid', () => {
   const dialog = read('components/sites/dream-cafe/ItemDialog.tsx');
   const css = read('app/globals.css');
 
-  it('serves every item in one square grid, not per-category boards', () => {
+  it('serves the whole menu as one square grid, and only the whole menu', () => {
+    // "All" is the flat board; a single section goes on the barrel instead
+    // (see the barrel gallery contract below), which is what he asked for
+    // on 2026-10-22.
+    expect(src).toMatch(/\) : cat === 'all' \?/);
     expect(src).toMatch(/dc-square-grid/);
     expect(src).toMatch(/menuGroups\.flatMap/);
     expect(css).toMatch(/\.dream-cafe \.dc-square-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2/);
@@ -411,6 +415,115 @@ describe('dream cafe ambient 3D float', () => {
     expect(css).toMatch(/@keyframes dc-float\s*\{[\s\S]*?translate:\s*0 var\(--dc-bob/);
     expect(css).toMatch(/\.dream-cafe \.dc-tile\s*\{[^}]*--dc-bob:\s*-6px/);
     expect(css).toMatch(/@media \(max-width: 639px\)[\s\S]*?\.dream-cafe \.dc-tile\s*\{[^}]*--dc-bob:\s*-1[0-9]px/);
+  });
+});
+
+describe('dream cafe barrel gallery', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const src = read('components/sites/dream-cafe/MenuExperience.tsx');
+  const barrel = read('components/sites/dream-cafe/BarrelGallery.tsx');
+  const css = read('app/globals.css');
+
+  it('puts one section on the barrel and keeps All on the flat board', () => {
+    // In the render: Traditional listing first, then the All grid, then the
+    // barrel — the barrel only takes a single section in the Gen Z skin.
+    const trad = src.search(/mode === 'trad' \?/);
+    const grid = src.search(/\) : cat === 'all' \?/);
+    const gallery = src.search(/<BarrelGallery/);
+    expect(trad).toBeGreaterThan(-1);
+    expect(grid).toBeGreaterThan(trad);
+    expect(gallery).toBeGreaterThan(grid);
+    expect(src).toMatch(/key=\{cat\}/);
+    expect(src).toMatch(/entries=\{visible\}/);
+    expect(src).toMatch(/label=\{activeGroup\?\.title/);
+    // The tabs still sit above whatever board is served.
+    expect(src.search(/dc-cat-tabs/)).toBeLessThan(gallery);
+  });
+
+  it('stands the cards on a cylinder whose radius comes from the card size', () => {
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-stage\s*\{[^}]*--step:\s*calc\(360deg \/ var\(--n/);
+    expect(css).toMatch(/--r:\s*calc\(\(var\(--cw\) \+ var\(--gap\)\)/);
+    expect(css).toMatch(/2 \* sin\(var\(--step\) \/ 2\)/);
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-slot\s*\{[^}]*transform:\s*rotateY\(var\(--a[^}]*translateZ\(var\(--r\)\)/);
+  });
+
+  it('keeps the facing card on the picture plane and views the barrel from above', () => {
+    // Push the cylinder back by its own radius before tipping it, or the near
+    // arc lands between the camera and the stage and inflates past it.
+    expect(css).toMatch(
+      /\.dream-cafe \.dc-barrel-ring\s*\{[^}]*transform:\s*rotateX\(var\(--tilt\)\) translateZ\(calc\(var\(--r\) \* -1\)\) rotateY\(var\(--rot/,
+    );
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-ring\s*\{[^}]*transform-style:\s*preserve-3d/);
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-stage\s*\{[^}]*perspective:\s*var\(--persp\)/);
+    // The far side must not show through the near cards as a mirror.
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-slot\s*\{[^}]*backface-visibility:\s*hidden/);
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-card\s*\{[^}]*backface-visibility:\s*hidden/);
+  });
+
+  it('drives the whole spin from one custom property', () => {
+    expect(barrel).toMatch(/setProperty\('--rot'/);
+    expect(barrel).toMatch(/ref=\{ringRef\}/);
+    expect(barrel).toMatch(/ref=\{stageRef\}/);
+    // Depth cues are derived in CSS from the angle to camera, not per frame.
+    expect(css).toMatch(/--rel:\s*calc\(var\(--a[^)]*\)\s*\+\s*var\(--rot/);
+    expect(css).toMatch(/--face:\s*max\(0,\s*cos\(var\(--rel\)\)\)/);
+    expect(css).toMatch(/opacity:\s*calc\([^}]*var\(--face\)/);
+    expect(barrel).not.toMatch(/getBoundingClientRect\(\)[\s\S]*?for \(/);
+  });
+
+  it('spins on drag, sideways wheel, keys, dots and taps', () => {
+    expect(barrel).toMatch(/setPointerCapture/);
+    expect(barrel).toMatch(/releasePointerCapture/);
+    expect(barrel).toMatch(/Math\.abs\(dx\) < 6/);
+    expect(barrel).toMatch(/FLING_STEPS/);
+    // A vertical wheel belongs to the page, never to the barrel.
+    expect(barrel).toMatch(/Math\.abs\(e\.deltaX\) <= Math\.abs\(e\.deltaY\)/);
+    expect(barrel).toMatch(/ArrowRight/);
+    expect(barrel).toMatch(/dc-barrel-dot/);
+    expect(barrel).toMatch(/aria-current=/);
+  });
+
+  it('opens the facing card only, and never on the tail of a drag', () => {
+    expect(barrel).toMatch(/if \(movedRef\.current\) return/);
+    expect(barrel).toMatch(/i !== activeRef\.current/);
+    expect(barrel).toMatch(/onOpen\(entries\[i\]\.item\.id\)/);
+    // Focus turns the barrel for the keyboard alone: click-focus fires before
+    // click, so spinning there would turn one tap into an open.
+    expect(barrel).toMatch(/:focus-visible/);
+  });
+
+  it('keeps every ordering affordance on a barrel card', () => {
+    expect(barrel).toMatch(/item\.name/);
+    expect(barrel).toMatch(/item\.price/);
+    expect(barrel).toMatch(/item\.note/);
+    expect(barrel).toMatch(/BarrelStar/);
+    expect(barrel).toMatch(/dc-barrel-qty/);
+    expect(barrel).toMatch(/cart\[item\.id\]/);
+    // Sized for the card, not the 480px source.
+    expect(barrel).toMatch(/sizes=/);
+  });
+
+  it('gives phones a barrel a thumb can drive', () => {
+    // Card width rides the viewport, so the barrel scales instead of switching.
+    expect(css).toMatch(/--cw:\s*clamp\(196px,\s*60vw,\s*248px\)/);
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-stage\s*\{[^}]*touch-action:\s*pan-y/);
+    expect(css).toMatch(/--dot-hit:\s*38px/);
+    expect(css).toMatch(/\.dream-cafe \.dc-barrel-nav\s*\{[^}]*width:\s*44px/);
+    // Bigger caption type and more stage room below the phone breakpoint.
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.dream-cafe \.dc-barrel-stage\s*\{[^}]*height:\s*calc\(var\(--ch\) \+ 86px\)/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.dream-cafe \.dc-barrel-name\s*\{[^}]*font-size:\s*16\.5px/,
+    );
+  });
+
+  it('keeps the shape but stops the movement for reduced motion', () => {
+    expect(barrel).toMatch(/matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
+    expect(barrel).toMatch(/if \(still\(\)\)/);
+    expect(css).toMatch(
+      /prefers-reduced-motion: reduce[\s\S]*?\.dream-cafe \.dc-barrel-card,\s*\.dream-cafe \.dc-barrel-card\[data-active='true'\]\s*\{[^}]*translate: none/,
+    );
   });
 });
 

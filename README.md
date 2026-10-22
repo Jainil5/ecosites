@@ -29,7 +29,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Hair Adore | `/hair-adore` | Salon marketing site: service menu, before/after gallery, booking |
 | Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
-| Dream Cafe | `/dream-cafe` | Bagel bakery and coffee bar: one-page menu board, sunrise ticker, rotated photo mosaic |
+| Dream Cafe | `/dream-cafe` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
 | OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
 
 `/api/stocks/{ohlc,chart,news,market,tick}` are server-side proxies that keep the Yahoo Finance
@@ -73,6 +73,18 @@ The reel is committed, not generated at request time, and `test/brand-skin.test.
 pip install imageio-ffmpeg   # or put any ffmpeg on PATH and set FFMPEG=/path/to/ffmpeg
 bash scripts/brand-reel.sh
 ```
+
+### Café menu boards
+
+`/dream-cafe/menu` serves the same `menuGroups` data three ways, so a customer can browse the way they like:
+
+| Board | When it is served | Component |
+| --- | --- | --- |
+| Barrel — cards standing on a spinning cylinder | Gen Z skin, one section at a time (Coffee, Food, Beverages) | `components/sites/dream-cafe/BarrelGallery.tsx` |
+| Square tiles — the whole menu on one floating grid | Gen Z skin, `All` | `MenuExperience.tsx` |
+| Printed listing — thumbnail · name · leader · price | Traditional skin | `MenuExperience.tsx` |
+
+The barrel is geometry, not a slideshow: the radius is solved from the card width and the per-item angle so neighbours keep a real gap around the cylinder, and each card's fade, scale and lift come from `cos()` of its angle to camera. That leaves one custom property (`--rot`) to write per frame, on the ring, and the browser's 3D sorting handles the rest. Drag (with fling and snap), sideways wheel, arrow keys, the dots and tapping a side card all spin it; tapping the facing card opens the same `ItemDialog` the tiles use. Phones get the same barrel at `60vw` cards with `touch-action: pan-y`, so a vertical thumb still scrolls the page. Under `prefers-reduced-motion: reduce` the shape stays and the movement stops: spins land instantly and the cards stop lifting.
 
 ### Adding a builder's portfolio
 
