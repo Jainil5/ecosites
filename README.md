@@ -1,7 +1,7 @@
 # ecosites
 
-**Website IN** — the brand site for a tech company that builds websites, AI services and
-automation for businesses of every size — plus three standalone demo sites, all in one app built with
+**Website Intelligence** — the brand site for a studio that builds websites, software, data and
+AI for businesses of every size — plus five standalone demo sites, all in one app built with
 **Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each demo renders
 full-screen with its own scoped theme, so they can look nothing alike.
 
@@ -11,10 +11,15 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Website IN company page — positioning, products, demo proof, contact |
-| `/store` | Client work gallery — four full builds from `content/websites/sites.ts` |
+| `/` | Website Intelligence company page — hero, services, industries, products, demo proof, contact |
+| `/services` | Six capabilities and how they combine into a solution |
+| `/products` | The two owned apps: OrderBook and Market Pulse |
+| `/demos` | Work gallery — five full builds from `content/websites/sites.ts` |
+| `/store` | Kept as an alias of `/demos` for older links |
+| `/about` | Mission, process and pillars |
+| `/local-business` | Local-business landing page (footer link) |
+| `/enterprise` | Enterprise solution landing page (footer link) |
 | `/contact` | WhatsApp, call and email channels |
-| `/#services` | Products anchor on the company page |
 | `/portfolio` | Index of builders, one card each, from `content/portfolio/authors.ts` |
 | `/portfolio/[author]` | A builder's bio, stack, links and case studies |
 | `/portfolio/[author]/work/[slug]` | Case-study detail, statically generated |
@@ -25,8 +30,9 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
 | Dream Cafe | `/dream-cafe` | Bagel bakery and coffee bar: one-page menu board, sunrise ticker, rotated photo mosaic |
+| OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
 
-`/api/stocks/{ohlc,chart,news}` are server-side proxies that keep the Yahoo Finance
+`/api/stocks/{ohlc,chart,news,market,tick}` are server-side proxies that keep the Yahoo Finance
 request and the NVIDIA NIM key out of the browser bundle.
 
 The company page and the portfolio live in the `(site)` route group (dark 3D theme,
@@ -40,10 +46,10 @@ their own scoped theme** — no brand chrome.
 - **`app/(sites)/<slug>/page.tsx`** — one standalone page per client site.
 - **`app/sitemap.ts`, `app/robots.ts`, `app/icon.svg`** — crawler output and favicon, both built from the registries.
 - **`content/`** — data-as-code registries; components never hard-code business facts:
-  - `content/brand/` — `company.ts` (name, tagline, pitch, badge, contact channels), `products.ts` (the offering list), `links.ts` (WhatsApp/tel/mailto href builders), `site.ts` (canonical origin).
+  - `content/brand/` — `company.ts` (name, tagline, pitch, badge, contact channels), `audiences.ts` (local-business and enterprise positioning), `services.ts` / `capabilities.ts` (the offering), `industries.ts`, `process.ts`, `proof.ts`, `solutions.ts`, `whyus.ts`, `nav.ts` (navigation), `links.ts` (WhatsApp/tel/mailto href builders), `site.ts` (canonical origin).
   - `content/portfolio/` — `PortfolioAuthor` registry; one entry per builder at `/portfolio/<slug>`.
   - `content/demos/` — `DemoSite` registry for the case studies. Each entry names its `author`; `screenshot` is optional and a designed cover stands in when a project has no capture yet.
-  - `content/websites/` — `SampleWebsite` registry for the `/store` gallery, with optional `liveUrl` (client's own domain) and `year`.
+  - `content/websites/` — `SampleWebsite` registry for the `/demos` gallery, with optional `liveUrl` (client's own domain) and `year`.
 - **`components/brand/`** — `Logo` (tree with circuit branches, also the favicon), `Hero`, `ProductsGrid`, `WorkStrip`, `ContactCta`; all read `content/brand/`.
 - **`components/`** — shared UI; site-specific components are colocated under `components/sites/<slug>/`.
 - **`supabase/`** — `schema.sql` + `seed.sql` for Savour's project (Row Level Security keeps a device's wishlist to itself).
@@ -58,14 +64,14 @@ their own scoped theme** — no brand chrome.
 `/portfolio`, the author page, the case-study pages, `generateStaticParams` and the sitemap all
 follow from those two files.
 
-### Adding a demo to the store
+### Adding a demo to the work gallery
 
 1. Create `app/(sites)/<slug>/page.tsx` (server component + `metadata`).
 2. Add its components/data under `components/sites/<slug>/`.
 3. Add one entry to `content/websites/sites.ts` with `slug`, `path: '/<slug>'`, `theme`, `accent`, `screenshot` — plus `liveUrl` when the client has their own domain, and `year`.
 4. Drop a preview image at `public/showcase/<slug>/preview.png`.
 
-The `/store` gallery and the demo strip on `/` read from the registry automatically.
+The `/demos` gallery (and its `/store` alias) and the demo strip on `/` read from the registry automatically.
 
 ## Getting Started
 
@@ -108,6 +114,8 @@ prefix — it is billable and must stay server-side.
 ## Deploying to Vercel
 
 This project is zero-config for Vercel (framework preset `nextjs`, see `vercel.json`, `.nvmrc` pins Node 20).
+It also ships a GitHub Actions FTP deploy (`.github/workflows/deploy.yml`) that syncs `main` to
+`/public_html` when the `FTP_SERVER`, `FTP_USERNAME` and `FTP_PASSWORD` secrets are set.
 
 1. Push this repo to GitHub.
 2. In the [Vercel dashboard](https://vercel.com/new), **Import** the GitHub repo.
@@ -145,11 +153,13 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 ## Status
 
 - [x] Next.js + Tailwind + TypeScript scaffolded
-- [x] `/` company page — hero, products, demo proof, contact
-- [x] `/store` demo store + `/contact` channels
+- [x] `/` company page — hero, services, industries, products, proof, contact
+- [x] `/services`, `/products`, `/demos`, `/about` brand pages
+- [x] `/contact` channels and the `/store` alias for older links
 - [x] `/portfolio` builder index, `/portfolio/[author]` and `/portfolio/[author]/work/[slug]`
 - [x] Sitemap, robots and favicon generated from the registries
-- [x] Three standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`)
+- [x] Five standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/dream-cafe`, `/analytical-register`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
+- [x] OrderBook POS register, GST billing and analytics dashboard
 - [x] Vercel-ready configuration

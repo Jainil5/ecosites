@@ -22,7 +22,8 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
     }
     case 'setQty': {
       if (action.qty <= 0) {
-        const { [action.id]: _gone, ...rest } = state;
+        const rest = { ...state };
+        delete rest[action.id];
         return rest;
       }
       return { ...state, [action.id]: Math.min(action.qty, MAX_QTY) };
