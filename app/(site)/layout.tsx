@@ -2,6 +2,8 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { BrandBackground } from '@/components/brand/BrandBackground';
 import { GooDefs } from '@/components/brand/GooDefs';
+import { ScrollMotion } from '@/components/brand/ScrollMotion';
+import 'lenis/dist/lenis.css';
 
 export default function PortfolioLayout({
   children,
@@ -14,6 +16,8 @@ export default function PortfolioLayout({
       <BrandBackground />
       {/* The gooey layers reference this by id; it must exist once per route. */}
       <GooDefs />
+      {/* Lenis and the scroll-momentum variables the brand effects read. */}
+      <ScrollMotion />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-canvas focus:px-3 focus:py-2 focus:text-ink"

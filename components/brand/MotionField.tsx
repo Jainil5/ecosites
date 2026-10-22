@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import type { BrandEffect } from './BrandBackground';
+import { scrollState } from './scroll-state';
 
 /**
  * Per-effect camera and water parameters. The mesh is the same object on
@@ -163,7 +164,12 @@ export function MotionField({ effect }: { effect: BrandEffect }) {
       const delta = now - last;
       if (delta < FRAME_MS) return;
       last = now;
-      elapsed += Math.min(delta, 100) / 1000; // clamp so a backgrounded tab does not jump
+      // One surge term, applied to the clock rather than to a single phase:
+      // the crests, the light bodies and the camera yaw all accelerate
+      // together, so flinging the page reads as the field lurching, not as
+      // one layer slipping out of step with the rest.
+      const surge = 1 + Math.abs(scrollState.velocity) * 3;
+      elapsed += (Math.min(delta, 100) / 1000) * surge;
       draw(elapsed);
     };
 

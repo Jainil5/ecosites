@@ -447,17 +447,20 @@ button:focus-visible {
   }
 
   /* One flat plane. --pz seats its depth, --rot the few degrees of tilt
-     that make it read as cut paper rather than a CSS box. */
+     that make it read as cut paper rather than a CSS box. The scroll
+     momentum terms cross-couple the pointer axes — a fling shears the stack
+     sideways and pushes it a little toward the camera, which is what makes
+     the depth feel physical instead of animated. */
   .gs-plane {
     position: absolute;
     border-radius: 0;
     transform-style: preserve-3d;
     transform: translate3d(
-        calc(var(--mx, 0) * var(--dx, 0) * 1px),
-        calc(var(--my, 0) * var(--dy, 0) * 1px),
-        var(--pz, 0)
+        calc(var(--mx, 0) * var(--dx, 0) * 1px + var(--scroll-v, 0) * var(--dy, 0) * 1px),
+        calc(var(--my, 0) * var(--dy, 0) * 1px + var(--scroll-v, 0) * var(--dx, 0) * 1px),
+        calc(var(--pz, 0) - var(--scroll-v, 0) * 26px)
       )
-      rotate(var(--rot, 0deg));
+      rotate(calc(var(--rot, 0deg) + var(--scroll-v, 0) * 2deg));
     will-change: transform;
     /* The transition is what makes the pointer read as weight rather than
        jitter. It stays inert during gs-plane-in, which animates transform. */
@@ -940,6 +943,71 @@ button:focus-visible {
 @keyframes brand-bg-orbit {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   Scroll motion — Lenis (components/brand/ScrollMotion) publishes
+   three numbers on <html> and every effect below reads them, so the
+   page reacts to one shared momentum instead of running its own
+   scroll listeners:
+     --scroll-v  signed momentum, -1..1, cleared to 0 when it settles
+     --scroll-p  0..1 progress down the page
+     --hero-rec  0..1 of the hero's own height, already travelled
+   ============================================================ */
+
+/* Lenis owns the easing on brand pages: native smooth scrolling would stack a
+   second ease over its own anchor handling. Only while `html` carries Lenis'
+   class, so the demo sites keep their native behaviour. */
+html.lenis,
+html.lenis body {
+  scroll-behavior: auto;
+}
+
+/* Progress hairline across the top, drawn with scaleX so it stays on the
+   compositor at any viewport width. */
+.scroll-rail {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 2px;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--scroll-p, 0));
+  background: linear-gradient(90deg, var(--gs-plane), var(--gs-lime));
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero gives up its seat: the whole stage pulls back and lifts as you
+     scroll into the page, so the next band arrives rather than abuts. No
+     opacity here — a group fade would flatten the stage's preserve-3d and the
+     planes would lose their depth mid-scroll. The veil below does that job. */
+  .gs-hero .gs-stage {
+    transform: translate3d(0, calc(var(--hero-rec, 0) * -5vh), 0)
+      scale(calc(1 - var(--hero-rec, 0) * 0.14));
+    transform-origin: 50% 26%;
+    will-change: transform;
+  }
+  .gs-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: var(--gs-canvas);
+    opacity: calc(var(--hero-rec, 0) * 0.62);
+  }
+
+  /* Momentum lean. The poster caps lag a few pixels behind the scroll and the
+     construction grid slides at its own rate, so a fling visibly drags the
+     typography. --scroll-v decays to zero, which means a settled page is
+     exactly as straight as it was before this existed. */
+  .gs-display {
+    transform: translate3d(0, calc(var(--scroll-v, 0) * 7px), 0);
+  }
+  .gs-grid {
+    transform: translate3d(0, calc(var(--scroll-v, 0) * 22px), 0);
   }
 }
 

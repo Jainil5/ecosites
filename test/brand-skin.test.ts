@@ -182,6 +182,46 @@ describe('motion field contract', () => {
   });
 });
 
+describe('scroll motion contract', () => {
+  const driver = read('components/brand/ScrollMotion.tsx');
+  const css = read('app/globals.css');
+
+  it('runs Lenis with its own rAF and tears it down on unmount', () => {
+    expect(driver).toContain('new Lenis(');
+    expect(driver).toContain('autoRaf: true');
+    expect(driver).toContain('anchors: true');
+    expect(driver).toContain('respectReducedMotion: true');
+    expect(driver).toContain('lenis.destroy()');
+  });
+
+  it('publishes one momentum set for every effect to read', () => {
+    for (const token of ['--scroll-v', '--scroll-p', '--hero-rec']) expect(css).toContain(token);
+    expect(driver).toContain("'--scroll-v'");
+  });
+
+  it('hands anchor easing to Lenis instead of double-easing it', () => {
+    expect(css).toMatch(/html\.lenis[^}]*scroll-behavior:\s*auto/s);
+  });
+
+  it('is mounted by the brand layout only, and its css comes from there', () => {
+    const layout = read('app/(site)/layout.tsx');
+    expect(layout).toContain('<ScrollMotion');
+    expect(layout).toContain("import 'lenis/dist/lenis.css'");
+  });
+
+  it('keeps every scroll-driven transform out of the reduced-motion path', () => {
+    // Lenis pins velocity at zero itself; the CSS has to say the same thing,
+    // or a reduced-motion visitor still gets the hero receding.
+    expect(css).toMatch(/prefers-reduced-motion: no-preference\)[\s\S]*--hero-rec[\s\S]*--scroll-v/);
+    expect(driver).toContain('lenis.prefersReducedMotion');
+  });
+
+  it('surges the background field with the same momentum', () => {
+    expect(read('components/brand/MotionField.tsx')).toContain('scrollState.velocity');
+    expect(read('components/brand/scroll-state.ts')).toContain('velocity');
+  });
+});
+
 describe('brand routes carry no light-skin leftovers', () => {
   // The dark skin flipped token semantics: text that sat on paper now sits
   // on the glass field. These are the classes the migration replaced, and a
