@@ -33,7 +33,7 @@ export function Navbar() {
             className="focus-ring inline-flex items-center gap-2 font-display text-base font-extrabold uppercase tracking-tight text-ink"
           >
             <Logo className="h-5 w-5 text-accent" />
-            Website <span className="text-accent">Intelligence</span>
+            Website & <span className="text-accent">Intelligence</span>
           </Link>
 
           <ul className="flex flex-wrap items-center justify-end gap-x-1 gap-y-1 sm:gap-4">

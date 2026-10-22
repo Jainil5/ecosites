@@ -7,7 +7,7 @@ export function WhyUs() {
     <section className="gs-reveal">
       <SectionIntro
         index="07"
-        label="why website intelligence"
+        label="why website & intelligence"
         title="One partner across the whole stack."
       >
         Web, software, data and AI — under one roof, at the size your business actually needs.

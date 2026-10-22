@@ -75,7 +75,7 @@ describe('contextual WhatsApp links', () => {
 
 describe('company registry', () => {
   it('has no empty marketing fields', () => {
-    expect(company.name).toBe('Website Intelligence');
+    expect(company.name).toBe('Website & Intelligence');
     for (const field of [company.tagline, company.pitch, company.badge]) {
       expect(field.trim().length).toBeGreaterThan(0);
     }

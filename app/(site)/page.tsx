@@ -15,8 +15,8 @@ import { whatsappHrefMessage } from '@/content/brand/links';
 
 export const metadata: Metadata = {
   // No title: the root default from app/layout.tsx is already
-  // "Website Intelligence — <tagline>", and setting one here would push it through the
-  // "%s | Website Intelligence" template and print the brand name twice.
+  // "Website & Intelligence — <tagline>", and setting one here would push it through the
+  // "%s | Website & Intelligence" template and print the brand name twice.
   description: company.pitch,
 };
 
@@ -79,7 +79,7 @@ export default function HomePage() {
             <a
               href={whatsappHrefMessage(
                 company.contact,
-                'Discuss an enterprise project with Website Intelligence',
+                'Discuss an enterprise project with Website & Intelligence',
               )}
               target="_blank"
               rel="noopener noreferrer"

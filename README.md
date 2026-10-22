@@ -1,6 +1,6 @@
 # ecosites
 
-**Website Intelligence** — the brand site for a studio that builds websites, software, data and
+**Website & Intelligence** — the brand site for a studio that builds websites, software, data and
 AI for businesses of every size — plus five standalone demo sites, all in one app built with
 **Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each demo renders
 full-screen with its own scoped theme, so they can look nothing alike.
@@ -11,7 +11,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Website Intelligence company page — hero, services, industries, products, demo proof, contact |
+| `/` | Website & Intelligence company page — hero, services, industries, products, demo proof, contact |
 | `/services` | Six capabilities and how they combine into a solution |
 | `/products` | The three owned apps: OrderBook, Market Pulse and TeamSync |
 | `/demos` | Work gallery — five full builds from `content/websites/sites.ts` |

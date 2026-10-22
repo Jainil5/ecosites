@@ -7,7 +7,7 @@ import { company } from '@/content/brand/company';
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    'Live sites built by Website Intelligence: a salon marketing site with booking, an NSE stock screener with live market data, a restaurant dish guide, and a bagel bakery with a full digital menu.',
+    'Live sites built by Website & Intelligence: a salon marketing site with booking, an NSE stock screener with live market data, a restaurant dish guide, and a bagel bakery with a full digital menu.',
 };
 
 export default function WorkPage() {

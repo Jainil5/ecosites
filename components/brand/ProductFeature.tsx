@@ -21,7 +21,7 @@ export function ProductFeature() {
         <div>
           <p className="gs-label">
             <span className="gs-label-hot">04</span> <span aria-hidden>/</span> a product by
-            website intelligence
+            website & intelligence
           </p>
           <h2 className="gs-display gs-h2 mt-3">
             Know your orders.
