@@ -2,11 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ClientMarquee } from '@/components/brand/ClientMarquee';
 import { Hero } from '@/components/brand/Hero';
-import { IndustryGrid } from '@/components/brand/IndustryGrid';
 import { ProcessBand } from '@/components/brand/ProcessBand';
 import { ProductFeature } from '@/components/brand/ProductFeature';
 import { ProofBand } from '@/components/brand/ProofBand';
-import { SectionIntro } from '@/components/brand/SectionIntro';
 import { ServicesGrid } from '@/components/brand/ServicesGrid';
 import { WhyUs } from '@/components/brand/WhyUs';
 import { WorkStrip } from '@/components/brand/WorkStrip';
@@ -35,18 +33,6 @@ export default function HomePage() {
         }}
       />
 
-      <section className="gs-reveal">
-        <SectionIntro
-          index="03"
-          label="industry solutions"
-          title="Built around the way your industry works."
-        >
-          Every business has different customers, workflows, and priorities. Start with a
-          solution designed for your type of business, then tailor it to your needs.
-        </SectionIntro>
-        <IndustryGrid />
-      </section>
-
       <ProductFeature />
 
       <ProcessBand />
@@ -63,7 +49,7 @@ export default function HomePage() {
         <span aria-hidden className="gs-grid opacity-20" />
         <div className="relative mx-auto max-w-7xl px-6">
           <p className="gs-label">
-            <span className="gs-label-hot">08</span> <span aria-hidden>/</span> next step
+            <span className="gs-label-hot">07</span> <span aria-hidden>/</span> next step
           </p>
           <h2 className="gs-display gs-h2 mt-3">
             Let&apos;s build what your business needs next.

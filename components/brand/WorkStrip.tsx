@@ -14,7 +14,7 @@ export function WorkStrip() {
   return (
     <section className="gs-reveal">
       <div className="flex flex-wrap items-end justify-between gap-6">
-        <SectionIntro index="06" label="work" title={`${websites.length} businesses live`} />
+        <SectionIntro index="05" label="work" title={`${websites.length} businesses live`} />
         <Link href="/demos" className="focus-ring gs-btn gs-btn-solid mb-10">
           Browse the work
           <ArrowRight aria-hidden className="h-4 w-4" />

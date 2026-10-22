@@ -6,7 +6,7 @@ export function WhyUs() {
   return (
     <section className="gs-reveal">
       <SectionIntro
-        index="07"
+        index="06"
         label="why website & intelligence"
         title="One partner across the whole stack."
       >
