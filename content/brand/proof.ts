@@ -8,5 +8,7 @@ export type Proof =
   | { kind: 'site'; path: string }
   /** One of our own live product apps. */
   | { kind: 'product'; path: string }
-  /** A founder case study under /portfolio. */
+  /** The live work gallery, when a capability has no single artifact to name. */
+  | { kind: 'work'; path: string }
+  /** A founder case study under /portfolio. Not linked from the brand site. */
   | { kind: 'case'; path: string };

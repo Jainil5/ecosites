@@ -16,10 +16,11 @@ export const metadata: Metadata = {
   description: `${enterprise.pitch} From a focused internal tool to a larger digital platform, we begin with your business problem and design a solution around it.`,
 };
 
-const proofCta: Record<'case' | 'product' | 'site', string> = {
+const proofCta: Record<'case' | 'product' | 'site' | 'work', string> = {
   case: 'See the build',
   product: 'Open the live app',
   site: 'See the delivered site',
+  work: 'See what is live',
 };
 
 export default function EnterprisePage() {

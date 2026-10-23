@@ -30,7 +30,6 @@ export const footerLinks = [
   { href: '/demos', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/portfolio', label: 'Portfolio' },
 ] as const;
 
 export interface NavRow {
@@ -99,9 +98,9 @@ export const navGroups: NavGroup[] = [
       tag: site.theme,
     })),
     footer: {
-      href: '/portfolio',
-      title: 'Who builds here',
-      description: 'The builders behind the delivered work',
+      href: '/contact',
+      title: 'Want one for your business?',
+      description: 'Tell us the business and the problem, we will say what step one looks like',
     },
   },
 ];

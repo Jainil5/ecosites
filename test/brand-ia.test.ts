@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import sitemap from '@/app/sitemap';
-import { ctaLink, footerLinks, navLinks } from '@/content/brand/nav';
+import { ctaLink, footerLinks, navGroups, navLinks, searchIndex } from '@/content/brand/nav';
 import { siteUrl } from '@/content/brand/site';
 import { resolveRoute } from './helpers/resolve-route';
 
@@ -48,7 +48,7 @@ describe('Phase 1 IA', () => {
     expect(footerLinks.map((l) => l.href)).toContain('/enterprise');
   });
 
-  it('footer covers services first, then the audiences, then contact and portfolio', () => {
+  it('footer covers services first, then the audiences, then contact', () => {
     expect(footerLinks.map((l) => l.href)).toEqual([
       '/services',
       '/local-business',
@@ -57,8 +57,18 @@ describe('Phase 1 IA', () => {
       '/demos',
       '/about',
       '/contact',
-      '/portfolio',
     ]);
     for (const l of footerLinks) expect(resolveRoute(l.href), l.href).not.toBeNull();
+  });
+
+  it('keeps the personal portfolio out of the brand navigation', () => {
+    // The /portfolio pages stay built, but the brand site does not advertise
+    // them: no footer link, no nav panel row, nothing in the search index.
+    const navHrefs = [...navLinks, ...footerLinks].map((l) => l.href);
+    expect(navHrefs).not.toContain('/portfolio');
+    const menuHrefs = navGroups.flatMap((g) => [...g.rows, g.footer].map((r) => r.href));
+    for (const href of [...menuHrefs, ...searchIndex.map((r) => r.href)]) {
+      expect(href, href).not.toContain('/portfolio');
+    }
   });
 });

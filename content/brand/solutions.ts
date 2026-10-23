@@ -21,7 +21,7 @@ export const solutions: Solution[] = [
       'Customer-facing platforms',
       'Event-driven services with authentication, messaging and deployment',
     ],
-    proof: { kind: 'case', path: '/portfolio/jainil-patel/work/teamsync' },
+    proof: { kind: 'site', path: '/savour' },
   },
   {
     slug: 'data-and-bi',
@@ -33,7 +33,7 @@ export const solutions: Solution[] = [
       'Transformation with data-quality checks',
       'Dashboards and reporting for decision-makers',
     ],
-    proof: { kind: 'case', path: '/portfolio/jainil-patel/work/portfolio-advisor' },
+    proof: { kind: 'product', path: '/analytical-register' },
   },
   {
     slug: 'ai-and-automation',
@@ -45,10 +45,7 @@ export const solutions: Solution[] = [
       'Document intelligence workflows',
       'Agents served as tools and APIs over your own data',
     ],
-    proof: {
-      kind: 'case',
-      path: '/portfolio/jainil-patel/work/enterprise-productivity-agents',
-    },
+    proof: { kind: 'work', path: '/demos' },
   },
   {
     slug: 'apis-and-integrations',
@@ -60,7 +57,7 @@ export const solutions: Solution[] = [
       'Platform and data-source integrations',
       'Messaging between systems that already run your operations',
     ],
-    proof: { kind: 'case', path: '/portfolio/jainil-patel/work/teamsync' },
+    proof: { kind: 'product', path: '/stock-screener' },
   },
   {
     slug: 'cloud-and-modernisation',
@@ -72,7 +69,7 @@ export const solutions: Solution[] = [
       'Performance and operational tooling',
       'Modernisation plans for existing systems',
     ],
-    proof: { kind: 'product', path: '/stock-screener' },
+    proof: { kind: 'site', path: '/hair-adore' },
   },
 ];
 
