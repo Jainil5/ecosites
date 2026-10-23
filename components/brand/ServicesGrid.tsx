@@ -1,8 +1,9 @@
+import { CursorLit } from '@/components/brand/CursorLit';
 import { SectionIntro } from '@/components/brand/SectionIntro';
 import { capabilities } from '@/content/brand/capabilities';
 
 /**
- * The six capabilities as a flat register — no per-card link, because
+ * The capabilities as a flat register — no per-card link, because
  * `/services/*` detail pages do not exist yet. A card that linked to a
  * missing page is the failure mode the registries exist to prevent.
  */
@@ -19,12 +20,12 @@ export function ServicesGrid({
           {heading.intro}
         </SectionIntro>
       ) : null}
-      <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+      <CursorLit className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {capabilities.map((capability, i) => (
           <article
             key={capability.slug}
             id={capability.slug}
-            className="scroll-mt-32 bg-canvas p-6"
+            className="gs-lit scroll-mt-32 bg-canvas p-6"
           >
             <p className="gs-label text-ink-3">{String(i + 1).padStart(2, '0')}</p>
             <h3 className="gs-display mt-2 text-base text-ink">{capability.name}</h3>
@@ -39,7 +40,7 @@ export function ServicesGrid({
             </ul>
           </article>
         ))}
-      </div>
+      </CursorLit>
     </section>
   );
 }

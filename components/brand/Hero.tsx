@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
+import { CountUp } from '@/components/brand/CountUp';
+import { GlyphScramble } from '@/components/brand/GlyphScramble';
 import { HeroStage } from '@/components/brand/HeroStage';
 import { SiteCompiler } from '@/components/brand/SiteCompiler';
 import { products } from '@/content/brand/products';
@@ -7,9 +9,9 @@ import { serviceSteps } from '@/content/brand/services';
 import { websites } from '@/content/websites/sites';
 
 const FACTS = [
-  { value: String(websites.length), label: 'client sites live' },
-  { value: String(serviceSteps.length), label: 'steps, taken in order' },
-  { value: String(products.length), label: 'apps you can run' },
+  { value: websites.length, label: 'client sites live' },
+  { value: serviceSteps.length, label: 'steps, taken in order' },
+  { value: products.length, label: 'builds shown running' },
 ];
 
 interface PlaneProps {
@@ -152,10 +154,11 @@ export function Hero() {
 
             <h1 className="gs-display gs-h2">
               <span className="block gs-caps-rise" style={{ '--d': '120ms' } as CSSProperties}>
-                Technology for
+                <GlyphScramble text="Technology for" />
               </span>
               <span className="block gs-caps-rise" style={{ '--d': '220ms' } as CSSProperties}>
-                Every Business<span className="text-plane">.</span>
+                <GlyphScramble text="Every Business" duration={760} />
+                <span className="text-plane">.</span>
               </span>
             </h1>
 
@@ -198,7 +201,9 @@ export function Hero() {
         <dl className="relative mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-3">
           {FACTS.map((fact) => (
             <div key={fact.label} className="bg-canvas p-4">
-              <dt className="gs-display text-3xl text-plane">{fact.value}</dt>
+              <dt className="gs-display text-3xl text-plane">
+                <CountUp value={fact.value} />
+              </dt>
               <dd className="gs-label mt-1 text-ink-3">{fact.label}</dd>
             </div>
           ))}

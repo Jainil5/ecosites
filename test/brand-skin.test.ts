@@ -147,6 +147,53 @@ describe('brand skin primitives', () => {
   });
 });
 
+describe('pointer and scroll motion', () => {
+  const css = read('app/globals.css');
+  const motionSources = [
+    'components/brand/CursorLit.tsx',
+    'components/brand/LineReveal.tsx',
+    'components/brand/CountUp.tsx',
+    'components/brand/GlyphScramble.tsx',
+  ];
+
+  it('asks every motion hook what the visitor prefers', () => {
+    for (const file of motionSources) {
+      expect(read(file), file).toContain('prefers-reduced-motion: reduce');
+    }
+  });
+
+  it('ships the lighting, reveal, count and field primitives', () => {
+    for (const cls of [
+      '.gs-lit {',
+      '.gs-lit-drift {',
+      ".gs-line:not([data-shown='true']) > span",
+      '.gs-count',
+      '.gs-scramble {',
+      '.brand-bg-horizon',
+      '.brand-bg-scan',
+    ]) {
+      expect(css, cls).toContain(cls);
+    }
+    for (const keyframe of ['@keyframes brand-bg-horizon', '@keyframes brand-bg-scan']) {
+      expect(css, keyframe).toContain(keyframe);
+    }
+  });
+
+  it('keeps the counted total in the markup, so a waiting stat never reads as zero', () => {
+    // 0 is a claim about the business; the hidden-until-counted state is the
+    // difference between a number arriving and a number being wrong.
+    const src = read('components/brand/CountUp.tsx');
+    expect(src).toContain('run ? shown : value');
+    expect(src).toContain("data-counted={run ? 'true' : undefined}");
+  });
+
+  it('mounts the horizon and scan under the effect layers', () => {
+    const src = read('components/brand/BrandBackground.tsx');
+    expect(src.indexOf('brand-bg-horizon')).toBeLessThan(src.indexOf('brand-bg-ripple'));
+    expect(src.indexOf('brand-bg-scan')).toBeGreaterThan(src.indexOf('brand-bg-orbit'));
+  });
+});
+
 describe('background effect component contract', () => {
   const src = read('components/brand/BrandBackground.tsx');
 

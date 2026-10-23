@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Activity, ArrowRight, ClipboardList, MessagesSquare } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { CursorLit } from '@/components/brand/CursorLit';
 import { SectionIntro } from '@/components/brand/SectionIntro';
 import { products } from '@/content/brand/products';
 import type { ProductIcon } from '@/content/brand/types';
@@ -11,29 +12,30 @@ const ICONS: Record<ProductIcon, LucideIcon> = {
 };
 
 /**
- * The product grid: apps a business runs. Each card names both halves of the
- * build and either opens the live app or asks for a walkthrough — never both,
- * and never a route that does not exist yet.
+ * The product grid: demonstrations of systems a business runs. Each card names
+ * both halves of the build and either opens the running surface or asks for a
+ * walkthrough — never both, and never a route that does not exist yet.
  */
 export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) {
   return (
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
-        <SectionIntro index="04" label="products" title="Apps you run, not projects you wait for">
-          Two products, each with a counter half and a numbers half. Both are built
-          to be afforded by one outlet and to still work when you add the second
-          branch — tell us the scope and you approve the quote before any work starts.
+        <SectionIntro index="04" label="products" title="Demonstrations of what we build, not boxes we sell">
+          Two working surfaces, each with a counter half and a numbers half. They run on
+          sample data so you can see the flow before we build yours with your items, your
+          taxes and your branding — tell us the scope and you approve the quote before any
+          work starts.
         </SectionIntro>
       ) : null}
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <CursorLit className="grid gap-4 lg:grid-cols-2">
         {products.map((product) => {
           const Icon = ICONS[product.icon];
           return (
             <article
               key={product.slug}
               id={product.slug}
-              className="gs-card gs-card-hover flex h-full flex-col scroll-mt-32 p-6 sm:p-8"
+              className="gs-card gs-lit gs-lit-drift flex h-full flex-col scroll-mt-32 p-6 sm:p-8"
             >
               <div className="flex items-start gap-4">
                 <span className="gs-icon shrink-0">
@@ -69,7 +71,7 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                     href={product.demoPath}
                     className="focus-ring gs-btn gs-btn-solid"
                   >
-                    Open it live
+                    Run the demonstration
                     <ArrowRight aria-hidden className="h-4 w-4" />
                   </Link>
                 ) : (
@@ -79,13 +81,15 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                   </Link>
                 )}
                 <span className="gs-label">
-                  {product.demoPath ? 'running right now' : 'in build — ask to see it'}
+                  {product.demoPath
+                    ? 'sample data — your items, your taxes, your branding'
+                    : 'in build — ask to see it'}
                 </span>
               </div>
             </article>
           );
         })}
-      </div>
+      </CursorLit>
 
       <div className="gs-card mt-4 flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center">
         <div className="flex items-start gap-4">

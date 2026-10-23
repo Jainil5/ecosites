@@ -7,11 +7,11 @@ import { products } from '@/content/brand/products';
 import { websites } from '@/content/websites/sites';
 
 const orderBook = products[0];
-const demo = websites.find((site) => site.path === orderBook.demoPath);
+const showcase = websites.find((site) => site.path === orderBook.demoPath);
 
 /**
  * The brief's featured-product band. Only shipped features are listed, and
- * the screenshot is the real app, labelled as the live demo it is.
+ * the screenshot is the real app, labelled as the demonstration build it is.
  */
 export function ProductFeature() {
   return (
@@ -20,8 +20,8 @@ export function ProductFeature() {
       <div className="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div>
           <p className="gs-label">
-            <span className="gs-label-hot">04</span> <span aria-hidden>/</span> a product by
-            website intelligence
+            <span className="gs-label-hot">04</span> <span aria-hidden>/</span> what we build for
+            you, shown running
           </p>
           <h2 className="gs-display gs-h2 mt-3">
             Know your orders.
@@ -41,25 +41,28 @@ export function ProductFeature() {
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/products" className="focus-ring gs-btn gs-btn-solid">
-              Explore OrderBook
+              See what it does
               <ArrowRight aria-hidden className="h-4 w-4" />
             </Link>
             <a
-              href={whatsappHrefMessage(company.contact, 'Request an OrderBook demo')}
+              href={whatsappHrefMessage(
+                company.contact,
+                'Build me something like the OrderBook demonstration',
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="focus-ring gs-btn gs-btn-ghost"
             >
               <Play aria-hidden className="h-4 w-4" />
-              Request a Demo
+              Ask for your version
             </a>
           </div>
         </div>
-        {demo ? (
+        {showcase ? (
           <div>
-            <WebsiteCard site={demo} />
+            <WebsiteCard site={showcase} />
             <p className="gs-label mt-3 text-ink-3">
-              live demo — the real app, running in your browser
+              demonstration build — sample items, the same flow your counter would run
             </p>
           </div>
         ) : null}

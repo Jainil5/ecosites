@@ -1,4 +1,6 @@
 import type { CSSProperties } from 'react';
+import { CursorLit } from '@/components/brand/CursorLit';
+import { LineReveal } from '@/components/brand/LineReveal';
 import { capabilities } from '@/content/brand/capabilities';
 
 /** The four surfaces one launch actually touches, in the order they appear. */
@@ -128,7 +130,9 @@ export function LaunchReel() {
           <p className="gs-label">
             <span className="gs-label-hot">→</span> <span aria-hidden>/</span> what one launch looks like
           </p>
-          <h2 className="gs-display gs-h2 mt-3">Ten seconds, four surfaces.</h2>
+          <h2 className="gs-display gs-h2 mt-3">
+            <LineReveal text="Ten seconds, four surfaces." />
+          </h2>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-ink-2">
           The site, the orders, the answers and the numbers — cut from the same build, so
@@ -136,7 +140,8 @@ export function LaunchReel() {
         </p>
       </div>
 
-      <figure className="gs-card mt-8 p-4 sm:p-6">
+      <CursorLit className="mt-8">
+        <figure className="gs-card gs-lit p-4 sm:p-6">
         <div className="gs-reel-stack">
           {BEAT_SLUGS.map((slug, i) => (
             <Beat key={slug} slug={slug} i={i} />
@@ -145,10 +150,11 @@ export function LaunchReel() {
         <span aria-hidden className="gs-reel-track mt-4 block h-px w-full">
           <span aria-hidden className="gs-reel-rail gs-reel-fill block h-px w-full" />
         </span>
-        <figcaption className="gs-label mt-3">
-          Ten second loop — site, orders, answers, numbers
-        </figcaption>
-      </figure>
+          <figcaption className="gs-label mt-3">
+            Ten second loop — site, orders, answers, numbers
+          </figcaption>
+        </figure>
+      </CursorLit>
     </section>
   );
 }

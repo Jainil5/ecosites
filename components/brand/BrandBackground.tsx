@@ -28,6 +28,7 @@ export function BrandBackground() {
 
   return (
     <div aria-hidden className="brand-bg" data-effect={effect}>
+      <span className="brand-bg-horizon" />
       <span className="brand-bg-layer brand-bg-ripple" />
       <span className="brand-bg-layer brand-bg-wave" />
       <span className="brand-bg-layer brand-bg-orbit">
@@ -36,6 +37,7 @@ export function BrandBackground() {
           <span className="brand-bg-orbit-glow brand-bg-orbit-glow-b" />
         </span>
       </span>
+      <span className="brand-bg-scan" />
     </div>
   );
 }
