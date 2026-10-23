@@ -7,7 +7,7 @@ import { company } from '@/content/brand/company';
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    'Live sites built by Website Intelligence: a salon marketing site with booking, an NSE stock screener with live market data, a restaurant dish guide, and a bagel bakery with a full digital menu.',
+    'Live sites built by Website Intelligence: a salon marketing site with booking, an NSE stock screener with live market data, a restaurant dish guide, a bagel bakery with a full digital menu, and a working demonstration of an order register with business analytics.',
 };
 
 export default function WorkPage() {
@@ -15,8 +15,9 @@ export default function WorkPage() {
     <div className="pt-12 sm:pt-16">
       <PageHeader index="05" label="work" title="Every business below is live.">
         {company.name} ships whole builds — the front end, the content model and the
-        integrations the business actually runs on. Open any card, click around, and
-        judge the craft yourself.
+        integrations the business actually runs on. Some are running for their owner;
+        some are working demonstrations of a system we would build for you, and each
+        card says which. Open any one, click around, and judge the craft yourself.
       </PageHeader>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

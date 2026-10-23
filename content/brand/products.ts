@@ -11,13 +11,13 @@ export const products: Product[] = [
     slug: 'order-book',
     title: 'OrderBook',
     summary:
-      'Take the order at the counter and read the numbers back at closing, in one app.',
+      'A working demonstration of the ordering, billing and reporting system we build around your counter, desk or studio.',
     icon: 'register',
     bullets: [
-      'Bill screen built for the phone or tablet already on the counter',
-      'GST cash memo with the split worked out, sent on WhatsApp in one tap',
-      'Menu, taxes and offers you edit yourself — no developer in the loop',
-      'Runs in the browser you have open, so nothing new to install',
+      'Order, invoice and receipt flow on the phone or tablet you already run the desk on',
+      'Tax-correct bill with the split worked out, sent to the customer in one tap',
+      'Items, rates and offers you change yourself — no developer in the loop',
+      'Everything on screen is sample data from a build like yours, not a live shop',
     ],
     modules: [
       {
@@ -37,7 +37,7 @@ export const products: Product[] = [
     slug: 'market-pulse',
     title: 'Market Pulse',
     summary:
-      'A screener you set yourself, with live NSE quotes, charts and the news behind the move.',
+      'A demonstration of a screening tool we build to your rules, wired to live public market data.',
     icon: 'pulse',
     bullets: [
       'Sort and filter the list on the numbers that matter to you',

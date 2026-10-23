@@ -52,6 +52,21 @@ export const capabilities: Capability[] = [
     audience: 'both',
   },
   {
+    slug: 'business-operations',
+    name: 'Business Operations & Customer Experience',
+    blurb:
+      'The day-to-day running of the business, handled for you: orders taken, bills issued, customers heard from, and the numbers read back — for any counter, desk or studio, not only food.',
+    examples: [
+      'Order capture and billing at the counter, the desk or over the phone',
+      'Tax-correct invoices, receipts and records an accountant can use',
+      'Review collection and sentiment tracking, with replies that keep the customer',
+      'Sales, stock and customer reporting served up weekly',
+      'Catalogue, service list and rate updates you make yourself',
+      'Staff tasks, follow-ups and reminders kept in one place',
+    ],
+    audience: 'both',
+  },
+  {
     slug: 'data-analytics',
     name: 'Data & Analytics',
     blurb:

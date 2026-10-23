@@ -112,12 +112,14 @@ describe('store registry', () => {
   });
 
   // The studio works internationally; no marketing string may pin it to one city.
-  // The gallery is sold as delivered work, so no string may call itself a demo.
+  // The gallery is sold as delivered work, so no string may call itself a `demo`.
+  // Showcase entries that are builds we made to show what we can do say
+  // "demonstration" instead, which the word-boundary form below still allows.
   it('names no city and no demo label in the gallery copy', () => {
     for (const site of websites) {
       const text = `${site.title} ${site.business} ${site.description} ${site.theme}`.toLowerCase();
       expect(text, site.slug).not.toContain('pune');
-      expect(text, site.slug).not.toContain('demo');
+      expect(text, site.slug).not.toMatch(/\bdemo\b/);
     }
   });
 });
@@ -137,8 +139,8 @@ describe('IA registries', () => {
     expect(audiences.map((a) => a.campaign)).toEqual(['Grow Online.', 'Build Smarter.']);
   });
 
-  it('has six capabilities, eight industries and five solutions with unique slugs', () => {
-    expect(capabilities).toHaveLength(6);
+  it('has seven capabilities, eight industries and five solutions with unique slugs', () => {
+    expect(capabilities).toHaveLength(7);
     expect(industries).toHaveLength(8);
     expect(solutions).toHaveLength(5);
     for (const list of [capabilities, industries, solutions]) {

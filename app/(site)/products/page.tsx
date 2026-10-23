@@ -5,16 +5,16 @@ import { ProductsGrid } from '@/components/brand/ProductsGrid';
 export const metadata: Metadata = {
   title: 'Products',
   description:
-    'Two apps you can run yourself: Order Book with the Smart Analytical Register built in, and Market Pulse — a custom screener with live NSE quotes, charts and news.',
+    'Working demonstrations of two systems we build to order: an order register with business analytics built in, and a market screener wired to live NSE quotes.',
 };
 
 export default function ProductsPage() {
   return (
     <div className="space-y-10 pt-12 sm:pt-16">
-      <PageHeader index="04" label="products" title="Apps you can run tomorrow.">
-        Not proposals on a slide — software that is already built, already used,
-        and yours to run. Each one has a price you approve first and a live demo
-        you can break yourself.
+      <PageHeader index="04" label="products" title="See what we build, running.">
+        These are demonstrations: systems we built, running on sample data, so you
+        can click through the flow before we build the one for your business. What
+        you get is the same shape with your items, your taxes and your branding.
       </PageHeader>
       <ProductsGrid showHeading={false} />
     </div>

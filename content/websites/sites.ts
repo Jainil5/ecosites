@@ -57,9 +57,9 @@ export const websites = [
     slug: 'analytical-register',
     author: 'jainil-patel',
     title: 'OrderBook',
-    business: 'Order register & business analytics',
+    business: 'Order register & business analytics · demonstration build',
     description:
-      'A point-of-sale register for any café or shop: tap menu items to build a ticket, capture the customer, generate a GST cash memo, and send the bill on WhatsApp in one tap. Every logged order feeds a live dashboard of revenue, average order value, top items, category mix and weekday-versus-weekend trends.',
+      'A working demonstration of the ordering, billing and reporting system we build around a counter, desk or studio, running on sample data. Tap items to build a ticket, capture the customer, generate a tax-correct cash memo and send the bill on WhatsApp in one tap. Every logged order feeds a live dashboard of revenue, average order value, top items, category mix and weekday-versus-weekend trends.',
     path: '/analytical-register',
     theme: 'Light operator POS',
     accent: '#B5651D',

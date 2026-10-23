@@ -4,6 +4,7 @@ import { ClientMarquee } from '@/components/brand/ClientMarquee';
 import { Hero } from '@/components/brand/Hero';
 import { IndustryGrid } from '@/components/brand/IndustryGrid';
 import { LaunchReel } from '@/components/brand/LaunchReel';
+import { OperationsBand } from '@/components/brand/OperationsBand';
 import { ProcessBand } from '@/components/brand/ProcessBand';
 import { ProductFeature } from '@/components/brand/ProductFeature';
 import { ProofBand } from '@/components/brand/ProofBand';
@@ -35,6 +36,8 @@ export default function HomePage() {
             'Choose a focused service or combine capabilities into a solution designed around your business.',
         }}
       />
+
+      <OperationsBand />
 
       <section className="gs-reveal">
         <SectionIntro
