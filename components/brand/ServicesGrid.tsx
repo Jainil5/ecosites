@@ -21,7 +21,11 @@ export function ServicesGrid({
       ) : null}
       <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {capabilities.map((capability, i) => (
-          <article key={capability.slug} className="bg-canvas p-6">
+          <article
+            key={capability.slug}
+            id={capability.slug}
+            className="scroll-mt-32 bg-canvas p-6"
+          >
             <p className="gs-label text-ink-3">{String(i + 1).padStart(2, '0')}</p>
             <h3 className="gs-display mt-2 text-base text-ink">{capability.name}</h3>
             <p className="mt-2 text-sm leading-relaxed text-ink-2">{capability.blurb}</p>

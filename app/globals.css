@@ -551,6 +551,13 @@ button:focus-visible {
     color: var(--gs-ink);
   }
 
+  /* Nav-height button: the same mono rhythm, tightened to sit on one line
+     of the bar without forcing the whole header taller. */
+  .gs-btn-sm {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.68rem;
+  }
+
   /* One card: frosted glass, lit hairline edge, square. The backdrop blur
      is what makes the animated field read *through* the panel. */
   .gs-card {
@@ -565,6 +572,21 @@ button:focus-visible {
   .gs-card-hover:hover {
     border-color: rgb(34 197 94 / 0.5);
     transform: translateY(-3px);
+  }
+
+  /* Menu rows: the glass fills and a plane-coloured left edge lights up.
+     Hover, focus and the current row all read the same way, so the keyboard
+     never loses track of what a mouse user can see. */
+  .gs-nav-row {
+    border-left: 2px solid transparent;
+    transition: background-color 180ms ease, border-color 180ms ease;
+  }
+  .gs-nav-row:hover,
+  .gs-nav-row:focus-visible,
+  .gs-nav-row[data-current='true'],
+  .gs-nav-row[data-active='true'] {
+    background: rgb(255 255 255 / 0.07);
+    border-left-color: var(--gs-plane);
   }
   .gs-rule {
     border: 0;
@@ -663,6 +685,16 @@ button:focus-visible {
       transform: translate3d(var(--bx, 1.4rem), var(--by, -0.9rem), 0) scale(1.12);
     }
   }
+  @keyframes gs-drop {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -6px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     .gs-band-rise {
@@ -680,6 +712,9 @@ button:focus-visible {
     .gs-blob {
       animation: gs-blob-drift var(--dur, 9s) ease-in-out infinite;
       animation-delay: var(--delay, 0s);
+    }
+    .gs-drop {
+      animation: gs-drop 180ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
   }
 

@@ -32,7 +32,8 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
           return (
             <article
               key={product.slug}
-              className="gs-card gs-card-hover flex h-full flex-col p-6 sm:p-8"
+              id={product.slug}
+              className="gs-card gs-card-hover flex h-full flex-col scroll-mt-32 p-6 sm:p-8"
             >
               <div className="flex items-start gap-4">
                 <span className="gs-icon shrink-0">
