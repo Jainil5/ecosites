@@ -20,7 +20,7 @@ export function ServicesGrid({
           {heading.intro}
         </SectionIntro>
       ) : null}
-      <CursorLit className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+      <CursorLit className="gs-fan grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {capabilities.map((capability, i) => (
           <article
             key={capability.slug}

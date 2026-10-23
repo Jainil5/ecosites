@@ -22,7 +22,7 @@ export const industries: Industry[] = [
       'Opening hours, location and contact',
       'Table and event enquiry forms',
     ],
-    proof: { kind: 'site', path: '/dream-cafe' },
+    proof: { kind: 'site', path: '/coffee-cups' },
   },
   {
     slug: 'salons-and-spas',

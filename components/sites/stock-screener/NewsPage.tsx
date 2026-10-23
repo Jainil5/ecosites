@@ -16,7 +16,7 @@ export function NewsPage() {
   const { data, loading, failed } = useMarketNews();
   const [category, setCategory] = useState('all');
 
-  const items = data?.items ?? [];
+  const items = useMemo(() => data?.items ?? [], [data]);
   const categories = useMemo(() => {
     const counts = new Map<string, number>();
     for (const it of items) counts.set(it.category, (counts.get(it.category) ?? 0) + 1);

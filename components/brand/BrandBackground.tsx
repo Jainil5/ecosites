@@ -1,6 +1,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { MotionField } from './MotionField';
+import { MotionReel } from './MotionReel';
 
 export type BrandEffect = 'ripple' | 'wave' | 'orbit';
 
@@ -28,6 +30,10 @@ export function BrandBackground() {
 
   return (
     <div aria-hidden className="brand-bg" data-effect={effect}>
+      {/* Footage sits behind the landing page only. Every other route — and
+          every client demo — keeps the canvas field alone, so nobody else
+          pays half a megabyte for the film. */}
+      {pathname === '/' ? <MotionReel /> : null}
       <span className="brand-bg-horizon" />
       <span className="brand-bg-layer brand-bg-ripple" />
       <span className="brand-bg-layer brand-bg-wave" />
@@ -37,6 +43,9 @@ export function BrandBackground() {
           <span className="brand-bg-orbit-glow brand-bg-orbit-glow-b" />
         </span>
       </span>
+      {/* The moving 3D plane, drawn per frame rather than shipped as footage:
+          it re-tints with the brand tokens and costs a few KB, not a video. */}
+      <MotionField effect={effect} />
       <span className="brand-bg-scan" />
     </div>
   );

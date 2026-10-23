@@ -61,6 +61,7 @@ export function ChartPanel({ meta, quote, live, refreshKey }: ChartPanelProps) {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+    const overlays = overlayRef.current;
     const chart = createChart(el, {
       autoSize: true,
       layout: {
@@ -114,7 +115,7 @@ export function ChartPanel({ meta, quote, live, refreshKey }: ChartPanelProps) {
       chartRef.current = null;
       candleRef.current = null;
       volumeRef.current = null;
-      overlayRef.current.clear();
+      overlays.clear();
     };
   }, []);
 

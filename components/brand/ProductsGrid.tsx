@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Activity, ArrowRight, ClipboardList, MessagesSquare } from 'lucide-react';
+import { Activity, ArrowRight, ClipboardList, MessagesSquare, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CursorLit } from '@/components/brand/CursorLit';
 import { SectionIntro } from '@/components/brand/SectionIntro';
@@ -9,6 +9,7 @@ import type { ProductIcon } from '@/content/brand/types';
 const ICONS: Record<ProductIcon, LucideIcon> = {
   register: ClipboardList,
   pulse: Activity,
+  teams: Users,
 };
 
 /**
@@ -21,7 +22,7 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
         <SectionIntro index="04" label="products" title="Demonstrations of what we build, not boxes we sell">
-          Two working surfaces, each with a counter half and a numbers half. They run on
+          Three working surfaces, each with a counter half and a numbers half. They run on
           sample data so you can see the flow before we build yours with your items, your
           taxes and your branding — tell us the scope and you approve the quote before any
           work starts.
@@ -74,6 +75,16 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                     Run the demonstration
                     <ArrowRight aria-hidden className="h-4 w-4" />
                   </Link>
+                ) : product.repoUrl ? (
+                  <a
+                    href={product.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring gs-btn gs-btn-solid"
+                  >
+                    View the build
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </a>
                 ) : (
                   <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
                     Ask for a walkthrough
@@ -83,7 +94,9 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                 <span className="gs-label">
                   {product.demoPath
                     ? 'sample data — your items, your taxes, your branding'
-                    : 'in build — ask to see it'}
+                    : product.repoUrl
+                      ? 'source available on GitHub'
+                      : 'in build — ask to see it'}
                 </span>
               </div>
             </article>

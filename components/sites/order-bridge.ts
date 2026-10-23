@@ -1,11 +1,11 @@
 // components/sites/order-bridge.ts
-// Shared surface between the Dream Cafe ordering demo and the OrderBook
+// Shared surface between the Coffee Cups ordering demo and the OrderBook
 // register: the cafe publishes completed orders here, the register imports
 // them into its book on hydrate.
 import { computeTotals } from './analytical-register/pricing';
 import type { Brand, Customer, Order, OrderLine } from './analytical-register/types';
 
-export const PUBLISHED_KEY = 'dc-published-orders-v1';
+export const PUBLISHED_KEY = 'cc-published-orders-v1';
 
 /** The minimal shape the cafe writes; the register adds the money snapshots. */
 export interface PublishedOrder {

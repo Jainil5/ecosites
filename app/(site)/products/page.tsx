@@ -5,7 +5,7 @@ import { ProductsGrid } from '@/components/brand/ProductsGrid';
 export const metadata: Metadata = {
   title: 'Products',
   description:
-    'Working demonstrations of two systems we build to order: an order register with business analytics built in, and a market screener wired to live NSE quotes.',
+    'Working demonstrations of the systems we build to order: an order register with business analytics built in, a market screener wired to live NSE quotes, and a team workspace with an AI assistant.',
 };
 
 export default function ProductsPage() {

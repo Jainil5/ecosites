@@ -25,7 +25,7 @@ export function TrendsPage() {
   const { data, loading, failed } = useMarket();
   const [win, setWin] = useState<WindowKey>('1W');
 
-  const cards = data?.cards ?? [];
+  const cards = useMemo(() => data?.cards ?? [], [data]);
   const gainers = useMemo(() => topMovers(cards, win, LIST), [cards, win]);
   const losers = useMemo(() => topMovers(cards, win, LIST, 'asc'), [cards, win]);
   const sectors = useMemo(

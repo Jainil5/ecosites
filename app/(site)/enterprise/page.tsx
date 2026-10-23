@@ -87,7 +87,7 @@ export default function EnterprisePage() {
           <a
             href={whatsappHrefMessage(
               company.contact,
-              'Discuss an enterprise project with Website Intelligence',
+              'Discuss an enterprise project with Website & Intelligence',
             )}
             target="_blank"
             rel="noopener noreferrer"

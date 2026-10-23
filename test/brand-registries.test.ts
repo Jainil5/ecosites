@@ -16,8 +16,8 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists the two named apps, counter first', () => {
-    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse']);
+  it('lists the three named apps, counter first', () => {
+    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse', 'teamsync']);
   });
 
   it('has unique slugs', () => {
@@ -49,6 +49,15 @@ describe('products registry', () => {
     }
   });
 
+  it('links every externally hosted product to a public https build', () => {
+    for (const product of products) {
+      if (!product.repoUrl) continue;
+      expect(product.repoUrl, product.slug).toMatch(/^https:\/\//);
+      // A product links either to an in-app demo or to an external build, never both.
+      expect(product.demoPath, product.slug).toBeUndefined();
+    }
+  });
+
   it('features OrderBook with its live demo and the parent brand', () => {
     expect(products[0].title).toBe('OrderBook');
     expect(products[0].slug).toBe('order-book');
@@ -66,7 +75,7 @@ describe('contextual WhatsApp links', () => {
 
 describe('company registry', () => {
   it('has no empty marketing fields', () => {
-    expect(company.name).toBe('Website Intelligence');
+    expect(company.name).toBe('Website & Intelligence');
     for (const field of [company.tagline, company.pitch, company.badge]) {
       expect(field.trim().length).toBeGreaterThan(0);
     }

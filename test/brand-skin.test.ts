@@ -57,7 +57,7 @@ describe('brand skin tokens', () => {
   });
 
   it('leaves the demo-owned font keys alone', () => {
-    // font-mono is consumed by 13 screener files; font-sans by Dream Cafe.
+    // font-mono is consumed by 13 screener files; font-sans by Coffee Cups.
     expect(config).toMatch(/mono:\s*\['var\(--font-mono\)'/);
     expect(config).toMatch(/sans:\s*\['var\(--font-sans\)'/);
   });
@@ -206,6 +206,154 @@ describe('background effect component contract', () => {
 
   it('is mounted by the brand layout', () => {
     expect(read('app/(site)/layout.tsx')).toContain('BrandBackground');
+  });
+});
+
+describe('motion field contract', () => {
+  const src = read('components/brand/MotionField.tsx');
+
+  it('gates its loop on the visitor motion preference', () => {
+    expect(src).toContain('prefers-reduced-motion');
+    // Reduced motion still paints one composed still, never an empty field.
+    expect(src).toContain('draw(0)');
+  });
+
+  it('stops painting when the tab is hidden and when it unmounts', () => {
+    expect(src).toContain('visibilitychange');
+    expect(src).toContain('cancelAnimationFrame');
+  });
+
+  it('is mounted by the background and styled by the skin', () => {
+    expect(read('components/brand/BrandBackground.tsx')).toContain('<MotionField');
+    expect(read('app/globals.css')).toContain('.brand-bg-motion');
+  });
+});
+
+describe('scroll motion contract', () => {
+  const driver = read('components/brand/ScrollMotion.tsx');
+  const css = read('app/globals.css');
+
+  it('runs Lenis with its own rAF and tears it down on unmount', () => {
+    expect(driver).toContain('new Lenis(');
+    expect(driver).toContain('autoRaf: true');
+    expect(driver).toContain('anchors: true');
+    expect(driver).toContain('respectReducedMotion: true');
+    expect(driver).toContain('lenis.destroy()');
+  });
+
+  it('publishes one momentum set for every effect to read', () => {
+    for (const token of ['--scroll-v', '--scroll-p', '--hero-rec']) expect(css).toContain(token);
+    expect(driver).toContain("'--scroll-v'");
+  });
+
+  it('hands anchor easing to Lenis instead of double-easing it', () => {
+    expect(css).toMatch(/html\.lenis[^}]*scroll-behavior:\s*auto/s);
+  });
+
+  it('is mounted by the brand layout only, and its css comes from there', () => {
+    const layout = read('app/(site)/layout.tsx');
+    expect(layout).toContain('<ScrollMotion');
+    expect(layout).toContain("import 'lenis/dist/lenis.css'");
+  });
+
+  it('keeps every scroll-driven transform out of the reduced-motion path', () => {
+    // Lenis pins velocity at zero itself; the CSS has to say the same thing,
+    // or a reduced-motion visitor still gets the hero receding.
+    expect(css).toMatch(/prefers-reduced-motion: no-preference\)[\s\S]*--hero-rec[\s\S]*--scroll-v/);
+    expect(driver).toContain('lenis.prefersReducedMotion');
+  });
+
+  it('surges the background field with the same momentum', () => {
+    expect(read('components/brand/MotionField.tsx')).toContain('scrollState.velocity');
+    expect(read('components/brand/scroll-state.ts')).toContain('velocity');
+  });
+
+  it('dives bands in and tips them away on their own view timelines', () => {
+    // Two animations, two comma-separated timelines and ranges. A single
+    // `animation-range` would silently unpair them and kill the exit.
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation:\s*gs-dive both linear,\s*gs-away both linear/s);
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation-timeline:\s*view\(\),\s*view\(\)/s);
+    expect(css).toMatch(/\.gs-reveal\s*\{[^}]*animation-range:[^;]*exit/s);
+  });
+
+  it('keeps perspective on both ends of every 3D keyframe', () => {
+    // A transform list that gains or loses perspective() mid-flight interpolates
+    // by matrix decomposition, which flattens the tilt instead of rotating it.
+    for (const name of ['gs-dive', 'gs-away', 'gs-fan-in']) {
+      const block = css.match(new RegExp(`@keyframes ${name}\\s*\\{([\\s\\S]*?)\\n  \\}`));
+      expect(block, name).not.toBeNull();
+      const steps = block![1].split(/\b(?:from|to|\d+%)\s*\{/).slice(1);
+      expect(steps.length).toBeGreaterThanOrEqual(2);
+      for (const step of steps) expect(step).toContain('perspective(');
+    }
+  });
+
+  it('fans the landing page registers across their cells', () => {
+    expect(css).toMatch(/\.gs-fan\s*>\s*\*\s*\{[^}]*animation-timeline:\s*view\(\)/s);
+    expect(css).toMatch(/\.gs-fan\s*>\s*:nth-child\(3n - 1\)/);
+    for (const file of [
+      'components/brand/ServicesGrid.tsx',
+      'components/brand/ProcessBand.tsx',
+      'components/brand/WorkStrip.tsx',
+      'components/brand/WhyUs.tsx',
+    ]) {
+      expect(read(file), file).toContain('gs-fan');
+    }
+  });
+
+  it('flies the camera down the mesh as the page descends', () => {
+    const field = read('components/brand/MotionField.tsx');
+    // Scroll re-seats every row's depth and wraps it back into the band, with a
+    // near-edge fade over the seam — otherwise a recycled row pops at the lens.
+    expect(field).toContain('scrollState.progress');
+    expect(field).toMatch(/const seat = \(u: number\)/);
+    expect(field).toContain('seamBand');
+    expect(field).toMatch(/ctx\.rotate\(fling \* params\.roll\)/);
+    expect(field).toContain('ctx.restore()');
+  });
+});
+
+describe('landing reel contract', () => {
+  const reel = read('components/brand/MotionReel.tsx');
+  const kb = 1024;
+
+  it('ships the clip and its poster, inside the landing page weight budget', () => {
+    // A background film on shared hosting has to have a number attached to it,
+    // or it grows every time someone "just" re-renders it at a higher bitrate.
+    const size = (rel: string) => statSync(path.join(process.cwd(), rel)).size;
+    expect(size('public/brand/reel.mp4')).toBeLessThan(640 * kb);
+    expect(size('public/brand/reel-480.mp4')).toBeLessThan(320 * kb);
+    expect(size('public/brand/reel-poster.webp')).toBeLessThan(96 * kb);
+    // The phone source has to be the smaller one, or the media query is a lie.
+    expect(size('public/brand/reel-480.mp4')).toBeLessThan(size('public/brand/reel.mp4'));
+  });
+
+  it('keeps the keyframes and the encoder recipe in the repo', () => {
+    for (const frame of ['key-01.webp', 'key-02.webp', 'key-03.webp']) {
+      expect(existsSync(path.join(process.cwd(), 'public/brand/frames', frame)), frame).toBe(true);
+    }
+    const script = read('scripts/brand-reel.sh');
+    // xfade back to the first keyframe is what makes the loop seamless.
+    expect(script).toContain('xfade');
+    expect(script).toContain('reel-480.mp4');
+  });
+
+  it('lets the motion preference decide before it downloads anything', () => {
+    // Not self-starting anywhere in the file: the moment the element begins on
+    // its own, the motion preference below it is a race rather than a gate.
+    expect(reel).not.toMatch(/autoplay/i);
+    expect(reel).toContain('prefers-reduced-motion');
+    expect(reel).toContain('video.play()');
+    expect(reel).toContain('preload="metadata"');
+    expect(reel).toContain('poster="/brand/reel-poster.webp"');
+  });
+
+  it('plays behind the landing page and nowhere else', () => {
+    expect(read('components/brand/BrandBackground.tsx')).toMatch(
+      /pathname === '\/' \? <MotionReel/
+    );
+    expect(read('app/(site)/layout.tsx')).not.toContain('MotionReel');
+    expect(read('app/globals.css')).toContain('.brand-bg-reel');
   });
 });
 
