@@ -10,7 +10,7 @@ import { SiteFooter } from './SiteFooter';
  */
 export function CafeMenuPage() {
   return (
-    <div className="dream-cafe min-h-screen">
+    <div className="coffee-cups min-h-screen">
       <Nav />
       <main>
         <MenuExperience />

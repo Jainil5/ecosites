@@ -1,6 +1,6 @@
 import { menuGroups, type MenuItem } from './menu';
 
-export const CART_KEY = 'dc-cart-v1';
+export const CART_KEY = 'cc-cart-v1';
 export const MAX_QTY = 20;
 
 /** itemId -> quantity */
@@ -81,4 +81,4 @@ export function saveCart(store: KvStore, state: CartState): void {
 }
 
 export const orderNumber = (rand: () => number = Math.random): string =>
-  'DC-' + Math.floor(1000 + rand() * 9000);
+  'CC-' + Math.floor(1000 + rand() * 9000);

@@ -11,7 +11,7 @@ import {
   saveCart,
   type CartState,
   type KvStore,
-} from '@/components/sites/dream-cafe/cart';
+} from '@/components/sites/coffee-cups/cart';
 
 // Reference items by id, not position: the menu sections were restructured
 // (Coffee · Food · Beverages) and index lookups were brittle.
@@ -100,9 +100,9 @@ describe('cart session storage', () => {
 });
 
 describe('order ticket number', () => {
-  it('looks like DC-1234', () => {
-    expect(orderNumber(() => 0)).toBe('DC-1000');
-    expect(orderNumber(() => 0.99999)).toMatch(/^DC-\d{4}$/);
-    expect(orderNumber()).toMatch(/^DC-\d{4}$/);
+  it('looks like CC-1234', () => {
+    expect(orderNumber(() => 0)).toBe('CC-1000');
+    expect(orderNumber(() => 0.99999)).toMatch(/^CC-\d{4}$/);
+    expect(orderNumber()).toMatch(/^CC-\d{4}$/);
   });
 });

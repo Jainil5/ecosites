@@ -9,9 +9,9 @@ import { Story } from './Story';
 import { Ticker } from './Ticker';
 import { Visit } from './Visit';
 
-export function DreamCafe() {
+export function CoffeeCups() {
   return (
-    <div className="dream-cafe min-h-screen">
+    <div className="coffee-cups min-h-screen">
       <Nav />
       <main>
         <Hero />

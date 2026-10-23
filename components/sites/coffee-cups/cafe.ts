@@ -1,17 +1,17 @@
 /**
- * Everything the Dream Cafe pages assert about the business. The venue is a
+ * Everything the Coffee Cups pages assert about the business. The venue is a
  * studio build, so contact lines stay placeholders on the reserved
  * `.example` TLD and the address names no real corner.
  */
 export const cafe = {
-  name: 'Dream Cafe',
+  name: 'Coffee Cups',
   tagline: 'Bagels, slow coffee, and the morning sun',
   intro:
     'A small room that opens before the street does. The dough proves overnight, the first tray lands around seven, and the light does the rest of the decorating.',
   story:
     'We started with one deck oven, a bag of bread flour and the stubborn idea that a neighbourhood deserves somewhere to be unhurried before work. Everything is still made in the room you eat in — rolled by hand, boiled, then baked until the crust catches the sun.',
-  heroImage: '/dream-cafe/hero.jpg',
-  email: 'hello@dreamcafe.example',
+  heroImage: '/coffee-cups/hero.jpg',
+  email: 'hello@coffeecups.example',
   address: 'Sunrise Lane at 4th, ground floor, yellow door',
   hours: [
     { days: 'Mon–Thu', time: '7:00 – 16:00' },
@@ -44,7 +44,7 @@ export interface GalleryShot {
 
 export const galleryShots: GalleryShot[] = [
   {
-    src: '/dream-cafe/bagels.jpg',
+    src: '/coffee-cups/bagels.jpg',
     alt: 'A board of seeded bagels, one sliced open to show the crumb, with butter and cream cheese beside it',
     caption: 'The 7:10 tray',
     w: 1200,
@@ -53,7 +53,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -2.5,
   },
   {
-    src: '/dream-cafe/coffee.jpg',
+    src: '/coffee-cups/coffee.jpg',
     alt: 'Milk being poured from a steel pitcher into a flat white with leaf latte art, steam catching the light',
     caption: 'Pulled short and sweet',
     w: 1200,
@@ -61,7 +61,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: 1.8,
   },
   {
-    src: '/dream-cafe/toast.jpg',
+    src: '/coffee-cups/toast.jpg',
     alt: 'A seeded bagel open-faced with smashed avocado, microgreens, chilli flakes and soft-boiled egg halves',
     caption: 'Avocado and egg',
     w: 1200,
@@ -69,7 +69,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -1.2,
   },
   {
-    src: '/dream-cafe/interior.jpg',
+    src: '/coffee-cups/interior.jpg',
     alt: 'Sunlit cafe interior with marble tables, bentwood chairs, hanging plants and a glass pastry case',
     caption: 'Room for sixteen',
     w: 1800,
@@ -78,7 +78,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: 2.2,
   },
   {
-    src: '/dream-cafe/pastry.jpg',
+    src: '/coffee-cups/pastry.jpg',
     alt: 'Croissants, almond pastries and blueberry muffins arranged inside a glass display case',
     caption: 'Case at opening',
     w: 1200,
@@ -86,7 +86,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -2,
   },
   {
-    src: '/dream-cafe/lunch.jpg',
+    src: '/coffee-cups/lunch.jpg',
     alt: 'A pressed toastie cut in half, a bowl of tomato soup and a citrus salad on a pale wooden table',
     caption: 'Noon plate',
     w: 1200,

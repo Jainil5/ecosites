@@ -57,7 +57,7 @@ describe('brand skin tokens', () => {
   });
 
   it('leaves the demo-owned font keys alone', () => {
-    // font-mono is consumed by 13 screener files; font-sans by Dream Cafe.
+    // font-mono is consumed by 13 screener files; font-sans by Coffee Cups.
     expect(config).toMatch(/mono:\s*\['var\(--font-mono\)'/);
     expect(config).toMatch(/sans:\s*\['var\(--font-sans\)'/);
   });

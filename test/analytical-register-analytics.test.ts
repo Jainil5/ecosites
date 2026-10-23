@@ -66,9 +66,9 @@ describe('rankItems', () => {
     expect(r[1]).toEqual({ name: 'Bagel', qty: 0, revenue: 0 });
   });
   it('carries the menu photo through for dashboard thumbnails', () => {
-    const withSrc = [{ ...menu[0], src: '/dream-cafe/menu/a.jpg' }];
+    const withSrc = [{ ...menu[0], src: '/coffee-cups/menu/a.jpg' }];
     const r = rankItems([o({})], withSrc);
-    expect(r[0].src).toBe('/dream-cafe/menu/a.jpg');
+    expect(r[0].src).toBe('/coffee-cups/menu/a.jpg');
   });
 });
 

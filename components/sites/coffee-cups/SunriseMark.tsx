@@ -1,4 +1,4 @@
-/** The Dream Cafe mark: a half sun coming up over its own horizon line. */
+/** The Coffee Cups mark: a half sun coming up over its own horizon line. */
 export function SunriseMark({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden className={className} fill="none">

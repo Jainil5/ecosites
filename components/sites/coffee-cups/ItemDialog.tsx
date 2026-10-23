@@ -32,18 +32,18 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
   }, [onClose]);
 
   return (
-    <div className="dc-dialog-scrim" onClick={onClose}>
+    <div className="cc-dialog-scrim" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
         aria-label={`${item.name}, ${groupTitle}`}
-        className="dc-dialog"
+        className="cc-dialog"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           ref={closeRef}
           type="button"
-          className="dc-dialog-close"
+          className="cc-dialog-close"
           onClick={onClose}
           aria-label={`Close ${item.name}`}
         >
@@ -58,38 +58,38 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
           </svg>
         </button>
 
-        <div className="dc-dialog-img">
+        <div className="cc-dialog-img">
           <Image src={item.src} alt={item.name} width={720} height={540} priority className="!h-full !w-full object-cover" />
         </div>
 
-        <div className="dc-dialog-body">
-          <p className="dc-dialog-cat">{groupTitle}</p>
-          <div className="dc-dialog-row">
-            <h3 className="dc-dialog-name">{item.name}</h3>
-            <span className="dc-dialog-price">{item.price}</span>
+        <div className="cc-dialog-body">
+          <p className="cc-dialog-cat">{groupTitle}</p>
+          <div className="cc-dialog-row">
+            <h3 className="cc-dialog-name">{item.name}</h3>
+            <span className="cc-dialog-price">{item.price}</span>
           </div>
-          {isRecommended(item) && item.badge ? <p className="dc-dialog-reason">★ {item.badge}</p> : null}
-          <p className="dc-dialog-note">{item.note}</p>
+          {isRecommended(item) && item.badge ? <p className="cc-dialog-reason">★ {item.badge}</p> : null}
+          <p className="cc-dialog-note">{item.note}</p>
 
           <div className="mt-3 flex flex-wrap gap-1.5">
             {item.tags.map((tag) => (
-              <span key={tag} className="dc-pill">
+              <span key={tag} className="cc-pill">
                 {tag}
               </span>
             ))}
           </div>
 
-          <p className="dc-dialog-label">In it</p>
-          <p className="dc-dialog-text">{item.details.ingredients.join(' · ')}</p>
-          <p className="dc-dialog-label">Allergens</p>
-          <p className="dc-dialog-text">
+          <p className="cc-dialog-label">In it</p>
+          <p className="cc-dialog-text">{item.details.ingredients.join(' · ')}</p>
+          <p className="cc-dialog-label">Allergens</p>
+          <p className="cc-dialog-text">
             {item.details.allergens.length ? item.details.allergens.join(', ') : 'None worth flagging'}
           </p>
-          <p className="dc-dialog-kcal">{item.details.kcal} kcal</p>
+          <p className="cc-dialog-kcal">{item.details.kcal} kcal</p>
 
           {qty > 0 ? (
-            <div className="dc-dialog-actions">
-              <div className="dc-tray-step" role="group" aria-label={`How many ${item.name}`}>
+            <div className="cc-dialog-actions">
+              <div className="cc-tray-step" role="group" aria-label={`How many ${item.name}`}>
                 <button
                   type="button"
                   onClick={() => dispatch({ type: 'setQty', id: item.id, qty: qty - 1 })}
@@ -107,15 +107,15 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
                   +
                 </button>
               </div>
-              <span className="dc-dialog-line-total">{inr(item.amount * qty)}</span>
-              <button type="button" className="dc-dialog-done" onClick={onClose}>
+              <span className="cc-dialog-line-total">{inr(item.amount * qty)}</span>
+              <button type="button" className="cc-dialog-done" onClick={onClose}>
                 Done
               </button>
             </div>
           ) : (
             <button
               type="button"
-              className="dc-dialog-add"
+              className="cc-dialog-add"
               onClick={() => dispatch({ type: 'add', id: item.id })}
             >
               + Add to order

@@ -39,17 +39,17 @@ export function Testimonials() {
   };
 
   return (
-    <div className="dream-cafe min-h-screen">
+    <div className="coffee-cups min-h-screen">
       <Nav />
       <main>
-        <section id="voices" className="dc-voices-section relative overflow-hidden py-20 sm:py-24">
+        <section id="voices" className="cc-voices-section relative overflow-hidden py-20 sm:py-24">
           <BeansField />
           <div className="relative mx-auto max-w-6xl px-5">
             <Reveal className="text-center">
-              <p className="dc-display text-[11px] uppercase tracking-[0.26em] text-[var(--dc-honey)]">
+              <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[var(--cc-honey)]">
                 Word of mouth
               </p>
-              <h1 className="dc-display mt-3 text-4xl text-[var(--dc-paper)] sm:text-5xl">
+              <h1 className="cc-display mt-3 text-4xl text-[var(--cc-paper)] sm:text-5xl">
                 What the regulars say
               </h1>
               <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-[rgba(251,244,233,0.72)]">
@@ -59,7 +59,7 @@ export function Testimonials() {
             </Reveal>
 
             <div
-              className="dc-voices mt-14"
+              className="cc-voices mt-14"
               data-has-active={activeId ? 'true' : 'false'}
             >
               {testimonials.map((t, i) => {
@@ -69,7 +69,7 @@ export function Testimonials() {
                   <button
                     key={t.name}
                     type="button"
-                    className="dc-voice"
+                    className="cc-voice"
                     data-active={active ? 'true' : 'false'}
                     aria-pressed={active}
                     style={
@@ -82,18 +82,18 @@ export function Testimonials() {
                     onPointerLeave={untilt}
                     onClick={() => setActiveId(active ? null : t.itemId + t.name)}
                   >
-                    <span className="dc-voice-top">
-                      <span aria-hidden className="dc-voice-avatar">
+                    <span className="cc-voice-top">
+                      <span aria-hidden className="cc-voice-avatar">
                         {t.name.charAt(0)}
                       </span>
                       <span>
-                        <span className="dc-voice-name">{t.name}</span>
-                        <span className="dc-voice-when">{t.when}</span>
+                        <span className="cc-voice-name">{t.name}</span>
+                        <span className="cc-voice-when">{t.when}</span>
                       </span>
                     </span>
-                    <span className="dc-voice-quote dc-serif">“{t.quote}”</span>
+                    <span className="cc-voice-quote cc-serif">“{t.quote}”</span>
                     {item && (
-                      <span className="dc-voice-tag">
+                      <span className="cc-voice-tag">
                         <Image
                           src={item.src}
                           alt=""
@@ -110,7 +110,7 @@ export function Testimonials() {
             </div>
 
             <Reveal className="mt-16 text-center">
-              <a href="/dream-cafe/menu" className="focus-ring dc-btn dc-btn-solid">
+              <a href="/coffee-cups/menu" className="focus-ring cc-btn cc-btn-solid">
                 Order what they are talking about
               </a>
             </Reveal>

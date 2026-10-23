@@ -6,11 +6,11 @@ import { ArrowLeft, Menu, X } from 'lucide-react';
 import { SunriseMark } from './SunriseMark';
 
 const links = [
-  { href: '/dream-cafe/menu', label: 'Menu' },
-  { href: '/dream-cafe#room', label: 'The room' },
-  { href: '/dream-cafe#feed', label: 'Feed' },
-  { href: '/dream-cafe/testimonials', label: 'Voices' },
-  { href: '/dream-cafe#visit', label: 'Visit' },
+  { href: '/coffee-cups/menu', label: 'Menu' },
+  { href: '/coffee-cups#room', label: 'The room' },
+  { href: '/coffee-cups#feed', label: 'Feed' },
+  { href: '/coffee-cups/testimonials', label: 'Voices' },
+  { href: '/coffee-cups#visit', label: 'Visit' },
 ];
 
 export function Nav() {
@@ -34,11 +34,11 @@ export function Nav() {
 
   return (
     <>
-      <div className="bg-[var(--dc-green)] text-center">
+      <div className="bg-[var(--cc-green)] text-center">
         <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-1.5">
           <Link
             href="/"
-            className="focus-ring inline-flex items-center gap-1.5 rounded text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--dc-cream)]/80 transition-colors hover:text-[var(--dc-cream)]"
+            className="focus-ring inline-flex items-center gap-1.5 rounded text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--cc-cream)]/80 transition-colors hover:text-[var(--cc-cream)]"
           >
             <ArrowLeft aria-hidden className="h-3 w-3" />
             Back to Website & Intelligence
@@ -50,16 +50,16 @@ export function Nav() {
         aria-label="Main"
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'border-b border-[var(--dc-line)] bg-[var(--dc-cream)]/90 backdrop-blur-md'
+            ? 'border-b border-[var(--cc-line)] bg-[var(--cc-cream)]/90 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent'
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-          <Link href="/dream-cafe" className="focus-ring dc-brand group flex items-center gap-2.5">
-            <SunriseMark className="h-7 w-7 text-[var(--dc-ember)]" />
-            <span className="dc-display text-xl leading-none">
-              <span className="dc-serif italic font-normal text-[var(--dc-ember)]">Dream</span>
-              <span className="ml-1 uppercase tracking-[0.14em]">Cafe</span>
+          <Link href="/coffee-cups" className="focus-ring cc-brand group flex items-center gap-2.5">
+            <SunriseMark className="h-7 w-7 text-[var(--cc-ember)]" />
+            <span className="cc-display text-xl leading-none">
+              <span className="cc-serif italic font-normal text-[var(--cc-ember)]">Coffee</span>
+              <span className="ml-1 uppercase tracking-[0.14em]">Cups</span>
             </span>
           </Link>
 
@@ -68,12 +68,12 @@ export function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="focus-ring dc-display rounded text-[13px] uppercase tracking-[0.16em] text-[var(--dc-ink)]/70 transition-colors hover:text-[var(--dc-ember)]"
+                className="focus-ring cc-display rounded text-[13px] uppercase tracking-[0.16em] text-[var(--cc-ink)]/70 transition-colors hover:text-[var(--cc-ember)]"
               >
                 {l.label}
               </a>
             ))}
-            <a href="/dream-cafe/menu" className="focus-ring dc-btn dc-btn-solid">
+            <a href="/coffee-cups/menu" className="focus-ring cc-btn cc-btn-solid">
               Order ahead
             </a>
           </nav>
@@ -83,29 +83,29 @@ export function Nav() {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="focus-ring dc-display rounded-md p-2 text-[var(--dc-ink)] md:hidden"
+            className="focus-ring cc-display rounded-md p-2 text-[var(--cc-ink)] md:hidden"
           >
             {open ? <X aria-hidden className="h-6 w-6" /> : <Menu aria-hidden className="h-6 w-6" />}
           </button>
         </div>
 
         {open ? (
-          <div className="border-t border-[var(--dc-line)] bg-[var(--dc-cream)] px-5 py-5 md:hidden">
+          <div className="border-t border-[var(--cc-line)] bg-[var(--cc-cream)] px-5 py-5 md:hidden">
             <div className="flex flex-col gap-4">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="focus-ring dc-display rounded text-sm uppercase tracking-[0.16em] text-[var(--dc-ink)]/80"
+                  className="focus-ring cc-display rounded text-sm uppercase tracking-[0.16em] text-[var(--cc-ink)]/80"
                 >
                   {l.label}
                 </a>
               ))}
               <a
-                href="/dream-cafe/menu"
+                href="/coffee-cups/menu"
                 onClick={() => setOpen(false)}
-                className="focus-ring dc-btn dc-btn-solid mt-1 w-full"
+                className="focus-ring cc-btn cc-btn-solid mt-1 w-full"
               >
                 Order ahead
               </a>

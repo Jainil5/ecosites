@@ -56,7 +56,7 @@ const item = (
   tags,
   badge,
   details,
-  src: `/dream-cafe/menu/${id}.jpg`,
+  src: `/coffee-cups/menu/${id}.jpg`,
 });
 
 const pick = (i: MenuItem): MenuItem => ({ ...i, featured: true });

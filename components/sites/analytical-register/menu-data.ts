@@ -1,11 +1,11 @@
 // components/sites/analytical-register/menu-data.ts
-import { menuGroups } from '../dream-cafe/menu';
+import { menuGroups } from '../coffee-cups/menu';
 import type { Brand, MenuItem } from './types';
 
-// The register runs on the same menu the Dream Cafe demo sells.
+// The register runs on the same menu the Coffee Cups demo sells.
 export const defaultBrand: Brand = {
-  id: 'dream-cafe',
-  name: 'Dream Cafe',
+  id: 'coffee-cups',
+  name: 'Coffee Cups',
   tagline: 'Coffee, food and cold pours',
   accent: '#B5651D',
   gstNumber: '27ABCDE1234F1Z5',

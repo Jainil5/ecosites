@@ -15,7 +15,7 @@ const facts = [
 
 export function Hero() {
   return (
-    <section aria-label="The morning room" className="dc-hero relative overflow-hidden">
+    <section aria-label="The morning room" className="cc-hero relative overflow-hidden">
       <Image
         src={cafe.heroImage}
         alt=""
@@ -23,21 +23,21 @@ export function Hero() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div aria-hidden className="dc-hero-wash absolute inset-0" />
-      <div aria-hidden className="dc-hero-grain absolute inset-0" />
+      <div aria-hidden className="cc-hero-wash absolute inset-0" />
+      <div aria-hidden className="cc-hero-grain absolute inset-0" />
       <BeansField />
 
-      <PourScene className="dc-pour-anchor" />
+      <PourScene className="cc-pour-anchor" />
 
       <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-5 pb-20 pt-32 sm:pb-24">
         <Reveal>
-          <p className="dc-serif max-w-xl text-2xl leading-snug text-white sm:text-3xl">
+          <p className="cc-serif max-w-xl text-2xl leading-snug text-white sm:text-3xl">
             {cafe.intro}
           </p>
         </Reveal>
 
         <Reveal delay={80}>
-          <Link href="/dream-cafe/menu" className="focus-ring dc-btn dc-btn-solid dc-hero-cta mt-9">
+          <Link href="/coffee-cups/menu" className="focus-ring cc-btn cc-btn-solid cc-hero-cta mt-9">
             View our menu
           </Link>
         </Reveal>
@@ -48,7 +48,7 @@ export function Hero() {
               <div key={f.label}>
                 <dt className="sr-only">{f.label}</dt>
                 <dd>
-                  <span className="dc-display block text-2xl text-[var(--dc-honey)] sm:text-3xl">
+                  <span className="cc-display block text-2xl text-[var(--cc-honey)] sm:text-3xl">
                     {f.value}
                   </span>
                   <span className="mt-1 block text-xs leading-snug text-white/75">{f.label}</span>

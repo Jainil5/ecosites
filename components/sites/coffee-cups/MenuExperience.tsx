@@ -19,14 +19,14 @@ const allItems = menuGroups.flatMap((group) =>
 
 function MenuStar({ label }: { label: string }) {
   return (
-    <span className="dc-card-star" aria-hidden>
-      <svg viewBox="0 0 24 24" className="dc-star-icon" aria-hidden>
+    <span className="cc-card-star" aria-hidden>
+      <svg viewBox="0 0 24 24" className="cc-star-icon" aria-hidden>
         <path
           d="M12 2.6l2.6 6 6.4.6-4.8 4.3 1.4 6.3L12 16.6 6.4 19.8l1.4-6.3L3 9.2l6.4-.6z"
           fill="currentColor"
         />
       </svg>
-      <span className="dc-card-star-label">{label}</span>
+      <span className="cc-card-star-label">{label}</span>
     </span>
   );
 }
@@ -80,17 +80,17 @@ export function MenuExperience() {
   ];
 
   return (
-    <section id="top" aria-label="The menu" className="dc-menu relative">
-      <div aria-hidden className="dc-pick-wash" />
-      <div aria-hidden className="dc-stains" />
-      <div aria-hidden className="dc-beans" />
+    <section id="top" aria-label="The menu" className="cc-menu relative">
+      <div aria-hidden className="cc-pick-wash" />
+      <div aria-hidden className="cc-stains" />
+      <div aria-hidden className="cc-beans" />
       <BeansField />
-      <div aria-hidden className="dc-hero-grain absolute inset-0" />
+      <div aria-hidden className="cc-hero-grain absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
-        <h1 className="sr-only">Dream Cafe — the whole menu, straight up</h1>
+        <h1 className="sr-only">Coffee Cups — the whole menu, straight up</h1>
         <Reveal>
-          <p className="dc-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
+          <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
             The whole menu, straight up
           </p>
         </Reveal>
@@ -99,14 +99,14 @@ export function MenuExperience() {
           <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
             <div className="min-w-0">
               <Reveal>
-                <div className="dc-cat-tabs" role="tablist" aria-label="Menu section">
+                <div className="cc-cat-tabs" role="tablist" aria-label="Menu section">
                   {tabGroups.map((g) => (
                     <button
                       key={g.id}
                       type="button"
                       role="tab"
                       aria-selected={cat === g.id}
-                      className="dc-display dc-cat-tab"
+                      className="cc-display cc-cat-tab"
                       onClick={() => setCat(g.id)}
                     >
                       {g.title}
@@ -116,7 +116,7 @@ export function MenuExperience() {
                     type="button"
                     role="tab"
                     aria-selected={cat === 'all'}
-                    className="dc-display dc-cat-tab"
+                    className="cc-display cc-cat-tab"
                     onClick={() => setCat('all')}
                   >
                     All
@@ -126,21 +126,21 @@ export function MenuExperience() {
 
               <Reveal>
                 {mode === 'trad' ? (
-                  <div className="dc-menu-list">
+                  <div className="cc-menu-list">
                     {tabGroups
                       .filter((g) => cat === 'all' || g.id === cat)
                       .map((group) => (
                         <section key={group.id} aria-label={group.title}>
-                          <h2 className="dc-serif dc-list-heading">{group.title}</h2>
+                          <h2 className="cc-serif cc-list-heading">{group.title}</h2>
                           {group.items.map((item) => (
                             <button
                               key={item.id}
                               type="button"
-                              className="dc-list-row"
+                              className="cc-list-row"
                               onClick={() => setOpenedId(item.id)}
                               aria-label={`${item.name}, ${item.price}, ${group.title}. Open for details`}
                             >
-                              <span className="dc-list-thumb">
+                              <span className="cc-list-thumb">
                                 <Image
                                   src={item.src}
                                   alt=""
@@ -149,38 +149,38 @@ export function MenuExperience() {
                                   className="!h-full !w-full object-cover"
                                 />
                               </span>
-                              <span className="dc-list-name">{item.name}</span>
+                              <span className="cc-list-name">{item.name}</span>
                               {isRecommended(item) ? (
-                                <span className="dc-list-star" aria-hidden>
+                                <span className="cc-list-star" aria-hidden>
                                   ★
                                 </span>
                               ) : null}
-                              <span className="dc-list-leader" aria-hidden />
+                              <span className="cc-list-leader" aria-hidden />
                               {cart[item.id] ? (
-                                <span className="dc-list-qty" aria-label={`${cart[item.id]} on your tray`}>
+                                <span className="cc-list-qty" aria-label={`${cart[item.id]} on your tray`}>
                                   {cart[item.id]}
                                 </span>
                               ) : null}
-                              <span className="dc-list-price">{item.price}</span>
+                              <span className="cc-list-price">{item.price}</span>
                             </button>
                           ))}
                         </section>
                       ))}
                   </div>
                 ) : cat === 'all' ? (
-                  <div className="dc-square-grid">
+                  <div className="cc-square-grid">
                   {visible.map(({ item, groupTitle }, i) => (
                     <button
                       key={item.id}
                       type="button"
-                      className="dc-tile"
+                      className="cc-tile"
                       style={{ '--i': i } as CSSProperties}
                       onClick={() => setOpenedId(item.id)}
                       onPointerMove={tiltTo}
                       onPointerLeave={untilt}
                       aria-label={`${item.name}, ${item.price}, ${groupTitle}. Open for details`}
                     >
-                      <span className="dc-tile-img">
+                      <span className="cc-tile-img">
                         <Image
                           src={item.src}
                           alt=""
@@ -192,13 +192,13 @@ export function MenuExperience() {
                         />
                       </span>
                       {isRecommended(item) ? <MenuStar label={item.badge ?? 'House pick'} /> : null}
-                      <span className="dc-tile-cat">{groupTitle}</span>
-                      <span className="dc-tile-cap">
-                        <span className="dc-tile-name">{item.name}</span>
-                        <span className="dc-tile-price">{item.price}</span>
+                      <span className="cc-tile-cat">{groupTitle}</span>
+                      <span className="cc-tile-cap">
+                        <span className="cc-tile-name">{item.name}</span>
+                        <span className="cc-tile-price">{item.price}</span>
                       </span>
                       {cart[item.id] ? (
-                        <span className="dc-tile-qty" aria-label={`${cart[item.id]} on your tray`}>
+                        <span className="cc-tile-qty" aria-label={`${cart[item.id]} on your tray`}>
                           {cart[item.id]}
                         </span>
                       ) : null}
@@ -219,11 +219,11 @@ export function MenuExperience() {
               </Reveal>
 
               <Reveal delay={80}>
-                <div className="dc-menu-foot">
-                  <div className="dc-mode" role="group" aria-label="Menu style">
+                <div className="cc-menu-foot">
+                  <div className="cc-mode" role="group" aria-label="Menu style">
                     <span
                       aria-hidden
-                      className="dc-mode-pill"
+                      className="cc-mode-pill"
                       style={{ '--pos': mode === 'genz' ? 0 : 1 } as CSSProperties}
                     />
                     {(['genz', 'trad'] as const).map((m) => (
@@ -231,7 +231,7 @@ export function MenuExperience() {
                         key={m}
                         type="button"
                         aria-pressed={m === mode}
-                        className="dc-display dc-mode-btn"
+                        className="cc-display cc-mode-btn"
                         onClick={() => setMode(m)}
                       >
                         {m === 'genz' ? 'Gen Z' : 'Traditional'}
@@ -239,10 +239,10 @@ export function MenuExperience() {
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <a href="/dream-cafe#visit" className="focus-ring dc-btn dc-btn-cream">
+                    <a href="/coffee-cups#visit" className="focus-ring cc-btn cc-btn-cream">
                       Find the door
                     </a>
-                    <a href="/dream-cafe#room" className="focus-ring dc-btn dc-btn-ghost">
+                    <a href="/coffee-cups#room" className="focus-ring cc-btn cc-btn-ghost">
                       See the room
                     </a>
                   </div>

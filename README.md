@@ -29,8 +29,12 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Hair Adore | `/hair-adore` | Salon marketing site: service menu, before/after gallery, booking |
 | Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
-| Dream Cafe | `/dream-cafe` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
+| Coffee Cups | `/coffee-cups` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
 | OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
+
+Coffee Cups shipped first as *Dream Cafe*. The name, route, component folder, `cc-*` class family and
+`public/` assets all moved in one pass, and `next.config.mjs` keeps `/dream-cafe*` redirecting so old
+shares still land on the café.
 
 `/api/stocks/{ohlc,chart,news,market,tick}` are server-side proxies that keep the Yahoo Finance
 request and the NVIDIA NIM key out of the browser bundle.
@@ -76,11 +80,11 @@ bash scripts/brand-reel.sh
 
 ### Café menu boards
 
-`/dream-cafe/menu` serves the same `menuGroups` data three ways, so a customer can browse the way they like:
+`/coffee-cups/menu` serves the same `menuGroups` data three ways, so a customer can browse the way they like:
 
 | Board | When it is served | Component |
 | --- | --- | --- |
-| Barrel — cards standing on a spinning cylinder | Gen Z skin, one section at a time (Coffee, Food, Beverages) | `components/sites/dream-cafe/BarrelGallery.tsx` |
+| Barrel — cards standing on a spinning cylinder | Gen Z skin, one section at a time (Coffee, Food, Beverages) | `components/sites/coffee-cups/BarrelGallery.tsx` |
 | Square tiles — the whole menu on one floating grid | Gen Z skin, `All` | `MenuExperience.tsx` |
 | Printed listing — thumbnail · name · leader · price | Traditional skin | `MenuExperience.tsx` |
 
@@ -189,7 +193,7 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 - [x] `/contact` channels and the `/store` alias for older links
 - [x] `/portfolio` builder index, `/portfolio/[author]` and `/portfolio/[author]/work/[slug]`
 - [x] Sitemap, robots and favicon generated from the registries
-- [x] Five standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/dream-cafe`, `/analytical-register`)
+- [x] Five standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/coffee-cups`, `/analytical-register`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
 - [x] OrderBook POS register, GST billing and analytics dashboard
