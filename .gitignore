@@ -50,3 +50,10 @@ playwright-report/
 
 # git worktrees (isolated SDD workspaces)
 .worktrees/
+
+# agent / dev-workflow artifacts (not part of the shipped site)
+docs/
+design-system/
+vibe_images/
+.superpowers/
+.claude/
