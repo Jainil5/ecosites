@@ -238,6 +238,28 @@ describe('coffee cups square tile grid', () => {
     expect(css).toMatch(/\.coffee-cups \.cc-dialog-close\s*\{[^}]*width:\s*44px/);
   });
 
+  it('gives the description its own space on a phone', () => {
+    // His ask on 2026-10-23: the note only ever lived in the dialog, so a
+    // phone shopper scrolled 31 photos with no idea what any of them were.
+    expect(src).toMatch(/<span className="cc-tile-note">\{item\.note\}<\/span>/);
+    expect(css).toMatch(/\.coffee-cups \.cc-tile-cap\s*\{[^}]*grid-template-columns:/);
+    expect(css).toMatch(/\.coffee-cups \.cc-tile-note\s*\{[^}]*-webkit-line-clamp:\s*1/);
+    // Below the phone breakpoint the caption leaves the photo and sits on
+    // its own paper strip, which is where the extra room comes from.
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-tile\s*\{[^}]*aspect-ratio:\s*auto/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-tile-img\s*\{[^}]*position:\s*relative/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-tile-cap\s*\{[^}]*position:\s*static/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-tile-note\s*\{[^}]*-webkit-line-clamp:\s*2/,
+    );
+  });
+
   it('drops the prose that used to surround the cards', () => {
     expect(src).not.toMatch(/group\.prompt|group\.blurb|group\.kicker/);
     expect(src).not.toMatch(/Vegan · Vegetarian/);
@@ -509,12 +531,20 @@ describe('coffee cups barrel gallery', () => {
     expect(css).toMatch(/\.coffee-cups \.cc-barrel-stage\s*\{[^}]*touch-action:\s*pan-y/);
     expect(css).toMatch(/--dot-hit:\s*38px/);
     expect(css).toMatch(/\.coffee-cups \.cc-barrel-nav\s*\{[^}]*width:\s*44px/);
-    // Bigger caption type and more stage room below the phone breakpoint.
+    // Bigger caption type and more stage room below the phone breakpoint:
+    // the card grows taller so the description is not squeezed against the
+    // photo, and the note gets three lines before it clips.
     expect(css).toMatch(
-      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-barrel-stage\s*\{[^}]*height:\s*calc\(var\(--ch\) \+ 86px\)/,
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-barrel\s*\{[^}]*--ch:\s*calc\(var\(--cw\) \* 1\.36\)/,
     );
     expect(css).toMatch(
-      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-barrel-name\s*\{[^}]*font-size:\s*16\.5px/,
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-barrel-stage\s*\{[^}]*height:\s*calc\(var\(--ch\) \+ 92px\)/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.coffee-cups \.cc-barrel-name\s*\{[^}]*font-size:\s*17px/,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 639px\)[\s\S]*?\.cc-barrel-card\[data-active='true'\] \.cc-barrel-note\s*\{[^}]*max-height:\s*66px/,
     );
   });
 
@@ -546,6 +576,21 @@ describe('coffee cups mobile floating order bar', () => {
     expect(tray).toMatch(/data-open=\{open \? 'true' : 'false'\}/);
     expect(css).toMatch(/\.coffee-cups \.cc-tray-panel\s*\{[^}]*transform:\s*translateY\(1\d\d%\)/);
     expect(css).toMatch(/\.coffee-cups \.cc-tray\[data-open='true'\] \.cc-tray-panel\s*\{[^}]*transform:\s*none/);
+  });
+
+  it('takes the parked sheet out of the tab order', () => {
+    // Off-screen but still focusable is how a keyboard user ends up pressing
+    // + on a tray they cannot see.
+    expect(css).toMatch(/\.coffee-cups \.cc-tray-panel\s*\{[^}]*visibility:\s*hidden/);
+    expect(css).toMatch(
+      /\.coffee-cups \.cc-tray\[data-open='true'\] \.cc-tray-panel\s*\{[^}]*visibility:\s*visible/,
+    );
+  });
+
+  it('keeps the sheet steppers thumb-sized', () => {
+    expect(css).toMatch(
+      /@media \(max-width: 1023px\)[\s\S]*?\.coffee-cups \.cc-tray-step button\s*\{[^}]*width:\s*44px/,
+    );
   });
 
   it('clears the last menu row from under the bar', () => {

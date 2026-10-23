@@ -1849,10 +1849,11 @@ html.lenis body {
   right: 0;
   bottom: 0;
   z-index: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 6px;
+  column-gap: 6px;
+  row-gap: 2px;
   padding: 22px 10px 9px;
 }
 
@@ -1870,6 +1871,21 @@ html.lenis body {
   font-size: 12px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+}
+
+/* The one-line description. On the wide board it rides the dusk gradient as
+   a single clipped line; on a phone it gets two, below the name. */
+.coffee-cups .cc-tile-note {
+  grid-column: 1 / -1;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: rgba(251, 244, 233, 0.72);
 }
 
 .coffee-cups .cc-tile-cat {
@@ -1936,6 +1952,45 @@ html.lenis body {
 .coffee-cups .cc-square-grid .cc-tile-cat {
   color: var(--cc-ink);
   background: rgba(255, 253, 248, 0.9);
+}
+
+/* Phones: a 169px square cannot hold a photo, a name, a price and a
+   description at once, so the caption steps out of the photo and takes its
+   own paper strip underneath it. The order part lives in the floating bar
+   instead, which is what frees this room in the first place. */
+@media (max-width: 639px) {
+  .coffee-cups .cc-tile {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--cc-paper);
+    border: 1px solid var(--cc-line);
+  }
+  .coffee-cups .cc-tile-img {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .coffee-cups .cc-tile-cap {
+    position: static;
+    padding: 9px 11px 11px;
+  }
+  .coffee-cups .cc-square-grid .cc-tile-cap {
+    background: none;
+  }
+  .coffee-cups .cc-square-grid .cc-tile-name {
+    font-size: 13.5px;
+    color: var(--cc-ink);
+  }
+  .coffee-cups .cc-square-grid .cc-tile-price {
+    font-size: 13px;
+    color: var(--cc-ember);
+  }
+  .coffee-cups .cc-tile-note {
+    -webkit-line-clamp: 2;
+    font-size: 11.5px;
+    color: rgba(43, 22, 10, 0.66);
+  }
 }
 
 /* --- Barrel gallery ---------------------------------------------
@@ -2330,27 +2385,30 @@ html.lenis body {
   color: rgba(251, 244, 233, 0.6);
 }
 
-/* Phones: the barrel is the whole board, so it gets the room. Taller stage
-   for the lifted card, tighter curtains, and type big enough to read at
-   arm's length without opening the dialog first. */
+/* Phones: the barrel is the whole board, so it gets the room. Taller card,
+   taller stage for the lifted card, tighter curtains, and type big enough to
+   read at arm's length without opening the dialog first. */
 @media (max-width: 639px) {
+  .coffee-cups .cc-barrel {
+    --ch: calc(var(--cw) * 1.36);
+  }
   .coffee-cups .cc-barrel-stage {
-    height: calc(var(--ch) + 86px);
+    height: calc(var(--ch) + 92px);
   }
   .coffee-cups .cc-barrel-curtain {
     width: 16%;
   }
   .coffee-cups .cc-barrel-name {
-    font-size: 16.5px;
+    font-size: 17px;
   }
   .coffee-cups .cc-barrel-note {
-    font-size: 12px;
+    font-size: 12.5px;
   }
   .coffee-cups .cc-barrel-price {
     font-size: 15px;
   }
   .coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-note {
-    max-height: 56px;
+    max-height: 66px;
   }
   .coffee-cups .cc-barrel-hint {
     font-size: 11.5px;
@@ -2945,7 +3003,9 @@ html.lenis body {
   }
 
   /* The existing panel becomes a bottom sheet, parked off-screen
-     until the bar opens it. Same DOM, same cart state. */
+     until the bar opens it. Same DOM, same cart state. It also drops out of
+     the tab order while parked, so a keyboard or a screen reader never lands
+     on a + button nobody can see. */
   .coffee-cups .cc-tray-panel {
     position: fixed;
     left: 12px;
@@ -2955,11 +3015,18 @@ html.lenis body {
     max-height: min(60vh, 460px);
     overflow-y: auto;
     transform: translateY(140%);
-    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    visibility: hidden;
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 320ms;
   }
 
   .coffee-cups .cc-tray[data-open='true'] .cc-tray-panel {
     transform: none;
+    visibility: visible;
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
   }
 }
 
@@ -3385,8 +3452,8 @@ html.lenis body {
    changing the compact desktop pills. */
 @media (max-width: 1023px) {
   .coffee-cups .cc-tray-step button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     font-size: 18px;
   }
 

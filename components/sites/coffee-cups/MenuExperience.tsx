@@ -196,6 +196,7 @@ export function MenuExperience() {
                       <span className="cc-tile-cap">
                         <span className="cc-tile-name">{item.name}</span>
                         <span className="cc-tile-price">{item.price}</span>
+                        <span className="cc-tile-note">{item.note}</span>
                       </span>
                       {cart[item.id] ? (
                         <span className="cc-tile-qty" aria-label={`${cart[item.id]} on your tray`}>

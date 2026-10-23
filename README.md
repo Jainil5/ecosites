@@ -90,6 +90,8 @@ bash scripts/brand-reel.sh
 
 The barrel is geometry, not a slideshow: the radius is solved from the card width and the per-item angle so neighbours keep a real gap around the cylinder, and each card's fade, scale and lift come from `cos()` of its angle to camera. That leaves one custom property (`--rot`) to write per frame, on the ring, and the browser's 3D sorting handles the rest. Drag (with fling and snap), sideways wheel, arrow keys, the dots and tapping a side card all spin it; tapping the facing card opens the same `ItemDialog` the tiles use. Phones get the same barrel at `60vw` cards with `touch-action: pan-y`, so a vertical thumb still scrolls the page. Under `prefers-reduced-motion: reduce` the shape stays and the movement stops: spins land instantly and the cards stop lifting.
 
+On a phone the order lives in a floating bar pinned above the safe area (`OrderTray.tsx`), which opens the tray as a bottom sheet over a dimmed scrim; the parked sheet is `visibility: hidden`, so its controls leave the tab order until it is actually open. Because the order part floats, the `All` grid spends its width on the items instead: below `640px` each tile drops the caption out of the photo and onto its own paper strip — name and price on one line, the description under it, two lines before it clips.
+
 ### Adding a builder's portfolio
 
 1. Add one entry to `content/portfolio/authors.ts` with a kebab-case `slug`.
