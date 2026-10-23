@@ -6,13 +6,13 @@ export function WhyUs() {
   return (
     <section className="gs-reveal">
       <SectionIntro
-        index="07"
-        label="why website intelligence"
+        index="06"
+        label="why website & intelligence"
         title="One partner across the whole stack."
       >
         Web, software, data and AI — under one roof, at the size your business actually needs.
       </SectionIntro>
-      <dl className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+      <dl className="gs-fan grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
         {whyPoints.map((point, i) => (
           <div key={point.title} className={i === 0 ? 'bg-plane-deep p-6' : 'bg-canvas p-6'}>
             <dt className="gs-display text-base text-ink">{point.title}</dt>

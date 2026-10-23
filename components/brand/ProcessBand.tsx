@@ -5,8 +5,8 @@ import { processSteps } from '@/content/brand/process';
 export function ProcessBand() {
   return (
     <section className="gs-reveal">
-      <SectionIntro index="05" label="how we work" title="A clear path from idea to impact." />
-      <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
+      <SectionIntro index="04" label="how we work" title="A clear path from idea to impact." />
+      <div className="gs-fan grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
         {processSteps.map((step, i) => (
           <div key={step.key} className="relative overflow-hidden bg-canvas p-6">
             <span

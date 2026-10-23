@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useReducer, useState, type ReactN
 import { initState, orderbookReducer, type Action, type StoreState } from './reducer';
 import { mergePublished, readPublished } from '../order-bridge';
 
-// v2: the register rebrands to the shared Dream Cafe menu; v1 payloads would
+// v2: the register rebrands to the shared Coffee Cups menu; v1 payloads would
 // hydrate the old catalogue, so they re-seed instead.
 const KEY = 'orderbook:v2';
 

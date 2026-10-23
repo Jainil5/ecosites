@@ -14,17 +14,17 @@ function* files(dir: string): Generator<string> {
   }
 }
 
-describe('Website Intelligence rename', () => {
+describe('Website & Intelligence rename', () => {
   it('carries the new brand fields', () => {
-    expect(company.name).toBe('Website Intelligence');
+    expect(company.name).toBe('Website & Intelligence');
     expect(company.tagline).toBe('Technology for Every Business.');
     expect(company.badge).toBe('Web, Software & AI');
-    expect(company.contact.whatsappMessage).toContain('Website Intelligence');
+    expect(company.contact.whatsappMessage).toContain('Website & Intelligence');
   });
 
   it('leaves no trace of the old name in rendered sources', () => {
     // Case-sensitive on purpose: 'Website IN' and 'WebsiteIN' are the old
-    // wordmark forms; 'Website Intelligence' cannot match either. The middle
+    // wordmark forms; 'Website & Intelligence' cannot match either. The middle
     // alternative catches the split JSX wordmark (`Website<span>IN</span>`).
     const oldName = /Website IN(?![a-z])|WebsiteIN(?!telligence)|Website\s*(<[^>]*>\s*)?IN(?![a-z])/;
     for (const dir of SOURCES) {

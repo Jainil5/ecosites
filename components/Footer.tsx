@@ -19,7 +19,7 @@ export function Footer() {
         <div className="space-y-3">
           <p className="gs-display flex items-center gap-2 text-xl">
             <Logo className="h-5 w-5" />
-            Website <span>Intelligence</span>
+            Website & <span>Intelligence</span>
           </p>
           <p className="max-w-xs text-sm leading-relaxed text-ink/75">{company.tagline}</p>
         </div>

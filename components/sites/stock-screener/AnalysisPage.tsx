@@ -61,7 +61,7 @@ export function AnalysisPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [sort, setSort] = useState<{ key: SortKey; dir: 'asc' | 'desc' }>({ key: 'mcap', dir: 'desc' });
 
-  const cards = data?.cards ?? [];
+  const cards = useMemo(() => data?.cards ?? [], [data]);
   const b = useMemo(() => breadth(cards), [cards]);
   const rows = useMemo(() => {
     const filtered = cards.filter((c) => match(c, filter));

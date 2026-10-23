@@ -4,11 +4,11 @@ import { join } from 'path';
 import { describe, expect, it } from 'vitest';
 import { defaultBrand, defaultMenu } from '@/components/sites/analytical-register/menu-data';
 import { seedOrders } from '@/components/sites/analytical-register/seed';
-import { menuGroups } from '@/components/sites/dream-cafe/menu';
+import { menuGroups } from '@/components/sites/coffee-cups/menu';
 
 const cafeItems = menuGroups.flatMap((g) => g.items.map((i) => ({ ...i, category: g.title })));
 
-describe('OrderBook shares the Dream Cafe menu', () => {
+describe('OrderBook shares the Coffee Cups menu', () => {
   it('has the same ids, in the same order, as the cafe menu', () => {
     expect(defaultMenu.map((m) => m.id)).toEqual(cafeItems.map((i) => i.id));
   });
@@ -23,8 +23,8 @@ describe('OrderBook shares the Dream Cafe menu', () => {
       expect(ob.active).toBe(true);
     }
   });
-  it('brands the register as Dream Cafe', () => {
-    expect(defaultBrand.name).toBe('Dream Cafe');
+  it('brands the register as Coffee Cups', () => {
+    expect(defaultBrand.name).toBe('Coffee Cups');
     expect(defaultBrand.currency).toBe('₹');
     expect(defaultBrand.gstRate).toBe(0.05);
   });

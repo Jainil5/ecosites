@@ -37,17 +37,18 @@ describe('landing composition after the audience IA trim', () => {
     expect(hero).not.toMatch(/Explore Enterprise Solutions/);
   });
 
-  it('section indices stay gapless after dropping the 02 path section', () => {
+  it('section indices stay gapless after dropping the industry band', () => {
     const home = readFileSync('app/(site)/page.tsx', 'utf8');
     expect(home).toMatch(/index:\s*'02'/); // services heading prop
-    expect(home).toMatch(/index="03"/); // industry section intro
+    expect(home).not.toMatch(/IndustryGrid/);
+    expect(home).toMatch(/>07</); // closing next-step band
     const product = readFileSync('components/brand/ProductFeature.tsx', 'utf8');
-    expect(product).toMatch(/>04</);
+    expect(product).toMatch(/>03</);
     const process = readFileSync('components/brand/ProcessBand.tsx', 'utf8');
-    expect(process).toMatch(/index="05"/);
+    expect(process).toMatch(/index="04"/);
     const work = readFileSync('components/brand/WorkStrip.tsx', 'utf8');
-    expect(work).toMatch(/index="06"/);
+    expect(work).toMatch(/index="05"/);
     const why = readFileSync('components/brand/WhyUs.tsx', 'utf8');
-    expect(why).toMatch(/index="07"/);
+    expect(why).toMatch(/index="06"/);
   });
 });

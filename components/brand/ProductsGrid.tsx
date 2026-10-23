@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Activity, ArrowRight, ClipboardList, IdCard, MessagesSquare } from 'lucide-react';
+import { Activity, ArrowRight, ClipboardList, IdCard, MessagesSquare, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CursorLit } from '@/components/brand/CursorLit';
 import { SectionIntro } from '@/components/brand/SectionIntro';
@@ -9,6 +9,7 @@ import type { ProductIcon } from '@/content/brand/types';
 const ICONS: Record<ProductIcon, LucideIcon> = {
   register: ClipboardList,
   pulse: Activity,
+  teams: Users,
   portfolio: IdCard,
 };
 
@@ -22,15 +23,15 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
         <SectionIntro index="04" label="products" title="Demonstrations of what we build, not boxes we sell">
-          Three working surfaces, each with two halves: the counter and the numbers behind
-          it, the list and the chart, your name and the book that lives on it. They run on
-          sample data so you can click through the flow before we build yours with your
-          items, your market and your own work — tell us the scope and you approve the
-          quote before any work starts.
+          Four working surfaces, each with two halves: the counter and the numbers
+          behind it, the list and the chart, the chat and the answer, your name and the
+          book that lives on it. They run on sample data so you can click through the
+          flow before we build yours with your items, your market and your own work —
+          tell us the scope and you approve the quote before any work starts.
         </SectionIntro>
       ) : null}
 
-      <CursorLit className="grid gap-4 lg:grid-cols-3">
+      <CursorLit className="grid gap-4 lg:grid-cols-2">
         {products.map((product) => {
           const Icon = ICONS[product.icon];
           return (
@@ -76,6 +77,16 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                     Run the demonstration
                     <ArrowRight aria-hidden className="h-4 w-4" />
                   </Link>
+                ) : product.repoUrl ? (
+                  <a
+                    href={product.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring gs-btn gs-btn-solid"
+                  >
+                    View the build
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </a>
                 ) : (
                   <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
                     Ask for a walkthrough
@@ -85,7 +96,9 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                 <span className="gs-label">
                   {product.demoPath
                     ? 'sample data throughout — yours is built with your own'
-                    : 'in build — ask to see it'}
+                    : product.repoUrl
+                      ? 'source available on GitHub'
+                      : 'in build — ask to see it'}
                 </span>
               </div>
             </article>

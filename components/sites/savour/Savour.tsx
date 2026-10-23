@@ -109,7 +109,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
           contributors). Ratings and review counts were checked by hand against public listings on the date each venue
           shows; menus and prices are curated rather than live, and the 4★-and-up figure is an estimate.
         </p>
-        <p className="mt-2">Built by Website Intelligence. Not affiliated with the venues shown.</p>
+        <p className="mt-2">Built by Website & Intelligence. Not affiliated with the venues shown.</p>
       </footer>
 
       <WishlistDrawer open={drawer} onClose={() => setDrawer(false)} />

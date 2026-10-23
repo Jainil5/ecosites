@@ -20,7 +20,7 @@ export function ProductFeature() {
       <div className="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div>
           <p className="gs-label">
-            <span className="gs-label-hot">04</span> <span aria-hidden>/</span> what we build for
+            <span className="gs-label-hot">03</span> <span aria-hidden>/</span> what we build for
             you, shown running
           </p>
           <h2 className="gs-display gs-h2 mt-3">

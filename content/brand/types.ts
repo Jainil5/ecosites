@@ -18,7 +18,7 @@ export interface Company {
   contact: ContactChannels;
 }
 
-export type ProductIcon = 'register' | 'pulse' | 'portfolio';
+export type ProductIcon = 'register' | 'pulse' | 'teams' | 'portfolio';
 
 /** One named half of a product, so a two-part build reads as one purchase. */
 export interface ProductModule {
@@ -41,4 +41,6 @@ export interface Product {
    * a button to a page that is not built yet.
    */
   demoPath?: string;
+  /** Public build when the product is hosted outside this app. */
+  repoUrl?: string;
 }

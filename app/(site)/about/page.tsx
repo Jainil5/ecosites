@@ -9,7 +9,7 @@ import { pillars } from '@/content/brand/whyus';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Website Intelligence helps businesses grow and operate better through accessible web experiences, useful software, actionable data, and practical AI — at every stage of growth.',
+    'Website & Intelligence helps businesses grow and operate better through accessible web experiences, useful software, actionable data, and practical AI — at every stage of growth.',
 };
 
 export default function AboutPage() {

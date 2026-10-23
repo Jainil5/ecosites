@@ -4,8 +4,8 @@ import type { Product } from './types';
  * The products are systems a business or a person runs, not capabilities they
  * buy — the capabilities live in `capabilities.ts`. Each entry names its two
  * halves, because every one of these is one purchase that does two jobs: the
- * counter and the numbers behind it, the list and the chart, the name and the
- * book that lives on it.
+ * counter and the numbers behind it, the list and the chart, the chat and the
+ * answer, the name and the book that lives on it.
  */
 export const products: Product[] = [
   {
@@ -85,5 +85,31 @@ export const products: Product[] = [
       },
     ],
     demoPath: '/namesake',
+  },
+  {
+    slug: 'teamsync',
+    title: 'TeamSync',
+    summary:
+      'Team chat, meetings and company knowledge in one workspace, with an AI assistant that answers from your own documents.',
+    icon: 'teams',
+    bullets: [
+      'Channels, direct messages and file sharing in one place',
+      'Meeting transcripts with summaries, decisions and action items pulled out automatically',
+      'An HR bot and semantic file search grounded in your own documents',
+      'Private, isolated data with encrypted communication',
+    ],
+    modules: [
+      {
+        name: 'The workspace',
+        detail:
+          'Chat, channels, file sharing and meeting notes stay together, so a decision keeps the conversation and the document that produced it.',
+      },
+      {
+        name: 'The AI layer',
+        detail:
+          'An HR assistant, semantic file search, sales analysis and automated review replies, all reading from company data rather than the open web.',
+      },
+    ],
+    repoUrl: 'https://github.com/Jainil5/teamsync',
   },
 ];

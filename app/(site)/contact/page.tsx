@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 // Same enterprise message the enterprise page sends.
-const ENTERPRISE_MESSAGE = 'Discuss an enterprise project with Website Intelligence';
+const ENTERPRISE_MESSAGE = 'Discuss an enterprise project with Website & Intelligence';
 
 const enquiries = [
   {

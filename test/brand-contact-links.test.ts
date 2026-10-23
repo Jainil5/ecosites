@@ -6,13 +6,13 @@ const contact: ContactChannels = {
   email: 'mail.jainil5@gmail.com',
   phone: '8238889347',
   phoneDisplay: '+91 82388 89347',
-  whatsappMessage: 'Hi Website Intelligence! I would like a website for my business.',
+  whatsappMessage: 'Hi Website & Intelligence! I would like a website for my business.',
 };
 
 describe('whatsappHref', () => {
   it('builds a wa.me link with the 91 country code and an encoded message', () => {
     expect(whatsappHref(contact)).toBe(
-      'https://wa.me/918238889347?text=Hi%20Website%20Intelligence!%20I%20would%20like%20a%20website%20for%20my%20business.',
+      'https://wa.me/918238889347?text=Hi%20Website%20%26%20Intelligence!%20I%20would%20like%20a%20website%20for%20my%20business.',
     );
   });
 
