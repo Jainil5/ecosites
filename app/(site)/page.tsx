@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ClientMarquee } from '@/components/brand/ClientMarquee';
 import { Hero } from '@/components/brand/Hero';
 import { IndustryGrid } from '@/components/brand/IndustryGrid';
+import { LaunchReel } from '@/components/brand/LaunchReel';
 import { ProcessBand } from '@/components/brand/ProcessBand';
 import { ProductFeature } from '@/components/brand/ProductFeature';
 import { ProofBand } from '@/components/brand/ProofBand';
@@ -56,6 +57,8 @@ export default function HomePage() {
         <ClientMarquee />
         <WorkStrip />
       </div>
+
+      <LaunchReel />
 
       <WhyUs />
 
