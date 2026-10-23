@@ -8,12 +8,17 @@ import { useRef, type ReactNode } from 'react';
  * under the cursor is written to. Coarse pointers and reduced motion leave the
  * surfaces flat — a touch screen would otherwise strand a light where the
  * finger last fell.
+ *
+ * `selector` is the only reason a caller passes anything: a demonstration site
+ * outside the brand skin lights its own class and keeps its own colours.
  */
 export function CursorLit({
   className = '',
+  selector = '.gs-lit',
   children,
 }: {
   className?: string;
+  selector?: string;
   children: ReactNode;
 }) {
   const lit = useRef<HTMLElement | null>(null);
@@ -28,7 +33,7 @@ export function CursorLit({
   const onMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== 'mouse') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const card = (event.target as Element).closest<HTMLElement>('.gs-lit');
+    const card = (event.target as Element).closest<HTMLElement>(selector);
     if (!card) {
       clear();
       return;

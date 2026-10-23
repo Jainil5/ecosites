@@ -66,6 +66,19 @@ export const websites = [
     techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
     screenshot: '/showcase/analytical-register/preview.png',
   },
+  {
+    slug: 'namesake',
+    author: 'jainil-patel',
+    title: 'Namesake',
+    business: 'Digital portfolio on your own domain · demonstration build',
+    description:
+      'A working demonstration of the portfolio we build around a person\'s own name and domain, styled two ways on one page: an editorial modelling book of print plates, a comp card and availability, and a professional engineering CV with sticky-stacked systems, a shipping log and a stack register. Switching the book re-skins the hero, the name checker and the enquiry block. Every person, credit and number on screen is sample data.',
+    path: '/namesake',
+    theme: 'Editorial light, engineering dark',
+    accent: '#2DD4BF',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
+    screenshot: '/showcase/namesake/preview.png',
+  },
 ] satisfies SampleWebsite[];
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {

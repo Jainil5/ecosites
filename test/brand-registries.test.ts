@@ -16,8 +16,8 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists the two named apps, counter first', () => {
-    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse']);
+  it('lists the three named builds, counter first', () => {
+    expect(products.map((p) => p.slug)).toEqual(['order-book', 'market-pulse', 'digital-portfolio']);
   });
 
   it('has unique slugs', () => {
@@ -32,9 +32,9 @@ describe('products registry', () => {
       expect(product.title).toBe(product.title.trim());
       // Two halves is the whole read: one purchase that does both jobs.
       expect(product.modules.length).toBe(2);
-      for (const module of product.modules) {
-        expect(module.name.trim().length).toBeGreaterThan(0);
-        expect(module.detail.trim().length).toBeGreaterThan(0);
+      for (const half of product.modules) {
+        expect(half.name.trim().length).toBeGreaterThan(0);
+        expect(half.detail.trim().length).toBeGreaterThan(0);
       }
     }
   });

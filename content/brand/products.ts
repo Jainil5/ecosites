@@ -1,10 +1,11 @@
 import type { Product } from './types';
 
 /**
- * The products are apps a business runs, not capabilities it buys — the
- * capabilities live in `capabilities.ts`. Each entry names its halves, because
- * both of these are sold as one screen for the counter and one for the
- * numbers behind it.
+ * The products are systems a business or a person runs, not capabilities they
+ * buy — the capabilities live in `capabilities.ts`. Each entry names its two
+ * halves, because every one of these is one purchase that does two jobs: the
+ * counter and the numbers behind it, the list and the chart, the name and the
+ * book that lives on it.
  */
 export const products: Product[] = [
   {
@@ -58,5 +59,31 @@ export const products: Product[] = [
       },
     ],
     demoPath: '/stock-screener',
+  },
+  {
+    slug: 'digital-portfolio',
+    title: 'Digital Portfolio',
+    summary:
+      'A portfolio built around your own name and domain, styled the way your industry reads it.',
+    icon: 'portfolio',
+    bullets: [
+      'Your name as the address — we register the domain, put SSL on it, and hand you the login',
+      'Two reads of one build: a modelling book of print plates and measurements, or an engineering CV that reads like a changelog',
+      'The client, the agency and the recruiter each land on the half they care about, from one link',
+      'Everyone on the demonstration is a sample person with sample work — yours carries your photos and your history',
+    ],
+    modules: [
+      {
+        name: 'The name',
+        detail:
+          'The domain, the mail behind it, and one link that goes in a bio, an agency roster or a recruiter inbox.',
+      },
+      {
+        name: 'The book',
+        detail:
+          'The page itself, themed for your trade: plates, comp card and availability for a model; shipped systems, a log and a stack register for an engineer.',
+      },
+    ],
+    demoPath: '/namesake',
   },
 ];

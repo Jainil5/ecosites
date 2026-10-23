@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { Activity, ClipboardList } from 'lucide-react';
+import { Activity, ClipboardList, IdCard } from 'lucide-react';
 import { capabilities } from './capabilities';
 import { company } from './company';
 import { products } from './products';
@@ -57,6 +57,7 @@ export interface NavGroup {
 const productIcons = {
   register: ClipboardList,
   pulse: Activity,
+  portfolio: IdCard,
 } satisfies Record<ProductIcon, LucideIcon>;
 
 export const navGroups: NavGroup[] = [

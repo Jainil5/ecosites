@@ -18,7 +18,7 @@ export interface Company {
   contact: ContactChannels;
 }
 
-export type ProductIcon = 'register' | 'pulse';
+export type ProductIcon = 'register' | 'pulse' | 'portfolio';
 
 /** One named half of a product, so a two-part build reads as one purchase. */
 export interface ProductModule {

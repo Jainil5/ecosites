@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Activity, ArrowRight, ClipboardList, MessagesSquare } from 'lucide-react';
+import { Activity, ArrowRight, ClipboardList, IdCard, MessagesSquare } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { CursorLit } from '@/components/brand/CursorLit';
 import { SectionIntro } from '@/components/brand/SectionIntro';
@@ -9,6 +9,7 @@ import type { ProductIcon } from '@/content/brand/types';
 const ICONS: Record<ProductIcon, LucideIcon> = {
   register: ClipboardList,
   pulse: Activity,
+  portfolio: IdCard,
 };
 
 /**
@@ -21,14 +22,15 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
         <SectionIntro index="04" label="products" title="Demonstrations of what we build, not boxes we sell">
-          Two working surfaces, each with a counter half and a numbers half. They run on
-          sample data so you can see the flow before we build yours with your items, your
-          taxes and your branding — tell us the scope and you approve the quote before any
-          work starts.
+          Three working surfaces, each with two halves: the counter and the numbers behind
+          it, the list and the chart, your name and the book that lives on it. They run on
+          sample data so you can click through the flow before we build yours with your
+          items, your market and your own work — tell us the scope and you approve the
+          quote before any work starts.
         </SectionIntro>
       ) : null}
 
-      <CursorLit className="grid gap-4 lg:grid-cols-2">
+      <CursorLit className="grid gap-4 lg:grid-cols-3">
         {products.map((product) => {
           const Icon = ICONS[product.icon];
           return (
@@ -82,7 +84,7 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                 )}
                 <span className="gs-label">
                   {product.demoPath
-                    ? 'sample data — your items, your taxes, your branding'
+                    ? 'sample data throughout — yours is built with your own'
                     : 'in build — ask to see it'}
                 </span>
               </div>
