@@ -28,7 +28,7 @@ export function MarketShell({ children }: { children: React.ReactNode }) {
   const agoTick = lastTickAt ? Math.max(0, Math.round((clock - lastTickAt) / 1000)) : null;
 
   return (
-    <div className="relative min-h-screen bg-[#04060B] text-[#E7EEF9]">
+    <div className="market-pulse relative min-h-screen bg-[#04060B] text-[#E7EEF9]">
       <div aria-hidden className="mp-bg">
         <div className="mp-bg-grid" />
         <div
@@ -111,7 +111,7 @@ export function MarketShell({ children }: { children: React.ReactNode }) {
           <p className="mt-2">
             <Link
               href="/"
-              className="focus-ring rounded transition-colors hover:text-[#16C784]"
+              className="focus-ring inline-flex min-h-10 items-center rounded transition-colors hover:text-[#16C784]"
             >
               Market Pulse · a live terminal built by Website & Intelligence
             </Link>

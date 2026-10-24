@@ -80,7 +80,7 @@ export function MenuExperience() {
   ];
 
   return (
-    <section id="top" aria-label="The menu" className="cc-menu relative">
+    <section id="menu" aria-label="The menu" className="cc-menu relative scroll-mt-20">
       <div aria-hidden className="cc-pick-wash" />
       <div aria-hidden className="cc-stains" />
       <div aria-hidden className="cc-beans" />
@@ -88,14 +88,14 @@ export function MenuExperience() {
       <div aria-hidden className="cc-hero-grain absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
-        <h1 className="sr-only">Coffee Cups — the whole menu, straight up</h1>
+        <h2 className="sr-only">The whole menu, straight up</h2>
         <Reveal>
           <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
             The whole menu, straight up
           </p>
         </Reveal>
 
-        <div id="menu" className="scroll-mt-24">
+        <div>
           <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
             <div className="min-w-0">
               <Reveal>

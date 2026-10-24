@@ -13,7 +13,7 @@ export function Settings() {
       <h2 className="text-xl font-bold">Brand settings</h2>
       <label className="block text-sm font-semibold">
         Business name
-        <input className="mt-1 w-full rounded-lg border border-[var(--ob-line)] px-3 py-2" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className="mt-1 w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10" value={name} onChange={(e) => setName(e.target.value)} />
       </label>
       <label className="block text-sm font-semibold">
         Accent colour
@@ -21,7 +21,7 @@ export function Settings() {
       </label>
       <label className="block text-sm font-semibold">
         WhatsApp sender number
-        <input className="mt-1 w-full rounded-lg border border-[var(--ob-line)] px-3 py-2" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <input className="mt-1 w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </label>
       <div className="flex gap-2">
         <button className="ob-btn" onClick={() => dispatch({ type: 'update-brand', patch: { name, accent, phone } })}>Save</button>

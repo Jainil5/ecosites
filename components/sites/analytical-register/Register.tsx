@@ -20,7 +20,7 @@ export function Register() {
         <div className="mb-4 flex flex-wrap gap-2">
           {['All', ...categories].map((c) => (
             <button key={c} onClick={() => setCat(c)} aria-pressed={cat === c}
-              className={`rounded-full px-3 py-1 text-sm font-semibold ${cat === c ? 'ob-btn' : 'ob-btn-ghost'}`}>
+              className={`rounded-full px-4 py-2.5 text-sm font-semibold ${cat === c ? 'ob-btn' : 'ob-btn-ghost'}`}>
               {c}
             </button>
           ))}

@@ -26,12 +26,12 @@ export function Footer() {
 
         <nav aria-label="Footer">
           <p className="gs-label">pages</p>
-          <ul className="mt-4 space-y-2.5">
+          <ul className="mt-2 space-y-0.5">
             {footerLinks.map((page) => (
               <li key={page.href}>
                 <Link
                   href={page.href}
-                  className="focus-ring rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
+                  className="focus-ring inline-flex min-h-10 items-center rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
                 >
                   {page.label}
                 </Link>
@@ -42,14 +42,14 @@ export function Footer() {
 
         <nav aria-label="Contact">
           <p className="gs-label">talk to us</p>
-          <ul className="mt-4 space-y-2.5">
+          <ul className="mt-2 space-y-0.5">
             {channels.map(({ href, label, Icon, external }) => (
               <li key={label}>
                 <a
                   href={href}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
-                  className="focus-ring inline-flex items-center gap-2 rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
+                  className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"
                 >
                   <Icon aria-hidden className="h-3.5 w-3.5" />
                   {label}

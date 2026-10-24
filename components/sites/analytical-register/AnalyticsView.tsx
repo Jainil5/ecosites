@@ -88,7 +88,7 @@ export function Analytics() {
         <div className="ml-auto flex gap-1">
           {RANGES.map((r) => (
             <button key={r} onClick={() => setDays(r)} aria-pressed={days === r}
-              className={`rounded-lg px-3 py-1 text-sm font-semibold ${days === r ? 'ob-btn' : 'ob-btn-ghost'}`}>{r}d</button>
+              className={`rounded-lg px-4 py-2.5 text-sm font-semibold ${days === r ? 'ob-btn' : 'ob-btn-ghost'}`}>{r}d</button>
           ))}
         </div>
       </div>
@@ -104,9 +104,9 @@ export function Analytics() {
           <h3 className="font-semibold">Revenue trend</h3>
           <div className="ml-auto flex gap-1">
             <button onClick={() => setTrend('total')} aria-pressed={trend === 'total'}
-              className={`rounded-lg px-3 py-1 text-xs font-semibold ${trend === 'total' ? 'ob-btn' : 'ob-btn-ghost'}`}>Total</button>
+              className={`rounded-lg px-4 py-2.5 text-xs font-semibold ${trend === 'total' ? 'ob-btn' : 'ob-btn-ghost'}`}>Total</button>
             <button onClick={() => setTrend('category')} aria-pressed={trend === 'category'}
-              className={`rounded-lg px-3 py-1 text-xs font-semibold ${trend === 'category' ? 'ob-btn' : 'ob-btn-ghost'}`}>Categories</button>
+              className={`rounded-lg px-4 py-2.5 text-xs font-semibold ${trend === 'category' ? 'ob-btn' : 'ob-btn-ghost'}`}>Categories</button>
           </div>
         </div>
         {trend === 'total'

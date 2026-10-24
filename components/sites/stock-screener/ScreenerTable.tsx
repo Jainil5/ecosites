@@ -138,7 +138,7 @@ export function ScreenerTable({ rows, loading, sort, onSort, watched, onWatchTog
                           e.stopPropagation();
                           onWatchToggle(meta.symbol);
                         }}
-                        className={`focus-ring rounded p-0.5 transition-colors ${
+                        className={`focus-ring inline-flex h-9 w-9 items-center justify-center rounded transition-colors ${
                           watched.includes(meta.symbol)
                             ? 'text-[#F5A623]'
                             : 'text-[#2A3A57] hover:text-[#8A98B0]'
@@ -152,7 +152,7 @@ export function ScreenerTable({ rows, loading, sort, onSort, watched, onWatchTog
                             href={`/stock-screener/${symbolToSlug(meta.symbol)}`}
                             onClick={(e) => e.stopPropagation()}
                             aria-label={`${ticker} — open detail page`}
-                            className="focus-ring rounded hover:text-[#16C784]"
+                            className="focus-ring inline-flex min-h-10 items-center rounded hover:text-[#16C784]"
                           >
                             {ticker}
                           </Link>

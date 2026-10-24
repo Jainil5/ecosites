@@ -22,9 +22,9 @@ export function MenuManager() {
   return (
     <section className="space-y-4">
       <div className="ob-card flex flex-wrap items-end gap-3 p-4">
-        <label className="text-sm font-semibold">Name<input className="mt-1 block w-44 rounded-lg border border-[var(--ob-line)] px-3 py-2" value={name} onChange={(e) => setName(e.target.value)} /></label>
-        <label className="text-sm font-semibold">Category<input className="mt-1 block w-36 rounded-lg border border-[var(--ob-line)] px-3 py-2" value={category} onChange={(e) => setCategory(e.target.value)} /></label>
-        <label className="text-sm font-semibold">Price<input className="mt-1 block w-24 rounded-lg border border-[var(--ob-line)] px-3 py-2" value={price} onChange={(e) => setPrice(e.target.value)} /></label>
+        <label className="text-sm font-semibold">Name<input className="mt-1 block w-44 rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10" value={name} onChange={(e) => setName(e.target.value)} /></label>
+        <label className="text-sm font-semibold">Category<input className="mt-1 block w-36 rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10" value={category} onChange={(e) => setCategory(e.target.value)} /></label>
+        <label className="text-sm font-semibold">Price<input className="mt-1 block w-24 rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10" value={price} onChange={(e) => setPrice(e.target.value)} /></label>
         <button className="ob-btn" onClick={add}>Add item</button>
       </div>
       <div className="ob-card overflow-x-auto p-4">
@@ -37,7 +37,7 @@ export function MenuManager() {
                 <td>{m.category}</td>
                 <td className="text-right">{formatMoney(m.price, state.brand.currency)}</td>
                 <td>{m.active ? 'Active' : 'Archived'}</td>
-                <td className="text-right">{m.active && <button className="ob-btn-ghost py-1 text-xs" onClick={() => dispatch({ type: 'archive-item', id: m.id })}>Archive</button>}</td>
+                <td className="text-right">{m.active && <button className="ob-btn-ghost px-3 py-2.5 text-xs" onClick={() => dispatch({ type: 'archive-item', id: m.id })}>Archive</button>}</td>
               </tr>
             ))}
           </tbody>

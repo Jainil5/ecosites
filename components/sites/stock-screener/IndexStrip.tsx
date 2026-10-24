@@ -44,7 +44,7 @@ export function IndexStrip({ ticks }: { ticks: Record<string, LiveTick> }) {
                 <span aria-hidden key={price} className={`pointer-events-none absolute inset-0 ${flash}`} />
               )}
               <div>
-                <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#5B6B85]">
+                <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[#5B6B85] sm:text-[10px]">
                   {name}
                   <PingDot dir={tick?.dir ?? 'flat'} />
                 </p>
@@ -57,7 +57,7 @@ export function IndexStrip({ ticks }: { ticks: Record<string, LiveTick> }) {
                   <AnimatedNumber value={change} kind="pct" />
                 </p>
                 {q?.prevClose != null && change != null && price != null && (
-                  <p className="text-[10px] text-[#5B6B85]">
+                  <p className="text-[11px] text-[#5B6B85] sm:text-[10px]">
                     {change >= 0 ? '+' : ''}
                     {(price - q.prevClose).toFixed(1)}
                   </p>

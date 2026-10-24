@@ -25,7 +25,7 @@ export function OrdersLog() {
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-lg font-bold">Orders</h2>
         <input placeholder="Search bill, customer, item" value={q} onChange={(e) => setQ(e.target.value)}
-          className="w-56 rounded-lg border border-[var(--ob-line)] px-3 py-1.5 text-sm" />
+          className="min-h-10 w-56 rounded-lg border border-[var(--ob-line)] px-3 py-2.5 text-sm" />
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -40,7 +40,7 @@ export function OrdersLog() {
                 <td>{o.customer?.name ?? '—'}</td>
                 <td>{o.lines.reduce((n, l) => n + l.qty, 0)}</td>
                 <td className="text-right font-semibold">{formatMoney(o.total, o.currency)}</td>
-                <td className="text-right"><button className="ob-btn-ghost py-1 text-xs" onClick={() => setOpen(o)}>View bill</button></td>
+                <td className="text-right"><button className="ob-btn-ghost px-3 py-2.5 text-xs" onClick={() => setOpen(o)}>View bill</button></td>
               </tr>
             ))}
             {rows.length === 0 && <tr><td colSpan={6} className="py-6 text-center text-[var(--ob-muted)]">No orders match.</td></tr>}

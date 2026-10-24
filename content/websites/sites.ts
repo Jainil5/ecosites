@@ -31,9 +31,9 @@ export const websites = [
     slug: 'coffee-cups',
     author: 'jainil-patel',
     title: 'Coffee Cups',
-    business: 'Bagel and coffee bar',
+    business: 'Coffee bar and bagel bakery',
     description:
-      'A neighbourhood bagel bakery built around morning light: hand-rolled dough proved overnight, a single espresso base through the day, and a pressed-lunch board. Sunrise editorial theme with a scrolling ticker, full menu in one pass, and a rotated photo mosaic.',
+      'A neighbourhood coffee bar built around the first shot of the day: one espresso base through the hours, hand-rolled dough proved overnight, and a pressed-lunch board. Sunrise editorial theme on a single scroll — the coffee, then the whole menu to order from, then the regulars, the Instagram reel, the room and the door.',
     path: '/coffee-cups',
     theme: 'Sunrise editorial',
     accent: '#E4572E',

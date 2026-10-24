@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, Menu, X } from 'lucide-react';
 import { SunriseMark } from './SunriseMark';
 
+/** One page now, so every link is an anchor into the same scroll. */
 const links = [
-  { href: '/coffee-cups/menu', label: 'Menu' },
-  { href: '/coffee-cups#room', label: 'The room' },
-  { href: '/coffee-cups#feed', label: 'Feed' },
-  { href: '/coffee-cups/testimonials', label: 'Voices' },
-  { href: '/coffee-cups#visit', label: 'Visit' },
+  { href: '#menu', label: 'Menu' },
+  { href: '#voices', label: 'Voices' },
+  { href: '#feed', label: 'Feed' },
+  { href: '#room', label: 'The room' },
+  { href: '#visit', label: 'Visit' },
 ];
 
 export function Nav() {
@@ -35,10 +36,10 @@ export function Nav() {
   return (
     <>
       <div className="bg-[var(--cc-green)] text-center">
-        <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-1.5">
+        <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-1">
           <Link
             href="/"
-            className="focus-ring inline-flex items-center gap-1.5 rounded text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--cc-cream)]/80 transition-colors hover:text-[var(--cc-cream)]"
+            className="focus-ring inline-flex min-h-10 items-center gap-1.5 rounded text-[11px] font-semibold uppercase tracking-[0.18em] text-[#fbf4e9]/80 transition-colors hover:text-[#fbf4e9]"
           >
             <ArrowLeft aria-hidden className="h-3 w-3" />
             Back to Website & Intelligence
@@ -50,12 +51,12 @@ export function Nav() {
         aria-label="Main"
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'border-b border-[var(--cc-line)] bg-[var(--cc-cream)]/90 backdrop-blur-md'
+            ? 'border-b border-[var(--cc-line)] bg-[#fbf4e9]/90 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent'
         }`}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-          <Link href="/coffee-cups" className="focus-ring cc-brand group flex items-center gap-2.5">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+          <Link href="/coffee-cups" className="focus-ring cc-brand group flex min-h-10 items-center gap-2.5">
             <SunriseMark className="h-7 w-7 text-[var(--cc-ember)]" />
             <span className="cc-display text-xl leading-none">
               <span className="cc-serif italic font-normal text-[var(--cc-ember)]">Coffee</span>
@@ -68,12 +69,12 @@ export function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="focus-ring cc-display rounded text-[13px] uppercase tracking-[0.16em] text-[var(--cc-ink)]/70 transition-colors hover:text-[var(--cc-ember)]"
+                className="focus-ring cc-display rounded text-[13px] uppercase tracking-[0.16em] text-[#2a211b]/70 transition-colors hover:text-[var(--cc-ember)]"
               >
                 {l.label}
               </a>
             ))}
-            <a href="/coffee-cups/menu" className="focus-ring cc-btn cc-btn-solid">
+            <a href="#menu" className="focus-ring cc-btn cc-btn-solid">
               Order ahead
             </a>
           </nav>
@@ -83,29 +84,29 @@ export function Nav() {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="focus-ring cc-display rounded-md p-2 text-[var(--cc-ink)] md:hidden"
+            className="focus-ring cc-display inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--cc-ink)] md:hidden"
           >
             {open ? <X aria-hidden className="h-6 w-6" /> : <Menu aria-hidden className="h-6 w-6" />}
           </button>
         </div>
 
         {open ? (
-          <div className="border-t border-[var(--cc-line)] bg-[var(--cc-cream)] px-5 py-5 md:hidden">
-            <div className="flex flex-col gap-4">
+          <div className="border-t border-[var(--cc-line)] bg-[var(--cc-cream)] px-5 py-3 md:hidden">
+            <div className="flex flex-col">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="focus-ring cc-display rounded text-sm uppercase tracking-[0.16em] text-[var(--cc-ink)]/80"
+                  className="focus-ring cc-display flex min-h-11 items-center rounded text-sm uppercase tracking-[0.16em] text-[#2a211b]/80"
                 >
                   {l.label}
                 </a>
               ))}
               <a
-                href="/coffee-cups/menu"
+                href="#menu"
                 onClick={() => setOpen(false)}
-                className="focus-ring cc-btn cc-btn-solid mt-1 w-full"
+                className="focus-ring cc-btn cc-btn-solid mt-2 w-full"
               >
                 Order ahead
               </a>

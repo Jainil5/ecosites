@@ -64,9 +64,9 @@ export function Ticket() {
         <div className="flex justify-between text-base font-bold"><span>Total</span><span>{formatMoney(totals.total, state.brand.currency)}</span></div>
       </div>
       <div className="mt-3 space-y-2">
-        <input placeholder="Customer name" className="w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 text-sm"
+        <input placeholder="Customer name" className="w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10 text-sm"
           value={cust.name} onChange={(e) => dispatch({ type: 'set-ticket-customer', customer: { ...cust, name: e.target.value } })} />
-        <input placeholder="Phone (with country code)" className="w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 text-sm"
+        <input placeholder="Phone (with country code)" className="w-full rounded-lg border border-[var(--ob-line)] px-3 py-2 min-h-10 text-sm"
           value={cust.phone} onChange={(e) => dispatch({ type: 'set-ticket-customer', customer: { ...cust, phone: e.target.value } })} />
       </div>
       <div className="mt-4 flex gap-2">

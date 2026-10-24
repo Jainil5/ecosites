@@ -148,7 +148,7 @@ export function NewsPage() {
                       <button
                         type="button"
                         onClick={() => setCategory(name)}
-                        className="focus-ring rounded font-mono text-xs text-[#8A98B0] transition-colors hover:text-[#16C784]"
+                        className="focus-ring inline-flex min-h-10 items-center rounded font-mono text-xs text-[#8A98B0] transition-colors hover:text-[#16C784]"
                       >
                         {name}
                       </button>

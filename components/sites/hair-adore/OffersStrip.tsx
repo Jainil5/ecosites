@@ -63,7 +63,7 @@ export function OffersStrip() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Enquire about ${o.title} on WhatsApp`}
-                    className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[#C1613C] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#9E4A2B]"
+                    className="focus-ring inline-flex min-h-10 items-center gap-1.5 rounded-full bg-[#C1613C] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#9E4A2B]"
                   >
                     <MessageCircle aria-hidden className="h-3.5 w-3.5" /> Grab
                   </a>

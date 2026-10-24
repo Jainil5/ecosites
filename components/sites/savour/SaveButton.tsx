@@ -29,7 +29,7 @@ export function SaveButton({ menuItemId, dishName, onSaved }: Props) {
           if (list) onSaved?.(dishName, list.name);
         }
       }}
-      className="sv-heart inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--sv-line)] bg-[var(--sv-elevated)] disabled:cursor-not-allowed disabled:opacity-40"
+      className="sv-heart inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--sv-line)] bg-[var(--sv-elevated)] disabled:cursor-not-allowed disabled:opacity-40"
     >
       <Heart size={17} fill={saved ? 'currentColor' : 'none'} className={pending ? 'opacity-50' : undefined} />
       <span className="sr-only">{label}</span>

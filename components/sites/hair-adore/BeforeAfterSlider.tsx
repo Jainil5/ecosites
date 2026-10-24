@@ -61,10 +61,10 @@ export function BeforeAfterSlider({ item }: { item: Transformation }) {
         </button>
       </div>
 
-      <span className="absolute bottom-3 left-3 rounded bg-black/50 px-2 py-0.5 text-[10px] uppercase tracking-widest text-white">
+      <span className="absolute bottom-3 left-3 rounded bg-black/50 px-2 py-0.5 text-[11px] uppercase tracking-widest text-white">
         Before
       </span>
-      <span className="absolute bottom-3 right-3 rounded bg-black/50 px-2 py-0.5 text-[10px] uppercase tracking-widest text-white">
+      <span className="absolute bottom-3 right-3 rounded bg-black/50 px-2 py-0.5 text-[11px] uppercase tracking-widest text-white">
         After
       </span>
     </div>

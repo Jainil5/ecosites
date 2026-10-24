@@ -20,6 +20,7 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
   const lines = lineItems(cart);
   const total = cartTotal(cart);
   const count = cartCount(cart);
+  const idle = count === 0 && !ticket;
 
   const place = () => {
     const num = orderNumber();
@@ -34,7 +35,12 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
   };
 
   return (
-    <aside className="cc-tray" aria-label="Your order" data-open={open ? 'true' : 'false'}>
+    <aside
+      className="cc-tray"
+      aria-label="Your order"
+      data-open={open ? 'true' : 'false'}
+      data-idle={idle ? 'true' : 'false'}
+    >
       {/* Phones and tablets get the tray as a constant bar pinned over the
           scrolling menu; desktop hides it and keeps the sticky side panel. */}
       <button

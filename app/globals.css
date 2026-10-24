@@ -561,6 +561,19 @@ button:focus-visible {
     font-size: 0.68rem;
   }
 
+  /* 0.68rem mono at 0.22em is a terminal read on a 1440px canvas; on a phone
+     it turns into texture. Both steps up keep the rhythm, lose the tracking. */
+  @media (max-width: 639px) {
+    .gs-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+    }
+    .gs-btn-sm {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+    }
+  }
+
   /* One card: frosted glass, lit hairline edge, square. The backdrop blur
      is what makes the animated field read *through* the panel. */
   .gs-card {
@@ -1519,6 +1532,9 @@ html.lenis body {
 }
 
 .savour .sv-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
   border: 1px solid var(--sv-line);
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
@@ -1951,7 +1967,7 @@ html.lenis body {
   border-radius: 999px;
   background: rgba(20, 8, 3, 0.22);
   color: rgba(251, 244, 233, 0.85);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2255,7 +2271,8 @@ html.lenis body {
   --gap: 22px;
   --tilt: -7deg;
   --persp: 1150px;
-  --dot-hit: 38px;
+  /* The base value is the phone one, so it has to clear the 40px thumb. */
+  --dot-hit: 40px;
   position: relative;
 }
 
@@ -2444,7 +2461,7 @@ html.lenis body {
   border-radius: 999px;
   background: rgba(251, 244, 233, 0.14);
   color: rgba(251, 244, 233, 0.82);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -3146,7 +3163,7 @@ html.lenis body {
   background: var(--cc-paper);
   color: var(--cc-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -3198,9 +3215,13 @@ html.lenis body {
 }
 
 @media (max-width: 1023px) {
-  /* The menu scrolls freely; the last row clears the pinned bar. */
+  /* The bar is pinned for the whole scroll, so every band has to end clear
+     of it — the last menu row and the footer line both sat under it. */
   .coffee-cups .cc-menu {
     padding-bottom: 96px;
+  }
+  .coffee-cups .cc-footer {
+    padding-bottom: 88px;
   }
 
   .coffee-cups .cc-tray-bar {
@@ -3228,6 +3249,12 @@ html.lenis body {
     margin-left: auto;
     color: var(--cc-honey);
     font-size: 16px;
+  }
+
+  /* An empty tray has nothing to say, so the bar stays out of the hero until
+     the first item lands on it. */
+  .coffee-cups .cc-tray[data-idle='true'] .cc-tray-bar {
+    display: none;
   }
 
   .coffee-cups .cc-tray-bar-chev {
@@ -3435,7 +3462,7 @@ html.lenis body {
 }
 
 .coffee-cups .cc-ticket-stamp {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--cc-ember-deep);
@@ -3560,7 +3587,7 @@ html.lenis body {
 }
 
 .coffee-cups .cc-dialog-cat {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -3612,7 +3639,7 @@ html.lenis body {
 
 .coffee-cups .cc-dialog-label {
   margin: 16px 0 2px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -4219,6 +4246,9 @@ html.lenis body {
 }
 .mps-tab {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   padding: 0.6rem 0.85rem 0.7rem;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
@@ -4257,12 +4287,15 @@ html.lenis body {
 
 /* Timeframe / signal chips. The active one is the only green thing in the row. */
 .mps-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
   border: 1px solid #1c2740;
   border-radius: 999px;
   background: #0a0f1a;
   padding: 0.3rem 0.7rem;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #8a98b0;
@@ -5443,4 +5476,56 @@ html.lenis body {
   .nk-word-domain { display: none; }
   .nk-nav { flex-wrap: wrap; justify-content: center; }
   .nk-project-year { margin-left: 0; }
+
+  /* The pill switch and the two hero CTAs *are* the navigation on a phone. */
+  .nk-word { min-height: 40px; }
+  .nk-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding-inline: 1rem;
+    font-size: 0.75rem;
+  }
+  .nk-btn { min-height: 44px; }
+  .nk-foot-link { min-height: 40px; }
+
+  /* 0.6rem mono is a print margin note; held at arm's length it is texture. */
+  .nk-ticket-label,
+  .nk-plate-brand,
+  .nk-plate-tag,
+  .nk-log-when,
+  .nk-field-label,
+  .nk-row-state,
+  .nk-foot-note,
+  .nk-comp-row dt,
+  .nk-ticker-sep {
+    font-size: 0.72rem;
+  }
+  .nk-project-no,
+  .nk-project-kind,
+  .nk-tag,
+  .nk-link,
+  .nk-stat dd,
+  .nk-contact-card .nk-btn {
+    font-size: 0.75rem;
+  }
+
+  /* The barcode rides the right edge full-height; give the note its own column. */
+  .nk-ticket { padding-right: 3.9rem; }
+  .nk-ticket-note { max-width: none; }
+
+  /* A 3/4 plate at 358px is taller than the fold, so the sticky stack never
+     shows the next card's spine. Cap it and the book reads as a deck again. */
+  .nk-plate-image { max-height: 13rem; }
+}
+
+/* --- Market Pulse on a phone ------------------------------------------------
+   The terminal's 9px and 10px mono micro-labels are the point of the design at
+   1440px and turn into texture at arm's length. Only the floor moves, and only
+   below the small breakpoint, so the desktop read is untouched. */
+@media (max-width: 639px) {
+  .market-pulse [class*="text-[9px]"],
+  .market-pulse [class*="text-[10px]"] {
+    font-size: 11px;
+  }
 }

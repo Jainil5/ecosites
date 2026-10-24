@@ -18,7 +18,7 @@ type MoverFilter = 'all' | 'gainers' | 'losers';
 type CapFilter = 'all' | 'mega' | 'large' | 'mid';
 
 const selectClass =
-  'focus-ring rounded-lg border border-[#1C2740] bg-[#0A0F1A] px-3 py-2 font-mono text-xs text-[#E7EEF9] outline-none';
+  'focus-ring min-h-11 rounded-lg border border-[#1C2740] bg-[#0A0F1A] px-3 py-2 font-mono text-xs text-[#E7EEF9] outline-none';
 
 function StatCard({
   label,
@@ -235,7 +235,7 @@ export function StockScreener() {
           type="button"
           onClick={() => setOnlyWatched((v) => !v)}
           aria-pressed={onlyWatched}
-          className={`focus-ring inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 font-mono text-xs transition-colors ${
+          className={`focus-ring inline-flex min-h-10 items-center gap-1.5 rounded-lg border px-3 py-2 font-mono text-xs transition-colors ${
             onlyWatched
               ? 'border-[#F5A623]/50 bg-[#F5A623]/10 text-[#F5A623]'
               : 'border-[#1C2740] bg-[#0A0F1A] text-[#5B6B85] hover:text-[#E7EEF9]'

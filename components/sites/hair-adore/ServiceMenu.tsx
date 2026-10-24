@@ -14,7 +14,7 @@ function ServiceCard({ s }: { s: Service }) {
         <h3 className="font-serif text-lg text-stone-900">
           {s.name}
           {s.badge ? (
-            <span className="ml-2 inline-block rounded-full bg-[#C1613C]/10 px-2.5 py-0.5 align-middle font-sans text-[10px] font-semibold uppercase tracking-wider text-[#9E4A2B]">
+            <span className="ml-2 inline-block rounded-full bg-[#C1613C]/10 px-2.5 py-0.5 align-middle font-sans text-[11px] font-semibold uppercase tracking-wider text-[#9E4A2B]">
               {s.badge}
             </span>
           ) : null}

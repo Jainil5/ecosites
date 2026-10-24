@@ -37,7 +37,7 @@ export function DishCardView({ card, onSaved }: Props) {
           <h3 className="savour-display text-lg font-semibold leading-snug">{item.name}</h3>
           <Link
             href={`/savour/${place.slug}`}
-            className="text-xs text-[var(--sv-muted)] underline-offset-4 hover:text-[var(--sv-accent)] hover:underline"
+            className="inline-flex min-h-10 items-center text-xs text-[var(--sv-muted)] underline-offset-4 hover:text-[var(--sv-accent)] hover:underline"
           >
             {place.name} · {place.area ?? place.city}
           </Link>

@@ -5,11 +5,12 @@
  */
 export const cafe = {
   name: 'Coffee Cups',
-  tagline: 'Bagels, slow coffee, and the morning sun',
+  tagline: 'Slow coffee, bagels, and the morning sun',
+  kicker: 'One espresso base, pulled all day',
   intro:
-    'A small room that opens before the street does. The dough proves overnight, the first tray lands around seven, and the light does the rest of the decorating.',
+    'Ground to order, tamped by hand and pulled short and sweet off a single espresso base, then carried to a room where the dough has already proved overnight and the first tray lands around seven.',
   story:
-    'We started with one deck oven, a bag of bread flour and the stubborn idea that a neighbourhood deserves somewhere to be unhurried before work. Everything is still made in the room you eat in — rolled by hand, boiled, then baked until the crust catches the sun.',
+    'We started with one deck oven, a second-hand two-group, a bag of bread flour and the stubborn idea that a neighbourhood deserves somewhere to be unhurried before work. Everything is still made in the room you eat in — rolled by hand, boiled, then baked until the crust catches the sun.',
   heroImage: '/coffee-cups/hero.jpg',
   email: 'hello@coffeecups.example',
   address: 'Sunrise Lane at 4th, ground floor, yellow door',

@@ -149,12 +149,12 @@ export function StockRow({
       <span className="w-5 shrink-0 font-mono text-[10px] tabular-nums text-[#5B6B85]">{rank}</span>
       <Link
         href={`/stock-screener/${symbolToSlug(card.symbol)}`}
-        className="focus-ring min-w-0 flex-1 rounded"
+        className="focus-ring inline-flex min-h-10 min-w-0 flex-1 flex-col justify-center rounded"
       >
         <span className="block truncate font-mono text-xs text-[#E7EEF9] transition-colors hover:text-[#16C784]">
           {card.symbol.replace('.NS', '')}
         </span>
-        <span className="mt-0.5 block truncate text-[10px] text-[#5B6B85]">
+        <span className="mt-0.5 block truncate text-[11px] text-[#5B6B85] sm:text-[10px]">
           {card.name} · {card.sector}
         </span>
       </Link>
@@ -203,10 +203,10 @@ export function StockCell({ card }: { card: Scorecard }) {
   return (
     <Link
       href={`/stock-screener/${symbolToSlug(card.symbol)}`}
-      className="focus-ring rounded font-mono text-xs text-[#E7EEF9] transition-colors hover:text-[#16C784]"
+      className="focus-ring inline-flex min-h-10 flex-col justify-center rounded font-mono text-xs text-[#E7EEF9] transition-colors hover:text-[#16C784]"
     >
       {card.symbol.replace('.NS', '')}
-      <span className="mt-0.5 block truncate text-[10px] font-normal text-[#5B6B85]">
+      <span className="mt-0.5 block truncate text-[11px] font-normal text-[#5B6B85] sm:text-[10px]">
         {mcapLabel(card.mcapCr)}
       </span>
     </Link>

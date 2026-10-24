@@ -65,7 +65,7 @@ export function FilterBar({ filters, onChange, cities, cuisines, resultCount, re
               <select
                 value={filters.city}
                 onChange={(e) => onChange({ ...filters, city: e.target.value })}
-                className="rounded-md border border-[var(--sv-line)] bg-[var(--sv-elevated)] px-2 py-1 text-sm outline-none focus:border-[var(--sv-accent)]"
+                className="min-h-10 rounded-md border border-[var(--sv-line)] bg-[var(--sv-elevated)] px-2 py-2 text-sm outline-none focus:border-[var(--sv-accent)]"
               >
                 <option value="">All cities</option>
                 {cities.map((c) => (
@@ -82,7 +82,7 @@ export function FilterBar({ filters, onChange, cities, cuisines, resultCount, re
             <select
               value={filters.sort}
               onChange={(e) => onChange({ ...filters, sort: e.target.value as SortKey })}
-              className="rounded-md border border-[var(--sv-line)] bg-[var(--sv-elevated)] px-2 py-1 text-sm outline-none focus:border-[var(--sv-accent)]"
+              className="min-h-10 rounded-md border border-[var(--sv-line)] bg-[var(--sv-elevated)] px-2 py-2 text-sm outline-none focus:border-[var(--sv-accent)]"
             >
               {SORTS.map(([k, label]) => (
                 <option key={k} value={k}>
@@ -92,12 +92,12 @@ export function FilterBar({ filters, onChange, cities, cuisines, resultCount, re
             </select>
           </label>
 
-          <label className="flex items-center gap-2">
+          <label className="inline-flex min-h-10 cursor-pointer select-none items-center gap-2">
             <input
               type="checkbox"
               checked={filters.vegOnly}
               onChange={(e) => onChange({ ...filters, vegOnly: e.target.checked })}
-              className="h-4 w-4 accent-[var(--sv-accent)]"
+              className="h-6 w-6 shrink-0 accent-[var(--sv-accent)]"
             />
             Pure veg only
           </label>

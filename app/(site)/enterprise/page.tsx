@@ -54,7 +54,7 @@ export default function EnterprisePage() {
               </ul>
               <Link
                 href={solution.proof.path}
-                className="focus-ring gs-label mt-6 inline-flex items-center gap-1.5 text-plane hover:underline"
+                className="focus-ring gs-label mt-4 inline-flex min-h-10 items-center gap-1.5 text-plane hover:underline"
               >
                 {proofCta[solution.proof.kind]}
                 <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />

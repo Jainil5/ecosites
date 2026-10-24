@@ -43,7 +43,7 @@ export function ViewTabs({ view, onChange, counts }: Props) {
   };
 
   return (
-    <div className="border-t border-[var(--sv-line)]/70">
+    <div className="border-t border-[#3a2e26]/70">
       <div role="tablist" aria-label="Browse the guide" className="mx-auto flex max-w-6xl gap-1 px-4">
         {VIEW_TABS.map((t) => {
           const selected = t.key === view;
@@ -61,7 +61,7 @@ export function ViewTabs({ view, onChange, counts }: Props) {
               tabIndex={selected ? 0 : -1}
               onClick={() => onChange(t.key)}
               onKeyDown={onKeyDown}
-              className={`border-b-2 px-3 pb-2 pt-1.5 text-sm transition-colors ${
+              className={`inline-flex min-h-11 border-b-2 px-3 items-center pb-2 pt-1.5 text-sm transition-colors ${
                 selected
                   ? 'border-[var(--sv-accent)] text-[var(--sv-text)]'
                   : 'border-transparent text-[var(--sv-muted)] hover:text-[var(--sv-text)]'

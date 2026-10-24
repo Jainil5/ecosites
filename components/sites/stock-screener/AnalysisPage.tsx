@@ -244,7 +244,7 @@ function Th({
       <button
         type="button"
         onClick={onClick}
-        className={`focus-ring rounded font-mono text-[10px] uppercase tracking-wider transition-colors ${
+        className={`focus-ring inline-flex min-h-10 items-center rounded font-mono text-[11px] uppercase tracking-wider transition-colors ${
           active ? 'text-[#E7EEF9]' : 'text-[#5B6B85] hover:text-[#8A98B0]'
         }`}
       >
@@ -266,10 +266,10 @@ function ScoreRow({ card }: { card: Scorecard }) {
         <a
           ref={vtRef(vtName(card.symbol))}
           href={`/stock-screener/${symbolToSlug(card.symbol)}`}
-          className="focus-ring rounded font-mono text-xs text-[#E7EEF9] transition-colors hover:text-[#16C784]"
+          className="focus-ring inline-flex min-h-10 flex-col justify-center rounded font-mono text-xs text-[#E7EEF9] transition-colors hover:text-[#16C784]"
         >
           {card.symbol.replace('.NS', '')}
-          <span className="mt-0.5 block truncate text-[10px] text-[#5B6B85]">
+          <span className="mt-0.5 block truncate text-[11px] text-[#5B6B85] sm:text-[10px]">
             {card.name} · {mcapLabel(card.mcapCr)}
           </span>
         </a>

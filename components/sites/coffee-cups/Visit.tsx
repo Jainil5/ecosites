@@ -15,11 +15,8 @@ export function Visit() {
           <h2 className="cc-display mt-3 text-4xl text-[var(--cc-ink)] sm:text-5xl">
             The yellow door on Sunrise Lane
           </h2>
-          <a
-            href="/coffee-cups/testimonials"
-            className="focus-ring cc-btn cc-btn-ghost mt-6"
-          >
-            What people say
+          <a href="#menu" className="focus-ring cc-btn cc-btn-ghost mt-6">
+            Order from the board
           </a>
         </Reveal>
 

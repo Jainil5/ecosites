@@ -12,16 +12,16 @@ export function Story() {
         <Reveal>
           <SunriseMark className="mx-auto h-9 w-9 text-[var(--cc-honey)]" />
           <blockquote className="cc-serif mt-8 text-2xl italic leading-snug text-[var(--cc-cream)] sm:text-[2rem]">
-            “A bagel is finished at four in the morning. Everything else on this counter is just
-            waiting for the light to come up.”
+            “A coffee bar lives or dies by the first shot of the day. Everything else on this
+            counter is just waiting for the light to come up.”
           </blockquote>
           <p className="cc-display mt-6 text-[11px] uppercase tracking-[0.26em] text-[var(--cc-honey)]">
-            Why we open early
+            Why we dial in before dawn
           </p>
         </Reveal>
 
         <Reveal delay={120}>
-          <p className="mx-auto mt-8 max-w-2xl leading-relaxed text-[var(--cc-cream)]/75">
+          <p className="mx-auto mt-8 max-w-2xl leading-relaxed text-[#fbf4e9]/75">
             {cafe.story}
           </p>
         </Reveal>

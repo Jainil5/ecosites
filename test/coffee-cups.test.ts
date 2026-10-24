@@ -529,7 +529,7 @@ describe('coffee cups barrel gallery', () => {
     // Card width rides the viewport, so the barrel scales instead of switching.
     expect(css).toMatch(/--cw:\s*clamp\(196px,\s*60vw,\s*248px\)/);
     expect(css).toMatch(/\.coffee-cups \.cc-barrel-stage\s*\{[^}]*touch-action:\s*pan-y/);
-    expect(css).toMatch(/--dot-hit:\s*38px/);
+    expect(css).toMatch(/--dot-hit:\s*40px/);
     expect(css).toMatch(/\.coffee-cups \.cc-barrel-nav\s*\{[^}]*width:\s*44px/);
     // Bigger caption type and more stage room below the phone breakpoint:
     // the card grows taller so the description is not squeezed against the
@@ -661,35 +661,54 @@ describe('coffee cups identity', () => {
   });
 });
 
-describe('coffee cups landing/menu route split', () => {
+describe('coffee cups one scroll', () => {
   const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
 
-  it('keeps the landing free of the menu board', () => {
+  it('runs coffee, menu, voices, feed, room and visit in that order on one page', () => {
     const landing = read('components/sites/coffee-cups/CoffeeCups.tsx');
-    expect(landing).not.toMatch(/MenuExperience/);
-    expect(landing).toMatch(/<Hero/);
-    expect(landing).toMatch(/<Mosaic/);
+    const order = [
+      '<Hero',
+      '<Ticker',
+      '<Story',
+      '<MenuExperience',
+      '<Testimonials',
+      '<Feed',
+      '<Mosaic',
+      '<Visit',
+    ];
+    let prev = -1;
+    for (const tag of order) {
+      const at = landing.search(new RegExp(tag));
+      expect(at, `${tag} is out of order`).toBeGreaterThan(prev);
+      prev = at;
+    }
   });
 
-  it('serves the menu board at /coffee-cups/menu', () => {
-    const route = read('app/(sites)/coffee-cups/menu/page.tsx');
-    expect(route).toMatch(/CafeMenuPage/);
-    const page = read('components/sites/coffee-cups/CafeMenuPage.tsx');
-    expect(page).toMatch(/<MenuExperience/);
-    expect(page).toMatch(/<Nav/);
-    expect(page).toMatch(/<SiteFooter/);
+  it('retires the split routes rather than leaving both in place', () => {
+    for (const gone of [
+      'app/(sites)/coffee-cups/menu',
+      'app/(sites)/coffee-cups/testimonials',
+      'components/sites/coffee-cups/CafeMenuPage.tsx',
+    ]) {
+      expect(existsSync(path.join(process.cwd(), gone)), `${gone} should be gone`).toBe(false);
+    }
   });
 
-  it('invites customers from the hero into the menu page', () => {
+  it('anchors the hero into the scroll instead of another route', () => {
     const hero = read('components/sites/coffee-cups/Hero.tsx');
-    expect(hero).toMatch(/href="\/coffee-cups\/menu"/);
-    expect(hero).toMatch(/View our menu/);
+    expect(hero).toMatch(/href="#menu"/);
+    expect(hero).toMatch(/href="#voices"/);
+    // The landing leads with the coffee, and it owns the only h1.
+    expect(hero).toMatch(/<h1/);
+    expect(hero).toMatch(/kicker/);
   });
 
-  it('points the nav Menu link and Order ahead at the menu route', () => {
+  it('points every nav link at a band on the same page', () => {
     const nav = read('components/sites/coffee-cups/Nav.tsx');
-    expect(nav).toMatch(/'\/coffee-cups\/menu'/);
-    expect(nav).toMatch(/'\/coffee-cups#room'/);
+    for (const id of ['#menu', '#voices', '#feed', '#room', '#visit']) {
+      expect(nav, id).toContain(`href: '${id}'`);
+    }
+    expect(nav).not.toMatch(/\/coffee-cups\/(menu|testimonials)/);
   });
 });
 
@@ -787,11 +806,12 @@ describe('coffee cups instagram feed', () => {
     expect(post).toMatch(/target="_blank"/);
   });
 
-  it('sits the feed on the landing between the room and the visit block', () => {
+  it('sits the feed after the voices and before the room, in one scroll', () => {
     const landing = read('components/sites/coffee-cups/CoffeeCups.tsx');
     expect(landing).toMatch(/<Feed/);
-    expect(landing.search(/<Mosaic/)).toBeLessThan(landing.search(/<Feed/));
-    expect(landing.search(/<Feed/)).toBeLessThan(landing.search(/<Visit/));
+    expect(landing.search(/<Testimonials/)).toBeLessThan(landing.search(/<Feed/));
+    expect(landing.search(/<Feed/)).toBeLessThan(landing.search(/<Mosaic/));
+    expect(landing.search(/<Mosaic/)).toBeLessThan(landing.search(/<Visit/));
     const feed = read('components/sites/coffee-cups/Feed.tsx');
     expect(feed).toMatch(/id="feed"/);
     expect(feed).toMatch(/InstagramPost/);
@@ -813,14 +833,16 @@ describe('coffee cups 3d testimonials', () => {
     }
   });
 
-  it('serves the voices at /coffee-cups/testimonials', () => {
-    const route = read('app/(sites)/coffee-cups/testimonials/page.tsx');
-    expect(route).toMatch(/Testimonials/);
+  it('serves the voices as a band inside the same scroll', () => {
     const page = read('components/sites/coffee-cups/Testimonials.tsx');
     expect(page).toMatch(/cc-voices/);
     expect(page).toMatch(/cc-voice\b/);
-    expect(page).toMatch(/<Nav/);
-    expect(page).toMatch(/<SiteFooter/);
+    expect(page).toMatch(/id="voices"/);
+    // A band, not a page: it must not bring its own chrome or a second h1.
+    expect(page).not.toMatch(/<Nav|<SiteFooter/);
+    expect(page).not.toMatch(/<h1/);
+    const landing = read('components/sites/coffee-cups/CoffeeCups.tsx');
+    expect(landing).toMatch(/<Testimonials/);
   });
 
   it('floats the cards in a real 3D field with depth, tilt and an active lift', () => {
@@ -834,12 +856,14 @@ describe('coffee cups 3d testimonials', () => {
     );
   });
 
-  it('wires the nav and the visit block into both new surfaces', () => {
+  it('wires the nav and the visit block back into the board', () => {
     const nav = read('components/sites/coffee-cups/Nav.tsx');
-    expect(nav).toMatch(/'\/coffee-cups#feed'/);
-    expect(nav).toMatch(/'\/coffee-cups\/testimonials'/);
+    expect(nav).toMatch(/'#voices'/);
+    expect(nav).toMatch(/'#feed'/);
     const visit = read('components/sites/coffee-cups/Visit.tsx');
-    expect(visit).toMatch(/\/coffee-cups\/testimonials/);
+    expect(visit).toMatch(/href="#menu"/);
+    const voices = read('components/sites/coffee-cups/Testimonials.tsx');
+    expect(voices).toMatch(/href="#menu"/);
   });
 });
 
@@ -873,10 +897,6 @@ describe('coffee cups rename', () => {
 
   it('moved the routes, components and assets, not just the copy', () => {
     expect(existsSync(path.join(process.cwd(), 'app/(sites)/coffee-cups/page.tsx'))).toBe(true);
-    expect(existsSync(path.join(process.cwd(), 'app/(sites)/coffee-cups/menu/page.tsx'))).toBe(true);
-    expect(existsSync(path.join(process.cwd(), 'app/(sites)/coffee-cups/testimonials/page.tsx'))).toBe(
-      true,
-    );
     expect(existsSync(path.join(process.cwd(), 'components/sites/coffee-cups/CoffeeCups.tsx'))).toBe(
       true,
     );

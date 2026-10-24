@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { cafe } from './cafe';
 import { BeansField } from './BeansField';
@@ -8,14 +7,15 @@ import { PourScene } from './PourScene';
 import { Reveal } from './Reveal';
 
 const facts = [
-  { value: '7:00', label: 'First tray lands' },
+  { value: '1', label: 'Espresso base, all day' },
+  { value: '7:00', label: 'First shot, first tray' },
   { value: '16', label: 'Seats, one long bench' },
-  { value: '3', label: 'Bakes through the day' },
 ];
 
+/** The landing read: the coffee comes first, the room is what you drink it in. */
 export function Hero() {
   return (
-    <section aria-label="The morning room" className="cc-hero relative overflow-hidden">
+    <section id="top" aria-label="The coffee" className="cc-hero relative overflow-hidden">
       <Image
         src={cafe.heroImage}
         alt=""
@@ -31,18 +31,33 @@ export function Hero() {
 
       <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-5 pb-20 pt-32 sm:pb-24">
         <Reveal>
-          <p className="cc-serif max-w-xl text-2xl leading-snug text-white sm:text-3xl">
+          <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[var(--cc-honey)]">
+            {cafe.kicker}
+          </p>
+          <h1 className="cc-display mt-4 max-w-3xl text-[2.6rem] leading-[0.95] text-white sm:text-6xl">
+            <span className="cc-serif font-normal italic text-[var(--cc-honey)]">Coffee</span>{' '}
+            first, everything else after
+          </h1>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <p className="cc-serif mt-7 max-w-xl text-xl leading-snug text-white sm:text-2xl">
             {cafe.intro}
           </p>
         </Reveal>
 
-        <Reveal delay={80}>
-          <Link href="/coffee-cups/menu" className="focus-ring cc-btn cc-btn-solid cc-hero-cta mt-9">
-            View our menu
-          </Link>
+        <Reveal delay={120}>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <a href="#menu" className="focus-ring cc-btn cc-btn-solid cc-hero-cta">
+              See the menu
+            </a>
+            <a href="#voices" className="focus-ring cc-btn cc-btn-ghost">
+              What the regulars say
+            </a>
+          </div>
         </Reveal>
 
-        <Reveal delay={120}>
+        <Reveal delay={160}>
           <dl className="mt-14 grid max-w-2xl grid-cols-3 gap-4 border-t border-white/25 pt-7">
             {facts.map((f) => (
               <div key={f.label}>

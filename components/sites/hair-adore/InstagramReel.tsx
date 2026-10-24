@@ -63,7 +63,7 @@ export function InstagramReel({ reel }: { reel: Reel }) {
           href={reel.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring mt-0.5 inline-flex items-center gap-1 text-xs text-stone-500 transition-colors hover:text-[#C1613C]"
+          className="focus-ring mt-0.5 inline-flex min-h-10 items-center gap-1 text-xs text-stone-500 transition-colors hover:text-[#C1613C]"
         >
           <ExternalLink aria-hidden className="h-3 w-3" /> Open Instagram reel
         </a>

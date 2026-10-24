@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { CoffeeCups } from '@/components/sites/coffee-cups/CoffeeCups';
 
 export const metadata: Metadata = {
-  title: 'Coffee Cups — Bagels, Slow Coffee, and the Morning Sun',
+  title: 'Coffee Cups — Slow Coffee, the Whole Board, One Scroll',
   description:
-    'A neighbourhood bagel bakery and coffee bar: dough proved overnight and rolled by hand, one espresso base through the day, and a pressed-lunch board. The whole menu on one page.',
+    'A neighbourhood coffee bar and bagel bakery on a single page: the coffee up front, then the whole menu to order from, what the regulars say, the Instagram reel, the room and the door to walk through.',
 };
 
 export default function CoffeeCupsPage() {

@@ -121,7 +121,7 @@ export function Navbar() {
           <div className="flex min-w-0 items-center gap-4">
             <Link
               href="/"
-              className="focus-ring inline-flex items-center gap-2 font-display text-base font-extrabold uppercase tracking-tight text-ink"
+              className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-display text-base font-extrabold uppercase tracking-tight text-ink"
             >
               <Logo className="h-5 w-5 text-accent" />
               Website <span className="text-accent">Intelligence</span>
@@ -209,7 +209,7 @@ export function Navbar() {
               type="button"
               onClick={() => setSearch(true)}
               aria-haspopup="dialog"
-              className="focus-ring gs-label inline-flex items-center gap-2 border border-hairline px-2.5 py-2 text-ink-2 transition-colors hover:text-ink"
+              className="focus-ring gs-label inline-flex min-h-10 items-center gap-2 border border-hairline px-2.5 text-ink-2 transition-colors hover:text-ink"
             >
               <Search aria-hidden className="h-4 w-4" />
               <span className="hidden xl:inline">Search</span>
@@ -228,7 +228,7 @@ export function Navbar() {
               aria-expanded={sheet}
               aria-haspopup="dialog"
               aria-label={sheet ? 'Close menu' : 'Open menu'}
-              className="focus-ring inline-flex items-center border border-hairline p-2 text-ink-2 transition-colors hover:text-ink lg:hidden"
+              className="focus-ring inline-flex h-10 w-10 items-center justify-center border border-hairline text-ink-2 transition-colors hover:text-ink lg:hidden"
             >
               {sheet ? <X aria-hidden className="h-5 w-5" /> : <Menu aria-hidden className="h-5 w-5" />}
             </button>

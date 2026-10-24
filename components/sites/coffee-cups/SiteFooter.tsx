@@ -3,6 +3,8 @@ import { SunriseMark } from './SunriseMark';
 
 const links = [
   { href: '#menu', label: 'Menu' },
+  { href: '#voices', label: 'Voices' },
+  { href: '#feed', label: 'Feed' },
   { href: '#room', label: 'The room' },
   { href: '#visit', label: 'Visit' },
 ];
@@ -20,15 +22,15 @@ export function SiteFooter() {
                 <span className="ml-1 uppercase tracking-[0.14em]">Cups</span>
               </span>
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-[var(--cc-cream)]/60">{cafe.tagline}</p>
+            <p className="mt-4 text-sm leading-relaxed text-[#fbf4e9]/60">{cafe.tagline}</p>
           </div>
 
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-10 gap-y-3">
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-10 gap-y-1">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="focus-ring cc-display rounded text-[12px] uppercase tracking-[0.18em] text-[var(--cc-cream)]/70 transition-colors hover:text-[var(--cc-honey)]"
+                className="focus-ring cc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--cc-honey)]"
               >
                 {l.label}
               </a>
@@ -37,7 +39,7 @@ export function SiteFooter() {
               <a
                 key={s.label}
                 href={s.href}
-                className="focus-ring cc-display rounded text-[12px] uppercase tracking-[0.18em] text-[var(--cc-cream)]/70 transition-colors hover:text-[var(--cc-honey)]"
+                className="focus-ring cc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--cc-honey)]"
               >
                 {s.label}
               </a>
@@ -45,9 +47,9 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-[var(--cc-cream)]/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-[#fbf4e9]/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {cafe.name}. Baked daily, sold out by two most Saturdays.
+            © {new Date().getFullYear()} {cafe.name}. Brewed daily, sold out by two most Saturdays.
           </p>
           <p className="cc-display uppercase tracking-[0.14em]">{cafe.address}</p>
         </div>

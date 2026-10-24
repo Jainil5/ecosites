@@ -84,7 +84,7 @@ export function HairAdore() {
       {/* Back to portfolio */}
       <div className="bg-[#2B2118] text-center">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2 text-xs">
-          <Link href="/" className="focus-ring inline-flex items-center gap-1 rounded font-semibold text-[#E7B48F] hover:text-white">
+          <Link href="/" className="focus-ring inline-flex min-h-10 items-center gap-1 rounded font-semibold text-[#E7B48F] hover:text-white">
             <ArrowLeft aria-hidden className="h-3 w-3" /> Back to Website & Intelligence
           </Link>
         </div>
@@ -100,7 +100,7 @@ export function HairAdore() {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <a href="#top" className="flex items-center gap-2 font-serif text-2xl font-bold text-stone-900">
+          <a href="#top" className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-serif text-2xl font-bold text-stone-900">
             <Scissors aria-hidden className="h-5 w-5 text-[#C1613C]" />
             Hair <span className="font-light italic text-[#C1613C]">Adore</span>
           </a>
@@ -148,7 +148,7 @@ export function HairAdore() {
                   key={l.href}
                   href={l.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block font-medium text-stone-700 hover:text-[#C1613C]"
+                  className="focus-ring inline-flex min-h-11 items-center text-stone-700 hover:text-[#C1613C]"
                 >
                   {l.label}
                 </a>
@@ -364,7 +364,7 @@ export function HairAdore() {
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#C1613C]/40 px-4 py-2 text-sm text-[#9E4A2B] transition-colors hover:bg-[#C1613C]/10"
+              className="focus-ring inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-[#C1613C]/40 px-4 py-2 text-sm text-[#9E4A2B] transition-colors hover:bg-[#C1613C]/10"
             >
               <Instagram aria-hidden className="h-4 w-4" /> Instagram
             </a>
@@ -401,7 +401,7 @@ export function HairAdore() {
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#C1613C]/40 px-4 py-2 text-sm text-[#9E4A2B] transition-colors hover:bg-[#C1613C]/10"
+              className="focus-ring inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-[#C1613C]/40 px-4 py-2 text-sm text-[#9E4A2B] transition-colors hover:bg-[#C1613C]/10"
             >
               <Instagram aria-hidden className="h-4 w-4" /> Follow @hair.adore
             </a>
@@ -511,7 +511,7 @@ export function HairAdore() {
       <footer className="bg-[#2B2118] pt-16 pb-8 text-stone-300">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 pb-10 md:grid-cols-4">
           <div>
-            <a href="#top" className="mb-5 flex items-center gap-2 font-serif text-2xl font-bold text-white">
+            <a href="#top" className="focus-ring mb-5 inline-flex min-h-10 items-center gap-2 rounded font-serif text-2xl font-bold text-white">
               <Scissors aria-hidden className="h-5 w-5 text-[#E7B48F]" />
               Hair <span className="font-light italic text-[#E7B48F]">Adore</span>
             </a>
@@ -543,7 +543,7 @@ export function HairAdore() {
             <ul className="space-y-3 text-sm text-stone-400">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="transition-colors hover:text-[#E7B48F]">{l.label}</a>
+                  <a href={l.href} className="inline-flex min-h-10 items-center transition-colors hover:text-[#E7B48F]">{l.label}</a>
                 </li>
               ))}
             </ul>

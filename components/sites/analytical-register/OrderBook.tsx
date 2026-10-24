@@ -22,16 +22,16 @@ function Workspace() {
   const [view, setView] = useState<View>('register');
   return (
     <div className="orderbook min-h-screen" style={{ ['--ob-accent' as string]: state.brand.accent }}>
-      <header className="sticky top-0 z-10 border-b border-[var(--ob-line)] bg-[var(--ob-canvas)]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
+      <header className="sticky top-0 z-10 border-b border-[var(--ob-line)] bg-[#F6F4F0]/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
           <span className="text-lg font-extrabold ob-accent-text">{state.brand.name}</span>
-          <nav className="ml-auto flex gap-1">
+          <nav className="-mx-1 flex w-full min-w-0 gap-1 overflow-x-auto px-1 pb-1 sm:ml-auto sm:w-auto sm:pb-0">
             {NAV.map((n) => (
               <button
                 key={n.id}
                 onClick={() => setView(n.id)}
                 aria-pressed={view === n.id}
-                className={`rounded-lg px-3 py-1.5 text-sm font-semibold ${view === n.id ? 'ob-btn' : 'ob-btn-ghost'}`}
+                className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-2.5 text-sm font-semibold ${view === n.id ? 'ob-btn' : 'ob-btn-ghost'}`}
               >
                 {n.label}
               </button>

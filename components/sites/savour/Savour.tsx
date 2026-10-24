@@ -47,7 +47,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
                 onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))}
                 placeholder="Search dishes or places"
                 aria-label="Search dishes or places"
-                className="w-40 rounded-full border border-[var(--sv-line)] bg-[var(--sv-elevated)] py-1.5 pl-8 pr-3 text-sm outline-none focus:border-[var(--sv-accent)] sm:w-56"
+                className="w-40 min-h-10 rounded-full border border-[var(--sv-line)] bg-[var(--sv-elevated)] py-1.5 pl-8 pr-3 text-sm outline-none focus:border-[var(--sv-accent)] sm:w-56"
               />
             </label>
             <button type="button" onClick={() => setDrawer(true)} className="sv-chip flex items-center gap-1.5" aria-haspopup="dialog">
