@@ -1,5 +1,5 @@
 export interface ContactChannels {
-  /** Exact business address, e.g. 'mail.jainil5@gmail.com'. */
+  /** Exact business address, e.g. 'hello@business.example'. */
   email: string;
   /** National significant digits only: no '+91', no spaces, no dashes. */
   phone: string;
