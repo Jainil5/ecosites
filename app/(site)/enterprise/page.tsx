@@ -91,6 +91,7 @@ export default function EnterprisePage() {
             )}
             target="_blank"
             rel="noopener noreferrer"
+            data-cta="enterprise"
             className="focus-ring gs-btn gs-btn-ghost"
           >
             {enterprise.cta}

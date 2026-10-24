@@ -139,6 +139,14 @@ describe('brand skin primitives', () => {
     expect(card.slice(0, 400)).toContain('backdrop-filter');
   });
 
+  it('halves nothing on a phone until a device trace says why', () => {
+    // A 390px headless run under software rasterisation measured blur(14px) and
+    // blur(7px) inside the same noise band, so the frost stays as designed.
+    // If this is revisited, it needs a real device trace, not this rig.
+    const phone = css.slice(css.indexOf('.gs-card-hover'), css.indexOf('.gs-nav-row'));
+    expect(phone).not.toContain('backdrop-filter');
+  });
+
   it('ships the three background effects behind the reduced-motion gate', () => {
     for (const keyframe of ['@keyframes brand-bg-ripple', '@keyframes brand-bg-wave', '@keyframes brand-bg-orbit']) {
       expect(css, keyframe).toContain(keyframe);

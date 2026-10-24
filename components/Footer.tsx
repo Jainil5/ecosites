@@ -9,9 +9,27 @@ import { footerLinks } from '@/content/brand/nav';
 export function Footer() {
   const { contact } = company;
   const channels = [
-    { href: whatsappHref(contact), label: 'WhatsApp', Icon: WhatsAppGlyph, external: true },
-    { href: telHref(contact), label: contact.phoneDisplay, Icon: Phone, external: false },
-    { href: mailtoHref(contact), label: contact.email, Icon: Mail, external: false },
+    {
+      key: 'whatsapp',
+      href: whatsappHref(contact),
+      label: 'WhatsApp',
+      Icon: WhatsAppGlyph,
+      external: true,
+    },
+    {
+      key: 'call',
+      href: telHref(contact),
+      label: contact.phoneDisplay,
+      Icon: Phone,
+      external: false,
+    },
+    {
+      key: 'email',
+      href: mailtoHref(contact),
+      label: contact.email,
+      Icon: Mail,
+      external: false,
+    },
   ];
 
   return (
@@ -44,10 +62,11 @@ export function Footer() {
         <nav aria-label="Contact">
           <p className="gs-label">talk to us</p>
           <ul className="mt-2 space-y-0.5">
-            {channels.map(({ href, label, Icon, external }) => (
+            {channels.map(({ key, href, label, Icon, external }) => (
               <li key={label}>
                 <a
                   href={href}
+                  data-cta={`footer-${key}`}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                   className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-label text-sm text-ink/80 transition-colors hover:text-ink hover:underline"

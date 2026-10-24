@@ -67,6 +67,7 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Send us a WhatsApp message about your business or pricing"
+      data-cta="float"
       data-tucked={tucked ? 'true' : 'false'}
       tabIndex={tucked ? -1 : undefined}
       className="gs-wa focus-ring"

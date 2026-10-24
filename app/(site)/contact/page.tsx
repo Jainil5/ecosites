@@ -49,6 +49,7 @@ export default function ContactPage() {
             }
             target="_blank"
             rel="noopener noreferrer"
+            data-cta={`contact-${row.key}`}
             className="focus-ring group flex flex-col bg-canvas p-6 transition-colors hover:bg-plane/20 sm:p-8"
           >
             <p className="gs-display gs-h3">{row.question}</p>

@@ -25,3 +25,19 @@ export function telHref(contact: ContactChannels): string {
 export function mailtoHref(contact: ContactChannels): string {
   return `mailto:${contact.email}`;
 }
+
+/** The three ways a visitor can actually reach the business. */
+export const leadChannels = ['whatsapp', 'call', 'email'] as const;
+
+export type LeadChannel = (typeof leadChannels)[number];
+
+/**
+ * Which channel an href reaches. Attribution derives it from the link rather
+ * than trusting a label, so a renamed button cannot silently re-file a lead.
+ */
+export function leadChannelOf(href: string): LeadChannel | null {
+  if (href.startsWith('https://wa.me/')) return 'whatsapp';
+  if (href.startsWith('tel:')) return 'call';
+  if (href.startsWith('mailto:')) return 'email';
+  return null;
+}

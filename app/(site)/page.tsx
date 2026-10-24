@@ -75,6 +75,7 @@ export default function HomePage() {
               )}
               target="_blank"
               rel="noopener noreferrer"
+              data-cta="home-enterprise"
               className="focus-ring gs-btn gs-btn-ghost"
             >
               Discuss an Enterprise Project

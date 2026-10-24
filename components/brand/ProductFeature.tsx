@@ -51,6 +51,7 @@ export function ProductFeature() {
               )}
               target="_blank"
               rel="noopener noreferrer"
+              data-cta="product"
               className="focus-ring gs-btn gs-btn-ghost"
             >
               <Play aria-hidden className="h-4 w-4" />

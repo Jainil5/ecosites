@@ -39,12 +39,13 @@ export function ContactRow() {
         href={whatsapp.href}
         target={whatsapp.external ? '_blank' : undefined}
         rel={whatsapp.external ? 'noopener noreferrer' : undefined}
+        data-cta="hero"
         className="focus-ring gs-btn gs-btn-solid"
       >
         <whatsapp.Icon aria-hidden className="h-4 w-4" />
         {whatsapp.label}
       </a>
-      <a href={call.href} className="focus-ring gs-btn gs-btn-ghost">
+      <a href={call.href} data-cta="hero-call" className="focus-ring gs-btn gs-btn-ghost">
         <call.Icon aria-hidden className="h-4 w-4" />
         Call {call.label}
       </a>
@@ -67,6 +68,7 @@ export function ContactCta() {
           href={whatsapp.href}
           target={whatsapp.external ? '_blank' : undefined}
           rel={whatsapp.external ? 'noopener noreferrer' : undefined}
+          data-cta="panel"
           className="focus-ring gs-btn gs-btn-solid w-full text-base"
         >
           <whatsapp.Icon aria-hidden className="h-5 w-5" />
@@ -78,6 +80,7 @@ export function ContactCta() {
             <li key={key}>
               <a
                 href={href}
+                data-cta={`panel-${key}`}
                 className="focus-ring group flex items-center gap-4 border border-hairline bg-canvas px-4 py-3 transition-colors hover:border-plane"
               >
                 <Icon aria-hidden className="h-4 w-4 shrink-0 text-plane" />

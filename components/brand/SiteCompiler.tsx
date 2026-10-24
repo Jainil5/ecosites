@@ -111,6 +111,7 @@ export function SiteCompiler() {
               >
                 <a
                   href={previewHref(compiled)}
+                  data-cta="compiler"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="focus-ring gs-btn gs-btn-ghost"
