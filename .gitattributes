@@ -1,0 +1,7 @@
+# Normalise line endings so a clone behaves the same on every machine.
+#
+# Without this, core.autocrlf=true rewrites 260+ working files to CRLF on a
+# Windows checkout while the objects stay LF. Anything that reads a file and
+# matches on "\n" then silently misses — test/brand-skin.test.ts failing on a
+# pristine checkout was exactly this.
+* text=auto eol=lf
