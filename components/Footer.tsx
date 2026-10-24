@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { Logo } from '@/components/brand/Logo';
+import { WhatsAppGlyph } from '@/components/brand/WhatsAppGlyph';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 import { footerLinks } from '@/content/brand/nav';
@@ -8,7 +9,7 @@ import { footerLinks } from '@/content/brand/nav';
 export function Footer() {
   const { contact } = company;
   const channels = [
-    { href: whatsappHref(contact), label: 'WhatsApp', Icon: MessageCircle, external: true },
+    { href: whatsappHref(contact), label: 'WhatsApp', Icon: WhatsAppGlyph, external: true },
     { href: telHref(contact), label: contact.phoneDisplay, Icon: Phone, external: false },
     { href: mailtoHref(contact), label: contact.email, Icon: Mail, external: false },
   ];

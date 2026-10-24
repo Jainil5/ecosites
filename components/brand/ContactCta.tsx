@@ -1,4 +1,5 @@
-import { ArrowUpRight, Mail, MessageCircle, Phone } from 'lucide-react';
+import { ArrowUpRight, Mail, Phone } from 'lucide-react';
+import { WhatsAppGlyph } from '@/components/brand/WhatsAppGlyph';
 import { company } from '@/content/brand/company';
 import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
 
@@ -9,7 +10,7 @@ function channels() {
       key: 'whatsapp',
       label: 'WhatsApp',
       href: whatsappHref(contact),
-      Icon: MessageCircle,
+      Icon: WhatsAppGlyph,
       external: true,
     },
     {

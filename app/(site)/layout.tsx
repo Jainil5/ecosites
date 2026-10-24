@@ -3,6 +3,7 @@ import { Footer } from '@/components/Footer';
 import { BrandBackground } from '@/components/brand/BrandBackground';
 import { GooDefs } from '@/components/brand/GooDefs';
 import { ScrollMotion } from '@/components/brand/ScrollMotion';
+import { WhatsAppFab } from '@/components/brand/WhatsAppFab';
 import 'lenis/dist/lenis.css';
 
 export default function PortfolioLayout({
@@ -32,6 +33,8 @@ export default function PortfolioLayout({
           {children}
         </main>
         <Footer />
+        {/* Inside the z-10 shell, so an open mega-menu still sits over it. */}
+        <WhatsAppFab />
       </div>
     </div>
   );

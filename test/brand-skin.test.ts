@@ -388,6 +388,67 @@ describe('brand routes carry no light-skin leftovers', () => {
   });
 });
 
+describe('whatsapp enquiry control', () => {
+  const fab = read('components/brand/WhatsAppFab.tsx');
+  const css = read('app/globals.css');
+
+  it('rides the brand routes only', () => {
+    expect(read('app/(site)/layout.tsx')).toContain('<WhatsAppFab');
+    for (const file of walk('app/(sites)')) {
+      expect(file, `${file} inherits the brand control`).not.toContain('WhatsAppFab');
+    }
+  });
+
+  it('opens the chat with the question already written', () => {
+    expect(fab).toContain('whatsappHrefMessage');
+    expect(fab).toMatch(/pricing/);
+    expect(fab).toContain('target="_blank"');
+    expect(fab).toContain('rel="noopener noreferrer"');
+  });
+
+  it('stands down rather than sitting on a link', () => {
+    // It floats over scrolling content, so it samples its own footprint.
+    expect(fab).toContain('elementsFromPoint');
+    expect(fab).toMatch(/closest\('a,button/);
+    expect(fab).toMatch(/data-tucked=\{tucked/);
+    // One frame of work per scroll, and both listeners come back off.
+    expect(fab).toContain('requestAnimationFrame(check)');
+    expect(fab).toContain("removeEventListener('scroll', onMove)");
+    // Invisible is not enough: it must stop taking clicks and tab stops.
+    expect(css).toMatch(/\.gs-wa\[data-tucked='true'\][^}]*pointer-events:\s*none/s);
+    expect(fab).toMatch(/tabIndex=\{tucked \? -1 : undefined\}/);
+  });
+
+  it('is a square plane, not a rounded foreign object', () => {
+    expect(css).toMatch(/\.gs-wa-plate\s*\{[^}]*background:\s*var\(--gs-plane\)/s);
+    expect(css).not.toMatch(/\.gs-wa[^-a-z][^}]*border-radius/s);
+  });
+
+  it('gates its movement on the motion preference', () => {
+    const wa = css.slice(
+      css.indexOf('/* Floating WhatsApp enquiry'),
+      css.indexOf('Brand background field'),
+    );
+    const gate = wa.indexOf('prefers-reduced-motion: no-preference');
+    expect(gate).toBeGreaterThan(-1);
+    // Nothing that moves is declared before the gate, so a reduced-motion
+    // visitor still gets the whole control — hidden tag, tucked state and all.
+    expect(wa.slice(0, gate)).not.toContain('transition');
+    expect(wa.slice(gate)).toContain('transform: translate3d(0.4rem, 0, 0)');
+  });
+
+  it('uses the mark itself, wherever whatsapp is offered', () => {
+    for (const file of [
+      'components/Footer.tsx',
+      'components/brand/ContactCta.tsx',
+      'components/brand/WhatsAppFab.tsx',
+    ]) {
+      expect(read(file), file).toContain('WhatsAppGlyph');
+    }
+    expect(read('components/brand/WhatsAppGlyph.tsx')).toContain('viewBox="0 0 24 24"');
+  });
+});
+
 describe('the previous skins stay deleted', () => {
   // Each of these was the shell once. Leaving them in the tree invites a
   // component to reach back for them, so their absence is the contract.
