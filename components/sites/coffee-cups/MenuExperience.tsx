@@ -5,10 +5,11 @@ import type { CSSProperties, PointerEvent } from 'react';
 import Image from 'next/image';
 import { isRecommended, menuGroups } from './menu';
 import { BeansField } from './BeansField';
-import { cartReducer, loadCart, saveCart } from './cart';
+import { cartQtyForItem, cartReducer, loadCart, saveCart } from './cart';
 import { OrderTray } from './OrderTray';
 import { ItemDialog } from './ItemDialog';
 import { BarrelGallery } from './BarrelGallery';
+import { ComboBuilder } from './ComboBuilder';
 import { Reveal } from './Reveal';
 
 type Mode = 'genz' | 'trad';
@@ -99,34 +100,74 @@ export function MenuExperience() {
           <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
             <div className="min-w-0">
               <Reveal>
-                <div className="cc-cat-tabs" role="tablist" aria-label="Menu section">
-                  {tabGroups.map((g) => (
+                <div className="cc-tab-row">
+                  <div className="cc-cat-tabs" role="tablist" aria-label="Menu section">
                     <button
-                      key={g.id}
                       type="button"
                       role="tab"
-                      aria-selected={cat === g.id}
+                      id="cc-tab-all"
+                      aria-selected={cat === 'all'}
+                      aria-controls="cc-menu-board"
                       className="cc-display cc-cat-tab"
-                      onClick={() => setCat(g.id)}
+                      onClick={() => setCat('all')}
                     >
-                      {g.title}
+                      All
                     </button>
-                  ))}
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={cat === 'all'}
-                    className="cc-display cc-cat-tab"
-                    onClick={() => setCat('all')}
-                  >
-                    All
-                  </button>
+                    {tabGroups.map((g) => (
+                      <button
+                        key={g.id}
+                        type="button"
+                        role="tab"
+                        id={`cc-tab-${g.id}`}
+                        aria-selected={cat === g.id}
+                        aria-controls="cc-menu-board"
+                        className="cc-display cc-cat-tab"
+                        onClick={() => setCat(g.id)}
+                      >
+                        {g.title}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      role="tab"
+                      id="cc-tab-combo"
+                      aria-selected={cat === 'combo'}
+                      aria-controls="cc-menu-board"
+                      className="cc-display cc-cat-tab"
+                      onClick={() => setCat('combo')}
+                    >
+                      Combo
+                    </button>
+                  </div>
+                  <div className="cc-mode" role="group" aria-label="Menu style">
+                    <span
+                      aria-hidden
+                      className="cc-mode-pill"
+                      style={{ '--pos': mode === 'genz' ? 0 : 1 } as CSSProperties}
+                    />
+                    {(['genz', 'trad'] as const).map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        aria-pressed={m === mode}
+                        className="cc-display cc-mode-btn"
+                        onClick={() => setMode(m)}
+                      >
+                        {m === 'genz' ? 'Gen Z' : 'Traditional'}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </Reveal>
 
-              <Reveal>
-                {mode === 'trad' ? (
-                  <div className="cc-menu-list">
+              <div
+                id="cc-menu-board"
+                role="tabpanel"
+                aria-labelledby={`cc-tab-${cat}`}
+              >
+                <Reveal>
+                  {mode === 'trad' ? (
+                    <div className="cc-menu-list">
                     {tabGroups
                       .filter((g) => cat === 'all' || g.id === cat)
                       .map((group) => (
@@ -156,9 +197,9 @@ export function MenuExperience() {
                                 </span>
                               ) : null}
                               <span className="cc-list-leader" aria-hidden />
-                              {cart[item.id] ? (
-                                <span className="cc-list-qty" aria-label={`${cart[item.id]} on your tray`}>
-                                  {cart[item.id]}
+                              {cartQtyForItem(cart, item.id) ? (
+                                <span className="cc-list-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                                  {cartQtyForItem(cart, item.id)}
                                 </span>
                               ) : null}
                               <span className="cc-list-price">{item.price}</span>
@@ -198,14 +239,16 @@ export function MenuExperience() {
                         <span className="cc-tile-price">{item.price}</span>
                         <span className="cc-tile-note">{item.note}</span>
                       </span>
-                      {cart[item.id] ? (
-                        <span className="cc-tile-qty" aria-label={`${cart[item.id]} on your tray`}>
-                          {cart[item.id]}
+                      {cartQtyForItem(cart, item.id) ? (
+                        <span className="cc-tile-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                          {cartQtyForItem(cart, item.id)}
                         </span>
                       ) : null}
                     </button>
                   ))}
                   </div>
+                ) : cat === 'combo' ? (
+                  <ComboBuilder dispatch={dispatch} />
                 ) : (
                   /* One section at a time goes on the barrel: the cards stand
                      around a cylinder and the customer spins the board. */
@@ -217,28 +260,11 @@ export function MenuExperience() {
                     onOpen={setOpenedId}
                   />
                 )}
-              </Reveal>
+                </Reveal>
+              </div>
 
               <Reveal delay={80}>
                 <div className="cc-menu-foot">
-                  <div className="cc-mode" role="group" aria-label="Menu style">
-                    <span
-                      aria-hidden
-                      className="cc-mode-pill"
-                      style={{ '--pos': mode === 'genz' ? 0 : 1 } as CSSProperties}
-                    />
-                    {(['genz', 'trad'] as const).map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        aria-pressed={m === mode}
-                        className="cc-display cc-mode-btn"
-                        onClick={() => setMode(m)}
-                      >
-                        {m === 'genz' ? 'Gen Z' : 'Traditional'}
-                      </button>
-                    ))}
-                  </div>
                   <div className="flex flex-wrap gap-3">
                     <a href="/coffee-cups#visit" className="focus-ring cc-btn cc-btn-cream">
                       Find the door
@@ -260,7 +286,7 @@ export function MenuExperience() {
         <ItemDialog
           item={opened.item}
           groupTitle={opened.groupTitle}
-          qty={cart[opened.item.id] ?? 0}
+          qty={cartQtyForItem(cart, opened.item.id)}
           dispatch={dispatch}
           onClose={() => setOpenedId(null)}
         />

@@ -8,12 +8,12 @@ import { Nav } from './Nav';
 import { SiteFooter } from './SiteFooter';
 import { Story } from './Story';
 import { Testimonials } from './Testimonials';
-import { Ticker } from './Ticker';
 import { Visit } from './Visit';
 
 /**
- * One scroll, in the order a customer actually decides: the coffee, then what
- * is on it, then what the room's people say, then the pictures, then where.
+ * The section flow is borrowed from summermooncoffee.com: the landing, then
+ * straight into the goods, the story band, the social proof, and the room.
+ * Menu sits directly under the hero because that is what people come for.
  */
 export function CoffeeCups() {
   return (
@@ -21,11 +21,10 @@ export function CoffeeCups() {
       <Nav />
       <main>
         <Hero />
-        <Ticker />
-        <Story />
         <MenuExperience />
-        <Testimonials />
+        <Story />
         <Feed />
+        <Testimonials />
         <Mosaic />
         <Visit />
       </main>

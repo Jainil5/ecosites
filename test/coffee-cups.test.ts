@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { websites } from '@/content/websites/sites';
-import { cafe, galleryShots, tickerPhrases } from '@/components/sites/coffee-cups/cafe';
+import { cafe, galleryShots } from '@/components/sites/coffee-cups/cafe';
 import { isRecommended, menuGroups, type MenuTag } from '@/components/sites/coffee-cups/menu';
 
 const TAGS: MenuTag[] = ['Vegan', 'Vegetarian', 'Gluten-free', 'House-made', 'Seasonal', 'Iced'];
@@ -211,8 +211,8 @@ describe('coffee cups square tile grid', () => {
     expect(css).toMatch(/\.coffee-cups \.cc-menu-list\s*\{/);
   });
 
-  it('sits the mode switch below the grid, as customers see cards first', () => {
-    expect(src.search(/cc-square-grid/)).toBeLessThan(src.search(/className="cc-mode"/));
+  it('sits the mode switch in the tab row above the grid', () => {
+    expect(src.search(/className="cc-mode"/)).toBeLessThan(src.search(/cc-square-grid/));
   });
 
   it('opens the tapped item in a centered dialog with the add control inside', () => {
@@ -273,12 +273,12 @@ describe('coffee cups category filter tabs', () => {
   const src = read('components/sites/coffee-cups/MenuExperience.tsx');
   const css = read('app/globals.css');
 
-  it('offers one tab per menu section plus All last, defaulting to Coffee', () => {
+  it('offers one tab per menu section plus All first, defaulting to Coffee', () => {
     expect(src).toMatch(/useState<'all' \| string>\('coffee'\)/);
-    // Coffee leads the tab row, then the food sections, with All last.
+    // All leads the tab row, then Coffee, then the other sections.
     expect(src).toMatch(/filter\(\(g\) => g\.id === 'coffee'\)/);
     expect(src).toMatch(/tabGroups\.map[\s\S]*?cc-cat-tab/);
-    expect(src.search(/tabGroups\.map/)).toBeLessThan(src.search(/>\s*All\s*</));
+    expect(src.search(/>\s*All\s*</)).toBeLessThan(src.search(/tabGroups\.map/));
   });
 
   it('filters the one grid instead of restructuring it', () => {
@@ -289,12 +289,13 @@ describe('coffee cups category filter tabs', () => {
     expect(src).toMatch(/visible\.map/);
   });
 
-  it('sits the tabs above the grid, so the switch is seen before the cards', () => {
+  it('sits the tabs and mode switch above the grid in one row', () => {
     expect(src).toMatch(/role="tablist"/);
     expect(src).toMatch(/aria-selected/);
+    expect(src).toMatch(/cc-tab-row/);
     expect(src.search(/cc-cat-tabs/)).toBeLessThan(src.search(/cc-square-grid/));
-    // The mode switch stays below the grid.
-    expect(src.search(/cc-square-grid/)).toBeLessThan(src.search(/className="cc-mode"/));
+    // The mode switch shares the tab row, above the cards.
+    expect(src.search(/className="cc-mode"/)).toBeLessThan(src.search(/cc-square-grid/));
   });
 
   it('keeps the tabs thumb-sized pills in both skins', () => {
@@ -460,6 +461,11 @@ describe('coffee cups barrel gallery', () => {
     expect(src).toMatch(/label=\{activeGroup\?\.title/);
     // The tabs still sit above whatever board is served.
     expect(src.search(/cc-cat-tabs/)).toBeLessThan(gallery);
+    // role="tab" is only honest if it controls a real tabpanel.
+    expect(src).toMatch(/aria-controls="cc-menu-board"/);
+    expect(src).toMatch(/id="cc-menu-board"/);
+    expect(src).toMatch(/role="tabpanel"/);
+    expect(src).toMatch(/aria-labelledby=\{`cc-tab-\$\{cat\}`\}/);
   });
 
   it('stands the cards on a cylinder whose radius comes from the card size', () => {
@@ -505,6 +511,32 @@ describe('coffee cups barrel gallery', () => {
     expect(barrel).toMatch(/aria-current=/);
   });
 
+  it('drifts one slow turn at a time while nobody is busy with it', () => {
+    expect(barrel).toMatch(/AUTO_MS/);
+    expect(barrel).toMatch(/AUTO_START_MS/);
+    // The heartbeat holds the countdown for hover, drags, keys and hidden tabs.
+    expect(barrel).toMatch(/engagedRef/);
+    expect(barrel).toMatch(/hoveringRef/);
+    expect(barrel).toMatch(/document\.visibilityState/);
+    expect(barrel).toMatch(/onPointerEnter=/);
+    expect(barrel).toMatch(/onPointerLeave=/);
+    // Reduced motion keeps the barrel still.
+    expect(barrel).toMatch(/if \(n < 2 \|\| still\(\)\) return/);
+  });
+
+  it('shows a swipe hint that waits for the barrel to come on screen', () => {
+    expect(barrel).toMatch(/HINT_MS/);
+    // Armed by intersection, so the countdown does not burn behind the hero.
+    expect(barrel).toMatch(/new IntersectionObserver/);
+    expect(barrel).toMatch(/setHintArmed\(true\)/);
+    expect(barrel).toMatch(/setTimeout\(\(\) => setShowHint\(false\), HINT_MS\)/);
+    // The customer taking the wheel retires it immediately.
+    expect(barrel).toMatch(/setShowHint\(false\)/);
+    // It sits under the facing card, not across the middle of it.
+    expect(css).toMatch(/\.coffee-cups \.cc-swipe-hint\s*\{[^}]*align-items:\s*flex-end/);
+    expect(css).toMatch(/\.coffee-cups \.cc-swipe-hint\[data-live='true'\]\s*\{[^}]*opacity:\s*1/);
+  });
+
   it('opens the facing card only, and never on the tail of a drag', () => {
     expect(barrel).toMatch(/if \(movedRef\.current\) return/);
     expect(barrel).toMatch(/i !== activeRef\.current/);
@@ -520,7 +552,7 @@ describe('coffee cups barrel gallery', () => {
     expect(barrel).toMatch(/item\.note/);
     expect(barrel).toMatch(/BarrelStar/);
     expect(barrel).toMatch(/cc-barrel-qty/);
-    expect(barrel).toMatch(/cart\[item\.id\]/);
+    expect(barrel).toMatch(/cartQtyForItem\(cart, item\.id\)/);
     // Sized for the card, not the 480px source.
     expect(barrel).toMatch(/sizes=/);
   });
@@ -554,6 +586,31 @@ describe('coffee cups barrel gallery', () => {
     expect(css).toMatch(
       /prefers-reduced-motion: reduce[\s\S]*?\.coffee-cups \.cc-barrel-card,\s*\.coffee-cups \.cc-barrel-card\[data-active='true'\]\s*\{[^}]*translate: none/,
     );
+  });
+});
+
+describe('coffee cups combo builder', () => {
+  const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
+  const combo = read('components/sites/coffee-cups/ComboBuilder.tsx');
+
+  it('charges exactly the price it shows', () => {
+    // The pair is added as two ordinary cart lines, so any discount printed in
+    // the summary would have to survive into cartTotal(). It cannot, so the
+    // summary must quote the plain sum of the two menu amounts.
+    expect(combo).toMatch(/const comboPrice = coffee\.amount \+ food\.amount;/);
+    expect(combo).not.toMatch(/DISCOUNT/);
+    expect(combo).not.toMatch(/cc-combo-was/);
+    expect(combo).toMatch(/\{inr\(comboPrice\)\}/);
+  });
+
+  it('puts one coffee and one plate on the tray per combo', () => {
+    expect(combo).toMatch(/dispatch\(\{ type: 'add', id: variantKey\(coffee\.id\) \}\)/);
+    expect(combo).toMatch(/dispatch\(\{ type: 'add', id: variantKey\(food\.id\) \}\)/);
+    // Two labelled wheels, coffee drawn from the coffee group and food from food.
+    expect(combo).toMatch(/find\(\(g\) => g\.id === 'coffee'\)/);
+    expect(combo).toMatch(/find\(\(g\) => g\.id === 'food'\)/);
+    expect(combo).toMatch(/role="listbox"/);
+    expect(combo).toMatch(/role="option"/);
   });
 });
 
@@ -640,7 +697,7 @@ describe('coffee cups identity', () => {
   });
 
   it('never borrows the reference shop’s name or place', () => {
-    const text = JSON.stringify({ cafe, menuGroups, tickerPhrases, galleryShots }).toLowerCase();
+    const text = JSON.stringify({ cafe, menuGroups, galleryShots }).toLowerCase();
     expect(text).not.toContain('sunbeam');
     expect(text).not.toContain('brooklyn');
   });
@@ -664,15 +721,14 @@ describe('coffee cups identity', () => {
 describe('coffee cups one scroll', () => {
   const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
 
-  it('runs coffee, menu, voices, feed, room and visit in that order on one page', () => {
+  it('runs coffee, menu, story, feed, voices, room and visit in that order on one page', () => {
     const landing = read('components/sites/coffee-cups/CoffeeCups.tsx');
     const order = [
       '<Hero',
-      '<Ticker',
-      '<Story',
       '<MenuExperience',
-      '<Testimonials',
+      '<Story',
       '<Feed',
+      '<Testimonials',
       '<Mosaic',
       '<Visit',
     ];
@@ -705,7 +761,7 @@ describe('coffee cups one scroll', () => {
 
   it('points every nav link at a band on the same page', () => {
     const nav = read('components/sites/coffee-cups/Nav.tsx');
-    for (const id of ['#menu', '#voices', '#feed', '#room', '#visit']) {
+    for (const id of ['#menu', '#story', '#voices', '#feed', '#room', '#visit']) {
       expect(nav, id).toContain(`href: '${id}'`);
     }
     expect(nav).not.toMatch(/\/coffee-cups\/(menu|testimonials)/);
@@ -762,20 +818,19 @@ describe('coffee cups imagery', () => {
 
   it('prioritizes the above-the-fold tiles and defers everything else', () => {
     const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
-    // The menu opens the page, so the first grid row is the LCP candidate;
-    // the story hero sits below it and must not compete for priority.
+    // The hero is ~746px from y=113, so it fills the first screen and is the
+    // LCP element — Next flags it by name. The menu board below it still
+    // prioritizes only its first row and lazy-loads the rest.
     const grid = read('components/sites/coffee-cups/MenuExperience.tsx');
     expect(grid).toMatch(/priority=\{i < 4\}/);
     expect(grid).toMatch(/loading=\{i < 4 \? undefined : 'lazy'\}/);
-    expect(read('components/sites/coffee-cups/Hero.tsx')).not.toMatch(/priority/);
+    expect(read('components/sites/coffee-cups/Hero.tsx')).toMatch(/<Image[\s\S]*?priority[\s\S]*?\/>/);
   });
 
-  it('keeps the ticker short enough to loop without wrapping', () => {
-    expect(tickerPhrases.length).toBeGreaterThanOrEqual(5);
-    for (const phrase of tickerPhrases) {
-      expect(phrase.length).toBeLessThanOrEqual(34);
-      expect(phrase).not.toMatch(/[.!]$/);
-    }
+  it('retires the ticker ribbon that used to sit under the hero', () => {
+    expect(existsSync(path.join(process.cwd(), 'components/sites/coffee-cups/Ticker.tsx'))).toBe(
+      false,
+    );
   });
 });
 
@@ -806,11 +861,12 @@ describe('coffee cups instagram feed', () => {
     expect(post).toMatch(/target="_blank"/);
   });
 
-  it('sits the feed after the voices and before the room, in one scroll', () => {
+  it('sits the feed after the menu and the voices and before the room, in one scroll', () => {
     const landing = read('components/sites/coffee-cups/CoffeeCups.tsx');
     expect(landing).toMatch(/<Feed/);
-    expect(landing.search(/<Testimonials/)).toBeLessThan(landing.search(/<Feed/));
-    expect(landing.search(/<Feed/)).toBeLessThan(landing.search(/<Mosaic/));
+    expect(landing.search(/<MenuExperience/)).toBeLessThan(landing.search(/<Feed/));
+    expect(landing.search(/<Feed/)).toBeLessThan(landing.search(/<Testimonials/));
+    expect(landing.search(/<Testimonials/)).toBeLessThan(landing.search(/<Mosaic/));
     expect(landing.search(/<Mosaic/)).toBeLessThan(landing.search(/<Visit/));
     const feed = read('components/sites/coffee-cups/Feed.tsx');
     expect(feed).toMatch(/id="feed"/);
@@ -818,7 +874,7 @@ describe('coffee cups instagram feed', () => {
   });
 });
 
-describe('coffee cups 3d testimonials', () => {
+describe('coffee cups testimonials carousel', () => {
   const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
   const css = read('app/globals.css');
 
@@ -845,15 +901,50 @@ describe('coffee cups 3d testimonials', () => {
     expect(landing).toMatch(/<Testimonials/);
   });
 
-  it('floats the cards in a real 3D field with depth, tilt and an active lift', () => {
-    expect(css).toMatch(/\.coffee-cups \.cc-voices\s*\{[^}]*perspective:/);
-    expect(css).toMatch(/\.coffee-cups \.cc-voice\s*\{[^}]*translateZ\(var\(--z/);
-    expect(css).toMatch(/animation:\s*cc-voice-float/);
-    expect(css).toMatch(/@keyframes cc-voice-float/);
-    expect(css).toMatch(/\.coffee-cups \.cc-voice\[data-active='true'\]/);
-    expect(css).toMatch(
-      /prefers-reduced-motion: reduce[\s\S]*?\.coffee-cups \.cc-voice\s*\{[^}]*animation: none/,
-    );
+  it('slides the voices through a motion.dev carousel with full controls', () => {
+    const page = read('components/sites/coffee-cups/Testimonials.tsx');
+    expect(page).toMatch(/from 'framer-motion'/);
+    expect(page).toMatch(/<motion\.div/);
+    expect(page).toMatch(/aria-roledescription="carousel"/);
+    expect(page).toMatch(/drag="x"/);
+    expect(page).toMatch(/Previous testimonials/);
+    expect(page).toMatch(/Next testimonials/);
+    expect(page).toMatch(/Go to testimonial page/);
+    expect(page).toMatch(/useReducedMotion/);
+    expect(page).toMatch(/setInterval/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-track\s*\{[^}]*display:\s*flex/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-card\s*\{[^}]*flex:\s*0 0/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-dot\[data-active='true'\]/);
+  });
+
+  it('measures card width once so the track cannot land between cards', () => {
+    // The card basis used to be hardcoded in CSS at a 1024px breakpoint while
+    // JS switched to two-up at 768px. Between those widths the track advanced
+    // by half a card and showed two clipped ones, so both now read one
+    // measurement handed down as custom properties.
+    const page = read('components/sites/coffee-cups/Testimonials.tsx');
+    expect(page).toMatch(/cardW: \(w - gap \* \(perView - 1\)\) \/ perView/);
+    expect(page).toMatch(/'--card-w'/);
+    expect(page).toMatch(/'--gap'/);
+    expect(page).toMatch(/-page \* \(metrics\.cardW \+ metrics\.gap\)/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-card\s*\{[^}]*flex:\s*0 0 var\(--card-w/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-track\s*\{[^}]*gap:\s*var\(--gap/);
+    // No media query may re-assert a card width behind the measurement.
+    const mq = css.slice(css.indexOf('@media (max-width: 1023px)'));
+    expect(mq.slice(0, mq.indexOf('\n}')))
+      .not.toMatch(/\.cc-carousel-card\s*\{[^}]*flex-basis/);
+  });
+
+  it('gives the customer a real pause, not just hover', () => {    // Autoplay that only stops on hover fails WCAG 2.2.2: keyboard and touch
+    // users never trigger it, and it resumes the moment the pointer leaves.
+    const page = read('components/sites/coffee-cups/Testimonials.tsx');
+    expect(page).toMatch(/userPaused/);
+    expect(page).toMatch(/setUserPaused\(\(p\) => !p\)/);
+    expect(page).toMatch(/aria-pressed=\{userPaused\}/);
+    expect(page).toMatch(/Pause the testimonials/);
+    // Hover is a separate signal so it cannot undo an explicit pause.
+    expect(page).toMatch(/if \(userPaused \|\| hovering \|\| reduceMotion/);
+    expect(css).toMatch(/\.coffee-cups \.cc-carousel-pause\[aria-pressed='true'\]/);
   });
 
   it('wires the nav and the visit block back into the board', () => {

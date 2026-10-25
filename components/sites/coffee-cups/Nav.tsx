@@ -8,8 +8,9 @@ import { SunriseMark } from './SunriseMark';
 /** One page now, so every link is an anchor into the same scroll. */
 const links = [
   { href: '#menu', label: 'Menu' },
+  { href: '#story', label: 'Story' },
   { href: '#voices', label: 'Voices' },
-  { href: '#feed', label: 'Feed' },
+  { href: '#feed', label: 'Instagram' },
   { href: '#room', label: 'The room' },
   { href: '#visit', label: 'Visit' },
 ];

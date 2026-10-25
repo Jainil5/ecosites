@@ -1994,40 +1994,14 @@ html.lenis body {
   color: var(--cc-ember-deep);
 }
 
-/* --- Ticker --------------------------------------------------- */
-.coffee-cups .cc-ticker {
-  overflow: hidden;
-  background: var(--cc-green);
-  color: var(--cc-cream);
-  padding: 0.8rem 0;
-  border-block: 1px solid rgba(20, 15, 12, 0.28);
-}
-
-.coffee-cups .cc-ticker-track {
+/* --- Tab row: category pills + mode toggle in one line ----------- */
+.coffee-cups .cc-tab-row {
   display: flex;
-  width: max-content;
-  animation: cc-marquee 34s linear infinite;
-}
-.coffee-cups .cc-ticker:hover .cc-ticker-track {
-  animation-play-state: paused;
-}
-
-.coffee-cups .cc-ticker-cell {
-  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.6rem;
-  padding-inline: 1.6rem;
-  font-size: 0.78rem;
-  white-space: nowrap;
-}
-
-@keyframes cc-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 14px;
 }
 
 /* --- Category filter tabs ---------------------------------------
@@ -2038,7 +2012,6 @@ html.lenis body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 14px;
 }
 
 .coffee-cups .cc-cat-tab {
@@ -2409,6 +2382,61 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* --- Swipe hint overlay on the barrel ---------------------------- */
+.coffee-cups .cc-swipe-hint {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Armed by an IntersectionObserver once the barrel is on screen, so the
+   hint is actually seen rather than burning its seconds behind the hero. */
+.coffee-cups .cc-swipe-hint[data-live='true'] {
+  opacity: 1;
+}
+
+.coffee-cups .cc-swipe-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 233, 0.92);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(20, 8, 3, 0.55);
+  border: 1px solid rgba(251, 244, 233, 0.16);
+}
+
+.coffee-cups .cc-swipe-arrow {
+  font-size: 28px;
+  line-height: 1;
+  color: var(--cc-honey);
+  animation: cc-swipe-bounce 1.6s ease-in-out infinite;
+}
+.coffee-cups .cc-swipe-arrow-l {
+  animation-name: cc-swipe-bounce-l;
+}
+.coffee-cups .cc-swipe-arrow-r {
+  animation-name: cc-swipe-bounce-r;
+}
+
+@keyframes cc-swipe-bounce-l {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-8px); }
+}
+@keyframes cc-swipe-bounce-r {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+
 /* The push-back by --r puts the near arc on the picture plane, so the facing
    card renders at exactly its written size instead of inflating between the
    camera and the stage; every neighbour then recedes behind it.
@@ -2763,6 +2791,122 @@ html.lenis body {
   }
 }
 
+/* --- Combo builder ----------------------------------------------- */
+.coffee-cups .cc-combo {
+  padding: 28px 20px 32px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, #241108 0%, #4a2510 60%, #7a3d14 100%);
+  color: var(--cc-cream);
+}
+
+.coffee-cups .cc-combo-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.coffee-cups .cc-combo-wheels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .coffee-cups .cc-combo-wheels {
+    flex-direction: row;
+    justify-content: center;
+    gap: 28px;
+  }
+}
+
+.coffee-cups .cc-combo-wheel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.coffee-cups .cc-combo-wheel-label {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cc-honey);
+}
+
+.coffee-cups .cc-combo-stage {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  perspective: 900px;
+  overflow: hidden;
+}
+
+.coffee-cups .cc-combo-ring {
+  --r: 160px;
+  --tilt: 4deg;
+}
+
+.coffee-cups .cc-combo-slot {
+  width: 130px;
+  height: 220px;
+}
+
+.coffee-cups .cc-combo-card {
+  min-height: auto;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.coffee-cups .cc-combo-card .cc-barrel-img {
+  height: 100px;
+}
+
+.coffee-cups .cc-combo-plus {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--cc-honey);
+  line-height: 1;
+}
+
+.coffee-cups .cc-combo-summary {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.coffee-cups .cc-combo-pair {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.coffee-cups .cc-combo-sep {
+  color: var(--cc-honey);
+  font-weight: 700;
+}
+
+.coffee-cups .cc-combo-price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.coffee-cups .cc-combo-now {
+  font-size: 24px;
+  color: var(--cc-honey);
+}
+
+.coffee-cups .cc-combo-add {
+  margin-top: 8px;
+  min-width: 200px;
+}
+
 /* --- Traditional printed listing ---------------------------------
    A paper menu sheet: serif section headings with side rules and
    rows of thumbnail · name · dotted leader · price. Tapping a row
@@ -3009,25 +3153,41 @@ html.lenis body {
   color: var(--cc-muted);
 }
 
-/* --- 3D testimonial voices ------------------------------------- */
+/* --- Testimonial carousel (motion.dev) -------------------------- */
 .coffee-cups .cc-voices-section {
   background: linear-gradient(160deg, #241108 0%, #5a2d12 48%, #a85a20 100%);
   color: var(--cc-cream);
 }
 
-.coffee-cups .cc-voices {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-  perspective: 1200px;
-  transform-style: preserve-3d;
-}
-
-.coffee-cups .cc-voice {
+.coffee-cups .cc-carousel {
   position: relative;
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coffee-cups .cc-carousel-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.coffee-cups .cc-carousel-track {
+  display: flex;
+  gap: var(--gap, 20px);
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.coffee-cups .cc-carousel-track:active {
+  cursor: grabbing;
+}
+
+.coffee-cups .cc-carousel-card {
+  /* --card-w comes from the same measurement the track offset uses. */
+  flex: 0 0 var(--card-w, 100%);
+  display: flex;
   min-height: 280px;
-  cursor: pointer;
   flex-direction: column;
   gap: 14px;
   padding: 22px;
@@ -3036,38 +3196,68 @@ html.lenis body {
   background: rgba(255, 253, 248, 0.07);
   color: var(--cc-cream);
   text-align: left;
-  transform: translateZ(var(--z, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
-    scale(var(--sc, 1));
+}
+
+.coffee-cups .cc-carousel-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 244, 233, 0.28);
+  background: rgba(255, 253, 248, 0.1);
+  color: var(--cc-cream);
   transition:
-    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.45s,
-    opacity 0.45s;
-  animation: cc-voice-float 8s ease-in-out var(--d, 0s) infinite alternate;
+    background 0.25s,
+    transform 0.25s;
 }
 
-.coffee-cups .cc-voice:nth-child(even) {
-  margin-top: 34px;
+.coffee-cups .cc-carousel-btn:hover {
+  background: rgba(255, 253, 248, 0.22);
+  transform: scale(1.06);
 }
 
-@keyframes cc-voice-float {
-  from {
-    translate: 0 0;
-  }
-  to {
-    translate: 0 -12px;
-  }
+.coffee-cups .cc-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(251, 244, 233, 0.3);
+  transition:
+    background 0.25s,
+    transform 0.25s;
 }
 
-.coffee-cups .cc-voice[data-active='true'] {
-  --sc: 1.06;
-  z-index: 5;
-  background: rgba(255, 253, 248, 0.13);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+.coffee-cups .cc-carousel-dot[data-active='true'] {
+  background: var(--cc-honey);
+  transform: scale(1.3);
 }
 
-.coffee-cups .cc-voices[data-has-active='true'] .cc-voice:not([data-active='true']) {
-  opacity: 0.45;
-  filter: saturate(0.6);
+/* The carousel drifts on its own, so the customer gets a real pause. */
+.coffee-cups .cc-carousel-pause {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 233, 0.78);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 244, 233, 0.28);
+  transition:
+    color 0.25s,
+    border-color 0.25s,
+    background 0.25s;
+}
+
+.coffee-cups .cc-carousel-pause:hover {
+  color: var(--cc-paper);
+  border-color: var(--cc-honey);
+}
+
+.coffee-cups .cc-carousel-pause[aria-pressed='true'] {
+  color: var(--cc-ink);
+  background: var(--cc-honey);
+  border-color: var(--cc-honey);
 }
 
 .coffee-cups .cc-voice-top {
@@ -3120,19 +3310,10 @@ html.lenis body {
 }
 
 @media (max-width: 1023px) {
-  .coffee-cups .cc-voices {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: 78%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 12px;
-  }
-  .coffee-cups .cc-voice {
-    scroll-snap-align: center;
-  }
-  .coffee-cups .cc-voice:nth-child(even) {
-    margin-top: 0;
+  /* Card width and gap are measured in JS now (--card-w / --gap), so this
+     breakpoint only decides whether the arrow buttons are worth showing. */
+  .coffee-cups .cc-carousel-btn {
+    display: none;
   }
 }
 
@@ -3448,6 +3629,12 @@ html.lenis body {
   color: var(--cc-muted);
 }
 
+.coffee-cups .cc-tray-variant {
+  font-size: 11px;
+  color: var(--cc-ember-deep);
+  font-weight: 600;
+}
+
 .coffee-cups .cc-tray-step {
   display: flex;
   align-items: center;
@@ -3738,6 +3925,51 @@ html.lenis body {
   font-size: 12.5px;
   color: var(--cc-muted);
   font-variant-numeric: tabular-nums;
+}
+
+/* --- Variant pickers (size + add-ons) ---------------------------- */
+.coffee-cups .cc-dialog-variants {
+  margin-top: 14px;
+  border: none;
+  padding: 0;
+}
+
+.coffee-cups .cc-variant-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.coffee-cups .cc-variant-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid rgba(42, 33, 27, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--cc-ink);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 180ms, border-color 180ms, transform 150ms;
+}
+
+.coffee-cups .cc-variant-btn[data-active='true'] {
+  background: var(--cc-ember);
+  border-color: var(--cc-ember);
+  color: #fff;
+}
+
+.coffee-cups .cc-variant-btn:hover {
+  transform: translateY(-1px);
+}
+
+.coffee-cups .cc-variant-extra {
+  font-size: 11px;
+  opacity: 0.75;
 }
 
 .coffee-cups .cc-dialog-add {
@@ -4226,12 +4458,8 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   .coffee-cups .cc-hero-grain,
-  .coffee-cups .cc-ticker-track,
   .coffee-cups .cc-pour-plate {
     animation: none;
-  }
-  .coffee-cups .cc-ticker {
-    overflow-x: auto;
   }
   .coffee-cups .cc-shot,
   .coffee-cups .cc-shot:hover {
@@ -4250,7 +4478,15 @@ html.lenis body {
   .coffee-cups .cc-bean {
     animation: none;
   }
-  .coffee-cups .cc-voice {
+  .coffee-cups .cc-carousel-btn:hover {
+    transform: none;
+  }
+  .coffee-cups .cc-swipe-hint {
+    animation: none;
+    transition: none;
+    opacity: 1;
+  }
+  .coffee-cups .cc-swipe-arrow {
     animation: none;
   }
   .coffee-cups .cc-tile,

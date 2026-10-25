@@ -11,7 +11,7 @@ import type {
 import Image from 'next/image';
 import { animate } from 'framer-motion';
 import { isRecommended, type MenuItem } from './menu';
-
+import { cartQtyForItem } from './cart';
 export interface BarrelEntry {
   item: MenuItem;
   groupTitle: string;
@@ -46,6 +46,11 @@ const FLING_STEPS = 2.6;
 // Wheel nudges are small; cap how far one burst can push the barrel.
 const WHEEL_LIMIT = 1.5;
 const SNAP_DELAY = 130;
+// Idle drift: one slow card turn every few seconds, like a shop-window display.
+const AUTO_MS = 4500;
+const AUTO_START_MS = 900;
+// How long the swipe hint stays up once the barrel scrolls into view.
+const HINT_MS = 5200;
 
 const still = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -71,6 +76,8 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
   const step = 360 / n;
 
   const [active, setActive] = useState(0);
+  const [showHint, setShowHint] = useState(true);
+  const [hintArmed, setHintArmed] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLUListElement>(null);
   const slotRef = useRef<HTMLLIElement>(null);
@@ -90,6 +97,9 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
   } | null>(null);
   const movedRef = useRef(false);
   const snapRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** Once the customer touches the barrel, the idle drift stops for good. */
+  const engagedRef = useRef(false);
+  const hoveringRef = useRef(false);
 
   const wrap = useCallback((i: number) => ((i % n) + n) % n, [n]);
 
@@ -147,9 +157,58 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
 
   const cardWidth = () => slotRef.current?.offsetWidth || 240;
 
+  // The swipe hint's countdown starts when the barrel first scrolls into view.
+  // Timing it from mount would have it gone before the customer gets here.
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || !showHint) return;
+    const io = new IntersectionObserver(
+      (rows) => {
+        if (rows.some((r) => r.isIntersecting)) {
+          setHintArmed(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [showHint]);
+
+  useEffect(() => {
+    if (!hintArmed) return;
+    const t = setTimeout(() => setShowHint(false), HINT_MS);
+    return () => clearTimeout(t);
+  }, [hintArmed]);
+
+  // Slow idle turn: one card every AUTO_MS while nobody is busy with it.
+  // A heartbeat watches for the customer (drag, hover, keys, nav buttons)
+  // and simply holds the countdown still until they let go.
+  useEffect(() => {
+    if (n < 2 || still()) return;
+    const busy = () =>
+      engagedRef.current ||
+      hoveringRef.current ||
+      Boolean(dragRef.current) ||
+      document.visibilityState !== 'visible';
+    let next = Date.now() + AUTO_START_MS;
+    const beat = setInterval(() => {
+      if (busy()) {
+        next = Math.max(next, Date.now() + AUTO_MS);
+        return;
+      }
+      if (animRef.current || Date.now() < next) return;
+      next += AUTO_MS;
+      spinTo(wrap(activeRef.current + 1));
+    }, 250);
+    return () => clearInterval(beat);
+  }, [n, spinTo, wrap]);
+
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (n < 2) return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
+    engagedRef.current = true;
+    setShowHint(false);
     stopAnim();
     if (snapRef.current) clearTimeout(snapRef.current);
     movedRef.current = false;
@@ -215,6 +274,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
     // Only a sideways gesture belongs to the barrel; a vertical wheel must
     // keep scrolling the page underneath it.
     if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    engagedRef.current = true;
     const pos = clamp(
       Math.round(posRef.current) - WHEEL_LIMIT,
       posRef.current + e.deltaX / (cardWidth() * (1 - SWIPE_K)),
@@ -227,6 +287,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) engagedRef.current = true;
     if (e.key === 'ArrowRight') {
       e.preventDefault();
       spinTo(wrap(active + 1));
@@ -263,14 +324,31 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
     if (i !== activeRef.current) spinTo(i);
   };
 
-  const hint = 'Drag or swipe to spin the barrel — tap the card facing you for what’s in it.';
+  const hint =
+    'The barrel turns on its own — drag or swipe to take the wheel, then tap the card facing you for what’s in it.';
 
   return (
-    <div className="cc-barrel" role="group" aria-label={`${label} — barrel gallery`}>
+    <div
+      className="cc-barrel"
+      role="group"
+      aria-label={`${label} — barrel gallery`}
+      onFocus={() => {
+        engagedRef.current = true;
+      }}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) engagedRef.current = false;
+      }}
+    >
       <div
         ref={stageRef}
         className="cc-barrel-stage"
         style={{ '--n': n } as CSSProperties}
+        onPointerEnter={() => {
+          hoveringRef.current = true;
+        }}
+        onPointerLeave={() => {
+          hoveringRef.current = false;
+        }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -279,6 +357,13 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
         onKeyDown={onKeyDown}
       >
         <div aria-hidden className="cc-barrel-glow" />
+        {showHint && (
+          <div className="cc-swipe-hint" data-live={hintArmed ? 'true' : 'false'} aria-hidden>
+            <span className="cc-swipe-arrow cc-swipe-arrow-l">‹</span>
+            <span className="cc-swipe-label">Swipe to browse</span>
+            <span className="cc-swipe-arrow cc-swipe-arrow-r">›</span>
+          </div>
+        )}
         <ul ref={ringRef} className="cc-barrel-ring">
           {entries.map(({ item, groupTitle }, i) => {
             const facing = i === active;
@@ -312,9 +397,9 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
                     />
                   </span>
                   {isRecommended(item) ? <BarrelStar label={item.badge ?? 'House pick'} /> : null}
-                  {cart[item.id] ? (
-                    <span className="cc-barrel-qty" aria-label={`${cart[item.id]} on your tray`}>
-                      {cart[item.id]}
+                  {cartQtyForItem(cart, item.id) ? (
+                    <span className="cc-barrel-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                      {cartQtyForItem(cart, item.id)}
                     </span>
                   ) : null}
                   <span className="cc-barrel-cap">

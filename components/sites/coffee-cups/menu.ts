@@ -1,5 +1,18 @@
 export type MenuTag = 'Vegan' | 'Vegetarian' | 'Gluten-free' | 'House-made' | 'Seasonal' | 'Iced';
 
+export interface ItemSize {
+  id: string;
+  label: string;
+  /** Rupees added on top of the base price for this size. */
+  extra: number;
+}
+
+export interface ItemAddon {
+  id: string;
+  label: string;
+  price: number;
+}
+
 export interface ItemDetails {
   ingredients: string[];
   /** Major allergens in lowercase; an empty array means none worth flagging. */
@@ -24,6 +37,10 @@ export interface MenuItem {
   details: ItemDetails;
   /** Photo path, derived from the id; the test suite enforces both. */
   src: string;
+  /** Available size upgrades (e.g. pizzas). */
+  sizes?: ItemSize[];
+  /** Optional paid add-ons the customer can tick. */
+  addons?: ItemAddon[];
 }
 
 export interface MenuGroup {
@@ -60,6 +77,19 @@ const item = (
 });
 
 const pick = (i: MenuItem): MenuItem => ({ ...i, featured: true });
+
+const pizzaSizes: ItemSize[] = [
+  { id: 'reg', label: 'Regular', extra: 0 },
+  { id: 'med', label: 'Medium', extra: 80 },
+  { id: 'lrg', label: 'Large', extra: 150 },
+];
+
+const pizzaAddons: ItemAddon[] = [
+  { id: 'cheese-burst', label: 'Cheese Burst', price: 150 },
+  { id: 'extra-protein', label: 'Extra Paneer / Chicken', price: 60 },
+];
+
+const withVariants = (i: MenuItem): MenuItem => ({ ...i, sizes: pizzaSizes, addons: pizzaAddons });
 
 /** Worth pushing on the board: carries a badge or is the category's featured pick. */
 export const isRecommended = (item: MenuItem): boolean => Boolean(item.badge) || Boolean(item.featured);
@@ -105,8 +135,8 @@ export const menuGroups: MenuGroup[] = [
       item('caesar-salad', 'Caesar Salad', 'Romaine, parmesan, lemon, golden croutons', 320, ['Vegetarian'], { ingredients: ['Romaine', 'Parmesan', 'Garlic croutons', 'Anchovy and egg dressing'], allergens: ['gluten', 'dairy', 'fish', 'egg'], kcal: 350 }),
       item('salt-vinegar-fries', 'Salt & Vinegar Fries', 'Double-fried, malt vinegar, paper cone', 190, ['Vegan', 'Gluten-free'], { ingredients: ['Potatoes', 'Rice-flour dust', 'Malt vinegar', 'Sea salt'], allergens: [], kcal: 380 }),
       item('bombay-grilled-sandwich', 'Bombay Grilled Sandwich', 'Green chutney, potato, onion, tomato, cheese', 260, ['Vegetarian'], { ingredients: ['White pan bread', 'Green mint chutney', 'Potato, onion, tomato', 'Cheese, butter'], allergens: ['gluten', 'dairy'], kcal: 430 }),
-      item('margherita-pizza', 'Margherita Pizza', 'San Marzano, fior di latte, torn basil', 360, ['Vegetarian'], { ingredients: ['Slow-proofed dough', 'San Marzano tomato', 'Fior di latte mozzarella', 'Basil, olive oil'], allergens: ['gluten', 'dairy'], kcal: 640 }),
-      item('cheese-burst-pizza', 'Cheese Burst Pizza', 'Molten centre, double-cheese crust', 420, ['Vegetarian'], { ingredients: ['Double mozzarella core', 'Cheddar and mozzarella edge', 'Tomato base', 'Italian herbs'], allergens: ['gluten', 'dairy'], kcal: 780 }, 'House favourite'),
+      withVariants(item('margherita-pizza', 'Margherita Pizza', 'San Marzano, fior di latte, torn basil', 360, ['Vegetarian'], { ingredients: ['Slow-proofed dough', 'San Marzano tomato', 'Fior di latte mozzarella', 'Basil, olive oil'], allergens: ['gluten', 'dairy'], kcal: 640 })),
+      withVariants(item('cheese-burst-pizza', 'Cheese Burst Pizza', 'Molten centre, double-cheese crust', 420, ['Vegetarian'], { ingredients: ['Double mozzarella core', 'Cheddar and mozzarella edge', 'Tomato base', 'Italian herbs'], allergens: ['gluten', 'dairy'], kcal: 780 }, 'House favourite')),
       item('pink-sauce-pasta', 'Pink Sauce Pasta', 'Tomato and cream, parmesan, chilli flakes', 360, ['Vegetarian'], { ingredients: ['Penne', 'Tomato and cream sauce', 'Parmesan', 'Garlic, chilli flakes'], allergens: ['gluten', 'dairy'], kcal: 560 }),
       item('paneer-tikka-roll', 'Paneer Tikka Roll', 'Charred paneer, onions, mint mayo in a soft roti', 320, ['Vegetarian'], { ingredients: ['Tandoori paneer', 'Sliced onion, coriander', 'Mint yoghurt mayo', 'Soft rumali roti'], allergens: ['gluten', 'dairy'], kcal: 470 }),
     ],

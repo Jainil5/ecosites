@@ -20,6 +20,7 @@ export function Hero() {
         src={cafe.heroImage}
         alt=""
         fill
+        priority
         sizes="100vw"
         className="object-cover object-center"
       />

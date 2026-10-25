@@ -8,6 +8,7 @@ import {
   inr,
   lineItems,
   orderNumber,
+  parseVariantKey,
   type CartAction,
   type CartState,
 } from './cart';
@@ -24,11 +25,10 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
 
   const place = () => {
     const num = orderNumber();
-    // Hand the bill to the OrderBook demo so the two stories stay connected.
     publishOrder(window.localStorage, {
       id: `cc-${Date.now()}-${num}`,
       createdAt: new Date().toISOString(),
-      lines: lines.map(({ item, qty }) => ({ menuItemId: item.id, name: item.name, qty, unitPrice: item.amount })),
+      lines: lines.map(({ item, qty, unitPrice }) => ({ menuItemId: item.id, name: item.name, qty, unitPrice })),
     });
     setTicket(num);
     dispatch({ type: 'clear' });
@@ -75,33 +75,42 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
           <>
             <p className="cc-tray-head cc-display">Your order</p>
             <ul className="cc-tray-lines">
-              {lines.map(({ item, qty }) => (
-                <li key={item.id} className="cc-tray-line">
-                  <Image src={item.src} alt="" width={96} height={96} className="cc-tray-thumb" />
-                  <div className="cc-tray-line-info">
-                    <p className="cc-display text-[13px] leading-tight text-[var(--cc-ink)]">{item.name}</p>
-                    <p className="cc-tray-each">{item.price} each</p>
-                  </div>
-                  <div className="cc-tray-step">
-                    <button
-                      type="button"
-                      aria-label={`One fewer ${item.name}`}
-                      onClick={() => dispatch({ type: 'setQty', id: item.id, qty: qty - 1 })}
-                    >
-                      −
-                    </button>
-                    <span aria-live="polite">{qty}</span>
-                    <button
-                      type="button"
-                      aria-label={`One more ${item.name}`}
-                      onClick={() => dispatch({ type: 'setQty', id: item.id, qty: qty + 1 })}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <span className="cc-tray-line-total">{inr(item.amount * qty)}</span>
-                </li>
-              ))}
+              {lines.map(({ key, item, qty, unitPrice }) => {
+                const { sizeId, addonIds } = parseVariantKey(key);
+                const sizeLabel = sizeId && item.sizes ? item.sizes.find(s => s.id === sizeId)?.label : null;
+                const addonLabels = addonIds.length && item.addons
+                  ? addonIds.map(id => item.addons!.find(a => a.id === id)?.label).filter(Boolean)
+                  : [];
+                const variantText = [sizeLabel, ...addonLabels].filter(Boolean).join(', ');
+                return (
+                  <li key={key} className="cc-tray-line">
+                    <Image src={item.src} alt="" width={96} height={96} className="cc-tray-thumb" />
+                    <div className="cc-tray-line-info">
+                      <p className="cc-display text-[13px] leading-tight text-[var(--cc-ink)]">{item.name}</p>
+                      {variantText && <p className="cc-tray-variant">{variantText}</p>}
+                      <p className="cc-tray-each">{inr(unitPrice)} each</p>
+                    </div>
+                    <div className="cc-tray-step">
+                      <button
+                        type="button"
+                        aria-label={`One fewer ${item.name}`}
+                        onClick={() => dispatch({ type: 'setQty', id: key, qty: qty - 1 })}
+                      >
+                        −
+                      </button>
+                      <span aria-live="polite">{qty}</span>
+                      <button
+                        type="button"
+                        aria-label={`One more ${item.name}`}
+                        onClick={() => dispatch({ type: 'setQty', id: key, qty: qty + 1 })}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <span className="cc-tray-line-total">{inr(unitPrice * qty)}</span>
+                  </li>
+                );
+              })}
             </ul>
             <div className="cc-tray-foot">
               <span className="cc-display">Total</span>

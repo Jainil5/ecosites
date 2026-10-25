@@ -95,14 +95,3 @@ export const galleryShots: GalleryShot[] = [
     rotate: 1.4,
   },
 ];
-
-export const tickerPhrases = [
-  'Rolled by hand at dawn',
-  'Boiled, then baked',
-  'One espresso base all day',
-  'Open before the street',
-  'Bread for the shops nearby',
-  'Oat and almond, no charge',
-  'Dogs welcome',
-  'Sunrise at 7',
-];
