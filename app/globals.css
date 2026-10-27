@@ -5846,3 +5846,2366 @@ html.lenis body {
     font-size: 11px;
   }
 }
+
+/* ============================================================
+   Ember Larder — charcoal and ember (el-*)
+   A live-fire kitchen that also sells jars. The dark ground is
+   the room after eight; the only light in the palette comes from
+   the fire, so every accent is a temperature, not a brand colour.
+   Scoped to .ember-larder so the brand shell and the other client
+   sites keep their own tokens.
+   ============================================================ */
+.ember-larder {
+  --el-soot: #0c0a09;
+  --el-pitch: #12100e;
+  --el-char: #171310;
+  --el-ash: #221c17;
+  --el-bone: #f3ece1;
+  --el-muted: #a3968a;
+  --el-faint: #7c6f65;
+  --el-line: rgba(243, 236, 225, 0.13);
+  --el-line-soft: rgba(243, 236, 225, 0.07);
+  --el-ember: #ff6a3d;
+  --el-ember-deep: #c8390f;
+  --el-coal: #ffb066;
+  --el-smoke: rgba(12, 10, 9, 0.72);
+  background: var(--el-soot);
+  color: var(--el-bone);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* Playfair carries the voice; the mono labels are the printed ticket stub. */
+.ember-larder .el-display {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.ember-larder .el-serif {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.ember-larder .el-brand-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.ember-larder .el-brand-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+}
+
+.ember-larder .el-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.ember-larder .el-band {
+  padding-block: clamp(76px, 10vw, 140px);
+  /* Every anchor in the nav points at one of these, and the header is sticky —
+     without the margin the first line of a band lands underneath it. */
+  scroll-margin-top: 88px;
+}
+
+.ember-larder .el-kicker {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--el-ember);
+}
+
+.ember-larder .el-h2 {
+  margin-top: 18px;
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
+  line-height: 1.02;
+  max-width: 22ch;
+}
+
+.ember-larder .el-h2-em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--el-ember);
+}
+
+.ember-larder .el-field-label {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+/* --- Buttons, chips, steppers -------------------------------- */
+.ember-larder .el-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms, background 220ms,
+    border-color 220ms, color 220ms;
+}
+
+.ember-larder .el-btn-ember {
+  background: linear-gradient(140deg, var(--el-ember), var(--el-ember-deep));
+  color: #1a0d06;
+  box-shadow: 0 10px 30px -12px rgba(255, 106, 61, 0.75);
+}
+
+.ember-larder .el-btn-ember:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -12px rgba(255, 106, 61, 0.9);
+}
+
+.ember-larder .el-btn-ghost {
+  border-color: var(--el-line);
+  color: var(--el-bone);
+  background: rgba(243, 236, 225, 0.03);
+}
+
+.ember-larder .el-btn-ghost:hover {
+  border-color: var(--el-ember);
+  color: var(--el-coal);
+}
+
+.ember-larder .el-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--el-line);
+  border-radius: 999px;
+  background: rgba(243, 236, 225, 0.03);
+}
+
+.ember-larder .el-stepper button {
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  color: var(--el-bone);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 180ms, background 180ms;
+}
+
+.ember-larder .el-stepper button:hover:not(:disabled) {
+  color: var(--el-ember);
+  background: rgba(255, 106, 61, 0.1);
+}
+
+.ember-larder .el-stepper button:disabled {
+  color: var(--el-faint);
+  cursor: not-allowed;
+}
+
+.ember-larder .el-stepper > span {
+  min-width: 30px;
+  text-align: center;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 14px;
+}
+
+.ember-larder .el-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  margin-top: 7px;
+  border-radius: 12px;
+  border: 1px solid var(--el-line);
+  background: rgba(12, 10, 9, 0.6);
+  color: var(--el-bone);
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.ember-larder .el-input:focus {
+  outline: none;
+  border-color: var(--el-ember);
+  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.18);
+}
+
+.ember-larder .el-input::placeholder {
+  color: var(--el-faint);
+}
+
+/* --- Header -------------------------------------------------- */
+.ember-larder .el-topbar {
+  background: #080706;
+  border-bottom: 1px solid var(--el-line-soft);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-topbar a {
+  color: var(--el-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  transition: color 200ms;
+}
+
+.ember-larder .el-topbar a:hover {
+  color: var(--el-ember);
+}
+
+.ember-larder .el-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding-block: 16px;
+  transition: background 280ms, border-color 280ms, padding 280ms;
+  border-bottom: 1px solid transparent;
+}
+
+.ember-larder .el-header[data-scrolled='true'] {
+  background: rgba(8, 7, 6, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--el-line);
+  padding-block: 10px;
+}
+
+.ember-larder .el-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--el-bone);
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.ember-larder .el-brand-mark {
+  width: 26px;
+  height: 26px;
+  color: var(--el-ember);
+  filter: drop-shadow(0 0 10px rgba(255, 106, 61, 0.55));
+}
+
+.ember-larder .el-brand-serif {
+  color: var(--el-coal);
+}
+
+.ember-larder .el-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.ember-larder .el-nav-links a {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-muted);
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+.ember-larder .el-nav-links a:hover {
+  color: var(--el-bone);
+}
+
+.ember-larder .el-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ember-larder .el-basket-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: rgba(243, 236, 225, 0.03);
+  color: var(--el-bone);
+  cursor: pointer;
+  transition: border-color 200ms, background 200ms;
+}
+
+.ember-larder .el-basket-btn:hover {
+  border-color: var(--el-ember);
+}
+
+.ember-larder .el-basket-label {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-basket-total {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-basket-dot {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--el-ember);
+  color: #1a0d06;
+  font-size: 11px;
+  font-weight: 700;
+  animation: el-pop 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ember-larder .el-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  white-space: nowrap;
+  background: linear-gradient(140deg, var(--el-ember), var(--el-ember-deep));
+  color: #1a0d06;
+  text-decoration: none;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-cta:hover {
+  transform: translateY(-1px);
+}
+
+.ember-larder .el-burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--el-line);
+  background: none;
+  color: var(--el-bone);
+  cursor: pointer;
+}
+
+.ember-larder .el-mobile-sheet {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--el-line);
+  border-radius: 18px;
+  background: rgba(10, 8, 7, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  animation: el-sheet 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ember-larder .el-mobile-sheet a {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--el-line-soft);
+  color: var(--el-bone);
+  text-decoration: none;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.ember-larder .el-cta-wide {
+  margin: 12px;
+  justify-content: center;
+}
+
+/* --- Hero ---------------------------------------------------- */
+.ember-larder .el-hero {
+  background: #080706;
+  color: var(--el-bone);
+}
+
+.ember-larder .el-hero-img {
+  animation: el-breathe 26s ease-in-out infinite alternate;
+}
+
+.ember-larder .el-hero-wash {
+  background: linear-gradient(180deg, rgba(8, 7, 6, 0.72) 0%, rgba(8, 7, 6, 0.32) 38%,
+      rgba(8, 7, 6, 0.86) 78%, var(--el-soot) 100%),
+    radial-gradient(120% 60% at 50% 100%, rgba(255, 106, 61, 0.28) 0%, rgba(255, 106, 61, 0) 60%);
+  z-index: 1;
+}
+
+.ember-larder .el-hero-grain {
+  z-index: 1;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 0.5px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
+.ember-larder .el-ember {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ember-larder .el-hero-copy,
+.ember-larder .el-hero .el-ticker {
+  position: relative;
+  z-index: 3;
+}
+
+.ember-larder .el-hero-title {
+  margin-top: 20px;
+  font-size: clamp(2.5rem, 7.6vw, 5.4rem);
+  line-height: 0.96;
+  max-width: 15ch;
+  text-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+}
+
+.ember-larder .el-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.04em;
+}
+
+.ember-larder .el-mask-inner {
+  display: block;
+}
+
+.ember-larder .el-hero-intro {
+  margin-top: 26px;
+  max-width: 46ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.55;
+  color: rgba(243, 236, 225, 0.86);
+}
+
+.ember-larder .el-hero-link {
+  color: var(--el-coal);
+  text-decoration: none;
+  font-size: 14px;
+  padding-inline: 4px;
+  border-bottom: 1px solid rgba(255, 176, 102, 0.4);
+  transition: color 200ms, border-color 200ms;
+}
+
+.ember-larder .el-hero-link:hover {
+  color: var(--el-ember);
+  border-color: var(--el-ember);
+}
+
+.ember-larder .el-stats {
+  margin-top: clamp(34px, 5vw, 56px);
+  padding-top: 22px;
+  border-top: 1px solid var(--el-line);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ember-larder .el-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ember-larder .el-stat-value {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1;
+  color: var(--el-coal);
+  font-variant-numeric: tabular-nums;
+}
+
+.ember-larder .el-stat-suffix {
+  font-size: 0.55em;
+  margin-left: 2px;
+  color: var(--el-ember);
+}
+
+.ember-larder .el-stat-label {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+  line-height: 1.5;
+}
+
+.ember-larder .el-ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  border-top: 1px solid var(--el-line);
+  background: rgba(8, 7, 6, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ember-larder .el-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: el-belt 34s linear infinite;
+}
+
+.ember-larder .el-ticker-run {
+  display: flex;
+  align-items: center;
+}
+
+.ember-larder .el-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 13px 22px;
+  white-space: nowrap;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(243, 236, 225, 0.72);
+}
+
+.ember-larder .el-ticker-item em {
+  color: var(--el-ember);
+  font-style: normal;
+  font-size: 9px;
+}
+
+/* --- The card and the shelf ---------------------------------- */
+.ember-larder .el-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 34px;
+  border-bottom: 1px solid var(--el-line);
+}
+
+.ember-larder .el-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  background: none;
+  color: var(--el-muted);
+  cursor: pointer;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 200ms;
+}
+
+.ember-larder .el-tab:hover {
+  color: var(--el-bone);
+}
+
+.ember-larder .el-tab[data-on='true'] {
+  color: var(--el-coal);
+}
+
+.ember-larder .el-tab-count {
+  font-size: 10px;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-tab-line {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--el-ember), var(--el-coal));
+}
+
+.ember-larder .el-tab-blurb {
+  margin-top: 14px;
+  color: var(--el-muted);
+  font-size: 14px;
+}
+
+.ember-larder .el-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+}
+
+.ember-larder .el-tilt-wrap {
+  transform-style: preserve-3d;
+}
+
+.ember-larder .el-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--el-line);
+  border-radius: 20px;
+  background: linear-gradient(170deg, var(--el-char), #100d0b 70%);
+  overflow: hidden;
+  transition: border-color 260ms, box-shadow 260ms;
+}
+
+.ember-larder .el-tilt-wrap:hover .el-card {
+  border-color: rgba(255, 106, 61, 0.42);
+  box-shadow: 0 30px 70px -34px rgba(255, 106, 61, 0.5);
+}
+
+.ember-larder .el-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.ember-larder .el-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ember-larder .el-tilt-wrap:hover .el-card-img {
+  transform: scale(1.055);
+}
+
+.ember-larder .el-card-glare {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms;
+  background: radial-gradient(38% 38% at 50% 50%, rgba(255, 226, 200, 0.28), rgba(255, 226, 200, 0) 70%);
+}
+
+.ember-larder .el-tilt-wrap:hover .el-card-glare {
+  opacity: 1;
+}
+
+.ember-larder .el-card-award {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: rgba(8, 7, 6, 0.76);
+  border: 1px solid rgba(255, 106, 61, 0.4);
+  color: var(--el-coal);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.ember-larder .el-card-award-mark,
+.ember-larder .el-dialog-award-mark {
+  width: 13px;
+  height: 13px;
+  color: var(--el-ember);
+}
+
+.ember-larder .el-card-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: rgba(8, 7, 6, 0.76);
+  color: var(--el-bone);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: color 200ms, border-color 200ms;
+}
+
+.ember-larder .el-card-zoom:hover {
+  color: var(--el-ember);
+  border-color: var(--el-ember);
+}
+
+.ember-larder .el-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+}
+
+.ember-larder .el-card-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ember-larder .el-card-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.16;
+}
+
+.ember-larder .el-card-price {
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+  color: var(--el-coal);
+  white-space: nowrap;
+}
+
+.ember-larder .el-card-note {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--el-muted);
+}
+
+.ember-larder .el-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 0;
+}
+
+.ember-larder .el-card-tags li {
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--el-line-soft);
+  background: rgba(243, 236, 225, 0.03);
+  color: var(--el-faint);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-card-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--el-line-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ember-larder .el-card-add {
+  min-height: 44px;
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 106, 61, 0.45);
+  background: rgba(255, 106, 61, 0.1);
+  color: var(--el-coal);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms, color 200ms, transform 200ms;
+}
+
+.ember-larder .el-card-add:hover {
+  background: var(--el-ember);
+  color: #1a0d06;
+  transform: translateY(-1px);
+}
+
+.ember-larder .el-card-unit {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+  flex: 0 1 auto;
+  text-align: right;
+  line-height: 1.45;
+}
+
+/* --- The order sheet (dialog) -------------------------------- */
+.ember-larder .el-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(6, 5, 4, 0.74);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  touch-action: pan-y;
+}
+
+.ember-larder .el-dialog {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+  border: 1px solid var(--el-line);
+  border-radius: 22px;
+  background: linear-gradient(165deg, #191512, #100d0b 75%);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  overscroll-behavior: contain;
+}
+
+.ember-larder .el-dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: rgba(8, 7, 6, 0.72);
+  color: var(--el-bone);
+  cursor: pointer;
+}
+
+.ember-larder .el-dialog-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ember-larder .el-dialog-media {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.ember-larder .el-dialog-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ember-larder .el-dialog-award {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(8, 7, 6, 0.78);
+  border: 1px solid rgba(255, 106, 61, 0.42);
+  color: var(--el-coal);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-dialog-body {
+  padding: clamp(20px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ember-larder .el-dialog-name {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.05;
+}
+
+.ember-larder .el-dialog-note {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: rgba(243, 236, 225, 0.9);
+}
+
+.ember-larder .el-dialog-list {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--el-line-soft);
+  display: grid;
+  gap: 8px;
+}
+
+.ember-larder .el-dialog-list ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--el-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.ember-larder .el-dialog-plain {
+  margin: 0;
+  color: var(--el-muted);
+  font-size: 14px;
+}
+
+.ember-larder .el-dialog-allergens {
+  margin: 2px 0 0;
+  color: var(--el-faint);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.ember-larder .el-dialog-choices {
+  margin-top: 8px;
+  display: grid;
+  gap: 16px;
+}
+
+.ember-larder .el-choice {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.ember-larder .el-choice legend {
+  padding: 0;
+}
+
+.ember-larder .el-choice-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ember-larder .el-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: rgba(243, 236, 225, 0.03);
+  color: var(--el-muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 200ms, color 200ms, background 200ms;
+}
+
+.ember-larder .el-opt:hover {
+  color: var(--el-bone);
+  border-color: rgba(255, 106, 61, 0.4);
+}
+
+.ember-larder .el-opt[aria-pressed='true'] {
+  border-color: var(--el-ember);
+  color: var(--el-bone);
+  background: rgba(255, 106, 61, 0.14);
+  box-shadow: inset 0 0 20px -8px rgba(255, 106, 61, 0.7);
+}
+
+.ember-larder .el-opt-delta {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-dialog-foot {
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--el-line-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ember-larder .el-dialog-add {
+  flex: 1 1 240px;
+  min-height: 52px;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(140deg, var(--el-ember), var(--el-ember-deep));
+  color: #1a0d06;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 32px -14px rgba(255, 106, 61, 0.8);
+  transition: transform 200ms, box-shadow 200ms;
+}
+
+.ember-larder .el-dialog-add:hover {
+  transform: translateY(-2px);
+}
+
+.ember-larder .el-dialog-hint {
+  margin: 0;
+  color: var(--el-faint);
+  font-size: 12.5px;
+}
+
+/* --- The pass (drawer) and the phone bar --------------------- */
+.ember-larder .el-drawer-scrim {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.ember-larder .el-drawer {
+  width: min(470px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #16120f, #0e0b09);
+  border-left: 1px solid var(--el-line);
+  padding-bottom: env(safe-area-inset-bottom);
+  overscroll-behavior: contain;
+}
+
+.ember-larder .el-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 22px 20px 16px;
+  border-bottom: 1px solid var(--el-line);
+}
+
+.ember-larder .el-drawer-title {
+  margin-top: 8px;
+  font-size: 1.7rem;
+  line-height: 1.05;
+}
+
+.ember-larder .el-drawer-close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: none;
+  color: var(--el-bone);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.ember-larder .el-drawer-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ember-larder .el-lines {
+  flex: 1 1 auto;
+  overflow: auto;
+  list-style: none;
+  margin: 0;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ember-larder .el-line {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--el-line-soft);
+}
+
+.ember-larder .el-line-img {
+  width: 62px;
+  height: 62px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.ember-larder .el-line-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ember-larder .el-line-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ember-larder .el-line-var {
+  color: var(--el-coal);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-line-unit {
+  color: var(--el-faint);
+  font-size: 12px;
+}
+
+.ember-larder .el-stepper-sm button {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 16px;
+}
+
+.ember-larder .el-stepper-sm {
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.ember-larder .el-line-drop {
+  min-height: 44px !important;
+  padding: 0 12px !important;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10px !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--el-faint) !important;
+  text-decoration: underline;
+}
+
+.ember-larder .el-line-total {
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-drawer-foot {
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--el-line);
+  background: rgba(8, 7, 6, 0.5);
+  display: grid;
+  gap: 12px;
+}
+
+.ember-larder .el-drawer-note {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 106, 61, 0.35);
+  color: var(--el-coal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.ember-larder .el-sums {
+  margin: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.ember-larder .el-sums > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ember-larder .el-sums dt {
+  color: var(--el-muted);
+  font-size: 13px;
+}
+
+.ember-larder .el-sums dd {
+  margin: 0;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ember-larder .el-sums-total dt,
+.ember-larder .el-sums-total dd {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.3rem;
+  color: var(--el-bone);
+}
+
+.ember-larder .el-sums-total dd {
+  color: var(--el-ember);
+}
+
+.ember-larder .el-drawer-fine {
+  margin: 0;
+  color: var(--el-faint);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-drawer-send {
+  width: 100%;
+}
+
+.ember-larder .el-drawer-empty {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 30px 26px;
+  text-align: center;
+}
+
+.ember-larder .el-drawer-empty .el-serif {
+  font-size: 1.5rem;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-drawer-empty-copy {
+  margin: 0;
+  color: var(--el-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 30ch;
+}
+
+.ember-larder .el-ticket {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 30px 26px;
+  text-align: center;
+}
+
+.ember-larder .el-ticket-mark {
+  width: 40px;
+  height: 40px;
+  color: var(--el-ember);
+  filter: drop-shadow(0 0 16px rgba(255, 106, 61, 0.6));
+  animation: el-flicker 3.4s ease-in-out infinite;
+}
+
+.ember-larder .el-ticket-no {
+  margin: 0;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  letter-spacing: 0.06em;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-ticket-copy {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--el-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ember-larder .el-ticket-fine {
+  margin: 0;
+  max-width: 36ch;
+  color: var(--el-faint);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.ember-larder .el-ticket-fine a {
+  color: var(--el-coal);
+}
+
+.ember-larder .el-ticket-again {
+  margin-top: 6px;
+}
+
+.ember-larder .el-bar-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  display: none;
+  padding: 0 12px calc(12px + env(safe-area-inset-bottom));
+}
+
+.ember-larder .el-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 62px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 106, 61, 0.42);
+  background: rgba(18, 14, 11, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--el-bone);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 -12px 40px -18px rgba(255, 106, 61, 0.7);
+}
+
+.ember-larder .el-bar-count {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--el-ember);
+  color: #1a0d06;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.ember-larder .el-bar-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ember-larder .el-bar-copy strong {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.ember-larder .el-bar-copy span {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ember-larder .el-bar-total {
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-bar-go {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--el-ember);
+}
+
+/* --- The hearth (story) -------------------------------------- */
+.ember-larder .el-story {
+  background: linear-gradient(180deg, var(--el-soot), #100d0b 60%, var(--el-soot));
+}
+
+.ember-larder .el-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: clamp(26px, 5vw, 66px);
+  align-items: start;
+}
+
+.ember-larder .el-story-copy {
+  display: grid;
+  gap: 26px;
+}
+
+.ember-larder .el-story-lede {
+  margin: 18px 0 0;
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.7;
+  color: rgba(243, 236, 225, 0.82);
+}
+
+.ember-larder .el-notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.ember-larder .el-notes li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--el-muted);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.ember-larder .el-notes li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--el-ember);
+  box-shadow: 0 0 12px rgba(255, 106, 61, 0.8);
+}
+
+.ember-larder .el-pull {
+  margin: 0;
+  padding: 22px 24px;
+  border-left: 2px solid var(--el-ember);
+  background: rgba(255, 106, 61, 0.06);
+  border-radius: 0 18px 18px 0;
+}
+
+.ember-larder .el-pull blockquote {
+  margin: 0;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--el-bone);
+  font-style: italic;
+}
+
+.ember-larder .el-pull figcaption {
+  margin-top: 12px;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-story-frame {
+  position: relative;
+  margin: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--el-line);
+  box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.9);
+  will-change: transform;
+}
+
+.ember-larder .el-story-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ember-larder .el-story-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 44px 18px 16px;
+  background: linear-gradient(180deg, rgba(8, 7, 6, 0), rgba(8, 7, 6, 0.88));
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(243, 236, 225, 0.78);
+}
+
+.ember-larder .el-story-cap span {
+  color: var(--el-ember);
+  margin-right: 8px;
+}
+
+/* --- The set dinner ------------------------------------------ */
+.ember-larder .el-set {
+  background: #0e0c0a;
+}
+
+.ember-larder .el-set-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 54px);
+  align-items: end;
+}
+
+.ember-larder .el-set-blurb {
+  margin: 18px 0 0;
+  max-width: 44ch;
+  color: rgba(243, 236, 225, 0.78);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.ember-larder .el-set-price-card {
+  padding: 22px;
+  border: 1px solid rgba(255, 106, 61, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 106, 61, 0.06);
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.ember-larder .el-set-price {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-set-per {
+  margin: 0;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-set-price-card .el-btn {
+  margin-top: 10px;
+}
+
+.ember-larder .el-courses {
+  position: relative;
+  margin-top: clamp(38px, 6vw, 68px);
+}
+
+.ember-larder .el-courses-line {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--el-ember), var(--el-coal) 55%, rgba(255, 176, 102, 0.1));
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+.ember-larder .el-course-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(22px, 3vw, 38px);
+}
+
+.ember-larder .el-course {
+  position: relative;
+  padding-left: 40px;
+}
+
+.ember-larder .el-course::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--el-soot);
+  border: 2px solid var(--el-ember);
+}
+
+.ember-larder .el-course-num {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-course-when {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-course-text {
+  margin: 8px 0 0;
+  max-width: 54ch;
+  color: rgba(243, 236, 225, 0.84);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* --- Voices (the belt) --------------------------------------- */
+.ember-larder .el-voices {
+  overflow: hidden;
+}
+
+.ember-larder .el-belt {
+  margin-top: clamp(30px, 5vw, 54px);
+  overflow: hidden;
+  /* Keep the belt out of the page's scroll shadow. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ember-larder .el-belt-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding-block: 10px;
+  animation: el-belt 52s linear infinite;
+}
+
+.ember-larder .el-belt:hover .el-belt-track,
+.ember-larder .el-belt:focus-within .el-belt-track {
+  animation-play-state: paused;
+}
+
+.ember-larder .el-quote {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(360px, 78vw);
+  margin: 0;
+  padding: 24px 24px 20px;
+  border: 1px solid var(--el-line);
+  border-radius: 18px;
+  background: linear-gradient(165deg, var(--el-char), #100d0b);
+  transform: rotate(var(--el-tilt, 0deg));
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 320ms;
+}
+
+.ember-larder .el-quote:hover {
+  transform: rotate(0deg) translateY(-4px);
+  border-color: rgba(255, 106, 61, 0.45);
+}
+
+.ember-larder .el-quote-mark {
+  position: absolute;
+  top: 2px;
+  right: 16px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: rgba(255, 106, 61, 0.24);
+}
+
+.ember-larder .el-quote-text {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.5;
+  color: rgba(243, 236, 225, 0.9);
+}
+
+.ember-larder .el-quote-by {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ember-larder .el-quote-by strong {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--el-ember);
+  font-weight: 500;
+}
+
+.ember-larder .el-quote-by span {
+  font-size: 12.5px;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-voices-foot {
+  margin-top: 26px;
+}
+
+.ember-larder .el-voices-count {
+  margin: 0;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+/* --- Booking sheet ------------------------------------------- */
+.ember-larder .el-reserve {
+  background: linear-gradient(180deg, var(--el-soot), #100d0b);
+}
+
+.ember-larder .el-reserve-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(26px, 5vw, 60px);
+  align-items: start;
+}
+
+.ember-larder .el-reserve-lede {
+  margin: 18px 0 0;
+  color: rgba(243, 236, 225, 0.8);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 42ch;
+}
+
+.ember-larder .el-reserve-notes {
+  margin-top: 26px;
+  gap: 8px;
+}
+
+.ember-larder .el-reserve-notes li {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding-left: 0;
+  color: var(--el-muted);
+  font-size: 14px;
+}
+
+.ember-larder .el-reserve-notes li::before {
+  display: none;
+}
+
+.ember-larder .el-hours-day,
+.ember-larder .el-hours-time {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-hours-day {
+  color: var(--el-coal);
+}
+
+.ember-larder .el-form-card {
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--el-line);
+  border-radius: 22px;
+  background: rgba(243, 236, 225, 0.025);
+  box-shadow: 0 30px 80px -50px rgba(0, 0, 0, 0.9);
+}
+
+.ember-larder .el-form,
+.ember-larder .el-held {
+  display: grid;
+  gap: 18px;
+}
+
+.ember-larder .el-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.ember-larder .el-field {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ember-larder .el-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ember-larder .el-chip {
+  position: relative;
+  isolation: isolate;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--el-line);
+  background: none;
+  color: var(--el-muted);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: color 200ms, border-color 200ms;
+}
+
+.ember-larder .el-chip[aria-checked='true'] {
+  color: #1a0d06;
+  border-color: transparent;
+}
+
+.ember-larder .el-chip-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: linear-gradient(140deg, var(--el-coal), var(--el-ember));
+}
+
+.ember-larder .el-seat-opts {
+  margin-top: 8px;
+  display: grid;
+  gap: 10px;
+}
+
+.ember-larder .el-seat {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--el-line);
+  background: rgba(12, 10, 9, 0.45);
+  color: var(--el-bone);
+  cursor: pointer;
+  transition: border-color 220ms, background 220ms;
+}
+
+.ember-larder .el-seat strong {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.ember-larder .el-seat span {
+  font-size: 12.5px;
+  color: var(--el-faint);
+  line-height: 1.5;
+}
+
+.ember-larder .el-seat[aria-pressed='true'] {
+  border-color: var(--el-ember);
+  background: rgba(255, 106, 61, 0.1);
+}
+
+.ember-larder .el-form-send {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.ember-larder .el-form-fine {
+  margin: 0;
+  color: var(--el-faint);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ember-larder .el-held {
+  gap: 12px;
+  text-align: left;
+}
+
+.ember-larder .el-held-ref {
+  margin: 0;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  letter-spacing: 0.08em;
+  color: var(--el-coal);
+}
+
+.ember-larder .el-held-copy {
+  margin: 0;
+  color: rgba(243, 236, 225, 0.82);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.ember-larder .el-held-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* --- The door (visit) ---------------------------------------- */
+.ember-larder .el-visit-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr);
+  gap: clamp(26px, 5vw, 60px);
+  align-items: start;
+}
+
+.ember-larder .el-visit-list {
+  margin: 28px 0 0;
+  display: grid;
+  gap: 16px;
+}
+
+.ember-larder .el-visit-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 130px) minmax(0, 1fr);
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--el-line-soft);
+}
+
+.ember-larder .el-visit-list dt {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-visit-list dd {
+  margin: 0;
+  color: rgba(243, 236, 225, 0.88);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.ember-larder .el-visit-list a,
+.ember-larder .el-footer a,
+.ember-larder .el-socials a {
+  color: var(--el-coal);
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+.ember-larder .el-visit-list a:hover,
+.ember-larder .el-footer a:hover,
+.ember-larder .el-socials a:hover {
+  color: var(--el-ember);
+}
+
+.ember-larder .el-socials {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ember-larder .el-hours {
+  margin-top: 28px;
+}
+
+.ember-larder .el-hours ul {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.ember-larder .el-hours li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.ember-larder .el-hours-dots {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--el-line);
+  transform: translateY(-3px);
+}
+
+.ember-larder .el-hours-time {
+  color: var(--el-muted);
+}
+
+.ember-larder .el-plan {
+  border: 1px solid var(--el-line);
+  border-radius: 22px;
+  background: linear-gradient(165deg, #14100d, #0c0a09);
+  overflow: hidden;
+}
+
+.ember-larder .el-plan-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ember-larder .el-plan-ground {
+  fill: #100d0b;
+}
+
+.ember-larder .el-plan-road {
+  stroke: rgba(243, 236, 225, 0.1);
+  stroke-width: 9;
+}
+
+.ember-larder .el-plan-block {
+  fill: rgba(243, 236, 225, 0.05);
+  stroke: rgba(243, 236, 225, 0.12);
+}
+
+.ember-larder .el-plan-venue {
+  fill: rgba(255, 106, 61, 0.16);
+  stroke: var(--el-ember);
+  stroke-width: 1.6;
+}
+
+.ember-larder .el-plan-cart {
+  fill: rgba(255, 176, 102, 0.16);
+  stroke: rgba(255, 176, 102, 0.45);
+}
+
+.ember-larder .el-plan-halo {
+  fill: rgba(255, 106, 61, 0.22);
+  transform-origin: center;
+  animation: el-halo 3s ease-in-out infinite;
+}
+
+.ember-larder .el-plan-pin {
+  fill: var(--el-coal);
+}
+
+.ember-larder .el-plan-label {
+  fill: rgba(243, 236, 225, 0.55);
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ember-larder .el-plan-street {
+  fill: rgba(243, 236, 225, 0.34);
+}
+
+.ember-larder .el-plan-legend {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 18px 18px;
+  border-top: 1px solid var(--el-line-soft);
+  color: var(--el-muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.ember-larder .el-plan-mark {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: var(--el-ember);
+}
+
+/* --- Footer -------------------------------------------------- */
+.ember-larder .el-footer {
+  border-top: 1px solid var(--el-line);
+  background: #080706;
+  padding-block: clamp(46px, 6vw, 72px) 26px;
+}
+
+.ember-larder .el-footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.7fr);
+  gap: clamp(26px, 4vw, 48px);
+  align-items: start;
+}
+
+.ember-larder .el-footer-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+}
+
+.ember-larder .el-footer-mark {
+  width: 26px;
+  height: 26px;
+  color: var(--el-ember);
+}
+
+.ember-larder .el-footer-tag {
+  margin: 16px 0 0;
+  font-size: 1.1rem;
+  color: rgba(243, 236, 225, 0.75);
+  max-width: 30ch;
+}
+
+.ember-larder .el-footer-kick {
+  margin: 8px 0 0;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--el-faint);
+}
+
+.ember-larder .el-footer-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 4px 16px;
+}
+
+.ember-larder .el-footer-nav a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-muted);
+  text-decoration: none;
+}
+
+.ember-larder .el-footer-meta {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  font-size: 14px;
+}
+
+.ember-larder .el-footer-top {
+  margin-top: 10px;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--el-ember) !important;
+}
+
+.ember-larder .el-footer-base {
+  margin-top: clamp(30px, 4vw, 46px);
+  padding-top: 20px;
+  border-top: 1px solid var(--el-line-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  color: var(--el-faint);
+  font-size: 12.5px;
+}
+
+.ember-larder .el-footer-base p {
+  margin: 0;
+  max-width: 60ch;
+}
+
+/* --- Motion -------------------------------------------------- */
+@keyframes el-belt {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes el-breathe {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes el-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes el-sheet {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes el-flicker {
+  0%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(255, 106, 61, 0.6));
+  }
+  40% {
+    opacity: 0.82;
+    filter: drop-shadow(0 0 26px rgba(255, 176, 102, 0.8));
+  }
+  70% {
+    opacity: 0.94;
+    filter: drop-shadow(0 0 12px rgba(255, 106, 61, 0.5));
+  }
+}
+
+@keyframes el-halo {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+/* --- A phone ------------------------------------------------- */
+@media (max-width: 960px) {
+  .ember-larder .el-nav-links {
+    display: none;
+  }
+
+  .ember-larder .el-burger {
+    display: grid;
+  }
+
+  .ember-larder .el-story-grid,
+  .ember-larder .el-reserve-grid,
+  .ember-larder .el-visit-grid,
+  .ember-larder .el-set-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ember-larder .el-footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ember-larder .el-footer-meta {
+    justify-items: start;
+  }
+
+  .ember-larder .el-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 880px) {
+  .ember-larder .el-dialog {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: 92vh;
+  }
+
+  .ember-larder .el-dialog-media {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 760px) {
+  /* On a phone the basket rides under the thumb instead of sitting in the bar. */
+  .ember-larder .el-basket-btn {
+    display: none;
+  }
+
+  .ember-larder .el-bar-wrap {
+    display: block;
+  }
+
+  .ember-larder .el-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The bar floats, so while a ticket is open the last line of the page has to
+     be pushed out from under it rather than sit behind it. */
+  .ember-larder[data-bar-up='true'] .el-footer {
+    padding-bottom: 88px;
+  }
+
+  .ember-larder .el-hero-title {
+    max-width: 12ch;
+  }
+
+  .ember-larder .el-course {
+    padding-left: 34px;
+  }
+
+  .ember-larder .el-course::before {
+    left: 0;
+  }
+
+  .ember-larder .el-visit-list > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+}
+
+@media (max-width: 430px) {
+  .ember-larder .el-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+  }
+
+  .ember-larder .el-card-name {
+    font-size: 18px;
+  }
+
+  /* The sheet and the hero both carry the booking CTA, and the bar has to keep
+     the count, the total and the word "basket" on one line. */
+  .ember-larder .el-header .el-cta {
+    display: none;
+  }
+
+  .ember-larder .el-bar-copy span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember-larder .el-belt-track,
+  .ember-larder .el-ticker-track,
+  .ember-larder .el-hero-img,
+  .ember-larder .el-plan-halo,
+  .ember-larder .el-ticket-mark,
+  .ember-larder .el-basket-dot,
+  .ember-larder .el-mobile-sheet {
+    animation: none !important;
+  }
+
+  /* The belt cannot scroll and pause at the same time; let it be read instead. */
+  .ember-larder .el-belt {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .ember-larder .el-belt-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .ember-larder * {
+    transition-duration: 1ms !important;
+  }
+}

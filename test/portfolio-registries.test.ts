@@ -86,6 +86,7 @@ describe('delivered websites on the builder work page', () => {
       'savour',
       'analytical-register',
       'namesake',
+      'ember-larder',
     ]);
     expect(getWebsitesByAuthor('nobody')).toEqual([]);
   });

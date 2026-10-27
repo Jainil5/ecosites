@@ -79,6 +79,19 @@ export const websites = [
     techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
     screenshot: '/showcase/namesake/preview.png',
   },
+  {
+    slug: 'ember-larder',
+    author: 'jainil-patel',
+    title: 'Ember Larder',
+    business: 'Live-fire restaurant and pantry shelf',
+    description:
+      'A restaurant and a retail shelf on the same page, because they share a door: eight lines cooked over sal wood, jars of the same chilli oil and garam masala to take home, and one basket that carries a plate and a jar onto a single GST ticket. Order the card, choose a cut and a heat, hold a table by the rail.',
+    path: '/ember-larder',
+    theme: 'Charcoal and ember',
+    accent: '#FF6A3D',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
+    screenshot: '/showcase/ember-larder/preview.png',
+  },
 ] satisfies SampleWebsite[];
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {

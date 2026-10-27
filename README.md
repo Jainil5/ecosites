@@ -31,6 +31,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
 | Coffee Cups | `/coffee-cups` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
 | OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
+| Ember Larder | `/ember-larder` | Live-fire restaurant **and** its retail pantry shelf: variant-priced basket across plates and jars, ember canvas hero, 3D tilt cards, scroll-drawn set dinner, quote belt |
 
 Coffee Cups shipped first as *Dream Cafe*. The name, route, component folder, `cc-*` class family and
 `public/` assets all moved in one pass, and `next.config.mjs` keeps `/dream-cafe*` redirecting so old
@@ -91,6 +92,23 @@ bash scripts/brand-reel.sh
 The barrel is geometry, not a slideshow: the radius is solved from the card width and the per-item angle so neighbours keep a real gap around the cylinder, and each card's fade, scale and lift come from `cos()` of its angle to camera. That leaves one custom property (`--rot`) to write per frame, on the ring, and the browser's 3D sorting handles the rest. Drag (with fling and snap), sideways wheel, arrow keys, the dots and tapping a side card all spin it; tapping the facing card opens the same `ItemDialog` the tiles use. Phones get the same barrel at `60vw` cards with `touch-action: pan-y`, so a vertical thumb still scrolls the page. Under `prefers-reduced-motion: reduce` the shape stays and the movement stops: spins land instantly and the cards stop lifting.
 
 On a phone the order lives in a floating bar pinned above the safe area (`OrderTray.tsx`), which opens the tray as a bottom sheet over a dimmed scrim; the parked sheet is `visibility: hidden`, so its controls leave the tab order until it is actually open. Because the order part floats, the `All` grid spends its width on the items instead: below `640px` each tile drops the caption out of the photo and onto its own paper strip — name and price on one line, the description under it, two lines before it clips.
+
+### One counter, two businesses
+
+`/ember-larder` is a restaurant that also retails what it cooks, so one basket has to carry a
+half rack of lamb ordered at the table and a 400ml jar of the same chilli oil packed on Tuesday.
+`cart.ts` keys each line by product **and** chosen variants (`smoked-lamb-ribs:cut=half:heat=hot`),
+so two variants of one plate never merge, and the printed price is always the option that sits at
+zero delta. Totals are computed once from the subtotal — GST is rounded a single time, so the rows
+on the pass always add up to the number the button quotes.
+
+The motion is all in service of the room: one `EmberField` canvas of coals in the hero (rAF paused by
+`IntersectionObserver` and `visibilitychange`, a single still paint under `prefers-reduced-motion`),
+a headline lifted out of per-line masks, pointer-driven 3D tilt on the product cards with a glare that
+follows the cursor, a set-dinner rule drawn by scroll progress, and a quote belt that stops when a
+reader leans on it. `MotionConfig reducedMotion="user"` at the root turns every transform off without
+touching the fades. On a phone the basket rides in a fixed bar above the safe area and the header
+basket button steps aside.
 
 ### Adding a builder's portfolio
 
@@ -195,7 +213,7 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 - [x] `/contact` channels and the `/store` alias for older links
 - [x] `/portfolio` builder index, `/portfolio/[author]` and `/portfolio/[author]/work/[slug]`
 - [x] Sitemap, robots and favicon generated from the registries
-- [x] Five standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/coffee-cups`, `/analytical-register`)
+- [x] Seven standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/coffee-cups`, `/analytical-register`, `/namesake`, `/ember-larder`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
 - [x] OrderBook POS register, GST billing and analytics dashboard
