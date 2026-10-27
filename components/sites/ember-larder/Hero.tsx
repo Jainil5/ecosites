@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { EmberField } from './EmberField';
 import { larder, ticker } from './data';
 
 /** Printed as three masked lines so the headline lifts into place, one row at a time. */
@@ -42,7 +41,6 @@ export function Hero() {
       </motion.div>
       <div aria-hidden className="el-hero-wash absolute inset-0" />
       <div aria-hidden className="el-hero-grain absolute inset-0" />
-      <EmberField className="el-ember absolute inset-0 h-full w-full" count={52} />
 
       <motion.div
         style={{ y: copyY, opacity: copyFade }}

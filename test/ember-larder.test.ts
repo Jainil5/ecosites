@@ -402,7 +402,6 @@ describe('ember larder motion', () => {
     expect(hero).toMatch(/useTransform\(scrollYProgress/);
     expect(hero).toMatch(/style=\{\{ y: imageY \}\}/);
     expect(hero).toMatch(/style=\{\{ y: copyY, opacity: copyFade \}\}/);
-    expect(hero).toMatch(/<EmberField/);
     expect(hero).toMatch(/<Image[\s\S]*?priority[\s\S]*?\/>/);
     expect(hero).toMatch(/el-ticker/);
     expect(ticker.length).toBeGreaterThanOrEqual(4);
@@ -429,6 +428,56 @@ describe('ember larder motion', () => {
     // Reduced motion paints once instead of looping.
     expect(field).toMatch(/if \(reduce\) paint\(\);/);
     expect(field).toMatch(/aria-hidden/);
+    // A page-wide field does not need sixty frames.
+    expect(field).toMatch(/const FRAME_MS = 1000 \/ 30;/);
+    expect(field).toMatch(/if \(now - last < FRAME_MS\) return;/);
+  });
+
+  it('burns one coal field behind the whole page, not one per band', () => {
+    const page = read(`${ROOT}/EmberLarder.tsx`);
+    const hero = read(`${ROOT}/Hero.tsx`);
+    const css = read('app/globals.css');
+    expect(page).toMatch(/<EmberField className="el-ember" /);
+    expect(hero).not.toMatch(/EmberField/);
+    // Pinned to the viewport, above the photograph, below the copy and bands.
+    expect(css).toMatch(/\.ember-larder \.el-ember\s*\{[^}]*position:\s*fixed/);
+    expect(css).toMatch(/\.ember-larder \.el-ember\s*\{[^}]*z-index:\s*2/);
+    // A canvas is a replaced element: `inset: 0` alone leaves it 300x150.
+    expect(css).toMatch(/\.ember-larder \.el-ember\s*\{[^}]*width:\s*100%/);
+    expect(css).toMatch(/\.ember-larder \.el-ember\s*\{[^}]*height:\s*100%/);
+    expect(css).toMatch(/\.ember-larder \.el-band\s*\{[^}]*z-index:\s*3/);
+    expect(css).toMatch(/\.ember-larder \.el-footer\s*\{[^}]*z-index:\s*3/);
+  });
+
+  it('lets the coals glow through the panels rather than blurring them out', () => {
+    const css = read('app/globals.css');
+    // Declarations only — a comment may name the property it warns against.
+    const body = (selector: string) =>
+      (css.match(new RegExp(`\\.ember-larder \\.${selector} \\{([^}]*)\\}`))?.[1] ?? '').replace(
+        /\/\*[\s\S]*?\*\//g,
+        '',
+      );
+    // Frost inside a raised band samples only the band, so a blurred card hides
+    // the fire behind it. These panels are translucent and deliberately unblurred.
+    for (const panel of ['el-card', 'el-quote', 'el-form-card', 'el-set-price-card', 'el-plan']) {
+      const rule = body(panel);
+      expect(rule, `${panel} exists`).not.toBe('');
+      expect(rule, `${panel} frosts the fire away`).not.toMatch(/backdrop-filter/);
+      expect(rule, `${panel} is translucent`).toMatch(/background: linear-gradient\([^)]*rgba\(/);
+    }
+    // The sheets that cover the page sit over the bands, so frost is free there.
+    for (const panel of ['el-dialog', 'el-drawer']) {
+      const rule = body(panel);
+      expect(rule, panel).toMatch(/backdrop-filter: blur\(/);
+      const alphas = [...rule.matchAll(/rgba\([^)]*,\s*0\.(\d+)\)/g)].map((m) =>
+        Number(m[1]) / 10 ** m[1].length,
+      );
+      expect(alphas.length, `${panel} fades`).toBeGreaterThan(1);
+      // Below nine tenths a coal drifting past would wash out the ticket.
+      expect(Math.min(...alphas), panel).toBeGreaterThanOrEqual(0.9);
+    }
+    // A map you cannot see the fire through is just a coloured rectangle.
+    expect(css).toMatch(/\.ember-larder \.el-plan-ground \{[^}]*fill: rgba\(/);
   });
 
   it('leans each product card toward the pointer in real 3D', () => {

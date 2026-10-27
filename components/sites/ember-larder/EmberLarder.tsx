@@ -4,6 +4,7 @@ import { useEffect, useMemo, useReducer, useState } from 'react';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { BasketBar } from './BasketBar';
 import { CartDrawer } from './CartDrawer';
+import { EmberField } from './EmberField';
 import { Hero } from './Hero';
 import { Nav } from './Nav';
 import { ProductDialog } from './ProductDialog';
@@ -22,6 +23,9 @@ import type { Product, ProductGroup } from './data';
  * door sells jars, and they share a single ticket. The basket lives in session
  * storage, so a reload mid-order keeps the table's ticket but a fresh visit
  * starts cold — which is what a walk-in counter would do anyway.
+ *
+ * The coals are the page's light source, so they run once, fixed behind the
+ * whole document, and every panel is translucent enough to let them through.
  */
 export function EmberLarder() {
   const [cart, dispatch] = useReducer(cartReducer, {} as CartState);
@@ -52,6 +56,8 @@ export function EmberLarder() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="ember-larder min-h-screen" data-bar-up={cartCount(cart) > 0 ? 'true' : 'false'}>
+        <EmberField className="el-ember" count={64} />
+
         <Nav cart={cart} onOpenBasket={() => setBasketOpen(true)} />
 
         <main>

@@ -31,7 +31,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
 | Coffee Cups | `/coffee-cups` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
 | OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
-| Ember Larder | `/ember-larder` | Live-fire restaurant **and** its retail pantry shelf: variant-priced basket across plates and jars, ember canvas hero, 3D tilt cards, scroll-drawn set dinner, quote belt |
+| Ember Larder | `/ember-larder` | Live-fire restaurant **and** its retail pantry shelf: variant-priced basket across plates and jars, page-wide ember canvas behind frosted-glass panels, 3D tilt cards, scroll-drawn set dinner, quote belt |
 
 Coffee Cups shipped first as *Dream Cafe*. The name, route, component folder, `cc-*` class family and
 `public/` assets all moved in one pass, and `next.config.mjs` keeps `/dream-cafe*` redirecting so old
@@ -102,7 +102,10 @@ so two variants of one plate never merge, and the printed price is always the op
 zero delta. Totals are computed once from the subtotal — GST is rounded a single time, so the rows
 on the pass always add up to the number the button quotes.
 
-The motion is all in service of the room: one `EmberField` canvas of coals in the hero (rAF paused by
+The motion is all in service of the room: one `EmberField` canvas of coals fixed behind the whole
+page — the hero, the bands and the footer all sit above it, and every panel is smoked glass
+(`backdrop-filter` over a translucent fill) so the fire reads through the cards, the ticket and the
+sketch plan rather than being hidden by them (rAF ticks on a 30 fps clock and is paused by
 `IntersectionObserver` and `visibilitychange`, a single still paint under `prefers-reduced-motion`),
 a headline lifted out of per-line masks, pointer-driven 3D tilt on the product cards with a glare that
 follows the cursor, a set-dinner rule drawn by scroll progress, and a quote belt that stops when a

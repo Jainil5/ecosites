@@ -5907,6 +5907,10 @@ html.lenis body {
 }
 
 .ember-larder .el-band {
+  /* Above the fixed coal field, so the panels can frost it rather than be
+     washed over by it. */
+  position: relative;
+  z-index: 3;
   padding-block: clamp(76px, 10vw, 140px);
   /* Every anchor in the nav points at one of these, and the header is sticky —
      without the margin the first line of a band lands underneath it. */
@@ -6047,6 +6051,10 @@ html.lenis body {
 
 /* --- Header -------------------------------------------------- */
 .ember-larder .el-topbar {
+  /* Above the coal field — the strip that returns you to the brand shell stays
+     readable, it is chrome rather than part of the room. */
+  position: relative;
+  z-index: 3;
   background: #080706;
   border-bottom: 1px solid var(--el-line-soft);
   font-family: var(--font-label), ui-monospace, monospace;
@@ -6270,7 +6278,17 @@ html.lenis body {
   background-size: 3px 3px;
 }
 
+/* The hearth is the page's light source, not a hero decoration: one canvas
+   pinned to the viewport, painting above the photograph (auto-positioned) and
+   below the copy and bands (z-index 3). Its ancestors stay transform-free, or
+   the layer stops being locked to the viewport and scrolls away with them. A
+   canvas is a replaced element, so `inset` alone leaves it at its intrinsic
+   300x150 — the box has to be asked for. */
 .ember-larder .el-ember {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   pointer-events: none;
 }
@@ -6475,7 +6493,10 @@ html.lenis body {
   flex-direction: column;
   border: 1px solid var(--el-line);
   border-radius: 20px;
-  background: linear-gradient(170deg, var(--el-char), #100d0b 70%);
+  /* Smoke, not frost. A blurred panel inside a raised band samples only the
+     band, so the fixed coal field stops reaching these pixels: measured at 20
+     changed pixels across the cards with `backdrop-filter`, 496 without it. */
+  background: linear-gradient(170deg, rgba(23, 19, 16, 0.62), rgba(16, 13, 11, 0.8) 70%);
   overflow: hidden;
   transition: border-color 260ms, box-shadow 260ms;
 }
@@ -6687,7 +6708,9 @@ html.lenis body {
   overflow: auto;
   border: 1px solid var(--el-line);
   border-radius: 22px;
-  background: linear-gradient(165deg, #191512, #100d0b 75%);
+  background: linear-gradient(165deg, rgba(25, 21, 18, 0.9), rgba(16, 13, 11, 0.96) 75%);
+  backdrop-filter: blur(20px) saturate(115%);
+  -webkit-backdrop-filter: blur(20px) saturate(115%);
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   overscroll-behavior: contain;
@@ -6897,7 +6920,9 @@ html.lenis body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #16120f, #0e0b09);
+  background: linear-gradient(180deg, rgba(22, 18, 15, 0.9), rgba(14, 11, 9, 0.96));
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
   border-left: 1px solid var(--el-line);
   padding-bottom: env(safe-area-inset-bottom);
   overscroll-behavior: contain;
@@ -7239,7 +7264,10 @@ html.lenis body {
 
 /* --- The hearth (story) -------------------------------------- */
 .ember-larder .el-story {
-  background: linear-gradient(180deg, var(--el-soot), #100d0b 60%, var(--el-soot));
+  /* Band washes are alpha only: they deepen the room without ever fully hiding
+     the fire behind it. */
+  background: linear-gradient(180deg, rgba(12, 10, 9, 0), rgba(16, 13, 11, 0.55) 60%,
+      rgba(12, 10, 9, 0));
 }
 
 .ember-larder .el-story-grid {
@@ -7351,7 +7379,7 @@ html.lenis body {
 
 /* --- The set dinner ------------------------------------------ */
 .ember-larder .el-set {
-  background: #0e0c0a;
+  background: rgba(14, 12, 10, 0.55);
 }
 
 .ember-larder .el-set-head {
@@ -7373,7 +7401,7 @@ html.lenis body {
   padding: 22px;
   border: 1px solid rgba(255, 106, 61, 0.3);
   border-radius: 20px;
-  background: rgba(255, 106, 61, 0.06);
+  background: linear-gradient(160deg, rgba(255, 106, 61, 0.13), rgba(255, 106, 61, 0.04));
   display: grid;
   gap: 8px;
   justify-items: start;
@@ -7500,7 +7528,7 @@ html.lenis body {
   padding: 24px 24px 20px;
   border: 1px solid var(--el-line);
   border-radius: 18px;
-  background: linear-gradient(165deg, var(--el-char), #100d0b);
+  background: linear-gradient(165deg, rgba(23, 19, 16, 0.62), rgba(16, 13, 11, 0.8));
   transform: rotate(var(--el-tilt, 0deg));
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 320ms;
 }
@@ -7563,7 +7591,7 @@ html.lenis body {
 
 /* --- Booking sheet ------------------------------------------- */
 .ember-larder .el-reserve {
-  background: linear-gradient(180deg, var(--el-soot), #100d0b);
+  background: linear-gradient(180deg, rgba(12, 10, 9, 0), rgba(16, 13, 11, 0.6));
 }
 
 .ember-larder .el-reserve-grid {
@@ -7615,7 +7643,7 @@ html.lenis body {
   padding: clamp(20px, 3vw, 30px);
   border: 1px solid var(--el-line);
   border-radius: 22px;
-  background: rgba(243, 236, 225, 0.025);
+  background: linear-gradient(165deg, rgba(243, 236, 225, 0.055), rgba(243, 236, 225, 0.018));
   box-shadow: 0 30px 80px -50px rgba(0, 0, 0, 0.9);
 }
 
@@ -7839,7 +7867,7 @@ html.lenis body {
 .ember-larder .el-plan {
   border: 1px solid var(--el-line);
   border-radius: 22px;
-  background: linear-gradient(165deg, #14100d, #0c0a09);
+  background: linear-gradient(165deg, rgba(20, 16, 13, 0.6), rgba(12, 10, 9, 0.78));
   overflow: hidden;
 }
 
@@ -7850,7 +7878,9 @@ html.lenis body {
 }
 
 .ember-larder .el-plan-ground {
-  fill: #100d0b;
+  /* The plan sits on the glass, so its ground is a wash rather than a fill —
+     coals still read through the map. */
+  fill: rgba(16, 13, 11, 0.55);
 }
 
 .ember-larder .el-plan-road {
@@ -7916,8 +7946,12 @@ html.lenis body {
 
 /* --- Footer -------------------------------------------------- */
 .ember-larder .el-footer {
+  position: relative;
+  z-index: 3;
   border-top: 1px solid var(--el-line);
-  background: #080706;
+  /* The last band is the one the coals rise into, so it fades rather than
+     closes — the glow is still there under the fine print. */
+  background: linear-gradient(180deg, rgba(8, 7, 6, 0.5), rgba(8, 7, 6, 0.92) 62%);
   padding-block: clamp(46px, 6vw, 72px) 26px;
 }
 

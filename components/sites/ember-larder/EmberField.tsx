@@ -18,12 +18,16 @@ interface Coal {
   hue: number;
 }
 
+// A background never needs 60 frames, and this one now sits behind every panel
+// on the page rather than only behind the hero.
+const FRAME_MS = 1000 / 30;
+
 /**
  * The hearth glow: a canvas of coals lifting off the bottom edge and dying out
- * as they climb. One rAF loop, one canvas, and it stops itself when the hero
- * scrolls out of view or the tab is hidden — the effect never runs off-screen.
- * Under `prefers-reduced-motion` it paints one still scatter instead, so the
- * hero keeps its warmth without the movement.
+ * as they climb. One rAF loop ticking at 30 fps, one canvas, and it stops itself
+ * when the layer is off-screen or the tab is hidden — the effect never runs out
+ * of sight. Under `prefers-reduced-motion` it paints one still scatter instead,
+ * so the page keeps its warmth without the movement.
  */
 export function EmberField({ className, count = 46 }: EmberFieldProps) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -83,8 +87,15 @@ export function EmberField({ className, count = 46 }: EmberFieldProps) {
       ctx.globalCompositeOperation = 'source-over';
     }
 
-    const step = () => {
+    // The canvas keeps asking for a frame every vsync, but the coals only move on
+    // a 30 fps clock — a background field does not need to be any smoother.
+    let last = 0;
+
+    const step = (now: number) => {
       if (!running) return;
+      frame = requestAnimationFrame(step);
+      if (now - last < FRAME_MS) return;
+      last = now;
       for (const c of coals) {
         c.y -= c.vy;
         // A lazy sway, plus a nudge toward wherever the pointer is.
@@ -94,7 +105,6 @@ export function EmberField({ className, count = 46 }: EmberFieldProps) {
       }
       drift *= 0.94;
       paint();
-      frame = requestAnimationFrame(step);
     };
 
     // One loop, started and stopped as a pair — a second `requestAnimationFrame`
