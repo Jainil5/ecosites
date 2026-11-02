@@ -1,6 +1,7 @@
 // components/sites/analytical-register/OrderBook.tsx
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { StoreProvider, useOrderBook } from './store';
 import { Overview } from './Overview';
 import { Register } from './Register';
@@ -9,12 +10,22 @@ import { Analytics } from './AnalyticsView';
 import { MenuManager } from './MenuManager';
 import { Settings } from './Settings';
 import { TABS } from './overview-data';
-import type { EditionId } from './editions';
+import { ORDERBOOK_BASE, type EditionId } from './editions';
 import type { ObView } from './types';
 
-function Workspace() {
-  const { state, dispatch } = useOrderBook();
-  const [view, setView] = useState<ObView>('overview');
+const isView = (id: string): id is ObView => TABS.some((t) => t.id === id);
+
+function Workspace({ initialView }: { initialView: ObView }) {
+  const { state } = useOrderBook();
+  const [view, setView] = useState<ObView>(initialView);
+
+  // A counter's address may carry the screen to open — `/hair-adore-demo#analytics`
+  // is a link worth sending to an owner — so the hash is read once after mount
+  // (the server cannot know it) and kept in step as tabs change.
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (isView(hash)) setView(hash);
+  }, []);
 
   // The introduction runs long, so a jump into a screen has to land the reader
   // at the top of it rather than wherever the page happened to be scrolled.
@@ -22,10 +33,9 @@ function Workspace() {
   // reduced motion.
   const open = (next: ObView) => {
     setView(next);
+    window.history.replaceState(null, '', next === initialView ? window.location.pathname : `#${next}`);
     window.scrollTo(0, 0);
   };
-
-  const switchEdition = (id: EditionId) => dispatch({ type: 'switch-edition', edition: id });
 
   return (
     <div className="orderbook min-h-screen" style={{ ['--ob-accent' as string]: state.brand.accent }}>
@@ -33,9 +43,9 @@ function Workspace() {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
           {/* The product's name on the introduction, the tenant's name once you
               are inside the till that is actually running. */}
-          <span className="text-lg font-extrabold ob-accent-text">
+          <Link href={`${ORDERBOOK_BASE}#overview`} className="text-lg font-extrabold ob-accent-text">
             {view === 'overview' ? 'OrderBook' : state.brand.name}
-          </span>
+          </Link>
           {view === 'overview' && (
             <span className="-ml-2 hidden text-xs font-semibold text-[var(--ob-muted)] sm:inline">
               Running on {state.brand.name}’s own menu
@@ -55,11 +65,11 @@ function Workspace() {
           </nav>
         </div>
       </header>
-      {/* Keyed by edition: every screen keeps local state — the register's open
+      {/* Keyed by counter: every screen keeps local state — the register's open
           category, the settings inputs, the last bill printed — and none of it
-          belongs to the next counter, so switching remounts the body. */}
+          belongs to the next business, so a change of book remounts the body. */}
       <main key={state.edition} className="mx-auto max-w-6xl px-4 py-6">
-        {view === 'overview' && <Overview onOpen={open} onSwitch={switchEdition} />}
+        {view === 'overview' && <Overview onOpen={open} />}
         {view === 'register' && <Register />}
         {view === 'orders' && <OrdersLog />}
         {view === 'analytics' && <Analytics />}
@@ -70,10 +80,20 @@ function Workspace() {
   );
 }
 
-export function OrderBook() {
+/**
+ * One system, addressed per counter: `/orderbook` introduces it and
+ * `/orderbook/hair-adore-demo` opens the book that business actually runs.
+ */
+export function OrderBook({
+  edition,
+  initialView = 'overview',
+}: {
+  edition?: EditionId;
+  initialView?: ObView;
+}) {
   return (
-    <StoreProvider>
-      <Workspace />
+    <StoreProvider edition={edition}>
+      <Workspace initialView={initialView} />
     </StoreProvider>
   );
 }

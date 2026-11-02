@@ -16,6 +16,9 @@ const nextConfig = {
       // links still carry the old slug, so the whole subtree moves with a 301.
       { source: '/dream-cafe', destination: '/coffee-cups', permanent: true },
       { source: '/dream-cafe/:path*', destination: '/coffee-cups/:path*', permanent: true },
+      // OrderBook's internal slug was `analytical-register`; the product is now
+      // addressed by name, with one address per counter underneath it.
+      { source: '/analytical-register', destination: '/orderbook', permanent: true },
     ];
   },
 };

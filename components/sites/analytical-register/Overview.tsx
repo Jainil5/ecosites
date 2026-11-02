@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { useOrderBook } from './store';
 import { computeKpis } from './analytics';
-import { editions } from './editions';
+import { counterPath, editions } from './editions';
 import { formatMoney } from './pricing';
 import { AUDIENCES, CAPABILITIES, COUNTERS, DAY, HERO, SCOPE, TABS, type Capability } from './overview-data';
 import type { Edition } from './editions';
@@ -16,14 +16,10 @@ function CounterCard({
   edition,
   active,
   index,
-  onOpen,
-  onSwitch,
 }: {
   edition: Edition;
   active: boolean;
   index: number;
-  onOpen: (view: ObView) => void;
-  onSwitch: (id: Edition['id']) => void;
 }) {
   // The facts a visitor can check by opening it: what is on the menu, what tax
   // the bills carry, and when that trade actually happens.
@@ -59,18 +55,14 @@ function CounterCard({
         ))}
       </ul>
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <button
-          className={active ? 'ob-btn-ghost' : 'ob-btn'}
-          onClick={() => {
-            if (!active) onSwitch(edition.id);
-            onOpen('register');
-          }}
-        >
-          {active ? 'You are on this counter' : `Open the ${edition.brand.name} till`}
-        </button>
-        <button className="ob-live" onClick={() => { if (!active) onSwitch(edition.id); onOpen('analytics'); }}>
+        {/* Each counter is a place you go, not a setting you flip: the till and
+            its report have their own address, so either can be sent to someone. */}
+        <Link href={counterPath(edition)} className={active ? 'ob-btn-ghost' : 'ob-btn'}>
+          {active ? `This counter is open` : `Open the ${edition.brand.name} till`}
+        </Link>
+        <Link href={`${counterPath(edition)}#analytics`} className="ob-live">
           See its numbers
-        </button>
+        </Link>
       </div>
     </article>
   );
@@ -125,13 +117,7 @@ function CapabilityCard({
   );
 }
 
-export function Overview({
-  onOpen,
-  onSwitch,
-}: {
-  onOpen: (view: ObView) => void;
-  onSwitch: (id: Edition['id']) => void;
-}) {
+export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
   const { state } = useOrderBook();
   const cur = state.brand.currency;
 
@@ -201,20 +187,13 @@ export function Overview({
         />
         <div className="grid gap-3 lg:grid-cols-3">
           {editions.map((e, i) => (
-            <CounterCard
-              key={e.id}
-              edition={e}
-              index={i}
-              active={e.id === state.edition}
-              onOpen={onOpen}
-              onSwitch={onSwitch}
-            />
+            <CounterCard key={e.id} edition={e} index={i} active={e.id === state.edition} />
           ))}
         </div>
         <p className="mt-4 text-sm text-[var(--ob-muted)]">
-          You are on <b className="ob-accent-text">{state.brand.name}</b> — {state.menu.filter((m) => m.active).length} items,{' '}
-          {Math.round(state.brand.gstRate * 100)}% GST. Switching counter loads that business’s own catalogue,
-          tax split and trading book.
+          This page is running on <b className="ob-accent-text">{state.brand.name}</b> —{' '}
+          {state.menu.filter((m) => m.active).length} items, {Math.round(state.brand.gstRate * 100)}% GST.
+          Every counter above opens at its own address with that business’s catalogue, tax split and book.
         </p>
       </section>
 

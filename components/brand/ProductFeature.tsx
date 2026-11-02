@@ -7,7 +7,9 @@ import { products } from '@/content/brand/products';
 import { websites } from '@/content/websites/sites';
 
 const orderBook = products[0];
-const showcase = websites.find((site) => site.path === orderBook.demoPath);
+// The band shows one counter, not the introduction: the café book is the
+// closest thing to a screenshot of the product itself.
+const showcase = websites.find((site) => site.path.startsWith('/orderbook/'));
 
 /**
  * The brief's featured-product band. Only shipped features are listed, and

@@ -46,7 +46,7 @@ export const industries: Industry[] = [
       'Product enquiries',
       'Order and sales workflows',
     ],
-    proof: { kind: 'product', path: '/analytical-register' },
+    proof: { kind: 'product', path: '/orderbook' },
   },
   {
     slug: 'clinics-and-healthcare',

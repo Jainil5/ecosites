@@ -179,10 +179,15 @@ describe('the introduction shell', () => {
   const shell = read(`${DIR}/OrderBook.tsx`);
   const intro = read(`${DIR}/Overview.tsx`);
 
-  it('opens the workspace on the introduction', () => {
-    expect(shell).toMatch(/useState<ObView>\(['"]overview['"]\)/);
+  it('opens on whichever screen the address asked for', () => {
+    // The introduction is the default; a counter's own address opens the till.
+    expect(shell).toMatch(/initialView = ['"]overview['"]/);
+    expect(shell).toMatch(/useState<ObView>\(initialView\)/);
     expect(shell).toMatch(/import \{ Overview \} from '\.\/Overview'/);
     expect(shell).toMatch(/view === ['"]overview['"] && <Overview/);
+    // A hash names the screen too, so `#analytics` is a link worth sending.
+    expect(shell).toMatch(/window\.location\.hash\.slice\(1\)/);
+    expect(shell).toMatch(/if \(isView\(hash\)\) setView\(hash\)/);
   });
 
   it('navigates on the same tab list the introduction links into', () => {
@@ -201,14 +206,15 @@ describe('the introduction shell', () => {
     expect(shell).toMatch(/onOpen=\{open\}/);
   });
 
-  it('hands every counter card a way to open that counter', () => {
-    // The card's primary button switches the trade, then walks into its till.
-    expect(shell).toMatch(/onSwitch=\{switchEdition\}/);
-    expect(shell).toMatch(/dispatch\(\{ type: ['"]switch-edition['"], edition: id \}\)/);
+  it('sends every counter card to that counter\u2019s own address', () => {
+    // A card is a link, not a mode switch: the till and its report each have a
+    // URL, so either can be handed to the business it runs for.
     expect(intro).toMatch(/editions\.map/);
-    expect(intro).toMatch(/onSwitch\(edition\.id\)/);
-    expect(intro).toMatch(/onOpen\(['"]register['"]\)/);
-    expect(intro).toMatch(/onOpen\(['"]analytics['"]\)/);
+    expect(intro).toMatch(/<Link href=\{counterPath\(edition\)\}/);
+    expect(intro).toMatch(/\{counterPath\(edition\)\}#analytics/);
+    // Nothing inside the book changes counter any more.
+    expect(shell).not.toMatch(/switch-edition/);
+    expect(intro).not.toMatch(/onSwitch/);
     // One card component, rendered once per edition.
     expect(intro.match(/<CounterCard/g) ?? []).toHaveLength(1);
     expect(editions).toHaveLength(3);

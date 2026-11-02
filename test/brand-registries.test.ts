@@ -66,7 +66,13 @@ describe('products registry', () => {
   it('features OrderBook with its product page and the parent brand', () => {
     expect(products[0].title).toBe('OrderBook');
     expect(products[0].slug).toBe('order-book');
-    expect(products[0].demoPath).toBe('/analytical-register');
+    expect(products[0].demoPath).toBe('/orderbook');
+    // The introduction is a route, and every counter it advertises has its own.
+    expect(resolveRoute('/orderbook'), '/orderbook').not.toBeNull();
+    for (const path of ['/orderbook/coffee-cups-demo', '/orderbook/hair-adore-demo', '/orderbook/ember-larder-demo']) {
+      expect(resolveRoute(path), path).not.toBeNull();
+      expect(websites.some((w) => w.path === path), path).toBe(true);
+    }
   });
 });
 

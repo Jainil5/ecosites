@@ -58,4 +58,19 @@ describe('OrderBook shares the Coffee Cups menu', () => {
     // The Coffee Cups bridge feeds the café book and no other counter's.
     expect(src).toMatch(/if \(!bridgesToCafe\(st\.edition\)\) return st;/);
   });
+
+  it('keeps one book per counter, so two businesses never share a localStorage key', () => {
+    const src = readFileSync(
+      join(process.cwd(), 'components/sites/analytical-register/store.tsx'), 'utf8',
+    );
+    // Each counter is its own record: a café's afternoon must not be read into,
+    // or overwritten by, the salon's appointments.
+    expect(src).toMatch(/const keyFor = \(edition: EditionId\) => `\$\{KEY\}:\$\{edition\}`/);
+    expect(src).toMatch(/getItem\(keyFor\(edition\)\)/);
+    expect(src).toMatch(/setItem\(keyFor\(state\.edition\)/);
+    // A book saved under another counter's name is discarded, not adopted.
+    expect(src).toMatch(/parsed\.edition !== edition/);
+    // Moving between counters re-hydrates from the new address.
+    expect(src).toMatch(/setHydrated\(true\);\n  \}, \[edition\]\);/);
+  });
 });

@@ -66,7 +66,7 @@ describe('ember larder store registry entry', () => {
     expect(site?.business).toMatch(/pantry/i);
     expect(site?.slug).not.toBe('coffee-cups');
     expect(site?.slug).not.toBe('savour');
-    expect(site?.slug).not.toBe('analytical-register');
+    expect(site?.slug).not.toMatch(/^orderbook-/);
   });
 });
 

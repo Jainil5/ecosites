@@ -84,7 +84,9 @@ describe('delivered websites on the builder work page', () => {
       'stock-screener',
       'coffee-cups',
       'savour',
-      'analytical-register',
+      'orderbook-cafes',
+      'orderbook-salons',
+      'orderbook-kitchens',
       'namesake',
       'ember-larder',
     ]);

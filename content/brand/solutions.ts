@@ -33,7 +33,7 @@ export const solutions: Solution[] = [
       'Transformation with data-quality checks',
       'Dashboards and reporting for decision-makers',
     ],
-    proof: { kind: 'product', path: '/analytical-register' },
+    proof: { kind: 'product', path: '/orderbook' },
   },
   {
     slug: 'ai-and-automation',

@@ -5,7 +5,11 @@ import { seedOrders } from './seed';
 import type { Brand, Customer, MenuItem, Order, OrderLine } from './types';
 
 export interface StoreState {
-  /** Which counter is open — the catalogue, the tax rate and the day shape. */
+  /**
+   * Which counter this book belongs to — the catalogue, the tax rate and the
+   * day shape. The URL picks it, and it never changes inside a session: a
+   * café's ticket has no business becoming a salon's.
+   */
   edition: EditionId;
   brand: Brand;
   menu: MenuItem[];
@@ -18,7 +22,6 @@ export interface StoreState {
 
 export type Action =
   | { type: 'hydrate'; state: StoreState }
-  | { type: 'switch-edition'; edition: EditionId }
   | { type: 'add-line'; item: MenuItem }
   | { type: 'set-qty'; menuItemId: string; qty: number }
   | { type: 'remove-line'; menuItemId: string }
@@ -53,13 +56,6 @@ export function orderbookReducer(state: StoreState, action: Action): StoreState 
   switch (action.type) {
     case 'hydrate':
       return action.state;
-    case 'switch-edition': {
-      // Changing counter means changing trade: the catalogue, the tax split and
-      // the book all come from the new edition. The open ticket is dropped so a
-      // café pour can never end up billed on a salon ticket.
-      if (state.edition === action.edition) return state;
-      return initState(undefined, action.edition);
-    }
     case 'add-line': {
       const existing = state.ticket.find((l) => l.menuItemId === action.item.id);
       const ticket = existing

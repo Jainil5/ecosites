@@ -30,6 +30,21 @@ describe('Phase 1 IA', () => {
     }
   });
 
+  it('lists every product page and counter once, and nothing twice', () => {
+    const urls = (sitemap() as { url: string }[]).map((entry) => entry.url);
+    for (const route of [
+      '/orderbook',
+      '/orderbook/coffee-cups-demo',
+      '/orderbook/hair-adore-demo',
+      '/orderbook/ember-larder-demo',
+    ]) {
+      expect(urls.filter((u) => u === `${siteUrl}${route}`).length, route).toBe(1);
+    }
+    // A path can be reachable from two registries at once — a product page that
+    // is also a delivered site — and must still be listed a single time.
+    expect(new Set(urls).size, 'duplicate urls in the sitemap').toBe(urls.length);
+  });
+
   it('nav points only at built routes with the agreed labels', () => {
     expect(navLinks.map((l) => l.href)).toEqual([
       '/services',

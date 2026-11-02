@@ -1,7 +1,7 @@
 // test/analytical-register-editions.test.ts
 import { describe, expect, it } from 'vitest';
 import {
-  bridgesToCafe, defaultEdition, editionById, editions,
+  bridgesToCafe, counterPath, defaultEdition, editionById, editionByCounter, editions,
 } from '@/components/sites/analytical-register/editions';
 import { initState, orderbookReducer } from '@/components/sites/analytical-register/reducer';
 import { defaultBrand, defaultMenu } from '@/components/sites/analytical-register/menu-data';
@@ -112,23 +112,36 @@ describe('switching counter', () => {
     }
   });
 
-  it('drops the open ticket, because the ticket belongs to the old counter', () => {
-    const cafe = initState([]);
-    const withTicket = orderbookReducer(cafe, { type: 'add-line', item: defaultMenu[0] });
-    expect(withTicket.ticket).toHaveLength(1);
-    const salon = orderbookReducer(withTicket, { type: 'switch-edition', edition: 'salon' });
-    expect(salon.ticket).toHaveLength(0);
-    expect(salon.edition).toBe('salon');
-    expect(salon.orders.length).toBeGreaterThan(0);
+  it('is an address, not a setting — every counter resolves from its own slug', () => {
+    const paths = editions.map((e) => counterPath(e));
+    expect(new Set(paths).size).toBe(editions.length);
+    expect(paths).toEqual([
+      '/orderbook/coffee-cups-demo',
+      '/orderbook/hair-adore-demo',
+      '/orderbook/ember-larder-demo',
+    ]);
+    for (const e of editions) {
+      expect(editionByCounter(e.counter)?.id).toBe(e.id);
+    }
+    // An address that names no counter must 404 rather than guess one.
+    expect(editionByCounter('somebody-elses-shop')).toBeUndefined();
+    expect(editionByCounter(undefined)).toBeUndefined();
   });
 
-  it('is a no-op when the counter is already open', () => {
-    const cafe = initState([]);
-    expect(orderbookReducer(cafe, { type: 'switch-edition', edition: 'cafe' })).toBe(cafe);
+  it('never changes counter mid-book, because the ticket belongs to a business', () => {
+    // The URL picks the counter and the store hydrates that one's book, so no
+    // action in the reducer is allowed to move a café ticket onto a salon.
+    const salon = initState([], 'salon');
+    const withTicket = orderbookReducer(salon, { type: 'add-line', item: byId('salon').menu[0] });
+    expect(withTicket.edition).toBe('salon');
+    const billed = orderbookReducer(withTicket, { type: 'create-order', id: 'o-1', now: '2026-11-01T10:00:00.000Z' });
+    expect(billed.edition).toBe('salon');
+    expect(billed.ticket).toHaveLength(0);
+    expect(billed.orders).toHaveLength(salon.orders.length + 1);
   });
 
   it('resets to the current counter’s own book, not the default one', () => {
-    const larder = orderbookReducer(initState([]), { type: 'switch-edition', edition: 'larder' });
+    const larder = initState([], 'larder');
     const cleared = orderbookReducer(larder, { type: 'reset' });
     expect(cleared.edition).toBe('larder');
     expect(cleared.brand.name).toBe('Ember Larder');

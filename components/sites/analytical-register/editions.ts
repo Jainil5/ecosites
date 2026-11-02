@@ -27,6 +27,12 @@ export interface Edition {
   /** One line: what this edition does that the others do not need. */
   line: string;
   bullets: string[];
+  /**
+   * The URL segment this counter is reached on — `/orderbook/hair-adore-demo`.
+   * The business owns the address, so a counter can be handed to its owner as a
+   * link rather than described as a setting inside someone else's page.
+   */
+  counter: string;
   brand: Brand;
   menu: MenuItem[];
   /** How this business actually trades — bill volume and opening hours. */
@@ -67,6 +73,7 @@ export const editions: Edition[] = [
   {
     id: 'cafe',
     label: 'OrderBook for cafés',
+    counter: 'coffee-cups-demo',
     kicker: 'Coffee, food and cold pours',
     line: 'A counter that never stops: tap a pour onto the ticket, bill it, and the regular is already in the book.',
     bullets: [
@@ -89,6 +96,7 @@ export const editions: Edition[] = [
   {
     id: 'salon',
     label: 'OrderBook for salons and studios',
+    counter: 'hair-adore-demo',
     kicker: 'Cuts, colour and grooming',
     line: 'A service counter: big tickets, artist-led, where the bill follows the chair and the tax is on the service.',
     bullets: [
@@ -120,6 +128,7 @@ export const editions: Edition[] = [
   {
     id: 'larder',
     label: 'OrderBook for kitchens and shelves',
+    counter: 'ember-larder-demo',
     kicker: 'Live fire and a pantry shelf',
     line: 'One ticket for a plate cooked over the fire and a jar taken off the shelf — dining room and retail, billed together.',
     bullets: [
@@ -158,3 +167,13 @@ export function editionById(id: EditionId | undefined): Edition {
 
 /** Only the café counter shares a bridge with the Coffee Cups ordering page. */
 export const bridgesToCafe = (id: EditionId) => id === 'cafe';
+
+/** Where OrderBook lives, and how each counter is addressed underneath it. */
+export const ORDERBOOK_BASE = '/orderbook';
+export const counterPath = (edition: Edition) => `${ORDERBOOK_BASE}/${edition.counter}`;
+
+/** The counter a URL segment names, or nothing when the address is unknown. */
+export function editionByCounter(counter: string | string[] | undefined): Edition | undefined {
+  const segment = Array.isArray(counter) ? counter[0] : counter;
+  return editions.find((e) => e.counter === segment);
+}

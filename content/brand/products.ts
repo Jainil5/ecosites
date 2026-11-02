@@ -32,7 +32,7 @@ export const products: Product[] = [
           'The dashboard that reads the day back to you: best sellers, slow items, and the trend since you started keeping records.',
       },
     ],
-    demoPath: '/analytical-register',
+    demoPath: '/orderbook',
   },
   {
     slug: 'market-pulse',
