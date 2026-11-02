@@ -57,9 +57,9 @@ export const websites = [
     slug: 'analytical-register',
     author: 'jainil-patel',
     title: 'OrderBook',
-    business: 'Order register & business analytics · demonstration build',
+    business: 'Order management system for cafés and restaurants · demonstration build',
     description:
-      'A working demonstration of the ordering, billing and reporting system we build around a counter, desk or studio, running on sample data. Tap items to build a ticket, capture the customer, generate a tax-correct cash memo and send the bill on WhatsApp in one tap. Every logged order feeds a live dashboard of revenue, average order value, top items, category mix and weekday-versus-weekend trends.',
+      'A working demonstration of the ordering, billing, kitchen and reporting system we build around a counter, desk or studio. It opens on the full product introduction — tables and QR ordering, kitchen printing, menu and modifiers, customers and loyalty, your own online store beside the aggregator inbox, inventory and recipe costing, staff roles and shift close, many outlets, and the reports that read the day back to you — and says plainly which half runs on this page. Behind it, the till itself: tap items onto a ticket, capture the customer, generate a tax-correct cash memo and send the bill on WhatsApp in one tap, while every logged order feeds a live dashboard of revenue, average order value, top items, category mix and weekday-versus-weekend trends. Everything is sample data from a build like yours.',
     path: '/analytical-register',
     theme: 'Light operator POS',
     accent: '#B5651D',

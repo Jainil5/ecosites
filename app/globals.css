@@ -4697,9 +4697,107 @@ html.lenis body {
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .orderbook .ob-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+
+/* The introduction — the same product read from the owner's side instead of the
+   counter's. It borrows the till's tokens, so a rebrand recolours the pitch
+   panel, the numbering and the "live here" chips along with the register. */
+.orderbook .ob-eyebrow {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ob-accent);
+}
+.orderbook .ob-hero {
+  background:
+    radial-gradient(130% 150% at 6% 0%, color-mix(in srgb, var(--ob-accent) 13%, transparent), transparent 58%),
+    var(--ob-card);
+}
+.orderbook .ob-rise { animation: ob-rise 0.45s ease-out both; }
+@keyframes ob-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.orderbook .ob-index {
+  flex: none;
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ob-accent);
+  background: color-mix(in srgb, var(--ob-accent) 9%, #fff);
+  border: 1px solid color-mix(in srgb, var(--ob-accent) 22%, var(--ob-line));
+  border-radius: 8px;
+  padding: 0.15rem 0.4rem;
+}
+.orderbook .ob-bullet {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-top: 0.55rem;
+  border-radius: 9999px;
+  background: var(--ob-accent);
+  opacity: 0.5;
+}
+.orderbook .ob-live {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ob-accent);
+  background: color-mix(in srgb, var(--ob-accent) 8%, #fff);
+  border: 1px solid color-mix(in srgb, var(--ob-accent) 26%, var(--ob-line));
+  border-radius: 9999px;
+  padding: 0.45rem 0.85rem;
+  min-height: 2.75rem;
+}
+.orderbook .ob-live:hover {
+  background: color-mix(in srgb, var(--ob-accent) 14%, #fff);
+}
+.orderbook .ob-day-step {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--ob-line);
+}
+.orderbook .ob-day-step:last-child { border-bottom: 0; }
+.orderbook .ob-day-clock {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ob-accent);
+}
+/* On a phone the 6rem clock column is width the paragraph needs, so the rail
+   stacks: the time reads as a label above the moment. */
+@media (max-width: 639px) {
+  .orderbook .ob-day-step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+    padding-block: 0.9rem;
+  }
+}
+.orderbook .ob-mark {
+  flex: none;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: 0.3rem;
+  border-radius: 9999px;
+}
+.orderbook .ob-mark-on {
+  background: color-mix(in srgb, var(--ob-accent) 20%, #fff);
+  border: 1.5px solid var(--ob-accent);
+}
+.orderbook .ob-mark-off {
+  background: var(--ob-canvas);
+  border: 1.5px solid var(--ob-line);
+}
+.orderbook .ob-scope-live {
+  border-color: color-mix(in srgb, var(--ob-accent) 35%, var(--ob-line));
+}
 @media (prefers-reduced-motion: reduce) {
   .orderbook .ob-tile { transition: none; }
   .orderbook .ob-tile:hover { transform: none; box-shadow: none; }
+  .orderbook .ob-rise { animation: none; }
 }
 
 /* ============================================================

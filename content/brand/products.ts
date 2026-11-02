@@ -12,19 +12,19 @@ export const products: Product[] = [
     slug: 'order-book',
     title: 'OrderBook',
     summary:
-      'A working demonstration of the ordering, billing and reporting system we build around your counter, desk or studio.',
+      'A working demonstration of the order management system we build around a café or restaurant — the whole scope explained, then the till to try.',
     icon: 'register',
     bullets: [
+      'An introduction that walks the full scope — tables, kitchen tickets, stock, staff, outlets and reports',
       'Order, invoice and receipt flow on the phone or tablet you already run the desk on',
       'Tax-correct bill with the split worked out, sent to the customer in one tap',
-      'Items, rates and offers you change yourself — no developer in the loop',
       'Everything on screen is sample data from a build like yours, not a live shop',
     ],
     modules: [
       {
         name: 'The register',
         detail:
-          'Items, quantities, taxes and the running total, with the finished bill one tap away.',
+          'Items, quantities, taxes and the running total, with the finished bill one tap away — and rates and offers you change yourself, no developer in the loop.',
       },
       {
         name: 'Smart Analytical Register',

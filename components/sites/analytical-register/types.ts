@@ -1,4 +1,13 @@
 // components/sites/analytical-register/types.ts
+
+/**
+ * The screens of the workspace. The introduction points at these by id, so a
+ * capability can only claim a screen that actually exists — `test/
+ * analytical-register-overview.test.ts` resolves every one of them against the
+ * navigation in OrderBook.tsx.
+ */
+export type ObView = 'overview' | 'register' | 'orders' | 'analytics' | 'menu' | 'settings';
+
 export interface Brand {
   id: string;
   name: string;

@@ -30,7 +30,7 @@ The brand site, the portfolio and the demo sites share one app but live in separ
 | Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
 | Coffee Cups | `/coffee-cups` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
-| OrderBook | `/analytical-register` | POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
+| OrderBook | `/analytical-register` | Opens on the product introduction — a trading day, twelve capability groups, who it fits, and which half runs here — then the POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
 | Ember Larder | `/ember-larder` | Live-fire restaurant **and** its retail pantry shelf: variant-priced basket across plates and jars, page-wide ember canvas behind frosted-glass panels, 3D tilt cards, scroll-drawn set dinner, quote belt |
 
 Coffee Cups shipped first as *Dream Cafe*. The name, route, component folder, `cc-*` class family and
