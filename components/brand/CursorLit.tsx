@@ -9,7 +9,7 @@ import { useRef, type ReactNode } from 'react';
  * surfaces flat — a touch screen would otherwise strand a light where the
  * finger last fell.
  *
- * `selector` is the only reason a caller passes anything: a demonstration site
+ * `selector` is the only reason a caller passes anything: a product site
  * outside the brand skin lights its own class and keeps its own colours.
  */
 export function CursorLit({

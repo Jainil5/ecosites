@@ -51,6 +51,11 @@ describe('OrderBook shares the Coffee Cups menu', () => {
     const src = readFileSync(
       join(process.cwd(), 'components/sites/analytical-register/store.tsx'), 'utf8',
     );
-    expect(src).toMatch(/'orderbook:v2'/);
+    // v2 payloads predate the counters: they hold only the café catalogue, and
+    // hydrating one onto the salon till would sell coffee in a salon.
+    expect(src).toMatch(/'orderbook:v3'/);
+    expect(src).toMatch(/editions\.some\(\(e\) => e\.id === parsed\.edition\)/);
+    // The Coffee Cups bridge feeds the café book and no other counter's.
+    expect(src).toMatch(/if \(!bridgesToCafe\(st\.edition\)\) return st;/);
   });
 });

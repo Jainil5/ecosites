@@ -86,8 +86,8 @@ export const navGroups: NavGroup[] = [
     })),
     footer: {
       href: '/demos',
-      title: 'Every business below is live',
-      description: 'Sites and apps already running for their owners',
+      title: 'Systems we build, running end to end',
+      description: 'Sites and apps we built and run ourselves, end to end',
     },
   },
   {

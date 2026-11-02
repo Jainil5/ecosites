@@ -87,7 +87,7 @@ function Hero({ mode }: { mode: ModeKey }) {
               <span aria-hidden>/</span>
               {active.person.since}
               <span aria-hidden>/</span>
-              sample person
+              written for the product
             </p>
 
             {/* The key remounts the scrambler, so flipping the book re-decodes the name. */}
@@ -244,7 +244,7 @@ function Contact() {
         </div>
       </CursorLit>
       <p className="nk-fine">
-        Neither address is real — the two people on this page are sample data.
+        Neither address is real — the two people on this page are ours, written for the product.
       </p>
     </section>
   );
@@ -272,7 +272,7 @@ export function Namesake() {
             <ArrowUpRight aria-hidden className="nk-ico" />
           </Link>
           <Link href="/demos" className="nk-foot-link">
-            More demonstration builds
+            See the systems we run
           </Link>
         </p>
       </footer>

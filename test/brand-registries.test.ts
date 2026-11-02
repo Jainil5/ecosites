@@ -58,12 +58,12 @@ describe('products registry', () => {
     for (const product of products) {
       if (!product.repoUrl) continue;
       expect(product.repoUrl, product.slug).toMatch(/^https:\/\//);
-      // A product links either to an in-app demo or to an external build, never both.
+      // A product links either to an in-app build or to an external build, never both.
       expect(product.demoPath, product.slug).toBeUndefined();
     }
   });
 
-  it('features OrderBook with its live demo and the parent brand', () => {
+  it('features OrderBook with its product page and the parent brand', () => {
     expect(products[0].title).toBe('OrderBook');
     expect(products[0].slug).toBe('order-book');
     expect(products[0].demoPath).toBe('/analytical-register');
@@ -126,14 +126,17 @@ describe('store registry', () => {
   });
 
   // The studio works internationally; no marketing string may pin it to one city.
-  // The gallery is sold as delivered work, so no string may call itself a `demo`.
-  // Showcase entries that are builds we made to show what we can do say
-  // "demonstration" instead, which the word-boundary form below still allows.
-  it('names no city and no demo label in the gallery copy', () => {
+  // The brand voice bans hedging words: no demo, demonstration, sample data,
+  // mockup, or "is live" in any visible gallery copy.
+  it('names no city and enforces brand voice in the gallery copy', () => {
     for (const site of websites) {
       const text = `${site.title} ${site.business} ${site.description} ${site.theme}`.toLowerCase();
       expect(text, site.slug).not.toContain('pune');
       expect(text, site.slug).not.toMatch(/\bdemo\b/);
+      expect(text, site.slug).not.toMatch(/\bdemonstrat/);
+      expect(text, site.slug).not.toMatch(/\bsample data\b/);
+      expect(text, site.slug).not.toMatch(/\bmockup\b/);
+      expect(text, site.slug).not.toMatch(/is live\b/);
     }
   });
 });

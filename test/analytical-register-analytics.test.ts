@@ -1,8 +1,10 @@
 // test/analytical-register-analytics.test.ts
 import { describe, expect, it } from 'vitest';
 import {
-  computeKpis, revenueByDay, topItems, categoryMix, weekdayWeekend,
+  computeKpis, revenueByDay, topItems, categoryMix, weekdayWeekend, shortDate,
   rankItems, revenueByWeek, dayOfWeekSeries, hourlyHeatmap, categoryTrend,
+  scopeToCategory, previousRange, deltaPct, dayDetail, slotDetail, peakSlots,
+  itemSeries, itemStats, reportCsv,
 } from '@/components/sites/analytical-register/analytics';
 import type { MenuItem, Order } from '@/components/sites/analytical-register/types';
 
@@ -119,5 +121,141 @@ describe('categoryTrend', () => {
     expect(t.dates).toEqual(['2026-10-15', '2026-10-16', '2026-10-17']);
     expect(t.series.find((s) => s.name === 'Coffee')?.values).toEqual([0, 400, 0]);
     expect(t.series.find((s) => s.name === 'Bakes')?.values).toEqual([0, 0, 0]);
+  });
+});
+
+describe('shortDate', () => {
+  it('reads an ISO day the way a chart label does', () => {
+    expect(shortDate('2026-10-17')).toBe('17 Oct');
+    expect(shortDate('2026-01-05')).toBe('5 Jan');
+  });
+});
+
+/* The interactive layer: every control on the analytics screen is one of these,
+ * so a chart that moves has to be reading numbers that are still true. */
+
+const both = o({
+  lines: [
+    { menuItemId: 'a', name: 'Latte', qty: 2, unitPrice: 200 },
+    { menuItemId: 'b', name: 'Bagel', qty: 1, unitPrice: 120 },
+  ],
+  subtotal: 520, cgst: 13, sgst: 13, total: 546,
+});
+
+describe('scopeToCategory', () => {
+  it('rebuilds the bill from the lines in scope, tax and all', () => {
+    const coffee = scopeToCategory([both], menu, 'Coffee');
+    expect(coffee).toHaveLength(1);
+    expect(coffee[0].lines.map((l) => l.name)).toEqual(['Latte']);
+    expect(coffee[0].subtotal).toBe(400);
+    expect(coffee[0].cgst + coffee[0].sgst).toBe(20);
+    expect(coffee[0].total).toBe(420);
+    const bakes = scopeToCategory([both], menu, 'Bakes');
+    expect(bakes[0].total).toBe(126);
+  });
+
+  it('keeps the date, the bill number and everything else about the order', () => {
+    const scoped = scopeToCategory([both], menu, 'Bakes')[0];
+    expect(scoped.id).toBe(both.id);
+    expect(scoped.billNumber).toBe(both.billNumber);
+    expect(scoped.createdAt).toBe(both.createdAt);
+    expect(scoped.brandName).toBe(both.brandName);
+  });
+
+  it('drops a bill that sells nothing in the scope', () => {
+    expect(scopeToCategory([o({})], menu, 'Bakes')).toEqual([]);
+  });
+
+  it('scopes the totals the whole page then reads', () => {
+    const scoped = scopeToCategory([both, o({ id: 'y' })], menu, 'Bakes');
+    expect(computeKpis(scoped).revenue).toBe(126);
+    expect(computeKpis(scoped).orders).toBe(1);
+  });
+});
+
+describe('previousRange and deltaPct', () => {
+  it('returns the window of the same length immediately before this one', () => {
+    expect(previousRange('2026-10-17', 7)).toEqual({ from: '2026-10-10', to: '2026-10-16' });
+    expect(previousRange('2026-01-05', 30).from).toBe('2025-12-06');
+  });
+
+  it('is a percentage, and is silent when there is nothing to compare', () => {
+    expect(deltaPct(120, 100)).toBe(20);
+    expect(deltaPct(100, 120)).toBe(-17);
+    expect(deltaPct(100, 0)).toBeUndefined();
+  });
+});
+
+describe('dayDetail', () => {
+  it('reads one day: what it took, how many bills and in which hours', () => {
+    const d = dayDetail([
+      o({ createdAt: '2026-10-17T09:15:00Z' }),
+      o({ createdAt: '2026-10-17T18:40:00Z', total: 100 }),
+      o({ createdAt: '2026-10-16T10:00:00Z' }),
+    ], menu, '2026-10-17');
+    expect(d.kpis.orders).toBe(2);
+    expect(d.kpis.revenue).toBe(520);
+    expect(d.hours.map((h) => h.label)).toEqual(['09', '18']);
+    expect(d.top?.name).toBe('Latte');
+  });
+
+  it('says so plainly when a day did not trade', () => {
+    const d = dayDetail([o({})], menu, '2026-10-01');
+    expect(d.kpis).toEqual({ revenue: 0, orders: 0, aov: 0, itemsSold: 0 });
+    expect(d.hours).toEqual([]);
+  });
+});
+
+describe('slotDetail and peakSlots', () => {
+  const monday = [
+    o({ createdAt: '2026-10-19T09:30:00Z' }),
+    o({ createdAt: '2026-10-19T09:45:00Z', total: 100 }),
+    o({ createdAt: '2026-10-20T20:00:00Z' }),
+  ];
+  it('reads one weekday-and-hour cell across the whole book', () => {
+    const s = slotDetail(monday, 0, 9);
+    expect(s.kpis.orders).toBe(2);
+    expect(s.kpis.revenue).toBe(520);
+    expect(s.items[0]).toEqual({ name: 'Latte', value: 4 });
+  });
+  it('lists the busiest cells first, and never an empty one', () => {
+    const peaks = peakSlots(hourlyHeatmap(monday), 3);
+    expect(peaks[0]).toEqual({ day: 0, hour: 9, value: 2 });
+    expect(peaks.every((p) => p.value > 0)).toBe(true);
+    expect(peaks.length).toBe(2);
+  });
+});
+
+describe('itemSeries and itemStats', () => {
+  const book = [
+    o({ createdAt: '2026-10-15T10:00:00Z' }),
+    o({ createdAt: '2026-10-16T10:00:00Z', lines: [{ menuItemId: 'a', name: 'Latte', qty: 1, unitPrice: 200 }] }),
+    o({ createdAt: '2026-10-17T10:00:00Z', lines: [{ menuItemId: 'b', name: 'Bagel', qty: 4, unitPrice: 120 }] }),
+  ];
+  it('draws the item’s own daily line over the range', () => {
+    const s = itemSeries(book, 'Latte', '2026-10-15', '2026-10-17');
+    expect(s.map((p) => p.date)).toEqual(['2026-10-15', '2026-10-16', '2026-10-17']);
+    expect(s.map((p) => p.revenue)).toEqual([400, 200, 0]);
+    expect(s.map((p) => p.qty)).toEqual([2, 1, 0]);
+  });
+  it('counts the bills it appears on and the days it traded', () => {
+    expect(itemStats(book, 'Latte')).toEqual({ qty: 3, revenue: 600, bills: 2, tradedDays: 2 });
+    expect(itemStats(book, 'Never Sold')).toEqual({ qty: 0, revenue: 0, bills: 0, tradedDays: 0 });
+  });
+});
+
+describe('reportCsv', () => {
+  const rows = revenueByDay([o({ createdAt: '2026-10-16T10:00:00Z' })], '2026-10-16', '2026-10-17');
+  it('prints a header, one line per day and a total', () => {
+    const csv = reportCsv(rows, 'Coffee Cups', 'All categories');
+    const lines = csv.split('\n');
+    expect(lines[0]).toBe('# Coffee Cups — All categories');
+    expect(lines[1]).toBe('date,revenue,bills');
+    expect(lines[2]).toBe('2026-10-16,420.00,1');
+    expect(lines[3]).toBe('2026-10-17,0.00,0');
+    expect(lines[lines.length - 1]).toBe('total,420.00,1');
+  });
+  it('escapes a scope name that contains a comma', () => {
+    expect(reportCsv([], 'Coffee Cups', 'Coffee, 30d')).toContain('# "Coffee Cups — Coffee, 30d"');
   });
 });

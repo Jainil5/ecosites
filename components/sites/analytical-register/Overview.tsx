@@ -4,11 +4,77 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { useOrderBook } from './store';
 import { computeKpis } from './analytics';
+import { editions } from './editions';
 import { formatMoney } from './pricing';
-import { AUDIENCES, CAPABILITIES, DAY, HERO, SCOPE, TABS, type Capability } from './overview-data';
+import { AUDIENCES, CAPABILITIES, COUNTERS, DAY, HERO, SCOPE, TABS, type Capability } from './overview-data';
+import type { Edition } from './editions';
 import type { ObView } from './types';
 
 const LABEL = Object.fromEntries(TABS.map((t) => [t.id, t.label])) as Record<ObView, string>;
+
+function CounterCard({
+  edition,
+  active,
+  index,
+  onOpen,
+  onSwitch,
+}: {
+  edition: Edition;
+  active: boolean;
+  index: number;
+  onOpen: (view: ObView) => void;
+  onSwitch: (id: Edition['id']) => void;
+}) {
+  // The facts a visitor can check by opening it: what is on the menu, what tax
+  // the bills carry, and when that trade actually happens.
+  const facts = [
+    `${edition.menu.length} items on the menu`,
+    `${Math.round(edition.brand.gstRate * 100)}% GST split on every bill`,
+    `opens ${String(edition.profile.openHour).padStart(2, '0')}:00`,
+    `up to ${edition.profile.weekend} bills on a busy day`,
+  ];
+  return (
+    <article className={`ob-card ob-counter${active ? ' ob-counter-on' : ''} flex flex-col p-5`}>
+      <div className="flex items-start gap-3">
+        <span className="ob-index" aria-hidden>
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <div className="min-w-0">
+          <p className="ob-eyebrow">{edition.kicker}</p>
+          <h3 className="mt-1 text-[18px] font-extrabold leading-snug">{edition.label}</h3>
+        </div>
+      </div>
+      <p className="mt-3 text-[15px] font-semibold leading-snug ob-accent-text">{edition.line}</p>
+      <ul className="mt-3 space-y-1.5 text-sm leading-relaxed">
+        {edition.bullets.map((b) => (
+          <li key={b} className="flex gap-2">
+            <span className="ob-bullet" aria-hidden />
+            <span className="min-w-0 text-[var(--ob-muted)]">{b}</span>
+          </li>
+        ))}
+      </ul>
+      <ul className="ob-facts mt-4">
+        {facts.map((f) => (
+          <li key={f}>{f}</li>
+        ))}
+      </ul>
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <button
+          className={active ? 'ob-btn-ghost' : 'ob-btn'}
+          onClick={() => {
+            if (!active) onSwitch(edition.id);
+            onOpen('register');
+          }}
+        >
+          {active ? 'You are on this counter' : `Open the ${edition.brand.name} till`}
+        </button>
+        <button className="ob-live" onClick={() => { if (!active) onSwitch(edition.id); onOpen('analytics'); }}>
+          See its numbers
+        </button>
+      </div>
+    </article>
+  );
+}
 
 function SectionHead({ id, kicker, title, lead }: { id: string; kicker: string; title: string; lead: string }) {
   return (
@@ -52,19 +118,25 @@ function CapabilityCard({
       </ul>
       {live && (
         <button className="ob-live mt-4 self-start" onClick={() => onOpen(live)}>
-          Live here — open {LABEL[live]}
+          Runs here — open {LABEL[live]}
         </button>
       )}
     </article>
   );
 }
 
-export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
+export function Overview({
+  onOpen,
+  onSwitch,
+}: {
+  onOpen: (view: ObView) => void;
+  onSwitch: (id: Edition['id']) => void;
+}) {
   const { state } = useOrderBook();
   const cur = state.brand.currency;
 
   // The introduction quotes the build's own figures rather than invented
-  // marketing numbers: what the sample order book actually holds.
+  // marketing numbers: what the order book on this counter actually holds.
   const shown = useMemo(() => {
     const kpis = computeKpis(state.orders);
     const days = new Set(state.orders.map((o) => o.createdAt.slice(0, 10))).size;
@@ -78,8 +150,8 @@ export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
   }, [state.orders, state.menu, cur]);
 
   const stats = [
-    { label: 'Sample bills in the book', value: shown.bills.toLocaleString('en-IN') },
-    { label: 'Billed on them', value: shown.revenue },
+    { label: 'Bills written', value: shown.bills.toLocaleString('en-IN') },
+    { label: 'Billed in total', value: shown.revenue },
     { label: 'Average bill', value: shown.aov },
     { label: 'Trading days covered', value: String(shown.days) },
     { label: 'Items on the counter', value: String(shown.items) },
@@ -119,6 +191,33 @@ export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
         </dl>
       </section>
 
+      {/* --------------------------------------------------- the three counters */}
+      <section aria-labelledby="ob-counters-title">
+        <SectionHead
+          id="ob-counters-title"
+          kicker={COUNTERS.kicker}
+          title={COUNTERS.title}
+          lead={COUNTERS.lead}
+        />
+        <div className="grid gap-3 lg:grid-cols-3">
+          {editions.map((e, i) => (
+            <CounterCard
+              key={e.id}
+              edition={e}
+              index={i}
+              active={e.id === state.edition}
+              onOpen={onOpen}
+              onSwitch={onSwitch}
+            />
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-[var(--ob-muted)]">
+          You are on <b className="ob-accent-text">{state.brand.name}</b> — {state.menu.filter((m) => m.active).length} items,{' '}
+          {Math.round(state.brand.gstRate * 100)}% GST. Switching counter loads that business’s own catalogue,
+          tax split and trading book.
+        </p>
+      </section>
+
       {/* -------------------------------------------------------- trading day */}
       <section aria-labelledby="ob-day-title">
         <SectionHead
@@ -146,7 +245,7 @@ export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
           id="ob-cap-title"
           kicker="Everything inside it"
           title={`${CAPABILITIES.length} groups, one bill running through all of them`}
-          lead="Ordering, kitchen, stock, staff, money and the numbers — the parts a food business normally pays for as six separate subscriptions and reconciles by hand. The ones marked live are running on this page."
+          lead="Ordering, kitchen, stock, staff, money and the numbers — the parts a food business normally pays for as six separate subscriptions and reconciles by hand. The ones marked here are running on this page."
         />
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {CAPABILITIES.map((c, i) => (
@@ -179,7 +278,7 @@ export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
           id="ob-scope-title"
           kicker="No claim you cannot check"
           title="What runs here, and what is the build"
-          lead="This is a demonstration, so the two halves are named separately."
+          lead="Every line below is either running on this page or named as the work we do around your business."
         />
         <div className="grid gap-3 lg:grid-cols-2">
           {SCOPE.map((col, i) => (
@@ -205,12 +304,12 @@ export function Overview({ onOpen }: { onOpen: (view: ObView) => void }) {
           Run your menu on it
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--ob-muted)]">
-          Take the register for a spin on the sample café, or send us your menu and we will show you the same
-          screens carrying your items, your rates and your taxes.
+          Drive the counter you ran above, or send us your menu and we will show you the same screens carrying your
+          items, your rates and your taxes.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button className="ob-btn" onClick={() => onOpen('menu')}>
-            Change the sample menu
+            Change the menu
           </button>
           <button className="ob-btn-ghost" onClick={() => onOpen('settings')}>
             Put your brand on it

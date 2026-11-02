@@ -1,10 +1,12 @@
 // components/sites/analytical-register/reducer.ts
-import { defaultBrand, defaultMenu } from './menu-data';
+import { defaultEdition, editionById, type EditionId } from './editions';
 import { computeTotals } from './pricing';
 import { seedOrders } from './seed';
 import type { Brand, Customer, MenuItem, Order, OrderLine } from './types';
 
 export interface StoreState {
+  /** Which counter is open — the catalogue, the tax rate and the day shape. */
+  edition: EditionId;
   brand: Brand;
   menu: MenuItem[];
   customers: Customer[];
@@ -16,6 +18,7 @@ export interface StoreState {
 
 export type Action =
   | { type: 'hydrate'; state: StoreState }
+  | { type: 'switch-edition'; edition: EditionId }
   | { type: 'add-line'; item: MenuItem }
   | { type: 'set-qty'; menuItemId: string; qty: number }
   | { type: 'remove-line'; menuItemId: string }
@@ -31,13 +34,17 @@ export type Action =
 const nextBill = (orders: Order[]) =>
   orders.reduce((max, o) => Math.max(max, o.billNumber), 0) + 1;
 
-export function initState(orders?: Order[]): StoreState {
-  const brand = defaultBrand;
+export function initState(orders?: Order[], id: EditionId = defaultEdition): StoreState {
+  const edition = editionById(id);
+  const brand = edition.brand;
   return {
+    edition: edition.id,
     brand,
-    menu: defaultMenu,
+    menu: edition.menu,
     customers: [],
-    orders: orders ?? seedOrders(defaultMenu, brand),
+    // Each edition seeds its own book, on its own trading profile: a salon day
+    // is a handful of large tickets, a café day is a stream of small ones.
+    orders: orders ?? seedOrders(edition.menu, brand, edition.profile),
     ticket: [],
   };
 }
@@ -46,6 +53,13 @@ export function orderbookReducer(state: StoreState, action: Action): StoreState 
   switch (action.type) {
     case 'hydrate':
       return action.state;
+    case 'switch-edition': {
+      // Changing counter means changing trade: the catalogue, the tax split and
+      // the book all come from the new edition. The open ticket is dropped so a
+      // café pour can never end up billed on a salon ticket.
+      if (state.edition === action.edition) return state;
+      return initState(undefined, action.edition);
+    }
     case 'add-line': {
       const existing = state.ticket.find((l) => l.menuItemId === action.item.id);
       const ticket = existing
@@ -110,7 +124,8 @@ export function orderbookReducer(state: StoreState, action: Action): StoreState 
     case 'update-brand':
       return { ...state, brand: { ...state.brand, ...action.patch } };
     case 'reset':
-      return initState();
+      // Reset means this counter's own book again, not the default edition's.
+      return initState(undefined, state.edition);
     default:
       return state;
   }

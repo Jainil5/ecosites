@@ -15,18 +15,51 @@ function rng(seed: number) {
 
 const NAMES = ['Aditi', 'Rohan', 'Meera', 'Kabir', 'Sara', 'Dev', 'Ananya', 'Vikram', 'Nisha', 'Arjun'];
 
+/**
+ * How a business actually trades. A café writes many small bills from 8am; a
+ * salon writes few large ones from 10am; a kitchen peaks at night. The seed
+ * keeps the same generator and only bends these numbers, so every edition's
+ * book looks like its own trade instead of a café with a different logo.
+ */
+export interface SeedProfile {
+  /** Bills per weekday, before the growth trend and the daily noise. */
+  weekday: number;
+  weekend: number;
+  /** First trading hour and how many hours the counter runs. */
+  openHour: number;
+  span: number;
+  /** Lines per bill: 1..maxLines. */
+  maxLines: number;
+  /** Popularity per category; anything unlisted weighs 1. */
+  weights?: Record<string, number>;
+  /** Chance a bill carries the guest's name. */
+  customerRate: number;
+}
+
+export const cafeProfile: SeedProfile = {
+  weekday: 9,
+  weekend: 14,
+  openHour: 8,
+  span: 12,
+  maxLines: 3,
+  weights: { Coffee: 3, Food: 2, Beverages: 1 },
+  customerRate: 0.55,
+};
+
 export function seedOrders(
   menu: MenuItem[],
   brand: Brand,
-  opts: { days?: number; seed?: number; now?: Date } = {},
+  opts: Partial<SeedProfile> & { days?: number; seed?: number; now?: Date } = {},
 ): Order[] {
   const days = opts.days ?? 75;
   const now = opts.now ?? new Date();
+  const p: SeedProfile = { ...cafeProfile, ...opts };
   const rand = rng(opts.seed ?? 20261017);
   const active = menu.filter((m) => m.active);
-  // Popularity weights: coffee pours most, then food, then cold drinks.
+  // Popularity weights: the profile's own categories, falling back to the
+  // cafe's coffee-over-food shape so a bare call still seeds like before.
   const weight = (m: MenuItem) =>
-    m.category === 'Coffee' ? 3 : m.category === 'Food' ? 2 : 1;
+    p.weights?.[m.category] ?? (m.category === 'Coffee' ? 3 : m.category === 'Food' ? 2 : 1);
   const orders: Order[] = [];
   let bill = 1;
 
@@ -35,13 +68,13 @@ export function seedOrders(
     const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
     // Gentle growth toward the present + weekend boost.
     const trend = 0.8 + (days - d) / days * 0.5;
-    const count = Math.max(2, Math.round((weekend ? 14 : 9) * trend * (0.7 + rand() * 0.6)));
+    const count = Math.max(2, Math.round((weekend ? p.weekend : p.weekday) * trend * (0.7 + rand() * 0.6)));
     for (let i = 0; i < count; i++) {
-      const hour = 8 + Math.floor(rand() * 12); // 8:00–19:59
+      const hour = p.openHour + Math.floor(rand() * p.span);
       const ts = new Date(date);
       // UTC clock, matching the analytics (slice/getUTC*) that read these.
       ts.setUTCHours(hour, Math.floor(rand() * 60), 0, 0);
-      const lineCount = 1 + Math.floor(rand() * 3);
+      const lineCount = 1 + Math.floor(rand() * p.maxLines);
       const lines: OrderLine[] = [];
       for (let k = 0; k < lineCount; k++) {
         const totalW = active.reduce((s, m) => s + weight(m), 0);
@@ -56,7 +89,7 @@ export function seedOrders(
         else lines.push({ menuItemId: item.id, name: item.name, qty: 1, unitPrice: item.price });
       }
       const totals = computeTotals(lines, brand.gstRate);
-      const hasCustomer = rand() > 0.45;
+      const hasCustomer = rand() > 1 - p.customerRate;
       const phone = `9198${String(10000000 + Math.floor(rand() * 89999999))}`;
       orders.push({
         id: `seed-${bill}`,

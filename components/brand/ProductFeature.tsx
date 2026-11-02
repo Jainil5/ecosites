@@ -11,7 +11,7 @@ const showcase = websites.find((site) => site.path === orderBook.demoPath);
 
 /**
  * The brief's featured-product band. Only shipped features are listed, and
- * the screenshot is the real app, labelled as the demonstration build it is.
+ * the screenshot is the real app, running as a working product.
  */
 export function ProductFeature() {
   return (
@@ -47,7 +47,7 @@ export function ProductFeature() {
             <a
               href={whatsappHrefMessage(
                 company.contact,
-                'Build me something like the OrderBook demonstration',
+                'Build me something like OrderBook',
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -63,7 +63,7 @@ export function ProductFeature() {
           <div>
             <WebsiteCard site={showcase} />
             <p className="gs-label mt-3 text-ink-3">
-              demonstration build — sample items, the same flow your counter would run
+              the businesses shown are our own builds — the same flow your counter would run
             </p>
           </div>
         ) : null}

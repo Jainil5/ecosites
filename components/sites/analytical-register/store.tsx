@@ -2,15 +2,20 @@
 'use client';
 import { createContext, useContext, useEffect, useReducer, useState, type ReactNode } from 'react';
 import { initState, orderbookReducer, type Action, type StoreState } from './reducer';
+import { bridgesToCafe, editions } from './editions';
 import { mergePublished, readPublished } from '../order-bridge';
 
-// v2: the register rebrands to the shared Coffee Cups menu; v1 payloads would
-// hydrate the old catalogue, so they re-seed instead.
-const KEY = 'orderbook:v2';
+// v3: the register now opens a chosen counter — café, salon or kitchen — so a
+// v2 payload, which has no edition and only ever held the cafe catalogue,
+// re-seeds instead of hydrating into the wrong trade.
+const KEY = 'orderbook:v3';
 
 // Cafe orders published through the bridge join the book on hydrate;
 // mergePublished dedupes by id so persistence + re-hydrate can't double-count.
+// Only the café counter shares that bridge — the salon and the kitchen are
+// their own businesses and must not inherit a coffee order.
 function withPublished(st: StoreState): StoreState {
+  if (!bridgesToCafe(st.edition)) return st;
   const published = readPublished(window.localStorage);
   return published.length ? { ...st, orders: mergePublished(st.orders, published, st.brand) } : st;
 }
@@ -23,6 +28,9 @@ function load(): StoreState | null {
     const parsed = JSON.parse(raw) as StoreState;
     if (!parsed?.brand || !Array.isArray(parsed.menu) || !Array.isArray(parsed.orders)) {
       return null; // corrupt shape -> re-seed rather than crash on mount
+    }
+    if (!editions.some((e) => e.id === parsed.edition)) {
+      return null; // an unknown counter would render an empty catalogue
     }
     return parsed;
   } catch {

@@ -2,7 +2,7 @@
 import { menuGroups } from '../coffee-cups/menu';
 import type { Brand, MenuItem } from './types';
 
-// The register runs on the same menu the Coffee Cups demo sells.
+// The register runs on the same menu Coffee Cups sells, item for item.
 export const defaultBrand: Brand = {
   id: 'coffee-cups',
   name: 'Coffee Cups',

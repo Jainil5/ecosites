@@ -83,8 +83,10 @@ export function CartDrawer({ cart, dispatch, onClose }: CartDrawerProps) {
               plates first, then the jars, packed on Tuesday.
             </p>
             <p className="el-ticket-fine">
-              A studio build, so nothing was really cooked. Call{' '}
-              <a href={`tel:+91${larder.phone}`}>{larder.phone}</a> to put a ticket on a live fire.
+              The Larder is our own house, built for this product — the ticket arithmetic is real,
+              the plates are not, and{' '}
+              <a href={`tel:+91${larder.phone}`}>{larder.phone}</a> is a reserved number, so a
+              build like this one starts on our contact page.
             </p>
             <button type="button" className="el-btn el-btn-ember el-ticket-again" onClick={() => setTicket(null)}>
               Build another ticket

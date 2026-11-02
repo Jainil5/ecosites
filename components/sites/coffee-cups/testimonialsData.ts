@@ -1,7 +1,7 @@
 /**
- * Demo voices for the testimonials page. Each is pinned to a real menu item
- * id so the chip can borrow its photo and name from `menu.ts` — change the
- * menu and the tags follow. No surnames, handles or contact details.
+ * Voices written for the room on the testimonials page. Each is pinned to a real
+ * menu item id so the chip can borrow its photo and name from `menu.ts` — change
+ * the menu and the tags follow. No surnames, handles or contact details.
  */
 export interface Voice {
   name: string;

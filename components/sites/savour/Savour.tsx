@@ -62,7 +62,7 @@ function Shell({ catalogue }: { catalogue: Catalogue }) {
 
       {catalogue.degraded && (
         <p className="sv-degraded mx-auto max-w-6xl px-4 py-2 text-xs">
-          Showing a bundled sample subset — the database is unavailable right now. Browsing works;
+          Showing the bundled subset — the database is unavailable right now. Browsing works;
           saving is disabled.
         </p>
       )}

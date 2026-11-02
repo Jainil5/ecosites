@@ -52,8 +52,8 @@ export function SiteFooter() {
           © {new Date().getFullYear()} {larder.name}. {larder.address}
         </p>
         <p className="el-footer-note">
-          A studio build — sample prices, no reservations actually taken, and the photographs were
-          made for this page.
+          Our own house, built for this product — the prices, the table book and the photographs
+          here were all made for the build.
         </p>
       </div>
     </footer>

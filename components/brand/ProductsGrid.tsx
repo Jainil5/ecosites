@@ -14,7 +14,7 @@ const ICONS: Record<ProductIcon, LucideIcon> = {
 };
 
 /**
- * The product grid: demonstrations of systems a business runs. Each card names
+ * The product grid: systems a business runs. Each card names
  * both halves of the build and either opens the running surface or asks for a
  * walkthrough — never both, and never a route that does not exist yet.
  */
@@ -22,10 +22,10 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
   return (
     <section id="products" className="gs-reveal scroll-mt-24">
       {showHeading ? (
-        <SectionIntro index="04" label="products" title="Demonstrations of what we build, not boxes we sell">
+        <SectionIntro index="04" label="products" title="What we build, running — not boxes we sell">
           Four working surfaces, each with two halves: the counter and the numbers
           behind it, the list and the chart, the chat and the answer, your name and the
-          book that lives on it. They run on sample data so you can click through the
+          book that lives on it. Everything shown is our own build — click through the
           flow before we build yours with your items, your market and your own work —
           tell us the scope and you approve the quote before any work starts.
         </SectionIntro>
@@ -74,7 +74,7 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                     href={product.demoPath}
                     className="focus-ring gs-btn gs-btn-solid"
                   >
-                    Run the demonstration
+                    Open it live
                     <ArrowRight aria-hidden className="h-4 w-4" />
                   </Link>
                 ) : product.repoUrl ? (
@@ -95,7 +95,7 @@ export function ProductsGrid({ showHeading = true }: { showHeading?: boolean }) 
                 )}
                 <span className="gs-label">
                   {product.demoPath
-                    ? 'sample data throughout — yours is built with your own'
+                    ? 'everything shown is our own build — yours is built with your own'
                     : product.repoUrl
                       ? 'source available on GitHub'
                       : 'in build — ask to see it'}

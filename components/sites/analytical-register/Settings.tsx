@@ -25,7 +25,7 @@ export function Settings() {
       </label>
       <div className="flex gap-2">
         <button className="ob-btn" onClick={() => dispatch({ type: 'update-brand', patch: { name, accent, phone } })}>Save</button>
-        <button className="ob-btn-ghost" onClick={() => { if (confirm('Reset all demo data? Your edits are lost.')) dispatch({ type: 'reset' }); }}>Reset demo data</button>
+        <button className="ob-btn-ghost" onClick={() => { if (confirm(`Reset ${state.brand.name}’s book? Every bill you wrote here is replaced with the trading book it came with.`)) dispatch({ type: 'reset' }); }}>Reset this book</button>
       </div>
     </section>
   );

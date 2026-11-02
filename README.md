@@ -1,17 +1,17 @@
 # ecosites
 
 **Website & Intelligence** — the brand site for a studio that builds websites, software, data and
-AI for businesses of every size — plus five standalone demo sites, all in one app built with
-**Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each demo renders
+AI for businesses of every size — plus five standalone product sites, all in one app built with
+**Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each site renders
 full-screen with its own scoped theme, so they can look nothing alike.
 
 ## Routes
 
-The brand site, the portfolio and the demo sites share one app but live in separate route groups.
+The brand site, the portfolio and the product sites share one app but live in separate route groups.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Website & Intelligence company page — hero, services, industries, products, demo proof, contact |
+| `/` | Website & Intelligence company page — hero, services, industries, products, product proof, contact |
 | `/services` | Six capabilities and how they combine into a solution |
 | `/products` | The three owned apps: OrderBook, Market Pulse and TeamSync |
 | `/demos` | Work gallery — five full builds from `content/websites/sites.ts` |
@@ -41,7 +41,7 @@ shares still land on the café.
 request and the NVIDIA NIM key out of the browser bundle.
 
 The company page and the portfolio live in the `(site)` route group (dark 3D theme,
-shared navbar/footer/grid background). Demo sites live in `(sites)` and render **full-screen with
+shared navbar/footer/grid background). Product sites live in `(sites)` and render **full-screen with
 their own scoped theme** — no brand chrome.
 
 ## Architecture
@@ -62,7 +62,7 @@ their own scoped theme** — no brand chrome.
 
 ### Brand motion layers
 
-Three layers, all gated on `prefers-reduced-motion`, none of them touching the client demo themes:
+Three layers, all gated on `prefers-reduced-motion`, none of them touching the client product themes:
 
 | Layer | What it does | Where |
 | --- | --- | --- |
@@ -122,14 +122,14 @@ basket button steps aside.
 `/portfolio`, the author page, the case-study pages, `generateStaticParams` and the sitemap all
 follow from those two files.
 
-### Adding a demo to the work gallery
+### Adding a site to the work gallery
 
 1. Create `app/(sites)/<slug>/page.tsx` (server component + `metadata`).
 2. Add its components/data under `components/sites/<slug>/`.
 3. Add one entry to `content/websites/sites.ts` with `slug`, `path: '/<slug>'`, `theme`, `accent`, `screenshot` — plus `liveUrl` when the client has their own domain, and `year`.
 4. Drop a preview image at `public/showcase/<slug>/preview.png`.
 
-The `/demos` gallery (and its `/store` alias) and the demo strip on `/` read from the registry automatically.
+The `/demos` gallery (and its `/store` alias) and the product strip on `/` read from the registry automatically.
 
 ## Getting Started
 

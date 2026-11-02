@@ -17,7 +17,7 @@ describe('homepage band contracts', () => {
     }
   });
 
-  it('features OrderBook first with a live demo', () => {
+  it('features OrderBook first with its product page', () => {
     expect(products[0].title).toBe('OrderBook');
     expect(products[0].demoPath).toBe('/analytical-register');
   });

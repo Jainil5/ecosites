@@ -12,13 +12,13 @@ export const products: Product[] = [
     slug: 'order-book',
     title: 'OrderBook',
     summary:
-      'A working demonstration of the order management system we build around a café or restaurant — the whole scope explained, then the till to try.',
+      'The order management system we build around a counter — cafés, salons and kitchens all run on it, and all three are here to drive.',
     icon: 'register',
     bullets: [
-      'An introduction that walks the full scope — tables, kitchen tickets, stock, staff, outlets and reports',
+      'Three counters to open — a café till, a salon book and a kitchen with a pantry shelf, each with its own catalogue and tax',
       'Order, invoice and receipt flow on the phone or tablet you already run the desk on',
       'Tax-correct bill with the split worked out, sent to the customer in one tap',
-      'Everything on screen is sample data from a build like yours, not a live shop',
+      'The businesses shown are our own builds — put your menu, your rates and your taxes in and it is your shop running',
     ],
     modules: [
       {
@@ -38,7 +38,7 @@ export const products: Product[] = [
     slug: 'market-pulse',
     title: 'Market Pulse',
     summary:
-      'A demonstration of a screening tool we build to your rules, wired to live public market data.',
+      'A screening tool we build to your rules, wired to live public market data.',
     icon: 'pulse',
     bullets: [
       'Sort and filter the list on the numbers that matter to you',
@@ -70,7 +70,7 @@ export const products: Product[] = [
       'Your name as the address — we register the domain, put SSL on it, and hand you the login',
       'Two reads of one build: a modelling book of print plates and measurements, or an engineering CV that reads like a changelog',
       'The client, the agency and the recruiter each land on the half they care about, from one link',
-      'Everyone on the demonstration is a sample person with sample work — yours carries your photos and your history',
+      'Every name in the book is one we invented for the build — yours carries your photos and your history',
     ],
     modules: [
       {

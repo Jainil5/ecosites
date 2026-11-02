@@ -82,11 +82,11 @@ export function Register({ onBack }: { onBack: () => void }) {
           <button
             type="button"
             onClick={() => {
-              if (window.confirm('Reset all orders back to the starting dataset?')) resetDemo();
+              if (window.confirm('Replace the orders written here with the book this till came with?')) resetDemo();
             }}
             className="focus-ring my-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-800"
           >
-            <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Reset sample data
+            <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Reset this book
           </button>
         </div>
       </div>

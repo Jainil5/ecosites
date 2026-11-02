@@ -9,10 +9,11 @@ import { Analytics } from './AnalyticsView';
 import { MenuManager } from './MenuManager';
 import { Settings } from './Settings';
 import { TABS } from './overview-data';
+import type { EditionId } from './editions';
 import type { ObView } from './types';
 
 function Workspace() {
-  const { state } = useOrderBook();
+  const { state, dispatch } = useOrderBook();
   const [view, setView] = useState<ObView>('overview');
 
   // The introduction runs long, so a jump into a screen has to land the reader
@@ -24,18 +25,20 @@ function Workspace() {
     window.scrollTo(0, 0);
   };
 
+  const switchEdition = (id: EditionId) => dispatch({ type: 'switch-edition', edition: id });
+
   return (
     <div className="orderbook min-h-screen" style={{ ['--ob-accent' as string]: state.brand.accent }}>
       <header className="sticky top-0 z-10 border-b border-[var(--ob-line)] bg-[#F6F4F0]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
           {/* The product's name on the introduction, the tenant's name once you
-              are inside the till it is demonstrating. */}
+              are inside the till that is actually running. */}
           <span className="text-lg font-extrabold ob-accent-text">
             {view === 'overview' ? 'OrderBook' : state.brand.name}
           </span>
           {view === 'overview' && (
             <span className="-ml-2 hidden text-xs font-semibold text-[var(--ob-muted)] sm:inline">
-              Demonstration build for {state.brand.name}
+              Running on {state.brand.name}’s own menu
             </span>
           )}
           <nav className="-mx-1 flex w-full min-w-0 gap-1 overflow-x-auto px-1 pb-1 sm:ml-auto sm:w-auto sm:pb-0">
@@ -52,8 +55,11 @@ function Workspace() {
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-4 py-6">
-        {view === 'overview' && <Overview onOpen={open} />}
+      {/* Keyed by edition: every screen keeps local state — the register's open
+          category, the settings inputs, the last bill printed — and none of it
+          belongs to the next counter, so switching remounts the body. */}
+      <main key={state.edition} className="mx-auto max-w-6xl px-4 py-6">
+        {view === 'overview' && <Overview onOpen={open} onSwitch={switchEdition} />}
         {view === 'register' && <Register />}
         {view === 'orders' && <OrdersLog />}
         {view === 'analytics' && <Analytics />}

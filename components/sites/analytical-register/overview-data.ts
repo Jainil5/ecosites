@@ -4,9 +4,9 @@ import type { ObView } from './types';
 /**
  * What OrderBook is, written the way an owner reads it: the job each part takes
  * off them, not the technical name for it. This is the product's full scope, so
- * it is deliberately wider than the five tabs behind it — `live` marks the
- * capabilities this demonstration actually runs, and `SCOPE` says plainly which
- * parts are the build rather than the demo.
+ * it is deliberately wider than the tabs behind it — `live` marks the
+ * capabilities this build actually runs, and `SCOPE` says plainly which parts
+ * are the work done around a business rather than on this page.
  */
 
 export interface DayStep {
@@ -49,10 +49,21 @@ export const TABS: { id: ObView; label: string }[] = [
 ];
 
 export const HERO = {
-  eyebrow: 'Order management for cafés, restaurants and counters',
+  eyebrow: 'Order management for cafés, salons and kitchens',
   headline: 'One system runs the whole day — order to bill, kitchen to close, numbers to decision.',
-  body: 'OrderBook is the ordering, billing, kitchen and reporting system we build around your counter. The tab your staff takes orders on, the bill that lands on the guest’s WhatsApp, the screen the kitchen reads, and the numbers you look at on the way home — one system, one menu, one set of figures.',
-  honesty: 'This is not a mockup. It is a working build running on sample data from a café like yours — no sign-up, no card, nothing installed.',
+  body: 'OrderBook is the ordering, billing, kitchen and reporting system we build around your counter. The tab your staff takes orders on, the bill that lands on the guest’s WhatsApp, the screen the kitchen reads, and the numbers you look at on the way home — one system, one menu, one set of figures. Below, three counters built on it: a café till, a salon book and a live-fire kitchen with a pantry shelf. Open one and it is yours to drive.',
+  honesty: 'Nothing here is a picture of a product. This is the working system on a full trading book of its own — tap it, bill an order, and the numbers move. No sign-up, no card, nothing installed.',
+};
+
+/**
+ * The counters a visitor can actually take over. Each one is the same register
+ * on a different trade, so the difference between them is the catalogue, the
+ * tax split and the shape of the day — not the software.
+ */
+export const COUNTERS = {
+  kicker: 'Pick the counter you run',
+  title: 'Three businesses, one system behind them',
+  lead: 'Same register, same order book, same analytics. What changes is what is being sold, what tax it carries and when the trade happens. Open one — bill an order, add an item, read the numbers back.',
 };
 
 /** A trading day, start to finish, in the order the owner actually meets it. */
@@ -242,24 +253,25 @@ export const AUDIENCES: Audience[] = [
 
 /**
  * The honest split. Everything claimed above is what the system we build does;
- * this demonstration runs a deliberate slice of it, on sample data.
+ * this build runs a deliberate slice of it, on a trading book of its own.
  */
 export const SCOPE: ScopeColumn[] = [
   {
-    heading: 'Running here, on sample data',
+    heading: 'Running here, on this build',
     note: 'Click any of it. It is the real logic, not a picture of it.',
     items: [
+      'Three counters to drive — café till, salon book, kitchen and pantry shelf, each with its own catalogue and tax split',
       'The register: tap items onto a ticket, change quantities, add the guest',
       'Tax split, round-off and the finished bill, sent on WhatsApp',
       'Menu manager: add an item, reprice it, archive it — instantly',
       'The order book: every bill, searchable by guest, item or bill number',
-      'Analytics: revenue, average bill, top items, category mix, weekday against weekend, hourly heatmap',
+      'Analytics: revenue, average bill, top items, category mix, weekday against weekend, hourly heatmap — hover a day, click an hour, filter to a category and export what you see',
       'Rebranding: your business name, accent colour and sender number, applied live',
       'Everything you change is saved on the device you are using',
     ],
   },
   {
-    heading: 'In the build, not in this demo',
+    heading: 'In the build, not on this page',
     note: 'These are the parts we wire up around your business.',
     items: [
       'Kitchen printing and the display screen at the pass',

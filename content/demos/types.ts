@@ -5,7 +5,7 @@ export interface DemoSite {
   title: string;
   description: string;
   techStack: string[];
-  liveUrl?: string; // external hosted demo
+  liveUrl?: string; // external hosted site
   screenshot?: string; // path under public/demos/<slug>/; omit to show a generated cover
   repo?: string; // source repository URL
   period?: string; // e.g. "2025"

@@ -20,7 +20,7 @@ const proofCta: Record<'case' | 'product' | 'site' | 'work', string> = {
   case: 'See the build',
   product: 'Open the live app',
   site: 'See the delivered site',
-  work: 'See what is live',
+  work: 'See the work',
 };
 
 export default function EnterprisePage() {

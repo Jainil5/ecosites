@@ -4,11 +4,13 @@ import { describe, expect, it } from 'vitest';
 import {
   AUDIENCES,
   CAPABILITIES,
+  COUNTERS,
   DAY,
   HERO,
   SCOPE,
   TABS,
 } from '@/components/sites/analytical-register/overview-data';
+import { editions } from '@/components/sites/analytical-register/editions';
 import type { ObView } from '@/components/sites/analytical-register/types';
 
 const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), 'utf8');
@@ -16,10 +18,10 @@ const DIR = 'components/sites/analytical-register';
 
 /**
  * The introduction makes a scope claim on the product's behalf, so these checks
- * are the ones that keep the claim honest: every "live here" pointer has to
+ * are the ones that keep the claim honest: every "runs here" pointer has to
  * resolve to a screen that exists, the numbers on the page have to come from the
- * sample order book itself, and the half that is not in this build has to stay
- * named as the build rather than the demonstration.
+ * trading book the counter is actually running, and the half that is not in this
+ * build has to stay named as the build rather than the page.
  */
 
 const tabIds = TABS.map((t) => t.id);
@@ -46,8 +48,21 @@ describe('the product scope', () => {
     expect(HERO.eyebrow).toMatch(/café|restaurant/i);
     expect(HERO.headline.split('.').filter(Boolean).length).toBe(1);
     expect(HERO.body.length).toBeGreaterThan(120);
-    // Saying it runs on sample data is not optional — this is the page a buyer clicks.
-    expect(HERO.honesty).toMatch(/sample data/);
+    // The page has to say what it is: the working system on its own book, with
+    // nothing to install and no sign-up — and never a picture of a product.
+    expect(HERO.honesty).toMatch(/working system/i);
+    expect(HERO.honesty).toMatch(/no sign-up/i);
+    expect(HERO.honesty).not.toMatch(/sample data|mockup|placeholder/i);
+  });
+
+  it('leads with the counters, not a single café till', () => {
+    expect(COUNTERS.title).toMatch(/three/i);
+    expect(COUNTERS.lead.length).toBeGreaterThan(80);
+    // The pitch names all three trades the copy then hands over to work.
+    for (const word of ['café', 'salon', 'kitchen']) {
+      expect(HERO.body.toLowerCase(), word).toContain(word);
+    }
+    expect(HERO.eyebrow.toLowerCase()).toContain('salon');
   });
 
   it('walks a trading day from open to close', () => {
@@ -122,11 +137,11 @@ describe('the product scope', () => {
 });
 
 describe('the live half of the claim', () => {
-  it('only points "live here" at a screen that exists', () => {
-    const demoTabs = tabIds.filter((id) => id !== 'overview');
+  it('only points "runs here" at a screen that exists', () => {
+    const workspaceTabs = tabIds.filter((id) => id !== 'overview');
     for (const cap of CAPABILITIES) {
       if (!cap.live) continue;
-      expect(demoTabs, `${cap.name} -> ${cap.live}`).toContain(cap.live);
+      expect(workspaceTabs, `${cap.name} -> ${cap.live}`).toContain(cap.live);
       // The introduction itself proves nothing, and settings is a rebrand panel.
       expect(cap.live).not.toBe('overview');
       expect(cap.live).not.toBe('settings');
@@ -154,8 +169,9 @@ describe('the live half of the claim', () => {
       const key = absent.toLowerCase();
       expect(here.includes(key), absent).toBe(false);
     }
-    // The kitchen does not fire in this build, so the live column may not say it does.
-    expect(here).not.toMatch(/kitchen|kot|print/);
+    // A kitchen counter does run here; printing to a kitchen, holding a floor
+    // plan or running loyalty does not, so the live column may not say it does.
+    expect(here).not.toMatch(/\bprint\w*|\bkot\b|\btable\b|\btables\b|\bbooking\w*|\bloyalty\b|\binventory\b|\bwastage\b|\bz-report\b|\bfranchise\b/i);
   });
 });
 
@@ -185,7 +201,26 @@ describe('the introduction shell', () => {
     expect(shell).toMatch(/onOpen=\{open\}/);
   });
 
-  it('quotes the sample order book instead of inventing marketing numbers', () => {
+  it('hands every counter card a way to open that counter', () => {
+    // The card's primary button switches the trade, then walks into its till.
+    expect(shell).toMatch(/onSwitch=\{switchEdition\}/);
+    expect(shell).toMatch(/dispatch\(\{ type: ['"]switch-edition['"], edition: id \}\)/);
+    expect(intro).toMatch(/editions\.map/);
+    expect(intro).toMatch(/onSwitch\(edition\.id\)/);
+    expect(intro).toMatch(/onOpen\(['"]register['"]\)/);
+    expect(intro).toMatch(/onOpen\(['"]analytics['"]\)/);
+    // One card component, rendered once per edition.
+    expect(intro.match(/<CounterCard/g) ?? []).toHaveLength(1);
+    expect(editions).toHaveLength(3);
+  });
+
+  it('remounts the workspace when the counter changes', () => {
+    // Local state on the screens — the open category, the printed bill, the
+    // settings inputs — belongs to the counter it was made on.
+    expect(shell).toMatch(/<main key=\{state\.edition\}/);
+  });
+
+  it('quotes the trading book the counter is running, instead of invented marketing numbers', () => {
     expect(intro).toMatch(/computeKpis\(state\.orders\)/);
     expect(intro).toMatch(/formatMoney\(kpis\.revenue/);
     expect(intro).toMatch(/state\.menu\.filter\(\(m\) => m\.active\)/);
@@ -231,6 +266,9 @@ describe('the introduction styles', () => {
       'ob-day-clock',
       'ob-mark',
       'ob-scope-live',
+      'ob-counter',
+      'ob-counter-on',
+      'ob-facts',
     ]) {
       expect(block(), cls).toContain(`.orderbook .${cls}`);
     }

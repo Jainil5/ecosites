@@ -77,8 +77,8 @@ export function Testimonials() {
             What the regulars say
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-[rgba(251,244,233,0.72)]">
-            Demo voices from the room — the shelf drifts on its own; drag it, or use the arrows to
-            pick the pace.
+            Voices we wrote for the room — the shelf drifts on its own; drag it, or use the arrows
+            to pick the pace.
           </p>
         </Reveal>
 

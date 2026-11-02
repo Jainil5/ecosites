@@ -4670,6 +4670,11 @@ html.lenis body {
   color: var(--ob-ink);
 }
 .orderbook .ob-card {
+  /* A card is usually a grid or flex item, and those default to min-width: auto —
+     which lets a chart's widest unbreakable label push the whole page sideways on
+     a phone. Zeroing it keeps the track at the viewport and lets the card's own
+     content shrink instead. */
+  min-width: 0;
   background: var(--ob-card);
   border: 1px solid var(--ob-line);
   border-radius: 14px;
@@ -4794,10 +4799,123 @@ html.lenis body {
 .orderbook .ob-scope-live {
   border-color: color-mix(in srgb, var(--ob-accent) 35%, var(--ob-line));
 }
+/* The three counters the introduction opens with. Each card is the same till
+   wearing a different business, so the active one is marked rather than styled
+   as a separate component. */
+.orderbook .ob-counter { transition: transform 0.12s ease, box-shadow 0.12s ease; }
+.orderbook .ob-counter:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.orderbook .ob-counter-on {
+  border-color: color-mix(in srgb, var(--ob-accent) 45%, var(--ob-line));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ob-accent) 6%, #fff), var(--ob-card) 55%);
+}
+.orderbook .ob-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+}
+.orderbook .ob-facts li {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ob-muted);
+  background: var(--ob-canvas);
+  border: 1px solid var(--ob-line);
+  border-radius: 9999px;
+  padding: 0.2rem 0.55rem;
+}
+
+/* The analytics read as instruments, so every control on them is a chip that
+   says whether it is holding the report open at that scope. */
+.orderbook .ob-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ob-ink);
+  background: var(--ob-canvas);
+  border: 1px solid var(--ob-line);
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.orderbook .ob-chip:hover { border-color: color-mix(in srgb, var(--ob-accent) 40%, var(--ob-line)); }
+.orderbook .ob-chip-on {
+  color: var(--ob-accent);
+  background: color-mix(in srgb, var(--ob-accent) 10%, #fff);
+  border-color: color-mix(in srgb, var(--ob-accent) 45%, var(--ob-line));
+}
+.orderbook .ob-up { color: #3F7A4E; }
+.orderbook .ob-down { color: #B3413A; }
+/* A chart surface takes focus as one instrument — the arrows move inside it, so
+   the ring belongs to the whole svg rather than a glyph. */
+.orderbook .ob-chart { border-radius: 10px; outline-offset: 3px; }
+.orderbook .ob-chart:focus-visible { outline: 2px solid var(--ob-accent); }
+.orderbook .ob-hit { cursor: pointer; }
+.orderbook .ob-bar { cursor: pointer; outline-offset: 2px; }
+.orderbook .ob-bar:focus-visible { outline: 2px solid var(--ob-accent); }
+.orderbook .ob-heat-on { outline: 2px solid var(--ob-accent); outline-offset: 1px; }
+/* A row in a ranking that opens into the item's own numbers. */
+.orderbook .ob-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.orderbook .ob-row:hover { background: var(--ob-canvas); }
+.orderbook .ob-row-on {
+  background: color-mix(in srgb, var(--ob-accent) 7%, #fff);
+  border-color: color-mix(in srgb, var(--ob-accent) 30%, var(--ob-line));
+}
+.orderbook .ob-caret {
+  flex: none;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--ob-muted);
+  transition: transform 0.12s ease;
+}
+.orderbook .ob-caret-on { transform: rotate(180deg); }
+/* Whatever a chart just opened: panel inside the card it came from. */
+.orderbook .ob-drill {
+  border: 1px solid color-mix(in srgb, var(--ob-accent) 30%, var(--ob-line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ob-accent) 4%, var(--ob-card));
+  padding: 0.9rem 1rem;
+}
+.orderbook .ob-drill-label {
+  font-family: var(--font-label), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ob-muted);
+}
+.orderbook .ob-drill-value { margin-top: 0.15rem; font-size: 1.05rem; font-weight: 800; }
+/* A thumb is not a cursor: on a phone the chips and the tab strip grow to the
+   44px tap height, which reads as padding rather than a heavier design. */
+@media (max-width: 639px) {
+  .orderbook .ob-chip,
+  .orderbook .ob-btn,
+  .orderbook .ob-btn-ghost { min-height: 2.75rem; }
+}
 @media (prefers-reduced-motion: reduce) {
   .orderbook .ob-tile { transition: none; }
   .orderbook .ob-tile:hover { transform: none; box-shadow: none; }
+  .orderbook .ob-counter { transition: none; }
+  .orderbook .ob-counter:hover { transform: none; box-shadow: none; }
   .orderbook .ob-rise { animation: none; }
+  .orderbook .ob-chip,
+  .orderbook .ob-row,
+  .orderbook .ob-caret { transition: none; }
 }
 
 /* ============================================================

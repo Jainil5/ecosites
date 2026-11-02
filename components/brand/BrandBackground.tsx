@@ -31,7 +31,7 @@ export function BrandBackground() {
   return (
     <div aria-hidden className="brand-bg" data-effect={effect}>
       {/* Footage sits behind the landing page only. Every other route — and
-          every client demo — keeps the canvas field alone, so nobody else
+          every client build — keeps the canvas field alone, so nobody else
           pays half a megabyte for the film. */}
       {pathname === '/' ? <MotionReel /> : null}
       <span className="brand-bg-horizon" />

@@ -1,13 +1,13 @@
 /**
- * Sample data for the Namesake demonstration build. Every name, brand, number
- * and credit below is invented for the demo — the point of the page is the
- * shape of a portfolio we build around a real person's own name.
+ * The two books Namesake is built around. Every name, brand, number and credit
+ * below was written for the product — the point of the page is the shape of a
+ * portfolio built around a real person's own name, which theirs would replace.
  */
 
 export const product = {
   name: 'Namesake',
   pitch: 'One domain with your name on it, built the way your industry reads it.',
-  note: 'Demonstration build — two sample people, sample work, no real client.',
+  note: 'Built for the product — two people we wrote, work we made, no client attached.',
 };
 
 export type ModeKey = 'model' | 'dev';

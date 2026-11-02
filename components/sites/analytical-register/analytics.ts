@@ -1,4 +1,5 @@
 // components/sites/analytical-register/analytics.ts
+import { computeTotals } from './pricing';
 import type { MenuItem, Order } from './types';
 
 export interface Kpis { revenue: number; orders: number; aov: number; itemsSold: number; }
@@ -6,6 +7,14 @@ export interface DayPoint { date: string; revenue: number; orders: number; }
 export interface NamedValue { name: string; value: number; }
 
 const dayKey = (iso: string) => iso.slice(0, 10);
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** `2026-10-17` reads as `17 Oct` on a chart label and in every drill-in. */
+export const shortDate = (key: string) => {
+  const [, m, d] = key.split('-');
+  return `${Number(d)} ${MONTHS[Number(m) - 1] ?? ''}`.trim();
+};
 
 export function computeKpis(orders: Order[]): Kpis {
   const revenue = orders.reduce((s, o) => s + o.total, 0);
@@ -160,4 +169,140 @@ export function categoryTrend(orders: Order[], menu: MenuItem[], fromDate: strin
     }
   }
   return { dates, series: cats.map((name) => ({ name, values: values.get(name)!.map((v) => Math.round(v)) })) };
+}
+
+/* ------------------------------------------------------------------ scoping
+ * The charts below all read one array of bills. Filtering to a category
+ * therefore cannot just drop the other lines from a total — it has to rebuild
+ * the bill, so average order value, the hour grid and the exported report all
+ * describe the same slice of trade the owner asked for.
+ */
+
+export function scopeToCategory(orders: Order[], menu: MenuItem[], category: string): Order[] {
+  const catOf = new Map(menu.map((m) => [m.id, m.category]));
+  const out: Order[] = [];
+  for (const o of orders) {
+    const lines = o.lines.filter((l) => (catOf.get(l.menuItemId) ?? 'Other') === category);
+    if (lines.length === 0) continue;
+    out.push({ ...o, lines, ...computeTotals(lines, o.gstRate) });
+  }
+  return out;
+}
+
+/** The window of the same length that sits immediately before `from`. */
+export function previousRange(from: string, days: number): { from: string; to: string } {
+  const start = Date.parse(`${from}T00:00:00Z`);
+  return {
+    from: new Date(start - days * 86400000).toISOString().slice(0, 10),
+    to: new Date(start - 86400000).toISOString().slice(0, 10),
+  };
+}
+
+/** Percentage change, or undefined when there is nothing to compare against. */
+export function deltaPct(current: number, previous: number): number | undefined {
+  if (!previous) return undefined;
+  return Math.round(((current - previous) / previous) * 100);
+}
+
+/* ------------------------------------------------------------------ drill-ins
+ * A chart is only useful if a point on it can be asked a question. These answer
+ * the three an owner actually asks: how did this day go, who is buying at this
+ * hour, and is this item slipping.
+ */
+
+export interface DayDetail {
+  date: string;
+  kpis: Kpis;
+  /** Money taken per trading hour, only the hours that actually traded. */
+  hours: { label: string; value: number }[];
+  top?: RankedItem;
+}
+
+export function dayDetail(orders: Order[], menu: MenuItem[], date: string): DayDetail {
+  const onDay = orders.filter((o) => dayKey(o.createdAt) === date);
+  const gross = new Array(24).fill(0) as number[];
+  for (const o of onDay) gross[new Date(o.createdAt).getUTCHours()] += o.total;
+  const hours = gross
+    .map((value, h) => ({ label: String(h).padStart(2, '0'), value: Math.round(value) }))
+    .filter((x) => x.value > 0);
+  return { date, kpis: computeKpis(onDay), hours, top: rankItems(onDay, menu)[0] };
+}
+
+export interface SlotDetail { kpis: Kpis; items: NamedValue[] }
+
+/** One cell of the busy-hours grid: a weekday and an hour, read across the whole book. */
+export function slotDetail(orders: Order[], dayIndex: number, hour: number): SlotDetail {
+  const hit = orders.filter((o) => {
+    const d = new Date(o.createdAt);
+    return (d.getUTCDay() + 6) % 7 === dayIndex && d.getUTCHours() === hour;
+  });
+  return { kpis: computeKpis(hit), items: topItems(hit, 3) };
+}
+
+/** Busiest day/hour cells first — the keyboard route into `slotDetail`. */
+export function peakSlots(grid: number[][], limit = 6): { day: number; hour: number; value: number }[] {
+  const out: { day: number; hour: number; value: number }[] = [];
+  grid.forEach((row, day) => row.forEach((value, hour) => {
+    if (value > 0) out.push({ day, hour, value });
+  }));
+  return out.sort((a, b) => b.value - a.value || a.day - b.day || a.hour - b.hour).slice(0, limit);
+}
+
+export interface ItemDayPoint { date: string; revenue: number; qty: number }
+
+/** An item's own daily line, for reading whether it is climbing or slipping. */
+export function itemSeries(
+  orders: Order[],
+  name: string,
+  fromDate: string,
+  toDate: string,
+): ItemDayPoint[] {
+  const dates = eachDay(fromDate, toDate);
+  const idx = new Map(dates.map((d, i) => [d, i]));
+  const series = dates.map((date) => ({ date, revenue: 0, qty: 0 }));
+  for (const o of orders) {
+    const i = idx.get(dayKey(o.createdAt));
+    if (i === undefined) continue;
+    for (const l of o.lines) {
+      if (l.name !== name) continue;
+      series[i].revenue += l.unitPrice * l.qty;
+      series[i].qty += l.qty;
+    }
+  }
+  return series.map((s) => ({ ...s, revenue: Math.round(s.revenue) }));
+}
+
+export interface ItemStats { qty: number; revenue: number; bills: number; tradedDays: number }
+
+export function itemStats(orders: Order[], name: string): ItemStats {
+  let qty = 0;
+  let revenue = 0;
+  let bills = 0;
+  const days = new Set<string>();
+  for (const o of orders) {
+    const lines = o.lines.filter((l) => l.name === name);
+    if (lines.length === 0) continue;
+    bills += 1;
+    days.add(dayKey(o.createdAt));
+    for (const l of lines) {
+      qty += l.qty;
+      revenue += l.unitPrice * l.qty;
+    }
+  }
+  return { qty, revenue: Math.round(revenue), bills, tradedDays: days.size };
+}
+
+/* ------------------------------------------------------------------ export */
+
+const csvCell = (v: string | number) => {
+  const s = String(v);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
+
+/** The report on screen, as the owner would hand it to their accountant. */
+export function reportCsv(rows: DayPoint[], brand: string, scope: string): string {
+  const head = ['# ' + csvCell(`${brand} — ${scope}`), ['date', 'revenue', 'bills'].join(',')];
+  const body = rows.map((r) => [r.date, r.revenue.toFixed(2), r.orders].join(','));
+  const total = rows.reduce((s, r) => s + r.revenue, 0);
+  return [...head, ...body, ['total', total.toFixed(2), rows.reduce((s, r) => s + r.orders, 0)].join(',')].join('\n');
 }
