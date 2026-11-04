@@ -604,6 +604,35 @@ button:focus-visible {
     background: rgb(255 255 255 / 0.07);
     border-left-color: var(--gs-plane);
   }
+
+  /* The floating panels — the mega-menu, the mobile sheet, the command
+     palette. A card is meant to let the field read *through* it; a menu is
+     meant to be read *off*, and 5% white over moving line-work is the wrong
+     material for that. So a panel gets its own body: the brand's deep forest,
+     heavy enough that the copy is the loudest thing on it, frosted hard enough
+     that whatever is behind becomes colour rather than detail, and lifted on a
+     shadow so it clearly sits above the page rather than in it. */
+  .gs-menu {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0) 42%),
+      linear-gradient(165deg, rgb(22 52 36 / 0.95), rgb(9 18 13 / 0.97));
+    border: 1px solid rgb(255 255 255 / 0.18);
+    backdrop-filter: blur(22px) saturate(1.5);
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    box-shadow:
+      0 28px 64px -24px rgb(0 0 0 / 0.9),
+      inset 0 1px 0 rgb(255 255 255 / 0.12);
+  }
+
+  /* The picked row has to read against a panel that is now opaque green rather
+     than near-transparent, so 7% white is no longer enough to see. Inside a
+     menu the fill goes up; page cards keep the lighter one. */
+  .gs-menu .gs-nav-row:hover,
+  .gs-menu .gs-nav-row:focus-visible,
+  .gs-menu .gs-nav-row[data-current='true'],
+  .gs-menu .gs-nav-row[data-active='true'] {
+    background: rgb(255 255 255 / 0.14);
+  }
   .gs-rule {
     border: 0;
     border-top: 1px solid var(--gs-hair);

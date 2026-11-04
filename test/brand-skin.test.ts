@@ -396,6 +396,40 @@ describe('brand routes carry no light-skin leftovers', () => {
   });
 });
 
+describe('floating menu panels are read off, not through', () => {
+  const css = read('app/globals.css');
+
+  it('gives a menu its own material rather than reusing a card', () => {
+    // A card lets the animated field read through it. A menu is copy someone
+    // has to pick off, so it needs a body: an opaque brand green, a hard frost,
+    // and a shadow that puts it above the page.
+    const menu = css.slice(css.indexOf('.gs-menu {'), css.indexOf('.gs-menu .gs-nav-row:hover'));
+    expect(menu).toMatch(/rgb\(22 52 36 \/ 0\.9\d\)/);
+    expect(menu).toMatch(/backdrop-filter: blur\(2\dpx\)/);
+    expect(menu).toContain('-webkit-backdrop-filter');
+    expect(menu).toMatch(/box-shadow:\s*\n?\s*0 28px/);
+  });
+
+  it('dresses every floating panel in it', () => {
+    // Three panels drop out of the chrome: the desktop mega-menu, the mobile
+    // sheet, the command palette. One left on card glass reads as a bug.
+    for (const [file, count] of [
+      ['components/Navbar.tsx', 2],
+      ['components/brand/QuickSearch.tsx', 1],
+    ] as const) {
+      const src = read(file);
+      expect(src, `${file} still drops a card`).not.toContain('gs-drop gs-card');
+      expect(src.match(/gs-drop gs-menu/g), file).toHaveLength(count);
+    }
+  });
+
+  it('keeps a picked row visible against the new body', () => {
+    // 7% white disappears on a panel that is itself a colour.
+    const rows = css.slice(css.indexOf('.gs-menu .gs-nav-row:hover'));
+    expect(rows).toMatch(/background: rgb\(255 255 255 \/ 0\.14\)/);
+  });
+});
+
 describe('whatsapp enquiry control', () => {
   const fab = read('components/brand/WhatsAppFab.tsx');
   const css = read('app/globals.css');

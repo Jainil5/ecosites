@@ -91,7 +91,7 @@ export function QuickSearch({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label="Search this site"
-        className="gs-drop gs-card relative w-full max-w-xl overflow-hidden"
+        className="gs-drop gs-menu relative w-full max-w-xl overflow-hidden"
       >
         <div className="flex items-center gap-3 border-b border-hairline px-4">
           <Search aria-hidden className="h-4 w-4 shrink-0 text-ink-3" />
