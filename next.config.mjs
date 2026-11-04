@@ -12,10 +12,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // The cafe site was renamed to Coffee Cups. Cards, bookmarks and shared
-      // links still carry the old slug, so the whole subtree moves with a 301.
-      { source: '/dream-cafe', destination: '/coffee-cups', permanent: true },
-      { source: '/dream-cafe/:path*', destination: '/coffee-cups/:path*', permanent: true },
+      // The cafe site was renamed to Brewery, then Coffee Cups before that.
+      // Cards, bookmarks and shared links still carry the old slugs, so the
+      // whole subtree moves with a 301.
+      { source: '/dream-cafe', destination: '/brewery', permanent: true },
+      { source: '/dream-cafe/:path*', destination: '/brewery/:path*', permanent: true },
+      { source: '/coffee-cups', destination: '/brewery', permanent: true },
+      { source: '/coffee-cups/:path*', destination: '/brewery/:path*', permanent: true },
     ];
   },
 };

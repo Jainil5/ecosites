@@ -1871,71 +1871,72 @@ html.lenis body {
 }
 
 /* ============================================================
-   Coffee Cups — sunrise editorial (cc-*)
-   Warm ember-to-apricot light over cream, grounded in a deep
-   botanical green. Scoped so the brand shell and the other
+   Brewery — taproom dark (br-*)
+   Brass and bottle-green over warm paper, grounded in a deep
+   bottle green. Scoped so the brand shell and the other
    client sites keep their own tokens.
    ============================================================ */
-.coffee-cups {
-  --cc-cream: #fbf4e9;
-  --cc-paper: #fffdf8;
-  --cc-ink: #2a211b;
-  --cc-muted: #7a6a5d;
-  --cc-line: rgba(42, 33, 27, 0.12);
-  --cc-ember: #e4572e;
-  --cc-ember-deep: #c03f1c;
-  --cc-apricot: #f2a65a;
-  --cc-honey: #f7d08a;
-  --cc-lilac: #c2a9cb;
-  --cc-green: #1f4d3a;
-  --cc-green-deep: #143026;
-  background: var(--cc-cream);
-  color: var(--cc-ink);
+.brewery {
+  --br-cream: #fbf4e9;
+  --br-paper: #fffdf8;
+  --br-ink: #241c14;
+  --br-ink-deep: #2a1408;
+  --br-muted: #77685a;
+  --br-line: rgba(36, 28, 20, 0.12);
+  --br-brass: #b8721d;
+  --br-brass-deep: #8d5610;
+  --br-copper: #e08a4a;
+  --br-amber: #f2c274;
+  --br-hop: #93b25c;
+  --br-bottle: #16301f;
+  --br-bottle-deep: #0d2015;
+  background: var(--br-cream);
+  color: var(--br-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
 }
 
 /* Display face: Inter pushed heavy and tight, the way a painted board is. */
-.coffee-cups .cc-display {
+.brewery .br-display {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.025em;
 }
 
-.coffee-cups .cc-serif {
+.brewery .br-serif {
   font-family: var(--font-serif), Georgia, serif;
 }
 
 /* --- Hero ---------------------------------------------------- */
-/* Two washes: a fixed scrim for legibility, and a slow sunrise pan
+/* Two washes: a fixed scrim for legibility, and a slow lamp-lit pan
    that keeps the still photograph moving. */
-.coffee-cups .cc-hero-wash {
+.brewery .br-hero-wash {
   background:
     linear-gradient(
       100deg,
-      rgba(228, 87, 46, 0.72) 0%,
-      rgba(242, 166, 90, 0.42) 34%,
-      rgba(42, 33, 27, 0.34) 60%,
-      rgba(20, 15, 12, 0.82) 100%
+      rgba(9, 24, 16, 0.86) 0%,
+      rgba(20, 44, 30, 0.52) 34%,
+      rgba(14, 10, 6, 0.44) 62%,
+      rgba(8, 7, 5, 0.9) 100%
     ),
-    linear-gradient(180deg, rgba(20, 15, 12, 0.42) 0%, transparent 38%, rgba(20, 15, 12, 0.6) 100%);
+    linear-gradient(180deg, rgba(8, 10, 8, 0.55) 0%, transparent 40%, rgba(8, 7, 5, 0.72) 100%);
 }
 
-.coffee-cups .cc-hero-grain {
+.brewery .br-hero-grain {
   background-image: linear-gradient(
     115deg,
-    rgba(247, 208, 138, 0.34) 0%,
-    rgba(228, 87, 46, 0.2) 26%,
-    rgba(194, 169, 203, 0.26) 52%,
-    rgba(242, 166, 90, 0.3) 76%,
-    rgba(247, 208, 138, 0.34) 100%
+    rgba(242, 194, 116, 0.3) 0%,
+    rgba(184, 114, 29, 0.22) 26%,
+    rgba(147, 178, 92, 0.26) 52%,
+    rgba(224, 138, 74, 0.28) 76%,
+    rgba(242, 194, 116, 0.3) 100%
   );
   background-size: 320% 320%;
   mix-blend-mode: soft-light;
-  animation: cc-sunrise 22s ease-in-out infinite alternate;
+  animation: br-glow 22s ease-in-out infinite alternate;
 }
 
-@keyframes cc-sunrise {
+@keyframes br-glow {
   0% {
     background-position: 0% 50%;
   }
@@ -1945,7 +1946,7 @@ html.lenis body {
 }
 
 /* --- Buttons -------------------------------------------------- */
-.coffee-cups .cc-btn {
+.brewery .br-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1961,41 +1962,248 @@ html.lenis body {
     box-shadow 180ms ease;
 }
 
-.coffee-cups .cc-btn-solid {
-  background: var(--cc-ember);
-  color: var(--cc-paper);
-  box-shadow: 0 14px 28px -16px rgba(228, 87, 46, 0.95);
+.brewery .br-btn-solid {
+  background: var(--br-brass);
+  color: var(--br-paper);
+  box-shadow: 0 14px 28px -16px rgba(184, 114, 29, 0.95);
 }
-.coffee-cups .cc-btn-solid:hover {
-  background: var(--cc-ember-deep);
+.brewery .br-btn-solid:hover {
+  background: var(--br-brass-deep);
   transform: translateY(-2px);
 }
 
-.coffee-cups .cc-btn-ghost {
+.brewery .br-btn-ghost {
   border: 1px solid rgba(255, 253, 248, 0.5);
-  color: var(--cc-paper);
+  color: var(--br-paper);
   background: rgba(20, 15, 12, 0.18);
   backdrop-filter: blur(6px);
 }
-.coffee-cups .cc-btn-ghost:hover {
+.brewery .br-btn-ghost:hover {
   background: rgba(255, 253, 248, 0.16);
   transform: translateY(-2px);
 }
 
 /* Ember on ember disappears, so the picker's primary button inverts. */
-.coffee-cups .cc-btn-cream {
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+.brewery .br-btn-outline {
+  border: 1px solid var(--br-brass);
+  color: var(--br-brass-deep);
+  background: transparent;
+}
+.brewery .br-btn-outline:hover {
+  background: rgba(184, 114, 29, 0.1);
+  transform: translateY(-2px);
+}
+
+.brewery .br-btn-cream {
+  background: var(--br-paper);
+  color: var(--br-ink);
   box-shadow: 0 14px 30px rgba(58, 18, 4, 0.28);
 }
 
-.coffee-cups .cc-btn-cream:hover {
-  background: var(--cc-cream);
-  color: var(--cc-ember-deep);
+.brewery .br-btn-cream:hover {
+  background: var(--br-cream);
+  color: var(--br-brass-deep);
+}
+
+/* --- Tap wall -----------------------------------------------------
+   The band under the hero: a row of handles on a brass rail, one
+   marker plate per beer, and a panel that reads out the beer that
+   is currently pulled. */
+.brewery .br-taps {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(72% 58% at 50% 0%, rgba(242, 194, 116, 0.16), transparent 68%),
+    linear-gradient(180deg, rgba(13, 32, 21, 0.9) 0%, rgba(13, 32, 21, 0.94) 58%, rgba(10, 24, 16, 0.97) 100%),
+    url('/brewery/tap-wall.jpg') center 40% / cover no-repeat;
+  color: var(--br-cream);
+}
+
+.brewery .br-taps-glow {
+  position: absolute;
+  inset: -20% -10% 40%;
+  background:
+    radial-gradient(38% 40% at 22% 40%, rgba(184, 114, 29, 0.34), transparent 70%),
+    radial-gradient(34% 36% at 78% 26%, color-mix(in srgb, var(--br-hop) 26%, transparent), transparent 72%);
+  pointer-events: none;
+}
+
+/* The rail the handles hang from. */
+.brewery .br-tap-wall {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 3.5rem;
+  padding: 1.4rem 1.1rem 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  background:
+    linear-gradient(180deg, rgba(20, 41, 28, 0.92), rgba(10, 24, 16, 0.92));
+  border: 1px solid rgba(242, 194, 116, 0.16);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(242, 194, 116, 0.22),
+    0 30px 60px -40px rgba(0, 0, 0, 0.9);
+}
+
+.brewery .br-tap {
+  position: relative;
+  flex: 0 0 auto;
+  width: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.2rem 0.6rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  scroll-snap-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brewery .br-tap:focus-visible {
+  outline: 2px solid var(--br-amber);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* The pipe the beer comes up through. */
+.brewery .br-tap-riser {
+  display: block;
+  width: 64px;
+  height: 132px;
+}
+
+.brewery .br-tap-handle {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.brewery .br-tap-handle .br-tap-grip {
+  transform-origin: 58px 26px;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brewery .br-tap:hover .br-tap-grip {
+  transform: rotate(14deg);
+}
+
+.brewery .br-tap-handle[data-active='true'] .br-tap-grip {
+  transform: rotate(20deg);
+}
+
+/* The little plate screwed under the handle. */
+.brewery .br-tap-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.4rem 0.35rem;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(242, 194, 116, 0.16), rgba(242, 194, 116, 0.05));
+  border: 1px solid rgba(242, 194, 116, 0.24);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.brewery .br-tap[aria-selected='true'] .br-tap-marker {
+  background: linear-gradient(180deg, rgba(242, 194, 116, 0.3), rgba(224, 138, 74, 0.16));
+  border-color: rgba(242, 194, 116, 0.6);
+}
+
+.brewery .br-tap-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.8rem;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--br-cream);
+}
+
+.brewery .br-tap-abv {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--br-amber);
+}
+
+/* The board beside the wall. */
+.brewery .br-tap-panel {
+  margin-top: 2.2rem;
+  padding: 1.9rem 1.6rem;
+  border-radius: 18px;
+  background: rgba(8, 20, 13, 0.72);
+  border: 1px solid rgba(242, 194, 116, 0.18);
+}
+
+.brewery .br-tap-panel-head {
+  min-height: 7.5rem;
+}
+
+.brewery .br-tap-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem 2.4rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(242, 194, 116, 0.16);
+}
+
+.brewery .br-tap-stats dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 233, 0.55);
+}
+
+.brewery .br-tap-stats dd {
+  margin-top: 0.25rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.35rem;
+  color: var(--br-amber);
+}
+
+.brewery .br-tap-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.brewery .br-tap-pair-name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--br-cream);
+}
+
+@media (max-width: 639px) {
+  .brewery .br-tap-wall {
+    margin-top: 2.4rem;
+    gap: 0.5rem;
+    padding: 1rem 0.7rem 0.9rem;
+  }
+  .brewery .br-tap {
+    width: 108px;
+  }
+  .brewery .br-tap-riser {
+    width: 54px;
+    height: 112px;
+  }
+  .brewery .br-tap-panel {
+    padding: 1.4rem 1.1rem;
+  }
+  .brewery .br-tap-panel-head {
+    min-height: 0;
+  }
+  .brewery .br-tap-stats {
+    gap: 1.1rem 1.6rem;
+  }
 }
 
 /* --- Tab row: category pills + mode toggle in one line ----------- */
-.coffee-cups .cc-tab-row {
+.brewery .br-tab-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2008,13 +2216,13 @@ html.lenis body {
    One row of pills above the grid. The menu shows everything by
    default; a tab is just a shortcut for the customer who only wants
    coffee. The grid underneath never changes shape. */
-.coffee-cups .cc-cat-tabs {
+.brewery .br-cat-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.coffee-cups .cc-cat-tab {
+.brewery .br-cat-tab {
   min-height: 40px;
   padding: 8px 16px;
   border: 1px solid rgba(251, 244, 233, 0.35);
@@ -2030,46 +2238,46 @@ html.lenis body {
     transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-cat-tab:hover {
+.brewery .br-cat-tab:hover {
   border-color: rgba(251, 244, 233, 0.65);
   color: #fff;
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-cat-tab[aria-selected='true'] {
-  background: var(--cc-honey);
-  border-color: var(--cc-honey);
-  color: var(--cc-ink-deep, #2a1408);
+.brewery .br-cat-tab[aria-selected='true'] {
+  background: var(--br-amber);
+  border-color: var(--br-amber);
+  color: var(--br-ink-deep, #2a1408);
 }
 
-.coffee-cups .cc-cat-tab:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery .br-cat-tab:focus-visible {
+  outline: 2px solid var(--br-amber);
   outline-offset: 3px;
 }
 
 /* --- Square tile grid ------------------------------------------- */
 /* Every item on the menu as one grid of square tiles; the Gen Z /
    Traditional switch only restyles the tile skin, never the layout. */
-.coffee-cups .cc-square-grid {
+.brewery .br-square-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   perspective: 900px;
 }
 @media (min-width: 640px) {
-  .coffee-cups .cc-square-grid {
+  .brewery .br-square-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-  .coffee-cups .cc-square-grid {
+  .brewery .br-square-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-.coffee-cups .cc-tile {
-  --cc-bob: -6px;
-  --cc-lean: 2deg;
+.brewery .br-tile {
+  --br-bob: -6px;
+  --br-lean: 2deg;
   position: relative;
   aspect-ratio: 1 / 1;
   padding: 0;
@@ -2077,74 +2285,74 @@ html.lenis body {
   cursor: pointer;
   text-align: left;
   overflow: hidden;
-  animation: cc-float 6s ease-in-out infinite;
+  animation: br-float 6s ease-in-out infinite;
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
 }
 
 /* Ambient 3D breathing: tiles bob and lean under the grid's perspective.
    It rides the individual translate/rotate properties so the pointer-tilt
    hover transform composes on top instead of being overridden. */
-@keyframes cc-float {
+@keyframes br-float {
   0%,
   100% {
     translate: 0 0;
     rotate: x 0deg;
   }
   50% {
-    translate: 0 var(--cc-bob, -6px);
-    rotate: x var(--cc-lean, 2deg);
+    translate: 0 var(--br-bob, -6px);
+    rotate: x var(--br-lean, 2deg);
   }
 }
 
 /* Phones: a 6px bob on a ~170px tile reads as still — swing harder below
    the two-column breakpoint so the grid visibly breathes. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-tile {
-    --cc-bob: -10px;
-    --cc-lean: 3deg;
+  .brewery .br-tile {
+    --br-bob: -10px;
+    --br-lean: 3deg;
   }
 }
 
-.coffee-cups .cc-tile:nth-child(4n + 2) {
+.brewery .br-tile:nth-child(4n + 2) {
   animation-duration: 7s;
   animation-delay: -1.4s;
 }
 
-.coffee-cups .cc-tile:nth-child(4n + 3) {
+.brewery .br-tile:nth-child(4n + 3) {
   animation-duration: 5.6s;
   animation-delay: -2.8s;
 }
 
-.coffee-cups .cc-tile:nth-child(4n) {
+.brewery .br-tile:nth-child(4n) {
   animation-duration: 6.4s;
   animation-delay: -4.2s;
 }
 
-.coffee-cups .cc-tile:hover {
+.brewery .br-tile:hover {
   transform: translateY(-4px);
 }
 
-.coffee-cups .cc-tile:active {
+.brewery .br-tile:active {
   transform: translateY(-1px) scale(0.97);
   transition-duration: 110ms;
 }
 
-.coffee-cups .cc-tile:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery .br-tile:focus-visible {
+  outline: 2px solid var(--br-amber);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-tile-img {
+.brewery .br-tile-img {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-.coffee-cups .cc-tile-img img {
+.brewery .br-tile-img img {
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tile:hover .cc-tile-img img {
+.brewery .br-tile:hover .br-tile-img img {
   transform: scale(1.07);
 }
 
@@ -2152,17 +2360,17 @@ html.lenis body {
    drifts against the tilt for parallax depth. Touch keeps the plain
    press-squash above, and the reduce block disables this entirely. */
 @media (hover: hover) and (pointer: fine) {
-  .coffee-cups .cc-tile:hover {
+  .brewery .br-tile:hover {
     transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
       translateY(-4px);
   }
 
-  .coffee-cups .cc-tile:hover .cc-tile-img img {
+  .brewery .br-tile:hover .br-tile-img img {
     transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(1.12);
   }
 }
 
-.coffee-cups .cc-tile-cap {
+.brewery .br-tile-cap {
   position: absolute;
   left: 0;
   right: 0;
@@ -2176,7 +2384,7 @@ html.lenis body {
   padding: 22px 10px 9px;
 }
 
-.coffee-cups .cc-tile-name {
+.brewery .br-tile-name {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 12.5px;
   font-weight: 700;
@@ -2184,7 +2392,7 @@ html.lenis body {
   letter-spacing: -0.01em;
 }
 
-.coffee-cups .cc-tile-price {
+.brewery .br-tile-price {
   flex-shrink: 0;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 12px;
@@ -2194,7 +2402,19 @@ html.lenis body {
 
 /* The one-line description. On the wide board it rides the dusk gradient as
    a single clipped line; on a phone it gets two, below the name. */
-.coffee-cups .cc-tile-note {
+.brewery .br-tile-abv {
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--br-brass-deep);
+  background: rgba(242, 194, 116, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+
+.brewery .br-tile-note {
   grid-column: 1 / -1;
   min-width: 0;
   display: -webkit-box;
@@ -2207,7 +2427,7 @@ html.lenis body {
   color: rgba(251, 244, 233, 0.72);
 }
 
-.coffee-cups .cc-tile-cat {
+.brewery .br-tile-cat {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -2223,7 +2443,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-.coffee-cups .cc-tile-qty {
+.brewery .br-tile-qty {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -2234,7 +2454,7 @@ html.lenis body {
   height: 24px;
   padding: 0 6px;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--br-brass);
   color: #fff;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
@@ -2244,32 +2464,32 @@ html.lenis body {
 }
 
 /* The star steps aside when a tray count owns the corner. */
-.coffee-cups .cc-tile:has(.cc-tile-qty) .cc-card-star {
+.brewery .br-tile:has(.br-tile-qty) .br-card-star {
   right: 40px;
 }
 
 /* Gen Z tiles: full-bleed photo squares with a dusk-gradient caption.
    Traditional no longer skins these tiles — it renders a printed
-   listing (.cc-menu-list) instead, so only the Gen Z skin remains. */
-.coffee-cups .cc-square-grid .cc-tile {
+   listing (.br-menu-list) instead, so only the Gen Z skin remains. */
+.brewery .br-square-grid .br-tile {
   border-radius: 18px;
   box-shadow: 0 16px 34px -18px rgba(20, 8, 3, 0.6);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-cap {
+.brewery .br-square-grid .br-tile-cap {
   background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.88));
 }
 
-.coffee-cups .cc-square-grid .cc-tile-name {
-  color: var(--cc-cream);
+.brewery .br-square-grid .br-tile-name {
+  color: var(--br-cream);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-price {
-  color: var(--cc-honey);
+.brewery .br-square-grid .br-tile-price {
+  color: var(--br-amber);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-cat {
-  color: var(--cc-ink);
+.brewery .br-square-grid .br-tile-cat {
+  color: var(--br-ink);
   background: rgba(255, 253, 248, 0.9);
 }
 
@@ -2278,34 +2498,34 @@ html.lenis body {
    own paper strip underneath it. The order part lives in the floating bar
    instead, which is what frees this room in the first place. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-tile {
+  .brewery .br-tile {
     aspect-ratio: auto;
     display: flex;
     flex-direction: column;
-    background: var(--cc-paper);
-    border: 1px solid var(--cc-line);
+    background: var(--br-paper);
+    border: 1px solid var(--br-line);
   }
-  .coffee-cups .cc-tile-img {
+  .brewery .br-tile-img {
     position: relative;
     inset: auto;
     aspect-ratio: 4 / 3;
   }
-  .coffee-cups .cc-tile-cap {
+  .brewery .br-tile-cap {
     position: static;
     padding: 9px 11px 11px;
   }
-  .coffee-cups .cc-square-grid .cc-tile-cap {
+  .brewery .br-square-grid .br-tile-cap {
     background: none;
   }
-  .coffee-cups .cc-square-grid .cc-tile-name {
+  .brewery .br-square-grid .br-tile-name {
     font-size: 13.5px;
-    color: var(--cc-ink);
+    color: var(--br-ink);
   }
-  .coffee-cups .cc-square-grid .cc-tile-price {
+  .brewery .br-square-grid .br-tile-price {
     font-size: 13px;
-    color: var(--cc-ember);
+    color: var(--br-brass);
   }
-  .coffee-cups .cc-tile-note {
+  .brewery .br-tile-note {
     -webkit-line-clamp: 2;
     font-size: 11.5px;
     color: rgba(43, 22, 10, 0.66);
@@ -2319,7 +2539,7 @@ html.lenis body {
    keep a real gap all the way round, and cos() of a card's angle to
    camera drives its fade and scale. One custom property (--rot) per
    frame moves the whole barrel. */
-.coffee-cups .cc-barrel {
+.brewery .br-barrel {
   --cw: clamp(196px, 60vw, 248px);
   --ch: calc(var(--cw) * 1.3);
   --gap: 22px;
@@ -2331,7 +2551,7 @@ html.lenis body {
 }
 
 @media (min-width: 640px) {
-  .coffee-cups .cc-barrel {
+  .brewery .br-barrel {
     --cw: clamp(232px, 26vw, 268px);
     --gap: 30px;
     --persp: 1350px;
@@ -2340,13 +2560,13 @@ html.lenis body {
 }
 
 @media (min-width: 1024px) {
-  .coffee-cups .cc-barrel {
+  .brewery .br-barrel {
     --cw: 286px;
     --gap: 34px;
   }
 }
 
-.coffee-cups .cc-barrel-stage {
+.brewery .br-barrel-stage {
   --step: calc(360deg / var(--n, 8));
   /* Radius that keeps a `gap` between neighbours all the way round:
      chord = 2R·sin(step/2), solved for R. */
@@ -2365,25 +2585,25 @@ html.lenis body {
   -webkit-user-select: none;
 }
 
-.coffee-cups .cc-barrel-stage:active {
+.brewery .br-barrel-stage:active {
   cursor: grabbing;
 }
 
-.coffee-cups .cc-barrel-glow {
+.brewery .br-barrel-glow {
   position: absolute;
   inset: 14% 8%;
   border-radius: 50%;
   background: radial-gradient(
     58% 54% at 50% 50%,
-    rgba(247, 208, 138, 0.3),
-    rgba(228, 87, 46, 0.14) 56%,
+    rgba(242, 194, 116, 0.3),
+    rgba(184, 114, 29, 0.16) 56%,
     transparent 76%
   );
   pointer-events: none;
 }
 
 /* --- Swipe hint overlay on the barrel ---------------------------- */
-.coffee-cups .cc-swipe-hint {
+.brewery .br-swipe-hint {
   position: absolute;
   inset: 0;
   z-index: 6;
@@ -2399,11 +2619,11 @@ html.lenis body {
 
 /* Armed by an IntersectionObserver once the barrel is on screen, so the
    hint is actually seen rather than burning its seconds behind the hero. */
-.coffee-cups .cc-swipe-hint[data-live='true'] {
+.brewery .br-swipe-hint[data-live='true'] {
   opacity: 1;
 }
 
-.coffee-cups .cc-swipe-label {
+.brewery .br-swipe-label {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -2415,24 +2635,24 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.16);
 }
 
-.coffee-cups .cc-swipe-arrow {
+.brewery .br-swipe-arrow {
   font-size: 28px;
   line-height: 1;
-  color: var(--cc-honey);
-  animation: cc-swipe-bounce 1.6s ease-in-out infinite;
+  color: var(--br-amber);
+  animation: br-swipe-bounce 1.6s ease-in-out infinite;
 }
-.coffee-cups .cc-swipe-arrow-l {
-  animation-name: cc-swipe-bounce-l;
+.brewery .br-swipe-arrow-l {
+  animation-name: br-swipe-bounce-l;
 }
-.coffee-cups .cc-swipe-arrow-r {
-  animation-name: cc-swipe-bounce-r;
+.brewery .br-swipe-arrow-r {
+  animation-name: br-swipe-bounce-r;
 }
 
-@keyframes cc-swipe-bounce-l {
+@keyframes br-swipe-bounce-l {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(-8px); }
 }
-@keyframes cc-swipe-bounce-r {
+@keyframes br-swipe-bounce-r {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(8px); }
 }
@@ -2443,7 +2663,7 @@ html.lenis body {
    The tilt wraps the scene, so it goes on the outside of that push-back:
    move the cylinder off the camera first, then tip it, which keeps the
    facing card dead centre instead of sliding it down the stage. */
-.coffee-cups .cc-barrel-ring {
+.brewery .br-barrel-ring {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -2453,7 +2673,7 @@ html.lenis body {
   transform: rotateX(var(--tilt)) translateZ(calc(var(--r) * -1)) rotateY(var(--rot, 0deg));
 }
 
-.coffee-cups .cc-barrel-slot {
+.brewery .br-barrel-slot {
   --rel: calc(var(--a, 0deg) + var(--rot, 0deg));
   /* cos() of the angle to camera: 1 facing us, 0 at the sides. */
   --face: max(0, cos(var(--rel)));
@@ -2470,7 +2690,7 @@ html.lenis body {
   backface-visibility: hidden;
 }
 
-.coffee-cups .cc-barrel-card {
+.brewery .br-barrel-card {
   position: absolute;
   inset: 0;
   display: block;
@@ -2479,7 +2699,7 @@ html.lenis body {
   border-radius: 20px;
   overflow: hidden;
   background: #2a1408;
-  color: var(--cc-cream);
+  color: var(--br-cream);
   text-align: left;
   cursor: pointer;
   /* The far side of the cylinder would otherwise show through the near
@@ -2490,29 +2710,29 @@ html.lenis body {
     border-color 260ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] {
+.brewery .br-barrel-card[data-active='true'] {
   translate: 0 -8px;
   border-color: rgba(247, 208, 138, 0.62);
   box-shadow: 0 34px 62px -26px rgba(20, 8, 3, 0.95), 0 0 0 3px rgba(247, 208, 138, 0.16);
 }
 
-.coffee-cups .cc-barrel-card:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery .br-barrel-card:focus-visible {
+  outline: 2px solid var(--br-amber);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-barrel-img {
+.brewery .br-barrel-img {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-.coffee-cups .cc-barrel-img img {
+.brewery .br-barrel-img img {
   -webkit-user-drag: none;
   user-select: none;
 }
 
-.coffee-cups .cc-barrel-cap {
+.brewery .br-barrel-cap {
   position: absolute;
   left: 0;
   right: 0;
@@ -2524,17 +2744,17 @@ html.lenis body {
   background: linear-gradient(180deg, transparent, rgba(30, 12, 4, 0.74) 44%, rgba(20, 8, 3, 0.95));
 }
 
-.coffee-cups .cc-barrel-name {
+.brewery .br-barrel-name {
   font-size: 15px;
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--cc-cream);
+  color: var(--br-cream);
 }
 
 /* The note only unfolds on the card facing the customer, so the side
    cards stay quiet and the barrel reads as one object. */
-.coffee-cups .cc-barrel-note {
+.brewery .br-barrel-note {
   max-height: 0;
   overflow: hidden;
   font-size: 11px;
@@ -2544,12 +2764,12 @@ html.lenis body {
   transition: max-height 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-note {
+.brewery .br-barrel-card[data-active='true'] .br-barrel-note {
   max-height: 48px;
   opacity: 1;
 }
 
-.coffee-cups .cc-barrel-line {
+.brewery .br-barrel-line {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -2557,14 +2777,25 @@ html.lenis body {
   margin-top: 3px;
 }
 
-.coffee-cups .cc-barrel-price {
+.brewery .br-barrel-price {
   font-size: 13.5px;
   font-weight: 800;
-  color: var(--cc-honey);
+  color: var(--br-amber);
   font-variant-numeric: tabular-nums;
 }
 
-.coffee-cups .cc-barrel-cta {
+.brewery .br-barrel-abv {
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--br-brass-deep);
+  background: rgba(242, 194, 116, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+.brewery .br-barrel-cta {
   flex-shrink: 0;
   padding: 3px 8px;
   border-radius: 999px;
@@ -2577,12 +2808,12 @@ html.lenis body {
   transition: background 220ms ease, color 220ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-cta {
-  background: var(--cc-honey);
+.brewery .br-barrel-card[data-active='true'] .br-barrel-cta {
+  background: var(--br-amber);
   color: #2a1408;
 }
 
-.coffee-cups .cc-barrel-qty {
+.brewery .br-barrel-qty {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -2593,7 +2824,7 @@ html.lenis body {
   height: 24px;
   padding: 0 6px;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--br-brass);
   color: #fff;
   font-size: 11px;
   font-weight: 800;
@@ -2601,16 +2832,16 @@ html.lenis body {
   box-shadow: 0 3px 10px rgba(20, 8, 3, 0.35);
 }
 
-.coffee-cups .cc-barrel-card:has(.cc-barrel-qty) .cc-card-star {
+.brewery .br-barrel-card:has(.br-barrel-qty) .br-card-star {
   right: 40px;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-card-star-label {
+.brewery .br-barrel-card[data-active='true'] .br-card-star-label {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
-.coffee-cups .cc-barrel-curtain {
+.brewery .br-barrel-curtain {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -2619,7 +2850,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-.coffee-cups .cc-barrel-curtain-l {
+.brewery .br-barrel-curtain-l {
   left: 0;
   background: linear-gradient(
     90deg,
@@ -2629,7 +2860,7 @@ html.lenis body {
   );
 }
 
-.coffee-cups .cc-barrel-curtain-r {
+.brewery .br-barrel-curtain-r {
   right: 0;
   background: linear-gradient(
     270deg,
@@ -2639,7 +2870,7 @@ html.lenis body {
   );
 }
 
-.coffee-cups .cc-barrel-hud {
+.brewery .br-barrel-hud {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2647,7 +2878,7 @@ html.lenis body {
   margin-top: 4px;
 }
 
-.coffee-cups .cc-barrel-nav {
+.brewery .br-barrel-nav {
   display: grid;
   place-items: center;
   width: 44px;
@@ -2655,34 +2886,34 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.3);
   border-radius: 999px;
   background: rgba(20, 8, 3, 0.28);
-  color: var(--cc-cream);
+  color: var(--br-cream);
   cursor: pointer;
   transition: background 200ms ease, border-color 200ms ease,
     transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-barrel-nav svg {
+.brewery .br-barrel-nav svg {
   width: 20px;
   height: 20px;
 }
 
-.coffee-cups .cc-barrel-nav:hover:not(:disabled) {
+.brewery .br-barrel-nav:hover:not(:disabled) {
   border-color: rgba(251, 244, 233, 0.62);
   background: rgba(251, 244, 233, 0.14);
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-barrel-nav:disabled {
+.brewery .br-barrel-nav:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.coffee-cups .cc-barrel-nav:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery .br-barrel-nav:focus-visible {
+  outline: 2px solid var(--br-amber);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-barrel-count {
+.brewery .br-barrel-count {
   display: flex;
   align-items: baseline;
   gap: 4px;
@@ -2695,21 +2926,21 @@ html.lenis body {
   font-variant-numeric: tabular-nums;
 }
 
-.coffee-cups .cc-barrel-count-now {
-  color: var(--cc-honey);
+.brewery .br-barrel-count-now {
+  color: var(--br-amber);
   font-size: 15px;
 }
 
-.coffee-cups .cc-barrel-count-name {
+.brewery .br-barrel-count-name {
   margin-left: 8px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
   text-transform: none;
-  color: var(--cc-cream);
+  color: var(--br-cream);
 }
 
-.coffee-cups .cc-barrel-dots {
+.brewery .br-barrel-dots {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -2718,7 +2949,7 @@ html.lenis body {
   list-style: none;
 }
 
-.coffee-cups .cc-barrel-dot {
+.brewery .br-barrel-dot {
   display: grid;
   place-items: center;
   width: var(--dot-hit);
@@ -2729,7 +2960,7 @@ html.lenis body {
   cursor: pointer;
 }
 
-.coffee-cups .cc-barrel-dot::after {
+.brewery .br-barrel-dot::after {
   content: '';
   width: 7px;
   height: 7px;
@@ -2738,22 +2969,22 @@ html.lenis body {
   transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease;
 }
 
-.coffee-cups .cc-barrel-dot:hover::after {
+.brewery .br-barrel-dot:hover::after {
   background: rgba(251, 244, 233, 0.7);
 }
 
-.coffee-cups .cc-barrel-dot[aria-current='true']::after {
+.brewery .br-barrel-dot[aria-current='true']::after {
   width: 20px;
-  background: var(--cc-honey);
+  background: var(--br-amber);
 }
 
-.coffee-cups .cc-barrel-dot:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery .br-barrel-dot:focus-visible {
+  outline: 2px solid var(--br-amber);
   outline-offset: -2px;
   border-radius: 999px;
 }
 
-.coffee-cups .cc-barrel-hint {
+.brewery .br-barrel-hint {
   margin: 6px 0 0;
   text-align: center;
   font-size: 11px;
@@ -2764,47 +2995,47 @@ html.lenis body {
    taller stage for the lifted card, tighter curtains, and type big enough to
    read at arm's length without opening the dialog first. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-barrel {
+  .brewery .br-barrel {
     --ch: calc(var(--cw) * 1.36);
   }
-  .coffee-cups .cc-barrel-stage {
+  .brewery .br-barrel-stage {
     height: calc(var(--ch) + 92px);
   }
-  .coffee-cups .cc-barrel-curtain {
+  .brewery .br-barrel-curtain {
     width: 16%;
   }
-  .coffee-cups .cc-barrel-name {
+  .brewery .br-barrel-name {
     font-size: 17px;
   }
-  .coffee-cups .cc-barrel-note {
+  .brewery .br-barrel-note {
     font-size: 12.5px;
   }
-  .coffee-cups .cc-barrel-price {
+  .brewery .br-barrel-price {
     font-size: 15px;
   }
-  .coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-note {
+  .brewery .br-barrel-card[data-active='true'] .br-barrel-note {
     max-height: 66px;
   }
-  .coffee-cups .cc-barrel-hint {
+  .brewery .br-barrel-hint {
     font-size: 11.5px;
     padding: 0 8px;
   }
 }
 
 /* --- Combo builder ----------------------------------------------- */
-.coffee-cups .cc-combo {
+.brewery .br-combo {
   padding: 28px 20px 32px;
   border-radius: 20px;
-  background: linear-gradient(160deg, #241108 0%, #4a2510 60%, #7a3d14 100%);
-  color: var(--cc-cream);
+  background: linear-gradient(160deg, #0b1610 0%, #163020 60%, #34502c 100%);
+  color: var(--br-cream);
 }
 
-.coffee-cups .cc-combo-header {
+.brewery .br-combo-header {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.coffee-cups .cc-combo-wheels {
+.brewery .br-combo-wheels {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2812,14 +3043,14 @@ html.lenis body {
 }
 
 @media (min-width: 768px) {
-  .coffee-cups .cc-combo-wheels {
+  .brewery .br-combo-wheels {
     flex-direction: row;
     justify-content: center;
     gap: 28px;
   }
 }
 
-.coffee-cups .cc-combo-wheel {
+.brewery .br-combo-wheel {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2828,14 +3059,14 @@ html.lenis body {
   max-width: 320px;
 }
 
-.coffee-cups .cc-combo-wheel-label {
+.brewery .br-combo-wheel-label {
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cc-honey);
+  color: var(--br-amber);
 }
 
-.coffee-cups .cc-combo-stage {
+.brewery .br-combo-stage {
   position: relative;
   width: 100%;
   height: 260px;
@@ -2843,34 +3074,34 @@ html.lenis body {
   overflow: hidden;
 }
 
-.coffee-cups .cc-combo-ring {
+.brewery .br-combo-ring {
   --r: 160px;
   --tilt: 4deg;
 }
 
-.coffee-cups .cc-combo-slot {
+.brewery .br-combo-slot {
   width: 130px;
   height: 220px;
 }
 
-.coffee-cups .cc-combo-card {
+.brewery .br-combo-card {
   min-height: auto;
   padding: 10px;
   font-size: 12px;
 }
 
-.coffee-cups .cc-combo-card .cc-barrel-img {
+.brewery .br-combo-card .br-barrel-img {
   height: 100px;
 }
 
-.coffee-cups .cc-combo-plus {
+.brewery .br-combo-plus {
   font-size: 32px;
   font-weight: 700;
-  color: var(--cc-honey);
+  color: var(--br-amber);
   line-height: 1;
 }
 
-.coffee-cups .cc-combo-summary {
+.brewery .br-combo-summary {
   margin-top: 28px;
   display: flex;
   flex-direction: column;
@@ -2878,7 +3109,7 @@ html.lenis body {
   gap: 10px;
 }
 
-.coffee-cups .cc-combo-pair {
+.brewery .br-combo-pair {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2886,23 +3117,30 @@ html.lenis body {
   font-weight: 600;
 }
 
-.coffee-cups .cc-combo-sep {
-  color: var(--cc-honey);
+.brewery .br-combo-sep {
+  color: var(--br-amber);
   font-weight: 700;
 }
 
-.coffee-cups .cc-combo-price {
+.brewery .br-combo-pairs-with {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(251, 244, 233, 0.62);
+}
+
+.brewery .br-combo-price {
   display: flex;
   align-items: baseline;
   gap: 10px;
 }
 
-.coffee-cups .cc-combo-now {
+.brewery .br-combo-now {
   font-size: 24px;
-  color: var(--cc-honey);
+  color: var(--br-amber);
 }
 
-.coffee-cups .cc-combo-add {
+.brewery .br-combo-add {
   margin-top: 8px;
   min-width: 200px;
 }
@@ -2911,19 +3149,19 @@ html.lenis body {
    A paper menu sheet: serif section headings with side rules and
    rows of thumbnail · name · dotted leader · price. Tapping a row
    opens the same center dialog as a tile. */
-.coffee-cups .cc-menu-list {
+.brewery .br-menu-list {
   padding: 26px 18px 30px;
   border-radius: 14px;
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+  background: var(--br-paper);
+  border: 1px solid var(--br-line);
   box-shadow: 0 24px 50px -30px rgba(20, 8, 3, 0.75);
 }
 
-.coffee-cups .cc-menu-list section + section {
+.brewery .br-menu-list section + section {
   margin-top: 26px;
 }
 
-.coffee-cups .cc-list-heading {
+.brewery .br-list-heading {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -2931,17 +3169,17 @@ html.lenis body {
   font-size: 15px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-list-heading::before,
-.coffee-cups .cc-list-heading::after {
+.brewery .br-list-heading::before,
+.brewery .br-list-heading::after {
   content: '';
   flex: 1;
-  border-top: 1px solid var(--cc-line);
+  border-top: 1px solid var(--br-line);
 }
 
-.coffee-cups .cc-list-row {
+.brewery .br-list-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2956,53 +3194,53 @@ html.lenis body {
   transition: background 180ms ease;
 }
 
-.coffee-cups .cc-list-row:hover {
+.brewery .br-list-row:hover {
   background: rgba(122, 58, 18, 0.07);
 }
 
-.coffee-cups .cc-list-thumb {
+.brewery .br-list-thumb {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
   border-radius: 9px;
   overflow: hidden;
-  border: 1px solid var(--cc-line);
+  border: 1px solid var(--br-line);
 }
 
-.coffee-cups .cc-list-name {
+.brewery .br-list-name {
   font-family: var(--font-serif), Georgia, serif;
   font-size: 15px;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-list-star {
-  color: var(--cc-ember);
+.brewery .br-list-star {
+  color: var(--br-brass);
   font-size: 13px;
 }
 
-.coffee-cups .cc-list-leader {
+.brewery .br-list-leader {
   flex: 1;
   min-width: 22px;
   border-bottom: 2px dotted rgba(42, 33, 27, 0.35);
   transform: translateY(3px);
 }
 
-.coffee-cups .cc-list-price {
+.brewery .br-list-price {
   flex-shrink: 0;
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 700;
   font-size: 14px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
+  color: var(--br-brass);
 }
 
-.coffee-cups .cc-list-qty {
+.brewery .br-list-qty {
   flex-shrink: 0;
   min-width: 22px;
   height: 22px;
   border-radius: 999px;
-  background: var(--cc-ember);
-  color: var(--cc-paper);
+  background: var(--br-brass);
+  color: var(--br-paper);
   font-size: 11px;
   font-weight: 800;
   display: grid;
@@ -3011,7 +3249,7 @@ html.lenis body {
 }
 
 /* --- Menu footer: the mode switch lives under the cards --------- */
-.coffee-cups .cc-menu-foot {
+.brewery .br-menu-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -3020,55 +3258,55 @@ html.lenis body {
   margin-top: 22px;
 }
 
-.coffee-cups .cc-pill {
+.brewery .br-pill {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--cc-line);
+  border: 1px solid var(--br-line);
   border-radius: 999px;
   padding: 0.15rem 0.6rem;
   font-size: 0.66rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--cc-muted);
-  background: var(--cc-paper);
+  color: var(--br-muted);
+  background: var(--br-paper);
 }
 
 /* --- The menu section ------------------------------------------- */
-/* The whole menu on one sunrise wash: square tiles first, the style
+/* The whole menu on one taproom wash: square tiles first, the style
    switch and the wayfinding buttons underneath them. The wash is a
-   deep espresso-to-caramel table glow with window light top-right. */
-.coffee-cups .cc-menu {
+   deep bottle-green room with the brass bar light burning bottom-right. */
+.brewery .br-menu {
   background:
-    radial-gradient(90% 70% at 78% 8%, rgba(247, 208, 138, 0.34), transparent 60%),
-    radial-gradient(60% 50% at 12% 88%, rgba(201, 138, 75, 0.28), transparent 65%),
-    linear-gradient(155deg, #241108 0%, #4a2412 30%, #7a3a12 60%, #a85a20 84%, #c98a4b 100%);
+    radial-gradient(90% 70% at 78% 8%, rgba(242, 194, 116, 0.3), transparent 60%),
+    radial-gradient(60% 50% at 12% 88%, rgba(147, 178, 92, 0.22), transparent 65%),
+    linear-gradient(155deg, #0b1610 0%, #14291c 30%, #23402a 58%, #3f562a 80%, #7a5a22 100%);
 }
 
-/* Cup rings left on the table: faint double-edge circles, no asset. */
-.coffee-cups .cc-stains {
+/* Rings left on the bar: faint double-edge circles, no asset. */
+.brewery .br-rings {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(96px at 12% 20%, transparent 0 68%, rgba(36, 17, 8, 0.34) 69% 71%, transparent 72%),
-    radial-gradient(74px at 88% 26%, transparent 0 66%, rgba(36, 17, 8, 0.26) 67% 69%, transparent 70%),
-    radial-gradient(120px at 72% 86%, transparent 0 70%, rgba(36, 17, 8, 0.3) 71% 73%, transparent 74%),
-    radial-gradient(64px at 24% 76%, transparent 0 64%, rgba(36, 17, 8, 0.2) 65% 67%, transparent 68%);
+    radial-gradient(96px at 12% 20%, transparent 0 68%, rgba(8, 22, 14, 0.4) 69% 71%, transparent 72%),
+    radial-gradient(74px at 88% 26%, transparent 0 66%, rgba(8, 22, 14, 0.32) 67% 69%, transparent 70%),
+    radial-gradient(120px at 72% 86%, transparent 0 70%, rgba(8, 22, 14, 0.36) 71% 73%, transparent 74%),
+    radial-gradient(64px at 24% 76%, transparent 0 64%, rgba(8, 22, 14, 0.26) 65% 67%, transparent 68%);
   opacity: 0.6;
   pointer-events: none;
 }
 
-/* Roasted-bean and steam-swirl doodles, tiled as one inline SVG. */
-.coffee-cups .cc-beans {
+/* Hop-cone and rising-bubble doodles, tiled as one inline SVG. */
+.brewery .br-hops {
   position: absolute;
   inset: -12%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='0.55' stroke-width='2' stroke-linecap='round'%3E%3Cellipse cx='42' cy='48' rx='15' ry='9.5' transform='rotate(-24 42 48)'/%3E%3Cpath d='M29 43q13 6 26 0'/%3E%3Cellipse cx='132' cy='126' rx='13' ry='8' transform='rotate(32 132 126)'/%3E%3Cpath d='M121 122q11 5 22 0'/%3E%3Cpath d='M108 34c6-6-6-11 0-17M118 37c6-6-6-11 0-17'/%3E%3Cpath d='M36 140c5-5-5-10 0-15'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='0.55' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M46 30c9 7 14 16 14 24s-6 13-14 13-14-5-14-13 5-17 14-24z'/%3E%3Cpath d='M38 44q8 5 16 0M36 54q10 5 20 0'/%3E%3Cpath d='M132 104c8 6 12 14 12 21s-5 11-12 11-12-4-12-11 4-15 12-21z'/%3E%3Cpath d='M125 117q7 4 14 0'/%3E%3Ccircle cx='96' cy='58' r='4'/%3E%3Ccircle cx='104' cy='44' r='2.6'/%3E%3Ccircle cx='64' cy='136' r='3.4'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 180px 180px;
   opacity: 0.07;
-  animation: cc-beans-drift 26s linear infinite alternate;
+  animation: br-hops-drift 26s linear infinite alternate;
   pointer-events: none;
 }
 
-@keyframes cc-beans-drift {
+@keyframes br-hops-drift {
   from {
     background-position: 0 0;
   }
@@ -3078,23 +3316,23 @@ html.lenis body {
 }
 
 /* Individual roasted beans adrift over the hero and the menu board. */
-.coffee-cups .cc-beans-field {
+.brewery .br-hop-field {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-.coffee-cups .cc-bean {
+.brewery .br-hop {
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--sw);
   opacity: var(--op);
-  animation: cc-bean-float var(--dur) ease-in-out var(--delay) infinite alternate;
+  animation: br-hop-float var(--dur) ease-in-out var(--delay) infinite alternate;
 }
 
-@keyframes cc-bean-float {
+@keyframes br-hop-float {
   from {
     transform: translate(0, 0) rotate(var(--r1));
   }
@@ -3103,35 +3341,54 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-hero-cta {
+/* Bubbles rise and fade; the cones tumble. */
+.brewery .br-bubble {
+  animation-name: br-bubble-rise;
+}
+
+@keyframes br-bubble-rise {
+  from {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  18% {
+    opacity: var(--op);
+  }
+  to {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0;
+  }
+}
+
+.brewery .br-hero-cta {
   align-self: flex-start;
   min-height: 52px;
   font-size: 15px;
 }
 
 /* --- Instagram feed shelf ------------------------------------- */
-.coffee-cups .cc-feed-grid {
+.brewery .br-feed-grid {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.coffee-cups .cc-post {
-  border: 1px solid var(--cc-line);
+.brewery .br-post {
+  border: 1px solid var(--br-line);
   border-radius: 18px;
-  background: var(--cc-paper);
+  background: var(--br-paper);
   padding: 10px;
   box-shadow: 0 18px 40px rgba(42, 33, 27, 0.08);
 }
 
-.coffee-cups .cc-post-frame {
+.brewery .br-post-frame {
   min-height: 320px;
   overflow: hidden;
   border-radius: 12px;
-  background: var(--cc-cream);
+  background: var(--br-cream);
 }
 
-.coffee-cups .cc-post-fallback {
+.brewery .br-post-fallback {
   display: flex;
   min-height: 320px;
   flex-direction: column;
@@ -3142,48 +3399,48 @@ html.lenis body {
   text-align: center;
 }
 
-.coffee-cups .cc-post-fallback-mark {
+.brewery .br-post-fallback-mark {
   width: 44px;
   height: 44px;
-  border: 3px solid var(--cc-ember);
+  border: 3px solid var(--br-brass);
   border-radius: 13px;
 }
 
-.coffee-cups .cc-post-fallback-caption {
-  color: var(--cc-muted);
+.brewery .br-post-fallback-caption {
+  color: var(--br-muted);
 }
 
 /* --- Testimonial carousel (motion.dev) -------------------------- */
-.coffee-cups .cc-voices-section {
-  background: linear-gradient(160deg, #241108 0%, #5a2d12 48%, #a85a20 100%);
-  color: var(--cc-cream);
+.brewery .br-voices-section {
+  background: linear-gradient(160deg, #0b1610 0%, #1a3323 48%, #5c4519 100%);
+  color: var(--br-cream);
 }
 
-.coffee-cups .cc-carousel {
+.brewery .br-carousel {
   position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.coffee-cups .cc-carousel-viewport {
+.brewery .br-carousel-viewport {
   flex: 1;
   min-width: 0;
   overflow: hidden;
 }
 
-.coffee-cups .cc-carousel-track {
+.brewery .br-carousel-track {
   display: flex;
   gap: var(--gap, 20px);
   cursor: grab;
   touch-action: pan-y;
 }
 
-.coffee-cups .cc-carousel-track:active {
+.brewery .br-carousel-track:active {
   cursor: grabbing;
 }
 
-.coffee-cups .cc-carousel-card {
+.brewery .br-carousel-card {
   /* --card-w comes from the same measurement the track offset uses. */
   flex: 0 0 var(--card-w, 100%);
   display: flex;
@@ -3194,11 +3451,11 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.16);
   border-radius: 20px;
   background: rgba(255, 253, 248, 0.07);
-  color: var(--cc-cream);
+  color: var(--br-cream);
   text-align: left;
 }
 
-.coffee-cups .cc-carousel-btn {
+.brewery .br-carousel-btn {
   display: grid;
   place-items: center;
   width: 44px;
@@ -3207,18 +3464,18 @@ html.lenis body {
   border-radius: 999px;
   border: 1px solid rgba(251, 244, 233, 0.28);
   background: rgba(255, 253, 248, 0.1);
-  color: var(--cc-cream);
+  color: var(--br-cream);
   transition:
     background 0.25s,
     transform 0.25s;
 }
 
-.coffee-cups .cc-carousel-btn:hover {
+.brewery .br-carousel-btn:hover {
   background: rgba(255, 253, 248, 0.22);
   transform: scale(1.06);
 }
 
-.coffee-cups .cc-carousel-dot {
+.brewery .br-carousel-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
@@ -3228,13 +3485,13 @@ html.lenis body {
     transform 0.25s;
 }
 
-.coffee-cups .cc-carousel-dot[data-active='true'] {
-  background: var(--cc-honey);
+.brewery .br-carousel-dot[data-active='true'] {
+  background: var(--br-amber);
   transform: scale(1.3);
 }
 
 /* The carousel drifts on its own, so the customer gets a real pause. */
-.coffee-cups .cc-carousel-pause {
+.brewery .br-carousel-pause {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3249,62 +3506,62 @@ html.lenis body {
     background 0.25s;
 }
 
-.coffee-cups .cc-carousel-pause:hover {
-  color: var(--cc-paper);
-  border-color: var(--cc-honey);
+.brewery .br-carousel-pause:hover {
+  color: var(--br-paper);
+  border-color: var(--br-amber);
 }
 
-.coffee-cups .cc-carousel-pause[aria-pressed='true'] {
-  color: var(--cc-ink);
-  background: var(--cc-honey);
-  border-color: var(--cc-honey);
+.brewery .br-carousel-pause[aria-pressed='true'] {
+  color: var(--br-ink);
+  background: var(--br-amber);
+  border-color: var(--br-amber);
 }
 
-.coffee-cups .cc-voice-top {
+.brewery .br-voice-top {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.coffee-cups .cc-voice-avatar {
+.brewery .br-voice-avatar {
   display: grid;
   width: 40px;
   height: 40px;
   place-items: center;
   border-radius: 999px;
-  background: var(--cc-ember);
-  color: var(--cc-paper);
+  background: var(--br-brass);
+  color: var(--br-paper);
   font-weight: 600;
 }
 
-.coffee-cups .cc-voice-name {
+.brewery .br-voice-name {
   display: block;
-  color: var(--cc-paper);
+  color: var(--br-paper);
   font-weight: 600;
 }
 
-.coffee-cups .cc-voice-when {
+.brewery .br-voice-when {
   display: block;
   font-size: 11px;
   color: rgba(251, 244, 233, 0.6);
 }
 
-.coffee-cups .cc-voice-quote {
+.brewery .br-voice-quote {
   flex: 1;
   font-size: 15px;
   line-height: 1.55;
   color: rgba(251, 244, 233, 0.92);
 }
 
-.coffee-cups .cc-voice-tag {
+.brewery .br-voice-tag {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
   gap: 8px;
   padding: 5px 12px 5px 5px;
   border-radius: 999px;
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+  background: var(--br-paper);
+  color: var(--br-ink);
   font-size: 12px;
   font-weight: 600;
 }
@@ -3312,22 +3569,22 @@ html.lenis body {
 @media (max-width: 1023px) {
   /* Card width and gap are measured in JS now (--card-w / --gap), so this
      breakpoint only decides whether the arrow buttons are worth showing. */
-  .coffee-cups .cc-carousel-btn {
+  .brewery .br-carousel-btn {
     display: none;
   }
 }
 
-.coffee-cups .cc-pick-wash {
+.brewery .br-pick-wash {
   position: absolute;
   inset: -22%;
   background:
-    radial-gradient(40% 40% at 24% 30%, rgba(242, 166, 90, 0.55), transparent 70%),
-    radial-gradient(36% 36% at 74% 74%, rgba(247, 208, 138, 0.42), transparent 72%);
-  animation: cc-pick-breathe 15s ease-in-out infinite alternate;
+    radial-gradient(40% 40% at 24% 30%, rgba(224, 138, 74, 0.55), transparent 70%),
+    radial-gradient(36% 36% at 74% 74%, rgba(242, 194, 116, 0.42), transparent 72%);
+  animation: br-pick-breathe 15s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-@keyframes cc-pick-breathe {
+@keyframes br-pick-breathe {
   from {
     opacity: 0.8;
     transform: scale(1);
@@ -3341,7 +3598,7 @@ html.lenis body {
 /* --- Mode toggle (Gen Z / Traditional) ------------------------- */
 /* Two equal columns, each at least as wide as its label: the pill stays
    at 50% while "Traditional" never gets clipped by a shrinking button. */
-.coffee-cups .cc-mode {
+.brewery .br-mode {
   position: relative;
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(max-content, 1fr));
@@ -3351,20 +3608,20 @@ html.lenis body {
   box-shadow: inset 0 0 0 1px rgba(251, 244, 233, 0.18);
 }
 
-.coffee-cups .cc-mode-pill {
+.brewery .br-mode-pill {
   position: absolute;
   top: 4px;
   bottom: 4px;
   left: 4px;
   width: calc(50% - 4px);
   border-radius: 999px;
-  background: var(--cc-honey);
+  background: var(--br-amber);
   transform: translateX(calc(var(--pos, 0) * 100%));
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
 }
 
-.coffee-cups .cc-mode-btn {
+.brewery .br-mode-btn {
   position: relative;
   z-index: 1;
   padding: 0.5rem 1.05rem;
@@ -3378,11 +3635,11 @@ html.lenis body {
   transition: color 260ms ease;
 }
 
-.coffee-cups .cc-mode-btn[aria-pressed='true'] {
-  color: var(--cc-ink);
+.brewery .br-mode-btn[aria-pressed='true'] {
+  color: var(--br-ink);
 }
 
-@keyframes cc-pick-rise {
+@keyframes br-pick-rise {
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -3393,7 +3650,7 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-card-star {
+.brewery .br-card-star {
   position: absolute;
   top: 7px;
   right: 7px;
@@ -3405,25 +3662,25 @@ html.lenis body {
   background: rgba(20, 8, 3, 0.66);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
-  color: var(--cc-honey);
+  color: var(--br-amber);
 }
 
-.coffee-cups .cc-star-icon {
+.brewery .br-star-icon {
   display: block;
   width: 15px;
   height: 15px;
   filter: drop-shadow(0 1px 3px rgba(20, 8, 3, 0.5));
 }
 
-.coffee-cups .cc-card-star-label {
+.brewery .br-card-star-label {
   position: absolute;
   top: 50%;
   right: calc(100% + 6px);
   transform: translateY(-50%) translateX(5px);
   padding: 3px 8px;
   border-radius: 999px;
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+  background: var(--br-paper);
+  color: var(--br-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -3435,17 +3692,17 @@ html.lenis body {
   transition: opacity 220ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tile:hover .cc-card-star-label,
-.coffee-cups .cc-tile:focus-visible .cc-card-star-label {
+.brewery .br-tile:hover .br-card-star-label,
+.brewery .br-tile:focus-visible .br-card-star-label {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coffee-cups .cc-card-star {
-    animation: cc-star-pulse 2.9s ease-in-out infinite;
+  .brewery .br-card-star {
+    animation: br-star-pulse 2.9s ease-in-out infinite;
   }
-  @keyframes cc-star-pulse {
+  @keyframes br-star-pulse {
     0%,
     100% {
       transform: scale(1);
@@ -3457,11 +3714,11 @@ html.lenis body {
 }
 
 /* --- Order tray ---------------------------------------------------- */
-.coffee-cups .cc-tray {
+.brewery .br-tray {
   min-width: 0;
 }
 @media (min-width: 1024px) {
-  .coffee-cups .cc-tray {
+  .brewery .br-tray {
     position: sticky;
     top: 96px;
   }
@@ -3469,24 +3726,24 @@ html.lenis body {
 
 /* The floating bar and sheet belong to the phone only; the desktop
    sticky panel above already owns the tray there. */
-.coffee-cups .cc-tray-bar {
+.brewery .br-tray-bar {
   display: none;
 }
-.coffee-cups .cc-tray-scrim {
+.brewery .br-tray-scrim {
   display: none;
 }
 
 @media (max-width: 1023px) {
   /* The bar is pinned for the whole scroll, so every band has to end clear
      of it — the last menu row and the footer line both sat under it. */
-  .coffee-cups .cc-menu {
+  .brewery .br-menu {
     padding-bottom: 96px;
   }
-  .coffee-cups .cc-footer {
+  .brewery .br-footer {
     padding-bottom: 88px;
   }
 
-  .coffee-cups .cc-tray-bar {
+  .brewery .br-tray-bar {
     position: fixed;
     left: 12px;
     right: 12px;
@@ -3499,32 +3756,32 @@ html.lenis body {
     padding: 10px 18px;
     border: none;
     border-radius: 999px;
-    background: var(--cc-ink);
-    color: var(--cc-cream);
+    background: var(--br-ink);
+    color: var(--br-cream);
     box-shadow: 0 18px 40px -14px rgba(20, 8, 3, 0.7);
     font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
-  .coffee-cups .cc-tray-bar-total {
+  .brewery .br-tray-bar-total {
     margin-left: auto;
-    color: var(--cc-honey);
+    color: var(--br-amber);
     font-size: 16px;
   }
 
   /* An empty tray has nothing to say, so the bar stays out of the hero until
      the first item lands on it. */
-  .coffee-cups .cc-tray[data-idle='true'] .cc-tray-bar {
+  .brewery .br-tray[data-idle='true'] .br-tray-bar {
     display: none;
   }
 
-  .coffee-cups .cc-tray-bar-chev {
+  .brewery .br-tray-bar-chev {
     font-size: 13px;
     opacity: 0.85;
   }
 
-  .coffee-cups .cc-tray-scrim {
+  .brewery .br-tray-scrim {
     display: block;
     position: fixed;
     inset: 0;
@@ -3535,7 +3792,7 @@ html.lenis body {
     transition: opacity 260ms ease;
   }
 
-  .coffee-cups .cc-tray[data-open='true'] .cc-tray-scrim {
+  .brewery .br-tray[data-open='true'] .br-tray-scrim {
     opacity: 1;
     pointer-events: auto;
   }
@@ -3544,7 +3801,7 @@ html.lenis body {
      until the bar opens it. Same DOM, same cart state. It also drops out of
      the tab order while parked, so a keyboard or a screen reader never lands
      on a + button nobody can see. */
-  .coffee-cups .cc-tray-panel {
+  .brewery .br-tray-panel {
     position: fixed;
     left: 12px;
     right: 12px;
@@ -3559,7 +3816,7 @@ html.lenis body {
       visibility 0s linear 320ms;
   }
 
-  .coffee-cups .cc-tray[data-open='true'] .cc-tray-panel {
+  .brewery .br-tray[data-open='true'] .br-tray-panel {
     transform: none;
     visibility: visible;
     transition:
@@ -3568,27 +3825,27 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-tray-panel {
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+.brewery .br-tray-panel {
+  background: var(--br-paper);
+  border: 1px solid var(--br-line);
   border-radius: 18px;
   padding: 16px;
   box-shadow: 0 18px 40px -24px rgba(58, 18, 4, 0.45);
 }
 
-.coffee-cups .cc-tray-head {
+.brewery .br-tray-head {
   font-size: 15px;
   margin-bottom: 10px;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-tray-empty p {
+.brewery .br-tray-empty p {
   font-size: 13px;
   line-height: 1.5;
-  color: var(--cc-muted);
+  color: var(--br-muted);
 }
 
-.coffee-cups .cc-tray-lines {
+.brewery .br-tray-lines {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -3597,21 +3854,21 @@ html.lenis body {
   gap: 10px;
 }
 
-.coffee-cups .cc-tray-line {
+.brewery .br-tray-line {
   display: flex;
   align-items: center;
   gap: 10px;
-  animation: cc-line-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: br-line-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-line-in {
+@keyframes br-line-in {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.97);
   }
 }
 
-.coffee-cups .cc-tray-thumb {
+.brewery .br-tray-thumb {
   width: 44px;
   height: 44px;
   border-radius: 10px;
@@ -3619,68 +3876,68 @@ html.lenis body {
   flex-shrink: 0;
 }
 
-.coffee-cups .cc-tray-line-info {
+.brewery .br-tray-line-info {
   flex: 1;
   min-width: 0;
 }
 
-.coffee-cups .cc-tray-each {
+.brewery .br-tray-each {
   font-size: 11px;
-  color: var(--cc-muted);
+  color: var(--br-muted);
 }
 
-.coffee-cups .cc-tray-variant {
+.brewery .br-tray-variant {
   font-size: 11px;
-  color: var(--cc-ember-deep);
+  color: var(--br-brass-deep);
   font-weight: 600;
 }
 
-.coffee-cups .cc-tray-step {
+.brewery .br-tray-step {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.coffee-cups .cc-tray-step button {
+.brewery .br-tray-step button {
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  border: 1px solid var(--cc-line);
-  background: var(--cc-cream);
+  border: 1px solid var(--br-line);
+  background: var(--br-cream);
   font-size: 14px;
   font-weight: 800;
   line-height: 1;
-  color: var(--cc-ink);
+  color: var(--br-ink);
   cursor: pointer;
   transition: background 160ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tray-step button:hover {
-  background: var(--cc-honey);
+.brewery .br-tray-step button:hover {
+  background: var(--br-amber);
   transform: scale(1.1);
 }
 
-.coffee-cups .cc-tray-step button:active {
+.brewery .br-tray-step button:active {
   transform: scale(0.9);
 }
 
-.coffee-cups .cc-tray-step span {
+.brewery .br-tray-step span {
   min-width: 18px;
   text-align: center;
   font-size: 13px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-tray-line-total {
+.brewery .br-tray-line-total {
   font-size: 13px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
+  color: var(--br-brass);
 }
 
-.coffee-cups .cc-tray-foot {
+.brewery .br-tray-foot {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -3688,75 +3945,75 @@ html.lenis body {
   padding-top: 12px;
   border-top: 2px dashed rgba(42, 33, 27, 0.25);
   font-size: 13px;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-tray-total {
+.brewery .br-tray-total {
   font-size: 18px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
-  animation: cc-pick-rise 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  color: var(--br-brass);
+  animation: br-pick-rise 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tray-place {
+.brewery .br-tray-place {
   width: 100%;
   margin-top: 12px;
   justify-content: center;
-  background: var(--cc-ember);
+  background: var(--br-brass);
   color: #fff;
-  border-color: var(--cc-ember);
+  border-color: var(--br-brass);
 }
 
-.coffee-cups .cc-tray-place:hover {
-  background: var(--cc-ember-deep);
+.brewery .br-tray-place:hover {
+  background: var(--br-brass-deep);
 }
 
 /* --- Order ticket --------------------------------------------------- */
-.coffee-cups .cc-ticket {
+.brewery .br-ticket {
   text-align: center;
   padding: 18px 14px;
-  background: var(--cc-cream);
-  border: 2px dashed var(--cc-ember);
+  background: var(--br-cream);
+  border: 2px dashed var(--br-brass);
   border-radius: 12px;
-  animation: cc-ticket-print 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: br-ticket-print 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-ticket-print {
+@keyframes br-ticket-print {
   from {
     opacity: 0;
     transform: translateY(-14px) scaleY(0.9);
   }
 }
 
-.coffee-cups .cc-ticket-stamp {
+.brewery .br-ticket-stamp {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--cc-ember-deep);
+  color: var(--br-brass-deep);
 }
 
-.coffee-cups .cc-ticket-no {
+.brewery .br-ticket-no {
   font-size: 30px;
   margin: 6px 0;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-ticket-eta {
+.brewery .br-ticket-eta {
   font-size: 12.5px;
   line-height: 1.5;
-  color: var(--cc-muted);
+  color: var(--br-muted);
   margin-bottom: 12px;
 }
 
-.coffee-cups .cc-tray-restart {
+.brewery .br-tray-restart {
   display: block;
   width: 100%;
   min-height: 44px;
-  border: 2px solid var(--cc-ink);
+  border: 2px solid var(--br-ink);
   border-radius: 999px;
   background: transparent;
-  color: var(--cc-ink);
+  color: var(--br-ink);
   font-family: var(--font-display), serif;
   font-size: 12px;
   font-weight: 700;
@@ -3766,15 +4023,15 @@ html.lenis body {
   transition: background 200ms ease, color 200ms ease;
 }
 
-.coffee-cups .cc-tray-restart:hover {
-  background: var(--cc-ink);
-  color: var(--cc-paper);
+.brewery .br-tray-restart:hover {
+  background: var(--br-ink);
+  color: var(--br-paper);
 }
 
 /* --- Item dialog --------------------------------------------------
    Tapping a tile opens the item centred: photo, full story, and one
    big add control. Everything inside is sized for a thumb. */
-.coffee-cups .cc-dialog-scrim {
+.brewery .br-dialog-scrim {
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -3783,35 +4040,35 @@ html.lenis body {
   padding: 20px;
   background: rgba(20, 8, 3, 0.62);
   backdrop-filter: blur(6px);
-  animation: cc-scrim-fade 220ms ease;
+  animation: br-scrim-fade 220ms ease;
 }
 
-.coffee-cups .cc-dialog {
+.brewery .br-dialog {
   position: relative;
   width: min(420px, 100%);
   max-height: min(86vh, 720px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--cc-paper);
+  background: var(--br-paper);
   border-radius: 22px;
   box-shadow: 0 40px 90px rgba(10, 4, 1, 0.55);
-  animation: cc-dialog-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: br-dialog-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-scrim-fade {
+@keyframes br-scrim-fade {
   from {
     opacity: 0;
   }
 }
 
-@keyframes cc-dialog-in {
+@keyframes br-dialog-in {
   from {
     opacity: 0;
     transform: translateY(18px) scale(0.96);
   }
 }
 
-.coffee-cups .cc-dialog-close {
+.brewery .br-dialog-close {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -3828,42 +4085,42 @@ html.lenis body {
   transition: background 200ms ease, transform 180ms ease;
 }
 
-.coffee-cups .cc-dialog-close:hover {
+.brewery .br-dialog-close:hover {
   background: rgba(20, 8, 3, 0.78);
   transform: scale(1.06);
 }
 
-.coffee-cups .cc-dialog-close svg {
+.brewery .br-dialog-close svg {
   width: 20px;
   height: 20px;
 }
 
-.coffee-cups .cc-dialog-img {
+.brewery .br-dialog-img {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
-.coffee-cups .cc-dialog-img img {
+.brewery .br-dialog-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.coffee-cups .cc-dialog-body {
+.brewery .br-dialog-body {
   padding: 18px 20px 22px;
 }
 
-.coffee-cups .cc-dialog-cat {
+.brewery .br-dialog-cat {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--cc-muted);
+  color: var(--br-muted);
   margin-bottom: 4px;
 }
 
-.coffee-cups .cc-dialog-row {
+.brewery .br-dialog-row {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -3871,77 +4128,131 @@ html.lenis body {
   gap: 8px;
 }
 
-.coffee-cups .cc-dialog-name {
+.brewery .br-dialog-name {
   font-family: var(--font-display), serif;
   font-size: 26px;
   line-height: 1.1;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-dialog-price {
+.brewery .br-dialog-price {
   font-family: var(--font-display), serif;
   font-size: 22px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember-deep);
+  color: var(--br-brass-deep);
 }
 
-.coffee-cups .cc-dialog-reason {
+.brewery .br-dialog-reason {
   display: inline-block;
   margin-top: 8px;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cc-ink);
-  background: var(--cc-honey);
+  color: var(--br-ink);
+  background: var(--br-amber);
   border-radius: 999px;
   padding: 4px 10px;
 }
 
-.coffee-cups .cc-dialog-note {
+.brewery .br-dialog-note {
   margin-top: 10px;
   font-size: 14.5px;
   line-height: 1.55;
   color: rgba(38, 22, 12, 0.82);
 }
 
-.coffee-cups .cc-dialog-label {
+.brewery .br-dialog-spec {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 12px;
+}
+
+.brewery .br-dialog-style {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--br-brass-deep);
+}
+
+.brewery .br-dialog-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.brewery .br-dialog-stat-k {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--br-muted);
+}
+
+.brewery .br-dialog-stat-v {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--br-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.brewery .br-dialog-pairs {
+  margin-top: 12px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 15px;
+  color: var(--br-ink);
+}
+
+.brewery .br-dialog-pairs-k {
+  display: inline-block;
+  margin-right: 6px;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--br-muted);
+}
+
+.brewery .br-dialog-label {
   margin: 16px 0 2px;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cc-muted);
+  color: var(--br-muted);
 }
 
-.coffee-cups .cc-dialog-text {
+.brewery .br-dialog-text {
   font-size: 13.5px;
   line-height: 1.55;
-  color: var(--cc-ink);
+  color: var(--br-ink);
 }
 
-.coffee-cups .cc-dialog-kcal {
+.brewery .br-dialog-kcal {
   margin-top: 14px;
   font-size: 12.5px;
-  color: var(--cc-muted);
+  color: var(--br-muted);
   font-variant-numeric: tabular-nums;
 }
 
 /* --- Variant pickers (size + add-ons) ---------------------------- */
-.coffee-cups .cc-dialog-variants {
+.brewery .br-dialog-variants {
   margin-top: 14px;
   border: none;
   padding: 0;
 }
 
-.coffee-cups .cc-variant-group {
+.brewery .br-variant-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 6px;
 }
 
-.coffee-cups .cc-variant-btn {
+.brewery .br-variant-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -3950,36 +4261,36 @@ html.lenis body {
   border: 1px solid rgba(42, 33, 27, 0.2);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.6);
-  color: var(--cc-ink);
+  color: var(--br-ink);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: background 180ms, border-color 180ms, transform 150ms;
 }
 
-.coffee-cups .cc-variant-btn[data-active='true'] {
-  background: var(--cc-ember);
-  border-color: var(--cc-ember);
+.brewery .br-variant-btn[data-active='true'] {
+  background: var(--br-brass);
+  border-color: var(--br-brass);
   color: #fff;
 }
 
-.coffee-cups .cc-variant-btn:hover {
+.brewery .br-variant-btn:hover {
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-variant-extra {
+.brewery .br-variant-extra {
   font-size: 11px;
   opacity: 0.75;
 }
 
-.coffee-cups .cc-dialog-add {
+.brewery .br-dialog-add {
   display: block;
   width: 100%;
   margin-top: 18px;
   min-height: 48px;
   border: none;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--br-brass);
   color: #fff;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 13px;
@@ -3990,16 +4301,16 @@ html.lenis body {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease;
 }
 
-.coffee-cups .cc-dialog-add:hover {
-  background: var(--cc-ember-deep);
+.brewery .br-dialog-add:hover {
+  background: var(--br-brass-deep);
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-dialog-add:active {
+.brewery .br-dialog-add:active {
   transform: scale(0.97);
 }
 
-.coffee-cups .cc-dialog-actions {
+.brewery .br-dialog-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4007,21 +4318,21 @@ html.lenis body {
   margin-top: 18px;
 }
 
-.coffee-cups .cc-dialog-line-total {
+.brewery .br-dialog-line-total {
   font-family: var(--font-display), serif;
   font-size: 18px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ink);
+  color: var(--br-ink);
   margin-right: auto;
 }
 
-.coffee-cups .cc-dialog-done {
+.brewery .br-dialog-done {
   min-height: 44px;
   padding: 0 22px;
-  border: 2px solid var(--cc-ink);
+  border: 2px solid var(--br-ink);
   border-radius: 999px;
   background: transparent;
-  color: var(--cc-ink);
+  color: var(--br-ink);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -4030,9 +4341,9 @@ html.lenis body {
   transition: background 200ms ease, color 200ms ease;
 }
 
-.coffee-cups .cc-dialog-done:hover {
-  background: var(--cc-ink);
-  color: var(--cc-paper);
+.brewery .br-dialog-done:hover {
+  background: var(--br-ink);
+  color: var(--br-paper);
 }
 
 /* --- Touch targets -------------------------------------------------
@@ -4040,83 +4351,83 @@ html.lenis body {
    ordering control grows to a comfortable ~44px tap area without
    changing the compact desktop pills. */
 @media (max-width: 1023px) {
-  .coffee-cups .cc-tray-step button {
+  .brewery .br-tray-step button {
     width: 44px;
     height: 44px;
     font-size: 18px;
   }
 
-  .coffee-cups .cc-tray-step span {
+  .brewery .br-tray-step span {
     min-width: 26px;
     font-size: 15px;
   }
 
-  .coffee-cups .cc-mode-btn {
+  .brewery .br-mode-btn {
     min-height: 44px;
   }
 
   /* The star icon stays on tiles, but its text reason pill has no room
      inside a square phone tile. */
-  .coffee-cups .cc-card-star-label {
+  .brewery .br-card-star-label {
     display: none;
   }
 }
 
 /* --- Story band ----------------------------------------------- */
-.coffee-cups .cc-story {
-  background: var(--cc-green);
-  color: var(--cc-cream);
+.brewery .br-story {
+  background: var(--br-bottle);
+  color: var(--br-cream);
 }
 
-.coffee-cups .cc-story-glow {
+.brewery .br-story-glow {
   background:
-    radial-gradient(58% 46% at 18% 8%, rgba(228, 87, 46, 0.5), transparent 70%),
-    radial-gradient(52% 44% at 84% 92%, rgba(194, 169, 203, 0.34), transparent 72%);
+    radial-gradient(58% 46% at 18% 8%, rgba(147, 178, 92, 0.42), transparent 70%),
+    radial-gradient(52% 44% at 84% 92%, rgba(184, 114, 29, 0.4), transparent 72%);
 }
 
 /* --- Cards ---------------------------------------------------- */
-.coffee-cups .cc-card {
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+.brewery .br-card {
+  background: var(--br-paper);
+  border: 1px solid var(--br-line);
   border-radius: 18px;
   box-shadow: 0 18px 40px -30px rgba(42, 33, 27, 0.55);
 }
 
 /* --- Mosaic --------------------------------------------------- */
-.coffee-cups .cc-mosaic {
+.brewery .br-mosaic {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 9rem;
   gap: 1.1rem;
 }
 @media (min-width: 768px) {
-  .coffee-cups .cc-mosaic {
+  .brewery .br-mosaic {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-rows: 13rem;
     gap: 1.5rem;
   }
 }
-.coffee-cups .cc-mosaic-tall {
+.brewery .br-mosaic-tall {
   grid-row: span 2;
 }
 
-.coffee-cups .cc-shot {
+.brewery .br-shot {
   position: relative;
   height: 100%;
   overflow: hidden;
   border-radius: 14px;
-  border: 5px solid var(--cc-paper);
-  background: var(--cc-paper);
+  border: 5px solid var(--br-paper);
+  background: var(--br-paper);
   box-shadow: 0 22px 44px -26px rgba(42, 33, 27, 0.7);
   transform: rotate(var(--tilt, 0deg));
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease;
 }
-.coffee-cups .cc-shot:hover {
+.brewery .br-shot:hover {
   transform: rotate(0deg) translateY(-7px) scale(1.015);
   box-shadow: 0 34px 60px -28px rgba(42, 33, 27, 0.8);
 }
 
-.coffee-cups .cc-shot-caption {
+.brewery .br-shot-caption {
   position: absolute;
   left: 0.65rem;
   bottom: 0.65rem;
@@ -4126,35 +4437,35 @@ html.lenis body {
   border-radius: 999px;
   background: rgba(20, 15, 12, 0.62);
   backdrop-filter: blur(5px);
-  color: var(--cc-cream);
+  color: var(--br-cream);
   padding: 0.3rem 0.7rem;
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.coffee-cups .cc-shot-dot {
+.brewery .br-shot-dot {
   height: 0.35rem;
   width: 0.35rem;
   border-radius: 999px;
-  background: var(--cc-honey);
+  background: var(--br-amber);
 }
 
 /* --- Footer --------------------------------------------------- */
-.coffee-cups .cc-footer {
-  background: var(--cc-green-deep);
-  color: var(--cc-cream);
+.brewery .br-footer {
+  background: var(--br-bottle-deep);
+  color: var(--br-cream);
 }
 
 /* --- The pour: six plates at real depths, one shared timeline ---- */
-.coffee-cups .cc-pour-scene {
-  --cc-loop: 9s;
+.brewery .br-pour-scene {
+  --br-loop: 9s;
   perspective: 720px;
 }
 
 /* Sized down and faded on small screens so the headline keeps the room,
    and lifted clear of the bottom edge so the glass stays in the first view. */
-.coffee-cups .cc-pour-anchor {
+.brewery .br-pour-anchor {
   position: absolute;
   right: -3%;
   bottom: 21%;
@@ -4164,7 +4475,7 @@ html.lenis body {
 }
 
 @media (min-width: 768px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery .br-pour-anchor {
     top: 52%;
     bottom: auto;
     right: 2%;
@@ -4176,7 +4487,7 @@ html.lenis body {
 }
 
 @media (min-width: 1024px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery .br-pour-anchor {
     right: 3.5%;
     width: 29%;
     max-width: 350px;
@@ -4185,12 +4496,12 @@ html.lenis body {
 }
 
 @media (min-width: 1440px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery .br-pour-anchor {
     right: 6.5%;
   }
 }
 
-.coffee-cups .cc-pour-stage {
+.brewery .br-pour-stage {
   position: relative;
   width: 100%;
   aspect-ratio: 200 / 260;
@@ -4199,28 +4510,28 @@ html.lenis body {
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-pour-idle {
+.brewery .br-pour-idle {
   position: relative;
   height: 100%;
   transform-style: preserve-3d;
 }
 
-.coffee-cups .cc-pour-plate {
+.brewery .br-pour-plate {
   position: absolute;
   inset: 0;
   transform: translateZ(var(--lz, 0px));
-  animation: cc-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: br-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: var(--d, 0ms);
 }
 
-.coffee-cups .cc-pour-plate > svg {
+.brewery .br-pour-plate > svg {
   display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
 }
 
-@keyframes cc-pour-assemble {
+@keyframes br-pour-assemble {
   from {
     opacity: 0;
     transform: translateZ(calc(var(--lz, 0px) - 130px)) rotateY(-32deg);
@@ -4233,84 +4544,84 @@ html.lenis body {
 
 /* Every part below rests in its finished state, so a browser that asks for
    reduced motion gets a full glass with the shot still running into it. */
-.coffee-cups .cc-pour-halo {
+.brewery .br-pour-halo {
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.coffee-cups .cc-pour-level {
+.brewery .br-pour-level {
   transform-box: view-box;
   transform-origin: 100px 206px;
 }
 
-.coffee-cups .cc-pour-crema {
+.brewery .br-pour-crema {
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0.9;
 }
 
-.coffee-cups .cc-pour-plume {
+.brewery .br-pour-plume {
   transform-box: fill-box;
   transform-origin: center;
   filter: blur(5px);
   opacity: 0.32;
 }
 
-.coffee-cups .cc-pour-ripple {
+.brewery .br-pour-ripple {
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
 }
 
-.coffee-cups .cc-pour-stream {
+.brewery .br-pour-stream {
   stroke-dasharray: 100;
 }
 
-.coffee-cups .cc-pour-shine {
+.brewery .br-pour-shine {
   opacity: 0.2;
 }
 
-.coffee-cups .cc-pour-steam {
+.brewery .br-pour-steam {
   transform-box: fill-box;
   transform-origin: 50% 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coffee-cups .cc-pour-idle {
-    animation: cc-pour-yaw 16s ease-in-out infinite;
+  .brewery .br-pour-idle {
+    animation: br-pour-yaw 16s ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-halo {
-    animation: cc-pour-halo var(--cc-loop) ease-in-out infinite;
+  .brewery .br-pour-halo {
+    animation: br-pour-halo var(--br-loop) ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-level {
-    animation: cc-pour-level var(--cc-loop) ease-in-out infinite;
+  .brewery .br-pour-level {
+    animation: br-pour-level var(--br-loop) ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-stream {
-    animation: cc-pour-stream var(--cc-loop) linear infinite;
+  .brewery .br-pour-stream {
+    animation: br-pour-stream var(--br-loop) linear infinite;
     animation-delay: calc(var(--k, 0) * -0.3s);
   }
-  .coffee-cups .cc-pour-crema {
-    animation: cc-pour-crema var(--cc-loop) ease-out infinite;
+  .brewery .br-pour-crema {
+    animation: br-pour-crema var(--br-loop) ease-out infinite;
   }
-  .coffee-cups .cc-pour-plume {
-    animation: cc-pour-plume var(--cc-loop) ease-out infinite;
+  .brewery .br-pour-plume {
+    animation: br-pour-plume var(--br-loop) ease-out infinite;
     animation-delay: calc(var(--k, 0) * -0.55s);
   }
-  .coffee-cups .cc-pour-ripple {
-    animation: cc-pour-ripple 3s ease-out infinite;
+  .brewery .br-pour-ripple {
+    animation: br-pour-ripple 3s ease-out infinite;
     animation-delay: calc(var(--k, 0) * 0.8s);
   }
-  .coffee-cups .cc-pour-shine {
-    animation: cc-pour-shine var(--cc-loop) ease-in-out infinite;
+  .brewery .br-pour-shine {
+    animation: br-pour-shine var(--br-loop) ease-in-out infinite;
     animation-delay: calc(var(--k, 0) * -1.2s);
   }
-  .coffee-cups .cc-pour-steam {
-    animation: cc-pour-steam var(--cc-loop) ease-out infinite;
+  .brewery .br-pour-steam {
+    animation: br-pour-steam var(--br-loop) ease-out infinite;
     animation-delay: calc(var(--k, 0) * -2.6s);
   }
 }
 
-@keyframes cc-pour-yaw {
+@keyframes br-pour-yaw {
   0%,
   100% {
     transform: rotateY(-6deg);
@@ -4320,7 +4631,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-halo {
+@keyframes br-pour-halo {
   0%,
   100% {
     opacity: 0.86;
@@ -4333,7 +4644,7 @@ html.lenis body {
 }
 
 /* The shot lands, the level swells, then settles back over the rest of the loop. */
-@keyframes cc-pour-level {
+@keyframes br-pour-level {
   0%,
   12% {
     transform: scaleY(1);
@@ -4346,7 +4657,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-stream {
+@keyframes br-pour-stream {
   0%,
   7% {
     opacity: 0;
@@ -4372,7 +4683,7 @@ html.lenis body {
 }
 
 /* The disc starts spreading the moment the shot reaches the surface. */
-@keyframes cc-pour-crema {
+@keyframes br-pour-crema {
   0%,
   14% {
     opacity: 0.55;
@@ -4392,7 +4703,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-plume {
+@keyframes br-pour-plume {
   0%,
   16% {
     opacity: 0;
@@ -4413,7 +4724,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-ripple {
+@keyframes br-pour-ripple {
   0% {
     opacity: 0;
     transform: scale(0.25);
@@ -4427,7 +4738,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-shine {
+@keyframes br-pour-shine {
   0%,
   100% {
     opacity: 0.2;
@@ -4437,7 +4748,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-steam {
+@keyframes br-pour-steam {
   0%,
   48% {
     opacity: 0;
@@ -4457,92 +4768,92 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coffee-cups .cc-hero-grain,
-  .coffee-cups .cc-pour-plate {
+  .brewery .br-hero-grain,
+  .brewery .br-pour-plate {
     animation: none;
   }
-  .coffee-cups .cc-shot,
-  .coffee-cups .cc-shot:hover {
+  .brewery .br-shot,
+  .brewery .br-shot:hover {
     transform: none;
     transition: none;
   }
-  .coffee-cups .cc-btn:hover {
+  .brewery .br-btn:hover {
     transform: none;
   }
-  .coffee-cups .cc-pick-wash {
+  .brewery .br-pick-wash {
     animation: none;
   }
-  .coffee-cups .cc-beans {
+  .brewery .br-hops {
     animation: none;
   }
-  .coffee-cups .cc-bean {
+  .brewery .br-hop {
     animation: none;
   }
-  .coffee-cups .cc-carousel-btn:hover {
+  .brewery .br-carousel-btn:hover {
     transform: none;
   }
-  .coffee-cups .cc-swipe-hint {
+  .brewery .br-swipe-hint {
     animation: none;
     transition: none;
     opacity: 1;
   }
-  .coffee-cups .cc-swipe-arrow {
+  .brewery .br-swipe-arrow {
     animation: none;
   }
-  .coffee-cups .cc-tile,
-  .coffee-cups .cc-tile:hover,
-  .coffee-cups .cc-tile:active {
+  .brewery .br-tile,
+  .brewery .br-tile:hover,
+  .brewery .br-tile:active {
     transform: none;
     transition: none;
     animation: none;
     translate: none;
     rotate: none;
   }
-  .coffee-cups .cc-tile-img img,
-  .coffee-cups .cc-tile:hover .cc-tile-img img {
+  .brewery .br-tile-img img,
+  .brewery .br-tile:hover .br-tile-img img {
     transform: none;
     transition: none;
   }
-  .coffee-cups .cc-card-star {
+  .brewery .br-card-star {
     animation: none;
   }
-  .coffee-cups .cc-card-star-label {
+  .brewery .br-card-star-label {
     transition: none;
   }
   /* The barrel keeps its shape — the curve is geometry, not movement — but
      it stops lifting, unfolding and easing between poses. JS snaps the spin
      to the next card instantly for the same reason. */
-  .coffee-cups .cc-barrel-stage {
+  .brewery .br-barrel-stage {
     cursor: default;
   }
-  .coffee-cups .cc-barrel-card,
-  .coffee-cups .cc-barrel-card[data-active='true'] {
+  .brewery .br-barrel-card,
+  .brewery .br-barrel-card[data-active='true'] {
     translate: none;
     transition: none;
   }
-  .coffee-cups .cc-barrel-note,
-  .coffee-cups .cc-barrel-cta,
-  .coffee-cups .cc-barrel-dot::after,
-  .coffee-cups .cc-barrel-nav {
+  .brewery .br-barrel-note,
+  .brewery .br-barrel-cta,
+  .brewery .br-barrel-dot::after,
+  .brewery .br-barrel-nav {
     transition: none;
   }
-  .coffee-cups .cc-tray-line,
-  .coffee-cups .cc-ticket,
-  .coffee-cups .cc-tray-total {
+  .brewery .br-tray-line,
+  .brewery .br-ticket,
+  .brewery .br-tray-total {
     animation: none;
   }
-  .coffee-cups .cc-tray-step button:hover,
-  .coffee-cups .cc-tray-step button:active,
-  .coffee-cups .cc-dialog-add:hover,
-  .coffee-cups .cc-dialog-add:active,
-  .coffee-cups .cc-dialog-close:hover {
+  .brewery .br-tray-step button:hover,
+  .brewery .br-tray-step button:active,
+  .brewery .br-dialog-add:hover,
+  .brewery .br-dialog-add:active,
+  .brewery .br-dialog-close:hover {
     transform: none;
   }
-  .coffee-cups .cc-dialog-scrim,
-  .coffee-cups .cc-dialog {
+  .brewery .br-dialog-scrim,
+  .brewery .br-dialog {
     animation: none;
   }
-  .coffee-cups .cc-mode-pill {
+  .brewery .br-mode-pill {
     transition: none;
   }
 }

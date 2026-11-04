@@ -16,7 +16,7 @@ export interface MenuItem {
   category: string;
   price: number;
   note?: string;
-  /** Cafe photo path, shared with the Coffee Cups menu. */
+  /** Cafe photo path, shared with the Brewery menu. */
   src?: string;
   active: boolean;
 }

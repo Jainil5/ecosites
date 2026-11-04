@@ -1,12 +1,12 @@
 // components/sites/analytical-register/menu-data.ts
-import { menuGroups } from '../coffee-cups/menu';
+import { menuGroups } from '../brewery/menu';
 import type { Brand, MenuItem } from './types';
 
-// The register runs on the same menu the Coffee Cups demo sells.
+// The register runs on the same menu the Brewery demo sells.
 export const defaultBrand: Brand = {
-  id: 'coffee-cups',
-  name: 'Coffee Cups',
-  tagline: 'Coffee, food and cold pours',
+  id: 'brewery',
+  name: 'Brewery',
+  tagline: 'Brews, plates and cold pours',
   accent: '#B5651D',
   gstNumber: '27ABCDE1234F1Z5',
   phone: '919876543210',

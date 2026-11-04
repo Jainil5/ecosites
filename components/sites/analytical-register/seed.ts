@@ -24,9 +24,9 @@ export function seedOrders(
   const now = opts.now ?? new Date();
   const rand = rng(opts.seed ?? 20261017);
   const active = menu.filter((m) => m.active);
-  // Popularity weights: coffee pours most, then food, then cold drinks.
+  // Popularity weights: brews pour most, then the kitchen, then the counter.
   const weight = (m: MenuItem) =>
-    m.category === 'Coffee' ? 3 : m.category === 'Food' ? 2 : 1;
+    m.category === 'Brews' ? 3 : m.category === 'Kitchen' ? 2 : 1;
   const orders: Order[] = [];
   let bill = 1;
 

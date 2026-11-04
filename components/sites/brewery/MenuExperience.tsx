@@ -1,0 +1,300 @@
+'use client';
+
+import { useEffect, useReducer, useState } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
+import Image from 'next/image';
+import { isRecommended, menuGroups } from './menu';
+import { HopField } from './HopField';
+import { cartQtyForItem, cartReducer, loadCart, saveCart } from './cart';
+import { OrderTray } from './OrderTray';
+import { ItemDialog } from './ItemDialog';
+import { BarrelGallery } from './BarrelGallery';
+import { ComboBuilder } from './ComboBuilder';
+import { Reveal } from './Reveal';
+
+type Mode = 'genz' | 'trad';
+
+const allItems = menuGroups.flatMap((group) =>
+  group.items.map((item) => ({ item, groupTitle: group.title, groupId: group.id })),
+);
+
+function MenuStar({ label }: { label: string }) {
+  return (
+    <span className="br-card-star" aria-hidden>
+      <svg viewBox="0 0 24 24" className="br-star-icon" aria-hidden>
+        <path
+          d="M12 2.6l2.6 6 6.4.6-4.8 4.3 1.4 6.3L12 16.6 6.4 19.8l1.4-6.3L3 9.2l6.4-.6z"
+          fill="currentColor"
+        />
+      </svg>
+      <span className="br-card-star-label">{label}</span>
+    </span>
+  );
+}
+
+const TILT_DEG = 7;
+const DRIFT_PX = 10;
+
+// 3D lean toward the cursor; CSS only applies it under (hover: hover),
+// and phones never fire pointermove over a still card.
+function tiltTo(e: PointerEvent<HTMLButtonElement>) {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t = e.currentTarget;
+  const r = t.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  t.style.setProperty('--ry', `${(x * 2 * TILT_DEG).toFixed(2)}deg`);
+  t.style.setProperty('--rx', `${(-y * 2 * TILT_DEG).toFixed(2)}deg`);
+  t.style.setProperty('--px', `${(-x * DRIFT_PX).toFixed(1)}px`);
+  t.style.setProperty('--py', `${(-y * DRIFT_PX).toFixed(1)}px`);
+}
+
+function untilt(e: PointerEvent<HTMLButtonElement>) {
+  const style = e.currentTarget.style;
+  for (const v of ['--rx', '--ry', '--px', '--py']) style.removeProperty(v);
+}
+
+export function MenuExperience() {
+  const [mode, setMode] = useState<Mode>('genz');
+  const [cat, setCat] = useState<'all' | string>('brews');
+  const [openedId, setOpenedId] = useState<string | null>(null);
+
+  const [cart, dispatch] = useReducer(cartReducer, {});
+  const [cartReady, setCartReady] = useState(false);
+
+  // Session cart: hydrate from this tab's sessionStorage, then mirror every change.
+  useEffect(() => {
+    dispatch({ type: 'replace', state: loadCart(window.sessionStorage) });
+    setCartReady(true);
+  }, []);
+  useEffect(() => {
+    if (cartReady) saveCart(window.sessionStorage, cart);
+  }, [cart, cartReady]);
+
+  const opened = openedId ? allItems.find((x) => x.item.id === openedId) : null;
+  const visible = allItems.filter((x) => cat === 'all' || x.groupId === cat);
+  const activeGroup = menuGroups.find((g) => g.id === cat);
+  // The wall comes first: the brews are what people came for.
+  const tabGroups = [
+    ...menuGroups.filter((g) => g.id === 'brews'),
+    ...menuGroups.filter((g) => g.id !== 'brews'),
+  ];
+
+  return (
+    <section id="menu" aria-label="The menu" className="br-menu relative scroll-mt-20">
+      <div aria-hidden className="br-pick-wash" />
+      <div aria-hidden className="br-rings" />
+      <div aria-hidden className="br-hops" />
+      <HopField />
+      <div aria-hidden className="br-hero-grain absolute inset-0" />
+
+      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
+        <h2 className="sr-only">The whole menu, straight up</h2>
+        <Reveal>
+          <p className="br-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
+            The whole menu, straight up
+          </p>
+        </Reveal>
+
+        <div>
+          <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
+            <div className="min-w-0">
+              <Reveal>
+                <div className="br-tab-row">
+                  <div className="br-cat-tabs" role="tablist" aria-label="Menu section">
+                    <button
+                      type="button"
+                      role="tab"
+                      id="br-tab-all"
+                      aria-selected={cat === 'all'}
+                      aria-controls="br-menu-board"
+                      className="br-display br-cat-tab"
+                      onClick={() => setCat('all')}
+                    >
+                      All
+                    </button>
+                    {tabGroups.map((g) => (
+                      <button
+                        key={g.id}
+                        type="button"
+                        role="tab"
+                        id={`br-tab-${g.id}`}
+                        aria-selected={cat === g.id}
+                        aria-controls="br-menu-board"
+                        className="br-display br-cat-tab"
+                        onClick={() => setCat(g.id)}
+                      >
+                        {g.title}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      role="tab"
+                      id="br-tab-combo"
+                      aria-selected={cat === 'combo'}
+                      aria-controls="br-menu-board"
+                      className="br-display br-cat-tab"
+                      onClick={() => setCat('combo')}
+                    >
+                      Combo
+                    </button>
+                  </div>
+                  <div className="br-mode" role="group" aria-label="Menu style">
+                    <span
+                      aria-hidden
+                      className="br-mode-pill"
+                      style={{ '--pos': mode === 'genz' ? 0 : 1 } as CSSProperties}
+                    />
+                    {(['genz', 'trad'] as const).map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        aria-pressed={m === mode}
+                        className="br-display br-mode-btn"
+                        onClick={() => setMode(m)}
+                      >
+                        {m === 'genz' ? 'Gen Z' : 'Traditional'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+
+              <div
+                id="br-menu-board"
+                role="tabpanel"
+                aria-labelledby={`br-tab-${cat}`}
+              >
+                <Reveal>
+                  {mode === 'trad' ? (
+                    <div className="br-menu-list">
+                    {tabGroups
+                      .filter((g) => cat === 'all' || g.id === cat)
+                      .map((group) => (
+                        <section key={group.id} aria-label={group.title}>
+                          <h2 className="br-serif br-list-heading">{group.title}</h2>
+                          {group.items.map((item) => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              className="br-list-row"
+                              onClick={() => setOpenedId(item.id)}
+                              aria-label={`${item.name}, ${item.price}, ${group.title}. Open for details`}
+                            >
+                              <span className="br-list-thumb">
+                                <Image
+                                  src={item.src}
+                                  alt=""
+                                  width={96}
+                                  height={96}
+                                  className="!h-full !w-full object-cover"
+                                />
+                              </span>
+                              <span className="br-list-name">{item.name}</span>
+                              {isRecommended(item) ? (
+                                <span className="br-list-star" aria-hidden>
+                                  ★
+                                </span>
+                              ) : null}
+                              <span className="br-list-leader" aria-hidden />
+                              {cartQtyForItem(cart, item.id) ? (
+                                <span className="br-list-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                                  {cartQtyForItem(cart, item.id)}
+                                </span>
+                              ) : null}
+                              <span className="br-list-price">{item.price}</span>
+                            </button>
+                          ))}
+                        </section>
+                      ))}
+                  </div>
+                ) : cat === 'all' ? (
+                  <div className="br-square-grid">
+                  {visible.map(({ item, groupTitle }, i) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="br-tile"
+                      style={{ '--i': i } as CSSProperties}
+                      onClick={() => setOpenedId(item.id)}
+                      onPointerMove={tiltTo}
+                      onPointerLeave={untilt}
+                      aria-label={`${item.name}, ${item.price}, ${groupTitle}. Open for details`}
+                    >
+                      <span className="br-tile-img">
+                        <Image
+                          src={item.src}
+                          alt=""
+                          width={480}
+                          height={480}
+                          priority={i < 4}
+                          loading={i < 4 ? undefined : 'lazy'}
+                          className="!h-full !w-full object-cover"
+                        />
+                      </span>
+                      {isRecommended(item) ? <MenuStar label={item.badge ?? 'House pick'} /> : null}
+                      <span className="br-tile-cat">{groupTitle}</span>
+                      <span className="br-tile-cap">
+                        <span className="br-tile-name">{item.name}</span>
+                        <span className="br-tile-price">
+                          {item.price}
+                          {item.abv ? <span className="br-tile-abv">{item.abv}%</span> : null}
+                        </span>
+                        <span className="br-tile-note">{item.note}</span>
+                      </span>
+                      {cartQtyForItem(cart, item.id) ? (
+                        <span className="br-tile-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                          {cartQtyForItem(cart, item.id)}
+                        </span>
+                      ) : null}
+                    </button>
+                  ))}
+                  </div>
+                ) : cat === 'combo' ? (
+                  <ComboBuilder dispatch={dispatch} />
+                ) : (
+                  /* One section at a time goes on the barrel: the cards stand
+                     around a cylinder and the customer spins the board. */
+                  <BarrelGallery
+                    key={cat}
+                    label={activeGroup?.title ?? 'Menu'}
+                    entries={visible}
+                    cart={cart}
+                    onOpen={setOpenedId}
+                  />
+                )}
+                </Reveal>
+              </div>
+
+              <Reveal delay={80}>
+                <div className="br-menu-foot">
+                  <div className="flex flex-wrap gap-3">
+                    <a href="/brewery#visit" className="focus-ring br-btn br-btn-cream">
+                      Find the door
+                    </a>
+                    <a href="/brewery#taps" className="focus-ring br-btn br-btn-ghost">
+                      See the wall
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            <OrderTray cart={cart} dispatch={dispatch} />
+          </div>
+        </div>
+      </div>
+
+      {opened ? (
+        <ItemDialog
+          item={opened.item}
+          groupTitle={opened.groupTitle}
+          qty={cartQtyForItem(cart, opened.item.id)}
+          dispatch={dispatch}
+          onClose={() => setOpenedId(null)}
+        />
+      ) : null}
+    </section>
+  );
+}

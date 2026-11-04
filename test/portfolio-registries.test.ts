@@ -82,7 +82,7 @@ describe('delivered websites on the builder work page', () => {
     expect(getWebsitesByAuthor('jainil-patel').map((s) => s.slug)).toEqual([
       'hair-adore',
       'stock-screener',
-      'coffee-cups',
+      'brewery',
       'savour',
       'analytical-register',
       'namesake',
