@@ -31,8 +31,12 @@ export default function PortfolioLayout({
       <div className="relative z-10 flex min-h-screen flex-col">
         <Navbar />
         {/* No top padding on purpose: the landing hero hugs the nav rule and
-            each inner page adds its own air, so nothing is double-padded. */}
-        <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-6 pb-16">
+            each inner page adds its own air, so nothing is double-padded.
+            The sideways clip is not decoration: a scroll-driven band is drawn
+            through a perspective, and far from its origin that projection is
+            several screens wide. Without this the page drags sideways on a
+            phone. `clip` rather than `hidden`, so the nav keeps sticking. */}
+        <main id="main" className="mx-auto w-full max-w-7xl flex-1 overflow-x-clip px-6 pb-16">
           {children}
         </main>
         <Footer />

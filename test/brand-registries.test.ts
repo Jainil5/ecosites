@@ -5,7 +5,8 @@ import { company } from '@/content/brand/company';
 import { audiences } from '@/content/brand/audiences';
 import { capabilities } from '@/content/brand/capabilities';
 import { whatsappHrefMessage } from '@/content/brand/links';
-import { products } from '@/content/brand/products';
+import { productGroups, products } from '@/content/brand/products';
+import { PRODUCT_ICONS } from '@/components/brand/product-icons';
 import type { Proof } from '@/content/brand/proof';
 import { industries } from '@/content/brand/industries';
 import { processSteps } from '@/content/brand/process';
@@ -16,13 +17,33 @@ import { authors } from '@/content/portfolio/authors';
 import { resolveRoute } from './helpers/resolve-route';
 
 describe('products registry', () => {
-  it('lists the four named builds, counter first', () => {
+  it('lists the catalogue, counter first', () => {
     expect(products.map((p) => p.slug)).toEqual([
       'order-book',
       'market-pulse',
-      'digital-portfolio',
       'teamsync',
+      'business-website',
+      'digital-portfolio',
+      'personal-agent',
+      'knowledge-agent',
+      'smart-files',
+      'codebase-agent',
+      'engineering-agent',
     ]);
+  });
+
+  it('puts every product on a declared shelf and leaves no shelf empty', () => {
+    const ids = productGroups.map((g) => g.id);
+    expect(new Set(ids).size, 'duplicate shelf ids').toBe(ids.length);
+    for (const product of products) {
+      expect(ids, `${product.slug} -> ${product.group}`).toContain(product.group);
+    }
+    for (const group of productGroups) {
+      expect(group.label.trim().length, group.id).toBeGreaterThan(0);
+      expect(group.blurb.trim().length, group.id).toBeGreaterThan(0);
+      // A shelf with nothing on it renders a heading and an empty band.
+      expect(products.filter((p) => p.group === group.id).length, group.id).toBeGreaterThan(0);
+    }
   });
 
   it('has unique slugs', () => {
@@ -44,6 +65,12 @@ describe('products registry', () => {
     }
   });
 
+  it('draws a glyph for every product, shared with the menu', () => {
+    for (const product of products) {
+      expect(PRODUCT_ICONS[product.icon], `${product.slug} -> ${product.icon}`).toBeDefined();
+    }
+  });
+
   it('never points a button at a route that is not built', () => {
     // ProductsGrid swaps "Open it live" for "Ask for a walkthrough" when
     // demoPath is absent, so an unresolvable path here would be a 404 link
@@ -60,6 +87,21 @@ describe('products registry', () => {
       expect(product.repoUrl, product.slug).toMatch(/^https:\/\//);
       // A product links either to an in-app build or to an external build, never both.
       expect(product.demoPath, product.slug).toBeUndefined();
+    }
+  });
+
+  it('grounds every agent in a build that already exists', () => {
+    // The agent cards describe work that is written down somewhere, so each one
+    // has to point at the repository it came out of rather than a claim here.
+    const SOURCES = [
+      'https://github.com/Jainil5/enterprise-productivity-agents',
+      'https://github.com/Jainil5/smart_files',
+    ];
+    const agents = products.filter((p) => p.group === 'agents');
+    expect(agents.length).toBeGreaterThanOrEqual(3);
+    for (const agent of agents) {
+      expect(agent.repoUrl, agent.slug).toBeDefined();
+      expect(SOURCES, agent.slug).toContain(agent.repoUrl);
     }
   });
 

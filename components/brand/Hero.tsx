@@ -3,15 +3,16 @@ import Link from 'next/link';
 import { CountUp } from '@/components/brand/CountUp';
 import { GlyphScramble } from '@/components/brand/GlyphScramble';
 import { HeroStage } from '@/components/brand/HeroStage';
+import { OfferBadge } from '@/components/brand/OfferBand';
 import { SiteCompiler } from '@/components/brand/SiteCompiler';
 import { products } from '@/content/brand/products';
 import { serviceSteps } from '@/content/brand/services';
 import { websites } from '@/content/websites/sites';
 
 const FACTS = [
-  { value: websites.length, label: 'client sites live' },
+  { value: websites.length, label: 'sites we built and run' },
   { value: serviceSteps.length, label: 'steps, taken in order' },
-  { value: products.length, label: 'builds shown running' },
+  { value: products.length, label: 'systems in the catalogue' },
 ];
 
 interface PlaneProps {
@@ -171,13 +172,14 @@ export function Hero() {
             </p>
 
             <div className="gs-caps-rise" style={{ '--d': '480ms' } as CSSProperties}>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
                   Get Started
                 </Link>
                 <Link href="/demos" className="focus-ring gs-btn gs-btn-ghost">
                   See Our Work
                 </Link>
+                <OfferBadge />
               </div>
               <p className="gs-label mt-4 text-ink-3">
                 Start with what you need today. Add more as your business grows.

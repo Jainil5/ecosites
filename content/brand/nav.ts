@@ -1,9 +1,9 @@
 import type { LucideIcon } from 'lucide-react';
-import { Activity, ClipboardList, IdCard, Users } from 'lucide-react';
+import { PRODUCT_ICONS } from '@/components/brand/product-icons';
 import { capabilities } from './capabilities';
 import { company } from './company';
-import { products } from './products';
-import type { ProductIcon } from './types';
+import { productGroups, products } from './products';
+import type { Product } from './types';
 import { websites } from '@/content/websites/sites';
 
 /**
@@ -54,12 +54,7 @@ export interface NavGroup {
   footer: NavRow;
 }
 
-const productIcons = {
-  register: ClipboardList,
-  pulse: Activity,
-  teams: Users,
-  portfolio: IdCard,
-} satisfies Record<ProductIcon, LucideIcon>;
+const productShelf = (id: Product['group']) => productGroups.find((g) => g.id === id)?.label;
 
 export const navGroups: NavGroup[] = [
   {
@@ -81,8 +76,10 @@ export const navGroups: NavGroup[] = [
       href: `/products#${product.slug}`,
       title: product.title,
       description: product.summary,
-      Icon: productIcons[product.icon],
-      tag: 'the app',
+      Icon: PRODUCT_ICONS[product.icon],
+      // The shelf it sits on, so a ten-row menu still says which kind of
+      // system each line is.
+      tag: productShelf(product.group),
     })),
     footer: {
       href: '/demos',

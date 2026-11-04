@@ -186,7 +186,7 @@ export function Navbar() {
 
                     {expanded && (
                       <div className="absolute left-0 top-full z-50 pt-2">
-                        <div className="gs-drop gs-card w-[min(23rem,calc(100vw-3rem))] p-1.5">
+                        <div className="gs-drop gs-card max-h-[min(30rem,72vh)] w-[min(23rem,calc(100vw-3rem))] overflow-y-auto overscroll-contain p-1.5">
                           <ul>
                             {group.rows.map((row) => (
                               <li key={row.href}>

@@ -18,7 +18,33 @@ export interface Company {
   contact: ContactChannels;
 }
 
-export type ProductIcon = 'register' | 'pulse' | 'teams' | 'portfolio';
+export type ProductIcon =
+  | 'register'
+  | 'pulse'
+  | 'teams'
+  | 'portfolio'
+  | 'website'
+  | 'personal'
+  | 'knowledge'
+  | 'documents'
+  | 'codebase'
+  | 'engineering';
+
+/** Which shelf a product sits on, and the anchor its shelf is reached at. */
+export type ProductGroupId = 'agents' | 'software' | 'websites' | 'portfolios';
+
+/**
+ * A shelf in the catalogue. The grid renders one band per group, in this
+ * declared order — the registry's own order is editorial weight, so the
+ * flagship counter stays first in the array while agents read first.
+ */
+export interface ProductGroup {
+  id: ProductGroupId;
+  /** The band heading. */
+  label: string;
+  /** One line under the heading, in the reader's words. */
+  blurb: string;
+}
 
 /** One named half of a product, so a two-part build reads as one purchase. */
 export interface ProductModule {
@@ -29,6 +55,7 @@ export interface ProductModule {
 export interface Product {
   slug: string;
   title: string;
+  group: ProductGroupId;
   /** One sentence, written for a business owner, not an engineer. */
   summary: string;
   /** 3-4 concrete deliverables. */

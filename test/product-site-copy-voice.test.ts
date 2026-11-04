@@ -34,6 +34,11 @@ const FILES = [
   'components/sites/analytical-register/menu-data.ts',
   'components/sites/savour/Savour.tsx',
   'components/sites/coffee-cups/cafe.ts',
+  // The catalogue's own words, and the campaign that sits on top of it.
+  'content/brand/products.ts',
+  'content/brand/campaign.ts',
+  'components/brand/ProductsGrid.tsx',
+  'components/brand/OfferBand.tsx',
 ];
 
 /** A line a visitor could read: not a comment, not a route, not an identifier. */
@@ -42,7 +47,7 @@ const copyLine = (line: string) => {
   if (!t) return false;
   if (t.startsWith('//') || t.startsWith('*') || t.startsWith('/*') || t.startsWith('*/')) return false;
   // Links and imports carry the word inside a path or an identifier, never as prose.
-  if (/href=|from '|import |path:|slug:|\bkey=/.test(t)) return false;
+  if (/href=|from '|import |path:|demoPath:|slug:|\bkey=/.test(t)) return false;
   return true;
 };
 

@@ -51,4 +51,14 @@ describe('landing composition after the audience IA trim', () => {
     const why = readFileSync('components/brand/WhyUs.tsx', 'utf8');
     expect(why).toMatch(/index="06"/);
   });
+
+  it('clips the sideways projection a scroll-driven band can reach', () => {
+    // A band animated through a perspective projects several screens wide when
+    // it is far from that origin, which the reader feels as a page that drags
+    // sideways on a phone. The shell clips it on the x axis only, so the
+    // sticky nav and every vertical effect stay intact.
+    const layout = readFileSync('app/(site)/layout.tsx', 'utf8');
+    expect(layout).toMatch(/id="main"[^\n]*overflow-x-clip/);
+    expect(layout).not.toMatch(/id="main"[^\n]*overflow-hidden/);
+  });
 });
