@@ -5,8 +5,8 @@ import { siteUrl } from '@/content/brand/site';
 import './globals.css';
 
 // The brand's poster face. The reference form sets headlines in a heavy
-// grotesque in caps, so display carries both the headlines and body copy —
-// Archivo ships 100-900, which is why one family covers the whole skin.
+// grotesque in caps, so display carries the headlines, the buttons and the
+// card titles — and nothing else. Prose reads in Inter below.
 const display = Archivo({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -31,8 +31,15 @@ const mono = Fira_Code({
   display: 'swap',
 });
 
+// The reading face. Body prose is set here, not in the poster grotesque:
+// Archivo is the face the headlines, buttons and card titles are drawn in, and
+// at 15px a tight uppercase-designed grotesque is work, not reading. The
+// weights are named because this family is now the one every paragraph
+// inherits — a missing 600 would be synthesised, and faux-bold prose is exactly
+// what the display face is there to avoid.
 const sans = Inter({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
   variable: '--font-sans',
   display: 'swap',
 });

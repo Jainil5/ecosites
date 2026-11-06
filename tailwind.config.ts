@@ -64,12 +64,15 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // display is the poster grotesque; body shares it at a lighter weight.
-        // label is the mono used for corner labels. mono and sans stay with the
-        // demos that depend on them and must never be repointed.
+        // Three roles, and each one only does its own job: display is the
+        // poster grotesque, label is the mono used for corner annotations, and
+        // body is the face prose is actually read in. Inter ships with the
+        // demos, so the reading role reuses it rather than loading a fourth
+        // family. mono and sans stay with the demos that depend on them and
+        // must never be repointed.
         display: ['var(--font-display)', 'Helvetica Neue', 'Arial', 'sans-serif'],
         label: ['var(--font-label)', 'ui-monospace', 'monospace'],
-        body: ['var(--font-display)', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        body: ['var(--font-sans)', 'system-ui', 'Helvetica Neue', 'Arial', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-serif)', 'Georgia', 'serif'],

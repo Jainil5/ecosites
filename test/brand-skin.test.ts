@@ -421,15 +421,22 @@ describe('scroll motion contract', () => {
   });
 
   it('sizes the hero headline from its measure so each phrase holds one line', () => {
-    // "TECHNOLOGY FOR" is 9.36em of Archivo 800 at this tracking. The stage is
-    // the viewport less the 48px page gutter, so the size has to be that width
-    // divided by the measure — a picked number wraps the phrase after its
-    // first word, and four stacked words is a mistake, not a statement.
-    expect(css).toMatch(
-      /\.gs-hero-title\s*\{[^}]*font-size:\s*clamp\([^;]*calc\(\(100vw - 48px\)[^;]*\)\s*;\s*\}/s,
+    // The manifesto is the tagline in two phrases, and "ANY IDEA," measures
+    // 5.03em of Archivo 800 at the hero's -0.03em tracking. The stage is the
+    // viewport less the 48px page gutter, so the middle term has to divide
+    // that width by at least the measure — a picked number smaller than the
+    // phrase wraps it after its first word, and four stacked words is a
+    // mistake, not a statement. Re-measure (canvas `measureText` at the
+    // computed tracking) whenever the headline changes, and the divisor with it.
+    const rule = css.match(
+      /\.gs-hero-title\s*\{[^}]*font-size:\s*clamp\(\s*[\d.]+\w+,\s*calc\(\(100vw - 48px\)\s*\/\s*([\d.]+)\),\s*([\d.]+)rem\s*\)/s,
     );
-    // The ceiling is 6rem: past max-w-7xl the container stops growing.
-    expect(css).toMatch(/\.gs-hero-title\s*\{[^}]*,\s*6rem\)/s);
+    expect(rule, 'hero size must be derived from (100vw - 48px)').not.toBeNull();
+    expect(Number(rule![1]), 'divisor must be at least the measured phrase').toBeGreaterThanOrEqual(5.03);
+    // The ceiling is where the max-w-7xl wall, not the viewport, stops growth —
+    // and it is the poster half of the decision: below 6rem the two phrases are
+    // a heading, above it they are the statement.
+    expect(Number(rule![2]), 'ceiling must hold the poster scale').toBeGreaterThanOrEqual(6);
     expect(css).toMatch(/\.gs-hero-line\s*\{[^}]*white-space:\s*nowrap/s);
     const hero = read('components/brand/Hero.tsx');
     expect(hero).toMatch(/<h1 className="gs-display gs-hero-title/);

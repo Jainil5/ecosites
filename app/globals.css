@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reading rules. `pretty` keeps the last line of a paragraph from arriving
+   with one word on it, which is the difference between a page that was set and
+   a page that was typed. It goes in @layer base on purpose: base loses to the
+   utilities, so a paragraph that deliberately asks for `text-balance` still
+   gets it. */
+@layer base {
+  p {
+    text-wrap: pretty;
+  }
+}
+
 :root {
   color-scheme: dark;
 }
@@ -486,36 +497,46 @@ button:focus-visible {
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
   }
 
-  /* Poster caps. The whole identity lives in these four declarations. */
+  /* Poster caps. The whole identity lives in these four declarations.
+     Tracking is set per size rather than once: -0.035em reads as one confident
+     word at 96px and as a crushed line at 16px, so the base here is the small
+     size and the headings tighten again below, the way an optical face would.
+     Lining tabular figures keep a counting number from shifting sideways while
+     it runs up — the facts under the hero are proof, and proof should not
+     jitter. */
   .gs-display {
     font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
     font-weight: 800;
     line-height: 0.9;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.022em;
     text-transform: uppercase;
+    font-optical-sizing: auto;
+    font-variant-numeric: lining-nums tabular-nums;
     color: var(--gs-ink);
   }
   .gs-h1 {
     font-size: clamp(3.1rem, 10.5vw, 9rem);
+    letter-spacing: -0.04em;
     text-wrap: balance;
   }
   .gs-h2 {
     font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+    letter-spacing: -0.036em;
     /* Poster caps at 88px wrap wherever the line runs out, which leaves an
        orphan word the eye reads as a mistake. Balance costs nothing where the
        heading already fits on two lines. */
     text-wrap: balance;
   }
   /* The hero's own scale, derived from the measure rather than picked: the
-     manifesto is two phrases and each one has to land on a single line.
-     "TECHNOLOGY FOR" measures 9.36em in Archivo 800 at this tracking, and the
-     stage's content box is the viewport less the page gutter (48px) up to the
-     max-w-7xl wall — so dividing the one into the other holds both phrases
-     from 320px upward, and 6rem is the size where the wall, not the viewport,
-     stops the growth. The h2 ceiling broke "Technology for" after its first
-     word, and the page read as four stacked words instead of a statement. */
+     manifesto is two phrases and each one has to land on a single line. The
+     longer of them measures 5.03em in Archivo 800 at the hero tracking, so
+     the middle term divides the stage — the viewport less the 48px page gutter
+     — by that measure and holds both phrases from 320px upward. The ceiling is
+     where the max-w-7xl wall stops the growth: past it the type grows into
+     empty space instead of into the page. */
   .gs-hero-title {
-    font-size: clamp(1.5rem, calc((100vw - 48px) / 9.9), 6rem);
+    font-size: clamp(1.5rem, calc((100vw - 48px) / 5.2), 8rem);
+    letter-spacing: -0.03em;
   }
   /* The scale does the fitting; this makes sure nothing wraps anyway. */
   .gs-hero-line {
@@ -523,7 +544,8 @@ button:focus-visible {
   }
   .gs-h3 {
     font-size: clamp(1.6rem, 3.4vw, 2.75rem);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
   }
 
   /* Mono corner labels, tracked wide. The hot variant is the single accent
