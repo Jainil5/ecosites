@@ -5,6 +5,7 @@ import { company } from '@/content/brand/company';
 import { audiences } from '@/content/brand/audiences';
 import { capabilities } from '@/content/brand/capabilities';
 import { whatsappHrefMessage } from '@/content/brand/links';
+import { getIntentByKey, intents } from '@/content/brand/intents';
 import { instantHost, siteUrl } from '@/content/brand/site';
 import { productGroups, products } from '@/content/brand/products';
 import { PRODUCT_ICONS } from '@/components/brand/product-icons';
@@ -288,5 +289,50 @@ describe('the business-name compiler', () => {
     expect(compiler).toMatch(/Live with us today/);
     expect(compiler).toMatch(/Yours to keep/);
     expect(compiler).toMatch(/we check it is free/i);
+  });
+});
+
+// An intent is a lead's first sentence, so it is a record rather than a
+// button label typed where a component happened to need one.
+describe('enquiry intents', () => {
+  it('has a unique key and both channel drafts for every intent', () => {
+    const keys = intents.map((intent) => intent.key);
+    expect(new Set(keys).size, 'duplicate intent keys').toBe(keys.length);
+    for (const intent of intents) {
+      for (const field of [intent.label, intent.detail, intent.whatsapp, intent.subject, intent.body]) {
+        expect(field.trim().length, intent.key).toBeGreaterThan(0);
+      }
+      // The chat has to say who it is to: a prefilled message that does not
+      // name the business reads as a forwarded blank.
+      expect(intent.whatsapp, intent.key).toContain(company.name);
+      expect(getIntentByKey(intent.key), intent.key).toBe(intent);
+    }
+    expect(getIntentByKey('not-an-intent')).toBeUndefined();
+  });
+
+  it('leaves the sentence open for the business to finish', () => {
+    // A first message that says everything is a message nobody needed to send.
+    const open = intents.filter(
+      (intent) => /: $/.test(intent.whatsapp) || /\?$/.test(intent.whatsapp),
+    );
+    expect(open.length).toBeGreaterThanOrEqual(intents.length - 2);
+    for (const intent of intents) {
+      expect(intent.body.endsWith(': \n') || intent.body.includes(': \n'), intent.key).toBe(true);
+    }
+  });
+
+  it('quotes no price in the prefilled messages', () => {
+    const text = intents.map((intent) => `${intent.label} ${intent.detail} ${intent.whatsapp} ${intent.subject} ${intent.body}`).join(' ');
+    expect(text).not.toMatch(/₹|Rs\.?\s*\d|price[d]? from|starting at/);
+  });
+
+  it('wires both channels of every intent to the registry', () => {
+    const cta = readFileSync('components/brand/ContactCta.tsx', 'utf8');
+    expect(cta).toMatch(/intents\.map/);
+    expect(cta).toMatch(/whatsappHrefMessage\(contact, intent\.whatsapp\)/);
+    expect(cta).toMatch(/mailtoHrefMessage\(contact, \{ subject: intent\.subject, body: intent\.body \}\)/);
+    // The number a chat opens has to be on the page as words, not only inside
+    // a link a visitor cannot inspect before tapping it.
+    expect(cta).toMatch(/\{contact\.phoneDisplay\}/);
   });
 });

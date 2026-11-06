@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
+import { leadChannelOf, mailtoHref, mailtoHrefMessage, telHref, whatsappHref } from '@/content/brand/links';
 import type { ContactChannels } from '@/content/brand/types';
 
 const contact: ContactChannels = {
@@ -34,6 +34,37 @@ describe('telHref', () => {
 describe('mailtoHref', () => {
   it('produces a plain mailto for the business address', () => {
     expect(mailtoHref(contact)).toBe('mailto:mail.jainil5@gmail.com');
+  });
+});
+
+describe('mailtoHrefMessage', () => {
+  it('encodes a subject and a body into the draft', () => {
+    expect(
+      mailtoHrefMessage(contact, {
+        subject: 'Book a demo',
+        body: 'Hi there,\n\nI want one.',
+      }),
+    ).toBe(
+      'mailto:mail.jainil5@gmail.com?subject=Book%20a%20demo&body=Hi%20there%2C%0A%0AI%20want%20one.',
+    );
+  });
+
+  it('leaves out whichever half is not asked for', () => {
+    // An empty `?subject=` reads as an untitled message in some clients, which
+    // is worse than no subject at all.
+    expect(mailtoHrefMessage(contact, { subject: 'Only a subject' })).toBe(
+      'mailto:mail.jainil5@gmail.com?subject=Only%20a%20subject',
+    );
+    expect(mailtoHrefMessage(contact, { body: 'Only a body' })).toBe(
+      'mailto:mail.jainil5@gmail.com?body=Only%20a%20body',
+    );
+    expect(mailtoHrefMessage(contact, {})).toBe('mailto:mail.jainil5@gmail.com');
+  });
+
+  it('keeps the channel attribution working on a prefilled address', () => {
+    // Attribution reads the scheme, so a subject must not move a mail lead
+    // into some other column.
+    expect(leadChannelOf(mailtoHrefMessage(contact, { subject: 'x', body: 'y' }))).toBe('email');
   });
 });
 

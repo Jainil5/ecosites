@@ -1,7 +1,8 @@
 import { ArrowUpRight, Mail, Phone } from 'lucide-react';
 import { WhatsAppGlyph } from '@/components/brand/WhatsAppGlyph';
 import { company } from '@/content/brand/company';
-import { mailtoHref, telHref, whatsappHref } from '@/content/brand/links';
+import { intents } from '@/content/brand/intents';
+import { mailtoHref, mailtoHrefMessage, telHref, whatsappHref, whatsappHrefMessage } from '@/content/brand/links';
 
 function channels() {
   const { contact } = company;
@@ -54,6 +55,61 @@ export function ContactRow() {
 }
 
 /**
+ * The reasons for reaching out, each with both channels attached.
+ *
+ * One "Message us" button makes a visitor write the opening line from scratch,
+ * which is the part people stall on. Here the ask is already chosen and
+ * already worded: the chat opens with the sentence the button promised, the
+ * mail opens with the same sentence in the subject, and the number the chat
+ * goes to is printed under the row so nobody has to trust that a button
+ * leads somewhere real.
+ */
+export function IntentGrid() {
+  const { contact } = company;
+
+  return (
+    <div className="mt-8 border-t border-hairline pt-8">
+      <p className="gs-label">
+        <span className="gs-label-hot">→</span> <span aria-hidden>/</span> or say what you came for
+      </p>
+      <ul className="mt-5 grid gap-px border border-hairline bg-hairline sm:grid-cols-2">
+        {intents.map((intent) => (
+          <li key={intent.key} className="bg-canvas p-5">
+            <p className="gs-display text-sm text-ink">{intent.label}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-ink-2">{intent.detail}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <a
+                href={whatsappHrefMessage(contact, intent.whatsapp)}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta={`intent-${intent.key}`}
+                className="focus-ring gs-btn gs-btn-sm gs-btn-solid"
+              >
+                <WhatsAppGlyph aria-hidden className="h-3.5 w-3.5" />
+                WhatsApp
+              </a>
+              <a
+                href={mailtoHrefMessage(contact, { subject: intent.subject, body: intent.body })}
+                data-cta={`intent-${intent.key}-mail`}
+                className="focus-ring gs-btn gs-btn-sm gs-btn-ghost"
+              >
+                <Mail aria-hidden className="h-3.5 w-3.5" />
+                Email
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-sm leading-relaxed text-ink-3">
+        Both buttons reach the same people. WhatsApp and the call go to{' '}
+        <span className="font-label text-ink">{contact.phoneDisplay}</span>, the mail to{' '}
+        <span className="font-label text-ink">{contact.email}</span>.
+      </p>
+    </div>
+  );
+}
+
+/**
  * Full three-channel block for the closing section and the contact page.
  * One panel rather than three matching cards: WhatsApp is the action, the
  * other two are the details a caller might want instead.
@@ -96,6 +152,8 @@ export function ContactCta() {
           ))}
         </ul>
       </div>
+
+      <IntentGrid />
     </div>
   );
 }

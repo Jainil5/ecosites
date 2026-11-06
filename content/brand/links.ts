@@ -26,6 +26,25 @@ export function mailtoHref(contact: ContactChannels): string {
   return `mailto:${contact.email}`;
 }
 
+/**
+ * A mailto that arrives already addressed: subject and body both encoded, so
+ * the line a visitor clicks on the page is the line that shows in the draft.
+ * Empty parts are left out rather than sent as `?subject=`, which some clients
+ * read as an untitled message.
+ */
+export function mailtoHrefMessage(
+  contact: ContactChannels,
+  parts: { subject?: string; body?: string },
+): string {
+  const query = [
+    parts.subject ? `subject=${encodeURIComponent(parts.subject)}` : '',
+    parts.body ? `body=${encodeURIComponent(parts.body)}` : '',
+  ]
+    .filter(Boolean)
+    .join('&');
+  return `mailto:${contact.email}${query ? `?${query}` : ''}`;
+}
+
 /** The three ways a visitor can actually reach the business. */
 export const leadChannels = ['whatsapp', 'call', 'email'] as const;
 
