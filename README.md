@@ -1,6 +1,6 @@
-# ecosites
+# Website & Intelligence
 
-**Website & Intelligence** — the brand site for a studio that builds websites, software, data and
+The brand site for a studio that builds websites, software, data and
 AI for businesses of every size — plus five standalone product sites, all in one app built with
 **Next.js (App Router) + TypeScript + Tailwind CSS**, deployed on **Vercel**. Each site renders
 full-screen with its own scoped theme, so they can look nothing alike.

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, Search, X } from 'lucide-react';
 import { Logo } from '@/components/brand/Logo';
 import { QuickSearch } from '@/components/brand/QuickSearch';
+import { Wordmark } from '@/components/brand/Wordmark';
 import { ctaLink, navGroups, navLinks, navSections, type NavRow, type NavSection } from '@/content/brand/nav';
 
 /** The row's page is on screen, whichever anchor of it the row points at. */
@@ -158,7 +159,7 @@ export function Navbar() {
               className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-display text-base font-extrabold uppercase tracking-tight text-ink"
             >
               <Logo className="h-5 w-5 text-accent" />
-              Website <span className="text-accent">Intelligence</span>
+              <Wordmark />
             </Link>
 
             <ul className="hidden items-center lg:flex">

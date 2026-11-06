@@ -34,4 +34,23 @@ describe('Website & Intelligence rename', () => {
       }
     }
   });
+
+  it('takes the wordmark from the registry instead of retyping it', () => {
+    // The name was written out in both the bar and the footer. The bar's copy
+    // lost the "&" and nothing noticed, because the registry itself was right.
+    // So one component reads company.name, and no file may retype the answer.
+    const wordmark = readFileSync('components/brand/Wordmark.tsx', 'utf8');
+    expect(wordmark).toContain('company.name');
+    for (const file of [
+      'components/brand/Wordmark.tsx',
+      'components/Navbar.tsx',
+      'components/Footer.tsx',
+    ]) {
+      const src = readFileSync(file, 'utf8');
+      expect(src, `${file} retypes the brand name`).not.toContain(company.name);
+      if (file !== 'components/brand/Wordmark.tsx') {
+        expect(src, `${file} renders the lockup by hand`).toContain('<Wordmark />');
+      }
+    }
+  });
 });
