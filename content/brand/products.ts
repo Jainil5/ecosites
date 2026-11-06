@@ -36,6 +36,17 @@ export const productGroups: ProductGroup[] = [
     blurb:
       'One name, one domain, one link that carries your work to whoever you are trying to reach.',
   },
+  /**
+   * Declared before anything sits on it. The catalogue reads this shelf and
+   * says there is nothing to open, rather than pretending the category is not
+   * one — which is the honest way to tell a reader what we do not ship yet.
+   */
+  {
+    id: 'mobile',
+    label: 'Mobile applications',
+    blurb:
+      'Phone and tablet builds: the app a customer books on, the counter that runs in a hand, the field tool that works away from a desk.',
+  },
 ];
 
 export const products: Product[] = [

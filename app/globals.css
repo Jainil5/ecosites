@@ -591,6 +591,44 @@ button:focus-visible {
     font-size: 0.68rem;
   }
 
+  /* A chosen shelf is marked, not shouted. Filling the tab would put a second
+     block of solid bone on a page that already spends one, so the state rides
+     on the ink and a forest rule along the bottom edge; the unchosen tabs stay
+     one step dimmer so the row reads as a control, not as six equal buttons. */
+  .gs-tab {
+    position: relative;
+    color: var(--gs-ink-3);
+  }
+  .gs-tab:hover {
+    color: var(--gs-ink);
+  }
+  .gs-tab::after {
+    content: '';
+    position: absolute;
+    right: 0.9rem;
+    bottom: -1px;
+    left: 0.9rem;
+    height: 2px;
+    background: var(--gs-forest);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-tab[aria-selected='true'] {
+    color: var(--gs-ink);
+    border-color: var(--gs-hair-lit);
+  }
+  .gs-tab[aria-selected='true']::after {
+    transform: scaleX(1);
+  }
+  .gs-tab-count {
+    color: var(--gs-ink-3);
+    transition: color 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-tab[aria-selected='true'] .gs-tab-count {
+    color: var(--gs-forest);
+  }
+
   /* A decision that is not a button. A filled block is the loudest thing a
      page can ask for, so the skin gets one per page; a grid of cards where
      every row shouts the same ask reads as a wall of calls-to-action. The

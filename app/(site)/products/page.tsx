@@ -6,7 +6,7 @@ import { ProductsGrid } from '@/components/brand/ProductsGrid';
 export const metadata: Metadata = {
   title: 'Products',
   description:
-    'The systems we build and then run with you, on a monthly plan, across four shelves: agents that answer from your own documents and data, an order register with business analytics built in, a market screener wired to live NSE quotes, a team workspace, the site a customer lands on, and a portfolio that lives on your own name.',
+    'The systems we build and then run with you, on a monthly plan, across five shelves: agents that answer from your own documents and data, an order register with business analytics built in, a market screener wired to live NSE quotes, a team workspace, the site a customer lands on, a portfolio that lives on your own name, and the mobile shelf we have not put anything on yet.',
 };
 
 export default function ProductsPage() {

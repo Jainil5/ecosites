@@ -32,7 +32,7 @@ describe('products registry', () => {
     ]);
   });
 
-  it('puts every product on a declared shelf and leaves no shelf empty', () => {
+  it('puts every product on a declared shelf, and lets the one empty shelf be the declared one', () => {
     const ids = productGroups.map((g) => g.id);
     expect(new Set(ids).size, 'duplicate shelf ids').toBe(ids.length);
     for (const product of products) {
@@ -41,9 +41,15 @@ describe('products registry', () => {
     for (const group of productGroups) {
       expect(group.label.trim().length, group.id).toBeGreaterThan(0);
       expect(group.blurb.trim().length, group.id).toBeGreaterThan(0);
-      // A shelf with nothing on it renders a heading and an empty band.
-      expect(products.filter((p) => p.group === group.id).length, group.id).toBeGreaterThan(0);
     }
+    // An empty band used to be a defect, so the invariant was "no shelf is
+    // empty". Mobile applications is declared empty on purpose and the grid
+    // says so out loud, which makes the rule: exactly one shelf may be bare,
+    // and it has to be that one. Any other shelf going quiet is still a bug.
+    const empty = productGroups
+      .filter((group) => products.every((p) => p.group !== group.id))
+      .map((group) => group.id);
+    expect(empty).toEqual(['mobile']);
   });
 
   it('has unique slugs', () => {

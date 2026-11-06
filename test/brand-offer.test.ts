@@ -146,7 +146,11 @@ describe('the surfaces that show it', () => {
   it('gives every shelf an anchor the menu can point at', () => {
     const grid = read('components/brand/ProductsGrid.tsx');
     expect(grid).toMatch(/id=\{shelf\.group\.id\}/);
-    expect(grid).toMatch(/href=\{`#\$\{shelf\.group\.id\}`\}/);
+    // The tab bar is a table of contents first and a filter second: every
+    // control still carries its shelf anchor, so a menu link, a bookmark and a
+    // reader with JavaScript off all land in the same band.
+    expect(grid).toMatch(/href: `#\$\{shelf\.group\.id\}`/);
+    expect(grid).toMatch(/href=\{tab\.href\}/);
   });
 });
 

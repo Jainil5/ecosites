@@ -31,12 +31,16 @@ export type ProductIcon =
   | 'engineering';
 
 /** Which shelf a product sits on, and the anchor its shelf is reached at. */
-export type ProductGroupId = 'agents' | 'software' | 'websites' | 'portfolios';
+export type ProductGroupId = 'agents' | 'software' | 'websites' | 'portfolios' | 'mobile';
 
 /**
  * A shelf in the catalogue. The grid renders one band per group, in this
  * declared order — the registry's own order is editorial weight, so the
  * flagship counter stays first in the array while agents read first.
+ *
+ * A shelf may be declared before anything sits on it. That is a statement to
+ * the reader, not a gap in the build: the grid says so out loud instead of
+ * hiding the category.
  */
 export interface ProductGroup {
   id: ProductGroupId;
