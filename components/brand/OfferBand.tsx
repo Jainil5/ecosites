@@ -19,7 +19,7 @@ export function OfferBadge() {
   return (
     <span className="focus-ring gs-label inline-flex items-center gap-1.5 border border-lime/45 bg-lime/10 px-2.5 py-1 text-lime">
       <Tag aria-hidden className="h-3.5 w-3.5" />
-      {offerLabel(campaign.percent)} the build fee
+      {offerLabel(campaign.percent)} {campaign.subject}
     </span>
   );
 }
@@ -30,9 +30,11 @@ export function OfferRibbon() {
   return (
     <div className="gs-card mt-6 flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-sm leading-relaxed text-ink-2">
-        <span className="font-semibold text-lime">{offerLabel(campaign.percent)}</span> the build
-        fee on every system on this page, on any brief that reaches us before{' '}
-        <span className="text-ink">{endsOnLabel(campaign.endsOn)}</span>.
+        <span className="font-semibold text-lime">{offerLabel(campaign.percent)}</span>{' '}
+        {campaign.subject}, {campaign.period} — then the standard rate, agreed before the first
+        month rather than after it. The plan is monthly either way: the work does not stop the day
+        the system goes live. Any brief that reaches us before{' '}
+        <span className="text-ink">{endsOnLabel(campaign.endsOn)}</span> starts at this rate.
       </p>
       <a
         href={whatsappHrefMessage(company.contact, campaign.whatsappMessage)}
@@ -76,7 +78,9 @@ export function OfferBand({ index }: OfferBandProps) {
             {campaign.percent}%
           </span>
           <span className="gs-label max-w-xs leading-snug text-ink-2">
-            off the build fee
+            off {campaign.subject}
+            <br />
+            {campaign.period}
             <br />
             <span className="text-ink">closes {endsOnLabel(campaign.endsOn)}</span>
           </span>

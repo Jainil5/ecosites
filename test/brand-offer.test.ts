@@ -1,12 +1,16 @@
 // test/brand-offer.test.ts
 //
 // A discount is a promise about money, so it is the one piece of marketing
-// copy that cannot be allowed to drift: the rate, the closing date and the
-// scope have to read the same everywhere, and they have to stay true after
-// the campaign ends. Everything below is a guard on that record.
+// copy that cannot be allowed to drift: the rate, what it comes off, how long
+// it holds and the closing date have to read the same everywhere, and they
+// have to stay true after the campaign ends. Everything below is a guard on
+// that record — and on the monthly relationship the record now offers.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { campaign, endsOnLabel, offerLabel } from '@/content/brand/campaign';
+import { engagement } from '@/content/brand/solutions';
+import { processSteps } from '@/content/brand/process';
+import { pillars, whyPoints } from '@/content/brand/whyus';
 
 const read = (rel: string) => readFileSync(rel, 'utf8');
 
@@ -47,6 +51,30 @@ describe('the campaign record', () => {
     for (const term of campaign.terms) expect(term.trim().length).toBeGreaterThan(0);
   });
 
+  // A discount on the work we charge once is a nudge to buy; a discount on the
+  // monthly plan is a promise to stay. The offer is only honest if the copy
+  // says which one it is.
+  it('comes off the monthly plan, not off a fee we make once', () => {
+    if (!campaign) return;
+    expect(campaign.subject.trim().length).toBeGreaterThan(0);
+    const text = [campaign.headline, campaign.detail, campaign.cta, ...campaign.terms].join(' ');
+    expect(text.toLowerCase()).toContain(campaign.subject.toLowerCase());
+    expect(text.toLowerCase(), text).toContain('month');
+    expect(text).not.toMatch(/build fee|handover|build once|one[- ]time|one off/i);
+  });
+
+  // Half off with no end date is not a discount, it is a different rate card,
+  // so how long the offer holds has to be in the open — in the record's own
+  // words rather than a number retyped into a sentence.
+  it('says how long the discounted rate holds', () => {
+    if (!campaign) return;
+    const { detail, period, terms } = campaign;
+    expect(period.trim().length).toBeGreaterThan(0);
+    expect(detail).toContain(period);
+    expect(terms.some((term) => term.includes(period))).toBe(true);
+    expect(terms.join(' ')).toMatch(/standard rate/);
+  });
+
   it('quotes a rate, never an amount', () => {
     if (!campaign) return;
     const text = [
@@ -56,7 +84,9 @@ describe('the campaign record', () => {
       campaign.whatsappMessage,
       ...campaign.terms,
     ].join(' ');
-    expect(text).not.toMatch(/₹|Rs\.?|starting at|price[d]? from/i);
+    // `Rs` only reads as money when an amount follows it: unanchored, it would
+    // flag "the first twelve months" and teach copy to avoid plain English.
+    expect(text).not.toMatch(/₹|Rs\.?\s*\d|starting at|price[d]? from/i);
   });
 
   it('reads as a date a person can check, not a countdown', () => {
@@ -77,6 +107,16 @@ describe('the surfaces that show it', () => {
     expect(band).not.toMatch(/\d{1,3}\s*%/);
   });
 
+  // The three surfaces used to spell out what the discount came off, which is
+  // how an offer about the build survived a change of mind. The scope is a
+  // field now, and a component that names it again is a bug.
+  it('takes the scope of the offer from the record', () => {
+    const band = read('components/brand/OfferBand.tsx');
+    expect(band).not.toMatch(/build fee|handover/i);
+    expect(band.match(/campaign\.subject/g)?.length).toBe(3);
+    expect(band).toMatch(/campaign\.period/);
+  });
+
   it('is on the catalogue page, the cards, and the opening screen', () => {
     expect(read('app/(site)/products/page.tsx')).toMatch(/<OfferBand index="04" \/>/);
     expect(read('components/brand/ProductsGrid.tsx')).toMatch(/<OfferBadge \/>/);
@@ -94,5 +134,36 @@ describe('the surfaces that show it', () => {
     const grid = read('components/brand/ProductsGrid.tsx');
     expect(grid).toMatch(/id=\{shelf\.group\.id\}/);
     expect(grid).toMatch(/href=\{`#\$\{shelf\.group\.id\}`\}/);
+  });
+});
+
+// An offer on a monthly plan is only believable if the brand elsewhere says it
+// is on one too. These are the registries and pages that carry the cadence; if
+// one of them reverts to build-and-hand-over, the campaign is advertising a
+// relationship the rest of the site denies.
+describe('the relationship the offer is made inside', () => {
+  it('runs monthly in the registries every page reads from', () => {
+    const steps = processSteps.map((step) => `${step.name} ${step.detail}`).join(' ');
+    expect(steps).toMatch(/monthly/i);
+
+    const why = [...whyPoints, ...pillars].map((p) => `${p.title} ${p.detail}`).join(' ');
+    expect(why).toMatch(/month/i);
+    expect(why).not.toMatch(/after launch/i);
+
+    const running = engagement.join(' ');
+    expect(running).toMatch(/monthly/i);
+    expect(running).not.toMatch(/handover|optional ongoing/i);
+  });
+
+  it('is said out loud on the two pages an enquiry is decided on', () => {
+    expect(read('app/(site)/products/page.tsx')).toMatch(/runs monthly/i);
+    expect(read('components/brand/Hero.tsx')).toMatch(/runs monthly/i);
+  });
+
+  it('is not contradicted anywhere else in the brand copy', () => {
+    const brandCopy = [campaign, ...processSteps, ...whyPoints, ...pillars, ...engagement]
+      .map((entry) => JSON.stringify(entry))
+      .join(' ');
+    expect(brandCopy).not.toMatch(/build once|hand ?over running|deliver and (leave|disappear)/i);
   });
 });

@@ -82,6 +82,6 @@ export const engagement: string[] = [
   'Discovery and requirements',
   'Scope, architecture, and delivery plan',
   'Prototype or implementation',
-  'Testing, launch, and handover',
-  'Optional ongoing support and development',
+  'Testing, launch, and the first monthly run',
+  'Monthly support, improvement and development',
 ];

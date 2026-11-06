@@ -17,7 +17,7 @@ export const audiences: Audience[] = [
     campaign: 'Grow Online.',
     headline: 'A professional online presence that turns searches into customers.',
     pitch:
-      'Get found, get understood, get contacted. Websites, digital menus and catalogues, enquiry and booking flows — and optional ongoing support — for shops, clinics and local service providers.',
+      'Get found, get understood, get contacted. Websites, digital menus and catalogues, enquiry and booking flows — and a monthly plan that keeps them running — for shops, clinics and local service providers.',
     path: '/local-business',
     cta: 'Get Your Business Online',
   },

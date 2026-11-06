@@ -25,6 +25,6 @@ export const processSteps: ProcessStep[] = [
     key: 'improve',
     name: 'Improve',
     detail:
-      'We help maintain, measure, and extend the solution as needs change.',
+      'The plan runs monthly: we maintain the system, read the numbers back to you, and scope the next change from what the month actually showed.',
   },
 ];

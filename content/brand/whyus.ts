@@ -14,7 +14,8 @@ export const whyPoints: WhyPoint[] = [
   },
   {
     title: 'Room to grow',
-    detail: 'Extend the solution when the business is ready.',
+    detail:
+      'The plan is monthly, so the next improvement is already on the calendar. You grow, the system grows with you.',
   },
   {
     title: 'Practical outcomes',
@@ -48,6 +49,7 @@ export const pillars: WhyPoint[] = [
   },
   {
     title: 'Long-term partnership',
-    detail: 'Support, improve, and extend solutions after launch.',
+    detail:
+      'We work month to month, not build and leave: support, improvement and new capability as the business changes.',
   },
 ];

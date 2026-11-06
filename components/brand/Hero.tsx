@@ -10,7 +10,7 @@ import { serviceSteps } from '@/content/brand/services';
 import { websites } from '@/content/websites/sites';
 
 const FACTS = [
-  { value: websites.length, label: 'sites we built and run' },
+  { value: websites.length, label: 'sites we built and still run' },
   { value: serviceSteps.length, label: 'steps, taken in order' },
   { value: products.length, label: 'systems in the catalogue' },
 ];
@@ -182,7 +182,8 @@ export function Hero() {
                 <OfferBadge />
               </div>
               <p className="gs-label mt-4 text-ink-3">
-                Start with what you need today. Add more as your business grows.
+                Start with what you need today. The plan runs monthly, so the system keeps growing
+                with the business.
               </p>
             </div>
           </div>
