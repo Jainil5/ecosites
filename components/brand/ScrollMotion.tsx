@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import { scrollState } from './scroll-state';
 
 const clamp = (min: number, value: number, max: number) => Math.min(Math.max(value, min), max);
 
@@ -65,8 +64,6 @@ export function ScrollMotion() {
       const seat = heroHeight();
       const recede = inert || seat === 0 ? 0 : clamp(0, lenis.scroll / seat, 1);
 
-      scrollState.velocity = velocity;
-      scrollState.progress = progress;
       root.style.setProperty('--scroll-v', velocity.toFixed(3));
       root.style.setProperty('--scroll-p', progress.toFixed(4));
       root.style.setProperty('--hero-rec', recede.toFixed(3));
@@ -76,7 +73,6 @@ export function ScrollMotion() {
       if (idle) clearTimeout(idle);
       if (velocity !== 0) {
         idle = setTimeout(() => {
-          scrollState.velocity = 0;
           root.style.setProperty('--scroll-v', '0.000');
         }, 180);
       }
@@ -91,8 +87,6 @@ export function ScrollMotion() {
       root.style.removeProperty('--scroll-v');
       root.style.removeProperty('--scroll-p');
       root.style.removeProperty('--hero-rec');
-      scrollState.velocity = 0;
-      scrollState.progress = 0;
     };
   }, []);
 

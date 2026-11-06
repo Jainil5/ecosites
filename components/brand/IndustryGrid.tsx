@@ -23,11 +23,13 @@ export function IndustryGrid() {
         const label = industry.proof ? proofLabel(industry.proof) : '';
         return (
           <li key={industry.slug} className="relative overflow-hidden bg-canvas p-6">
-            {industry.proof ? (
-              <span aria-hidden className="absolute -right-4 -top-4 h-12 w-12 rotate-12 bg-plane/25" />
-            ) : (
-              <span aria-hidden className="absolute -right-4 -top-4 h-12 w-12 rotate-12 bg-plane/15" />
-            )}
+            {/* A corner rule, not a filled square: the brighter one marks a
+                vertical with a live build behind it, and nothing here needs
+                to be a shape clipped by the cell edge. */}
+            <span
+              aria-hidden
+              className={`absolute inset-x-0 top-0 h-px ${industry.proof ? 'bg-forest/60' : 'bg-hairline'}`}
+            />
             <p className="gs-label text-ink-3">
               {String(i + 1).padStart(2, '0')}
             </p>
@@ -36,12 +38,12 @@ export function IndustryGrid() {
             <ul className="mt-4 space-y-1.5">
               {industry.deliverables.slice(0, 3).map((item) => (
                 <li key={item} className="flex gap-2 text-sm text-ink-2">
-                  <span aria-hidden className="text-plane">+</span>
+                  <span aria-hidden className="text-forest">+</span>
                   {item}
                 </li>
               ))}
             </ul>
-            <p className="gs-label mt-5 text-plane">
+            <p className="gs-label mt-5 text-forest">
               {industry.proof ? `proof — ${label}` : 'we build for this vertical'}
             </p>
           </li>

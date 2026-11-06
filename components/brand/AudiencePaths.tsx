@@ -26,7 +26,7 @@ export function AudiencePaths() {
                 isLocal ? 'bg-plane-deep' : 'bg-canvas'
               } text-ink`}
             >
-              <p className={`gs-label ${isLocal ? 'text-plane' : 'text-lime'}`}>
+              <p className={`gs-label ${isLocal ? 'text-forest' : 'text-lime'}`}>
                 for {audience.name.toLowerCase()}
               </p>
               <h3 className="gs-display gs-h3 mt-3">{audience.campaign}</h3>

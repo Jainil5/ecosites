@@ -38,7 +38,7 @@ export function ServicesJourney({ detailed = false }: ServicesJourneyProps) {
                   </span>
                   <div>
                     <h3 className="gs-display gs-h3">{step.service}</h3>
-                    <p className="mt-1 font-label text-xs tracking-widest text-plane">
+                    <p className="mt-1 font-label text-xs tracking-widest text-forest">
                       {step.tagline}
                     </p>
                   </div>
@@ -77,7 +77,7 @@ export function ServicesJourney({ detailed = false }: ServicesJourneyProps) {
                 </span>
               </div>
               <h3 className="gs-display mt-5 text-xl">{step.service}</h3>
-              <p className="gs-label mt-2 text-plane">{step.title}</p>
+              <p className="gs-label mt-2 text-forest">{step.title}</p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-2">{step.tagline}</p>
             </li>
           ))}

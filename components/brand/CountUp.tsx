@@ -65,7 +65,14 @@ export function CountUp({
   return (
     <span ref={ref} data-counted={run ? 'true' : undefined} className="gs-count">
       {display}
-      {suffix ? <em className="not-italic text-plane">{suffix}</em> : null}
+      {suffix ? (
+        // The unit is not part of the number. At full poster size a green "D"
+        // after "07" read as a hex digit, so it takes half the em and sits on
+        // the cap line.
+        <em className="ml-0.5 text-[0.5em] not-italic text-forest">
+          {suffix}
+        </em>
+      ) : null}
     </span>
   );
 }

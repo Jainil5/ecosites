@@ -1,52 +1,18 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
-import { MotionField } from './MotionField';
-import { MotionReel } from './MotionReel';
-
-export type BrandEffect = 'ripple' | 'wave' | 'orbit';
-
 /**
- * Route → effect. The glass theme is constant; only the moving field
- * changes per page. Unknown routes (including nested portfolio pages)
- * fall back to the home effect.
+ * The field behind every brand page: one fixed, still layer.
+ *
+ * This used to pick an animated effect per route — ripple, wave, orbit — and
+ * paint a moving 3D mesh under a film loop. The motion was the loudest thing
+ * on the page and it never carried information, so the field is calm now: a
+ * graphite wash, one soft light, a static horizon grid and grain. What moves
+ * on these pages is the content arriving, once.
  */
-const ROUTE_EFFECTS: Record<string, BrandEffect> = {
-  '/': 'ripple',
-  '/about': 'orbit',
-  '/services': 'wave',
-  '/products': 'orbit',
-  '/enterprise': 'wave',
-  '/local-business': 'ripple',
-  '/demos': 'wave',
-  '/store': 'orbit',
-  '/portfolio': 'ripple',
-  '/contact': 'wave',
-};
-
 export function BrandBackground() {
-  const pathname = usePathname();
-  const effect = ROUTE_EFFECTS[pathname] ?? 'ripple';
-
   return (
-    <div aria-hidden className="brand-bg" data-effect={effect}>
-      {/* Footage sits behind the landing page only. Every other route — and
-          every client build — keeps the canvas field alone, so nobody else
-          pays half a megabyte for the film. */}
-      {pathname === '/' ? <MotionReel /> : null}
+    <div aria-hidden className="brand-bg">
+      <span className="brand-bg-wash" />
       <span className="brand-bg-horizon" />
-      <span className="brand-bg-layer brand-bg-ripple" />
-      <span className="brand-bg-layer brand-bg-wave" />
-      <span className="brand-bg-layer brand-bg-orbit">
-        <span className="brand-bg-orbit-ring">
-          <span className="brand-bg-orbit-glow brand-bg-orbit-glow-a" />
-          <span className="brand-bg-orbit-glow brand-bg-orbit-glow-b" />
-        </span>
-      </span>
-      {/* The moving 3D plane, drawn per frame rather than shipped as footage:
-          it re-tints with the brand tokens and costs a few KB, not a video. */}
-      <MotionField effect={effect} />
-      <span className="brand-bg-scan" />
+      <span className="brand-bg-grain" />
     </div>
   );
 }

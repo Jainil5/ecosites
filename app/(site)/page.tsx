@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ClientMarquee } from '@/components/brand/ClientMarquee';
+import { ClientGrid } from '@/components/brand/ClientGrid';
 import { Hero } from '@/components/brand/Hero';
 import { LaunchReel } from '@/components/brand/LaunchReel';
 import { OperationsBand } from '@/components/brand/OperationsBand';
@@ -43,7 +43,7 @@ export default function HomePage() {
 
       <div className="space-y-16">
         <ProofBand />
-        <ClientMarquee />
+        <ClientGrid />
         <WorkStrip />
       </div>
 

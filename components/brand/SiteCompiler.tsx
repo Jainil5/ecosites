@@ -66,7 +66,7 @@ export function SiteCompiler() {
           placeholder="your-business-name"
           autoComplete="off"
           maxLength={40}
-          className="focus-ring min-w-[14rem] flex-1 border border-hairline bg-paper px-4 py-3 font-label text-sm lowercase tracking-wide text-ink placeholder:text-ink-3 focus:border-plane focus:outline-none"
+          className="focus-ring min-w-[14rem] flex-1 border border-hairline bg-paper px-4 py-3 font-label text-sm lowercase tracking-wide text-ink placeholder:text-ink-3 focus:border-forest focus:outline-none"
         />
         <button type="submit" className="focus-ring gs-btn gs-btn-solid">
           See your site
@@ -81,9 +81,9 @@ export function SiteCompiler() {
               className="gs-caps-rise flex items-center gap-1.5 border-b border-hairline bg-canvas px-4 py-2.5"
               style={d(120)}
             >
-              <span aria-hidden className="h-2 w-2 rounded-full bg-plane" />
+              <span aria-hidden className="h-2 w-2 rounded-full bg-forest" />
               <span aria-hidden className="h-2 w-2 rounded-full bg-lime" />
-              <span aria-hidden className="h-2 w-2 rounded-full bg-plane" />
+              <span aria-hidden className="h-2 w-2 rounded-full bg-forest" />
               <span className="ml-3 truncate font-label text-[11px] tracking-widest text-ink-3">
                 www.{slugOf(compiled)}.in
               </span>
@@ -102,7 +102,7 @@ export function SiteCompiler() {
               <h3 className="gs-caps-rise gs-display gs-h3 mt-5" style={d(400)}>
                 {compiled}
               </h3>
-              <p className="gs-caps-rise mt-2 text-sm font-semibold text-plane" style={d(520)}>
+              <p className="gs-caps-rise mt-2 text-sm font-semibold text-forest" style={d(520)}>
                 {taglineFor(compiled)}
               </p>
               <div
@@ -126,9 +126,37 @@ export function SiteCompiler() {
             </div>
           </div>
         ) : (
-          <p className="gs-label">
-            type your business name <span aria-hidden>/</span> see what online could look like
-          </p>
+          <>
+            {/* The card has the same geometry as the compiled one, drawn as a
+                skeleton, so the column reads as a preview waiting for its
+                subject rather than as an empty half of the hero. Nothing here
+                claims to be a site: it is the shape the next one arrives in. */}
+            <div aria-hidden className="gs-card p-6 sm:p-8">
+              <div className="flex items-center gap-1.5 border-b border-hairline pb-4">
+                <span className="h-2 w-2 rounded-full bg-forest" />
+                <span className="h-2 w-2 rounded-full bg-lime" />
+                <span className="h-2 w-2 rounded-full bg-forest" />
+                <span className="gs-reel-bar ml-3 block h-1.5 w-40" />
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {['w-16', 'w-14', 'w-12', 'w-20'].map((w) => (
+                  <span key={w} className={`gs-reel-bar block h-4 ${w}`} />
+                ))}
+              </div>
+              <div className="mt-6 space-y-2.5">
+                <span className="gs-reel-bar block h-7 w-3/4" />
+                <span className="gs-reel-bar block h-7 w-1/2" />
+              </div>
+              <span className="gs-reel-bar mt-5 block h-2.5 w-2/5" />
+              <div className="mt-7 flex items-center gap-4 border-t border-hairline pt-5">
+                <span className="block h-9 w-32 border border-hairline" />
+                <span className="gs-reel-bar block h-1.5 w-28" />
+              </div>
+            </div>
+            <p className="gs-label mt-5">
+              type your business name <span aria-hidden>/</span> see what online could look like
+            </p>
+          </>
         )}
       </div>
     </div>

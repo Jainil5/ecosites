@@ -33,7 +33,7 @@ export function ServicesGrid({
             <ul className="mt-4 space-y-1.5">
               {capability.examples.map((example) => (
                 <li key={example} className="flex gap-2 text-sm text-ink-2">
-                  <span aria-hidden className="text-plane">+</span>
+                  <span aria-hidden className="text-forest">+</span>
                   {example}
                 </li>
               ))}

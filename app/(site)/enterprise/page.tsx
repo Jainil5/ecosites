@@ -47,14 +47,14 @@ export default function EnterprisePage() {
               <ul className="mt-4 flex-1 space-y-1.5">
                 {solution.builds.map((build) => (
                   <li key={build} className="flex gap-2 text-sm text-ink-2">
-                    <span aria-hidden className="text-plane">+</span>
+                    <span aria-hidden className="text-forest">+</span>
                     {build}
                   </li>
                 ))}
               </ul>
               <Link
                 href={solution.proof.path}
-                className="focus-ring gs-label mt-4 inline-flex min-h-10 items-center gap-1.5 text-plane hover:underline"
+                className="focus-ring gs-label mt-4 inline-flex min-h-10 items-center gap-1.5 text-forest hover:underline"
               >
                 {proofCta[solution.proof.kind]}
                 <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, MessagesSquare } from 'lucide-react';
 import { CursorLit } from '@/components/brand/CursorLit';
-import { OfferBadge } from '@/components/brand/OfferBand';
 import { PRODUCT_ICONS } from '@/components/brand/product-icons';
 import { SectionIntro } from '@/components/brand/SectionIntro';
 import { productGroups, products } from '@/content/brand/products';
@@ -24,10 +23,7 @@ function ProductCard({ product }: { product: Product }) {
           <Icon aria-hidden className="h-6 w-6" />
         </span>
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="gs-display gs-h3">{product.title}</h3>
-            <OfferBadge />
-          </div>
+          <h3 className="gs-display gs-h3">{product.title}</h3>
           <p className="mt-2 leading-relaxed text-ink-2">{product.summary}</p>
         </div>
       </div>
@@ -35,7 +31,7 @@ function ProductCard({ product }: { product: Product }) {
       <ul className="mt-6 space-y-2.5">
         {product.bullets.map((bullet) => (
           <li key={bullet} className="flex gap-3 text-sm leading-snug text-ink">
-            <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-plane" />
+            <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-forest" />
             {bullet}
           </li>
         ))}
@@ -50,26 +46,35 @@ function ProductCard({ product }: { product: Product }) {
         ))}
       </dl>
 
-      <div className="mt-auto flex flex-wrap items-center gap-4 pt-7">
+      <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-7">
         {product.demoPath ? (
-          <Link href={product.demoPath} className="focus-ring gs-btn gs-btn-solid">
+          <Link href={product.demoPath} className="focus-ring gs-link group">
             Open it live
-            <ArrowRight aria-hidden className="h-4 w-4" />
+            <ArrowRight
+              aria-hidden
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+            />
           </Link>
         ) : product.repoUrl ? (
           <a
             href={product.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring gs-btn gs-btn-solid"
+            className="focus-ring gs-link group"
           >
             View the build
-            <ArrowRight aria-hidden className="h-4 w-4" />
+            <ArrowRight
+              aria-hidden
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+            />
           </a>
         ) : (
-          <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">
+          <Link href="/contact" className="focus-ring gs-link group">
             Ask for a walkthrough
-            <ArrowRight aria-hidden className="h-4 w-4" />
+            <ArrowRight
+              aria-hidden
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+            />
           </Link>
         )}
         <span className="gs-label">

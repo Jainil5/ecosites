@@ -14,40 +14,62 @@ function walk(rel: string): string[] {
   });
 }
 
+const css = read('app/globals.css');
+
+/** One rule's text, from its selector to the next selector at the same depth. */
+function rule(selector: string, until: string): string {
+  const from = css.indexOf(selector);
+  expect(from, `${selector} is not in the skin`).toBeGreaterThan(-1);
+  const to = css.indexOf(until, from);
+  expect(to, `${selector} has no end marker ${until}`).toBeGreaterThan(from);
+  return css.slice(from, to);
+}
+
+/** The number a scroll-momentum multiplier is allowed to reach. */
+function amplitude(pattern: RegExp, label: string): number {
+  const match = css.match(pattern);
+  expect(match, label).not.toBeNull();
+  return Number.parseFloat(match![1]);
+}
+
 describe('brand skin tokens', () => {
   const config = read('tailwind.config.ts');
 
-  it('defines the dark-glass scale', () => {
+  it('defines the graphite-and-bone scale', () => {
     for (const [token, hex] of [
-      ['canvas', '#0C0D0C'],
-      ['paper', '#FFFFFF0D'],
-      ['plane', '#22C55E'],
-      ['forest', '#4ADE80'],
-      ['lime', '#BEF264'],
-      ['ink', '#F2F5F2'],
-      ['ink-2', '#B6C2B8'],
-      ['ink-3', '#7E8F82'],
-      ['hairline', '#FFFFFF1F'],
-      ['plane-deep', '#0E2417'],
-      ['plane-ink', '#071209'],
+      ['canvas', '#0A0B0B'],
+      ['paper', '#FFFFFF08'],
+      ['plane', '#1C5E42'],
+      ['forest', '#3F8F68'],
+      ['lime', '#A9C6A8'],
+      ['ink', '#E9E6DF'],
+      ['ink-2', '#A6ACA5'],
+      ['ink-3', '#757B74'],
+      ['hairline', '#FFFFFF14'],
+      ['plane-deep', '#101A15'],
+      ['plane-ink', '#0A0B0B'],
     ] as const) {
-      expect(config, token).toContain(hex.toUpperCase());
+      expect(config, token).toContain(hex);
     }
   });
 
-  it('separates text-on-plane from text-on-field', () => {
-    // ink is light now, so anything sitting on a filled green plane needs the
-    // near-black plane-ink instead; without the token, brand components would
-    // hardcode the hex one per button.
-    expect(config).toMatch(/'plane-ink':/);
-    const css = read('app/globals.css');
-    expect(css).toContain('--gs-plane-ink');
-    const solid = css.slice(css.indexOf('.gs-btn-solid {'), css.indexOf('.gs-btn-solid:hover'));
-    expect(solid).toContain('var(--gs-plane-ink)');
+  it('keeps the interactive accent inside the brand green', () => {
+    // One green for the mark and one for the UI, or the logo and the buttons
+    // disagree about which colour the company is.
+    expect(config).toMatch(/DEFAULT:\s*'#1C5E42'/);
+    expect(config).toMatch(/soft:\s*'#3F8F68'/);
+    expect(config).not.toMatch(/'#22C55E'|'#BEF264'|'#4ADE80'/);
   });
 
-  it('keeps the interactive accent green so the mark and the UI agree', () => {
-    expect(config).toMatch(/DEFAULT:\s*'#22C55E'/);
+  it('uses the accent as a material, never as a fill on a control', () => {
+    // The neon skin filled every button, chip and corner badge with the
+    // accent. Deep emerald under bone type is the same gesture at studio
+    // weight, so the loudest thing on a row is the row's title.
+    const solid = rule('.gs-btn-solid {', '.gs-btn-solid:hover');
+    expect(solid).toContain('background: var(--gs-ink)');
+    expect(solid).toContain('color: var(--gs-canvas)');
+    expect(solid).not.toContain('var(--gs-plane)');
+    expect(rule('.gs-icon {', '.gs-icon-sm')).toContain('background: transparent');
   });
 
   it('maps display to the poster grotesque and keeps a mono label key', () => {
@@ -64,16 +86,20 @@ describe('brand skin tokens', () => {
 
   it('still defines every shadow and accent shade components reference', () => {
     // Tailwind drops unknown utility classes silently instead of failing the
-    // build, so a deleted token breaks styling without ever erroring. This
-    // guard is the only thing that catches it during the migration window.
+    // build, so a deleted token breaks styling without ever erroring.
     for (const shadow of ['plate', 'glow', 'glow-lg', 'card', 'card-hover']) {
-      // Hyphenated keys are quoted in the config, so allow an optional quote
-      // before the colon.
       expect(config, `shadow-${shadow}`).toMatch(new RegExp(`${shadow}'?\\s*:`));
     }
     for (const shade of ['soft', 'dark']) {
       expect(config, `accent.${shade}`).toContain(`${shade}:`);
     }
+  });
+
+  it('keeps the bloom dark, not luminous', () => {
+    // The same shadow keys used to throw a 20px green halo; callers still
+    // compile, the light just no longer leaks out of the panel.
+    expect(config).toMatch(/glow: '0 0 24px rgba\(28,94,66,0\.2\d\)/);
+    expect(css).not.toMatch(/box-shadow:[^;]*rgba\(34,\s*197,\s*94/);
   });
 });
 
@@ -103,16 +129,22 @@ describe('brand skin fonts', () => {
   it('never requests a weight or style the face does not ship', () => {
     // next/font throws at build time for a missing axis. Fustat had no italic;
     // Archivo ships 100-900 roman and italic.
-    const archivo = layout.slice(layout.indexOf('Archivo({'), layout.indexOf('variable: \'--font-display\''));
+    const archivo = layout.slice(layout.indexOf('Archivo({'), layout.indexOf("variable: '--font-display'"));
     for (const w of (archivo.match(/'(\d{3})'/g) || []).map((s) => s.replace(/'/g, ''))) {
       expect(['100', '200', '300', '400', '500', '600', '700', '800', '900'], `Archivo ${w}`).toContain(w);
     }
   });
+
+  it('sets buttons and text links in the display face, not the terminal one', () => {
+    // Mono on every control was the other half of the "developer dashboard"
+    // read. Labels stay mono — they are annotations — but a call to action is
+    // type, and type comes from the face the headlines use.
+    expect(rule('.gs-btn {', '.gs-btn-solid')).toContain('var(--font-display)');
+    expect(rule('.gs-link {', '.gs-link:hover')).toContain('var(--font-display)');
+  });
 });
 
 describe('brand skin primitives', () => {
-  const css = read('app/globals.css');
-
   it('keeps the gs-* block inside @layer components', () => {
     // Unlayered rules beat @layer utilities regardless of source order, so a
     // loose .gs-label would silently win over every text-* class written on it.
@@ -125,16 +157,7 @@ describe('brand skin primitives', () => {
     expect(close).toBeGreaterThan(-1);
   });
 
-  it('declares the goo filter once and never wraps text in it', () => {
-    expect(read('components/brand/GooDefs.tsx')).toContain('id="gs-goo"');
-    expect(css).toContain('filter: url(#gs-goo)');
-    // Every entrance and loop sits behind a no-preference query.
-    expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
-  });
-
   it('frosts the card surface so panels read as glass', () => {
-    // The backdrop blur is what makes the animated field visible *through*
-    // the cards; without it the skin is just a dark theme.
     const card = css.slice(css.indexOf('.gs-card {'));
     expect(card.slice(0, 400)).toContain('backdrop-filter');
   });
@@ -143,20 +166,114 @@ describe('brand skin primitives', () => {
     // A 390px headless run under software rasterisation measured blur(14px) and
     // blur(7px) inside the same noise band, so the frost stays as designed.
     // If this is revisited, it needs a real device trace, not this rig.
-    const phone = css.slice(css.indexOf('.gs-card-hover'), css.indexOf('.gs-nav-row'));
-    expect(phone).not.toContain('backdrop-filter');
+    expect(rule('.gs-card-hover:hover {', '\n\n  /* The header box is taller')).not.toContain(
+      'backdrop-filter',
+    );
   });
 
-  it('ships the three background effects behind the reduced-motion gate', () => {
-    for (const keyframe of ['@keyframes brand-bg-ripple', '@keyframes brand-bg-wave', '@keyframes brand-bg-orbit']) {
-      expect(css, keyframe).toContain(keyframe);
+  it('gives the nav its own body so copy cannot read through it', () => {
+    // The bar used to be a card, and a card is 3.5% white: every headline that
+    // scrolled under it stayed legible through the chrome, which reads as a
+    // layering bug rather than depth. The strip above it — the header's own
+    // top padding — had nothing in it at all.
+    const bar = rule('.gs-bar {', '\n\n  /* Menu rows');
+    expect(bar).toMatch(/rgb\(10 11 11 \/ 0\.8\d\)/);
+    expect(bar).toContain('backdrop-filter: blur(18px) saturate(1.15)');
+    const shell = rule('.gs-shell::before {', '.gs-bar');
+    expect(shell).toMatch(/rgb\(10 11 11 \/ 0\.9\d\) 0%/);
+    expect(shell).toContain('pointer-events: none');
+    const nav = read('components/Navbar.tsx');
+    expect(nav).toContain('gs-bar flex');
+    expect(nav).toContain('gs-shell sticky');
+    expect(nav).not.toContain('gs-card flex');
+  });
+
+  it('declares no filter graph anywhere in the skin', () => {
+    // The gooey metaball cluster behind the hero compiler needed an SVG
+    // filter, a defs component mounted once per route, and it explained
+    // nothing. Nothing in the brand skin borrows a filter by id now.
+    expect(css).not.toMatch(/url\(#/);
+    expect(css).not.toContain('feColorMatrix');
+    expect(existsSync('components/brand/GooDefs.tsx'), 'GooDefs.tsx is back').toBe(false);
+  });
+});
+
+describe('the field is still', () => {
+  // These five files were the moving background: a canvas mesh, a film loop,
+  // the goo defs, the object the two shared, and the looping client wall.
+  // Their absence is the contract — the depth moved into the planes, the
+  // reveals and the shadows, where it reads as craft instead of a screensaver.
+  const deleted = [
+    'components/brand/MotionField.tsx',
+    'components/brand/MotionReel.tsx',
+    'components/brand/GooDefs.tsx',
+    'components/brand/scroll-state.ts',
+    'components/brand/ClientMarquee.tsx',
+  ];
+
+  it('has no looping background components left to mount', () => {
+    for (const file of deleted) {
+      expect(existsSync(file), file).toBe(false);
     }
-    expect(css).toContain('.brand-bg');
+    const layout = read('app/(site)/layout.tsx');
+    expect(layout).toContain('<BrandBackground');
+    expect(layout).not.toMatch(/GooDefs|MotionReel|MotionField/);
+  });
+
+  it('ships no keyframe for the old field', () => {
+    for (const dead of [
+      '@keyframes brand-bg-ripple',
+      '@keyframes brand-bg-wave',
+      '@keyframes brand-bg-orbit',
+      '@keyframes brand-bg-horizon',
+      '@keyframes brand-bg-scan',
+      '@keyframes gs-marquee-run',
+      '@keyframes gs-blob-drift',
+      '.brand-bg-motion',
+      '.brand-bg-scan',
+      '.brand-bg-reel',
+      '.gs-marquee',
+      '.gs-blob',
+    ]) {
+      expect(css, dead).not.toContain(dead);
+    }
+  });
+
+  it('lays one still field: wash, horizon, grain', () => {
+    const src = read('components/brand/BrandBackground.tsx');
+    // A server component: nothing here can animate, and nothing is hydrated.
+    expect(src).not.toContain("'use client'");
+    expect(src).not.toMatch(/<canvas|\.mp4|useState|useEffect/);
+    for (const layer of ['brand-bg-wash', 'brand-bg-horizon', 'brand-bg-grain']) {
+      expect(src, layer).toContain(layer);
+    }
+    expect(src.indexOf('brand-bg-wash')).toBeLessThan(src.indexOf('brand-bg-horizon'));
+    expect(src.indexOf('brand-bg-horizon')).toBeLessThan(src.indexOf('brand-bg-grain'));
+
+    const field = rule('.brand-bg {', '.brand-bg-wash');
+    expect(field).toContain('position: fixed');
+    expect(field).not.toContain('animation');
+    expect(css).toMatch(/\.brand-bg-horizon::before\s*\{[^}]*rotateX\(64deg\)/s);
+  });
+
+  it('replaced the looping client wall with one that can be read', () => {
+    const grid = read('components/brand/ClientGrid.tsx');
+    expect(grid).not.toMatch(/gs-marquee|setInterval|requestAnimationFrame/);
+    expect(grid).toContain('websites');
+    expect(read('app/(site)/page.tsx')).toMatch(/<ClientGrid \/>/);
+  });
+
+  it('keeps the film budget out of the page it is not used on', () => {
+    // No brand component loads a video; the encoder recipe and the clips stay
+    // in the repo as material, unmounted.
+    for (const file of walk('components/brand')) {
+      expect(readFileSync(file, 'utf8'), file).not.toContain('<video');
+    }
+    expect(existsSync('scripts/brand-reel.sh'), 'the reel recipe went with the reel').toBe(true);
   });
 });
 
 describe('pointer and scroll motion', () => {
-  const css = read('app/globals.css');
   const motionSources = [
     'components/brand/CursorLit.tsx',
     'components/brand/LineReveal.tsx',
@@ -170,7 +287,7 @@ describe('pointer and scroll motion', () => {
     }
   });
 
-  it('ships the lighting, reveal, count and field primitives', () => {
+  it('ships the lighting, reveal, count and scramble primitives', () => {
     for (const cls of [
       '.gs-lit {',
       '.gs-lit-drift {',
@@ -178,12 +295,9 @@ describe('pointer and scroll motion', () => {
       '.gs-count',
       '.gs-scramble {',
       '.brand-bg-horizon',
-      '.brand-bg-scan',
+      '.brand-bg-grain',
     ]) {
       expect(css, cls).toContain(cls);
-    }
-    for (const keyframe of ['@keyframes brand-bg-horizon', '@keyframes brand-bg-scan']) {
-      expect(css, keyframe).toContain(keyframe);
     }
   });
 
@@ -195,51 +309,16 @@ describe('pointer and scroll motion', () => {
     expect(src).toContain("data-counted={run ? 'true' : undefined}");
   });
 
-  it('mounts the horizon and scan under the effect layers', () => {
-    const src = read('components/brand/BrandBackground.tsx');
-    expect(src.indexOf('brand-bg-horizon')).toBeLessThan(src.indexOf('brand-bg-ripple'));
-    expect(src.indexOf('brand-bg-scan')).toBeGreaterThan(src.indexOf('brand-bg-orbit'));
-  });
-});
-
-describe('background effect component contract', () => {
-  const src = read('components/brand/BrandBackground.tsx');
-
-  it('offers exactly the ripple, wave, and orbit effects', () => {
-    expect(src).toContain("'ripple'");
-    expect(src).toContain("'wave'");
-    expect(src).toContain("'orbit'");
-    expect(src).not.toContain("'drift'");
-  });
-
-  it('is mounted by the brand layout', () => {
-    expect(read('app/(site)/layout.tsx')).toContain('BrandBackground');
-  });
-});
-
-describe('motion field contract', () => {
-  const src = read('components/brand/MotionField.tsx');
-
-  it('gates its loop on the visitor motion preference', () => {
-    expect(src).toContain('prefers-reduced-motion');
-    // Reduced motion still paints one composed still, never an empty field.
-    expect(src).toContain('draw(0)');
-  });
-
-  it('stops painting when the tab is hidden and when it unmounts', () => {
-    expect(src).toContain('visibilitychange');
-    expect(src).toContain('cancelAnimationFrame');
-  });
-
-  it('is mounted by the background and styled by the skin', () => {
-    expect(read('components/brand/BrandBackground.tsx')).toContain('<MotionField');
-    expect(read('app/globals.css')).toContain('.brand-bg-motion');
+  it('keeps the cursor light and the drift under a third of their old reach', () => {
+    // Both are good ideas that were turned up too far: a 17% green wash and a
+    // 6px lift made the pointer the subject of the page.
+    expect(css).toMatch(/rgb\(28 94 66 \/ 0\.1\d\),\n      transparent 62%/);
+    expect(rule('.gs-lit-drift {', '\n\n  /* Word-by-word')).toMatch(/\* 3px\)/);
   });
 });
 
 describe('scroll motion contract', () => {
   const driver = read('components/brand/ScrollMotion.tsx');
-  const css = read('app/globals.css');
 
   it('runs Lenis with its own rAF and tears it down on unmount', () => {
     expect(driver).toContain('new Lenis(');
@@ -252,6 +331,12 @@ describe('scroll motion contract', () => {
   it('publishes one momentum set for every effect to read', () => {
     for (const token of ['--scroll-v', '--scroll-p', '--hero-rec']) expect(css).toContain(token);
     expect(driver).toContain("'--scroll-v'");
+  });
+
+  it('leaves the numbers in the cascade, with no JS-side copy to drift', () => {
+    // scroll-state.ts existed only so a canvas could read what CSS already
+    // carries. One publication path, one source of truth.
+    expect(driver).not.toMatch(/scrollState|scroll-state/);
   });
 
   it('hands anchor easing to Lenis instead of double-easing it', () => {
@@ -271,9 +356,14 @@ describe('scroll motion contract', () => {
     expect(driver).toContain('lenis.prefersReducedMotion');
   });
 
-  it('surges the background field with the same momentum', () => {
-    expect(read('components/brand/MotionField.tsx')).toContain('scrollState.velocity');
-    expect(read('components/brand/scroll-state.ts')).toContain('velocity');
+  it('keeps the fling inside a designed amplitude', () => {
+    // A multiplier an unbounded velocity could push past its ceiling is how a
+    // page ends up swinging. --scroll-v is clamped to -1..1, so these numbers
+    // are the reach in pixels and degrees, and they are studio-scale now.
+    expect(amplitude(/--scroll-v, 0\) \* ([\d.]+)px\)/, 'plane depth')).toBeLessThanOrEqual(12);
+    expect(amplitude(/--scroll-v, 0\) \* ([\d.]+)deg\)\)/, 'plane tilt')).toBeLessThanOrEqual(1);
+    expect(amplitude(/rotateX\(calc\(var\(--scroll-v, 0\) \* -([\d.]+)deg\)/, 'display tip')).toBeLessThanOrEqual(3);
+    expect(amplitude(/\.gs-display\s*\{[\s\S]*?translate3d\(0, calc\(var\(--scroll-v, 0\) \* ([\d.]+)px\)/, 'display drag')).toBeLessThanOrEqual(6);
   });
 
   it('dives bands in and tips them away on their own view timelines', () => {
@@ -309,102 +399,51 @@ describe('scroll motion contract', () => {
     }
   });
 
-  it('flies the camera down the mesh as the page descends', () => {
-    const field = read('components/brand/MotionField.tsx');
-    // Scroll re-seats every row's depth and wraps it back into the band, with a
-    // near-edge fade over the seam — otherwise a recycled row pops at the lens.
-    expect(field).toContain('scrollState.progress');
-    expect(field).toMatch(/const seat = \(u: number\)/);
-    expect(field).toContain('seamBand');
-    expect(field).toMatch(/ctx\.rotate\(fling \* params\.roll\)/);
-    expect(field).toContain('ctx.restore()');
-  });
-});
-
-describe('landing reel contract', () => {
-  const reel = read('components/brand/MotionReel.tsx');
-  const kb = 1024;
-
-  it('ships the clip and its poster, inside the landing page weight budget', () => {
-    // A background film on shared hosting has to have a number attached to it,
-    // or it grows every time someone "just" re-renders it at a higher bitrate.
-    const size = (rel: string) => statSync(path.join(process.cwd(), rel)).size;
-    expect(size('public/brand/reel.mp4')).toBeLessThan(640 * kb);
-    expect(size('public/brand/reel-480.mp4')).toBeLessThan(320 * kb);
-    expect(size('public/brand/reel-poster.webp')).toBeLessThan(96 * kb);
-    // The phone source has to be the smaller one, or the media query is a lie.
-    expect(size('public/brand/reel-480.mp4')).toBeLessThan(size('public/brand/reel.mp4'));
-  });
-
-  it('keeps the keyframes and the encoder recipe in the repo', () => {
-    for (const frame of ['key-01.webp', 'key-02.webp', 'key-03.webp']) {
-      expect(existsSync(path.join(process.cwd(), 'public/brand/frames', frame)), frame).toBe(true);
+  it('keeps the hero planes behind the type and off the reader', () => {
+    // Every plane sits at negative Z, so the caps are always the top layer.
+    const hero = read('components/brand/Hero.tsx');
+    expect(hero).not.toMatch(/GooCluster|OfferBadge/);
+    for (const pz of hero.match(/pz=\{(-?\d+)\}/g) ?? []) {
+      expect(Number.parseInt(pz.match(/-?\d+/)![0], 10)).toBeLessThan(0);
     }
-    const script = read('scripts/brand-reel.sh');
-    // xfade back to the first keyframe is what makes the loop seamless.
-    expect(script).toContain('xfade');
-    expect(script).toContain('reel-480.mp4');
+    expect(hero).toMatch(/<OfferNote \/>/);
   });
 
-  it('lets the motion preference decide before it downloads anything', () => {
-    // Not self-starting anywhere in the file: the moment the element begins on
-    // its own, the motion preference below it is a race rather than a gate.
-    expect(reel).not.toMatch(/autoplay/i);
-    expect(reel).toContain('prefers-reduced-motion');
-    expect(reel).toContain('video.play()');
-    expect(reel).toContain('preload="metadata"');
-    expect(reel).toContain('poster="/brand/reel-poster.webp"');
+  it('puts the whole manifesto behind the type, not beside it', () => {
+    // The planes are the hero's depth, and depth only reads when it sits
+    // behind something. Under lg they are switched off: on a phone there is
+    // no pointer to parallax and a tinted rectangle crossing body copy is
+    // just a smudge.
+    const hero = read('components/brand/Hero.tsx');
+    const planes = hero.match(/className="gs-plane-[ab][^"]*"/g) ?? [];
+    expect(planes.length).toBeGreaterThanOrEqual(2);
+    for (const plane of planes) expect(plane).toContain('hidden lg:block');
   });
 
-  it('plays behind the landing page and nowhere else', () => {
-    expect(read('components/brand/BrandBackground.tsx')).toMatch(
-      /pathname === '\/' \? <MotionReel/
+  it('sizes the hero headline from its measure so each phrase holds one line', () => {
+    // "TECHNOLOGY FOR" is 9.36em of Archivo 800 at this tracking. The stage is
+    // the viewport less the 48px page gutter, so the size has to be that width
+    // divided by the measure — a picked number wraps the phrase after its
+    // first word, and four stacked words is a mistake, not a statement.
+    expect(css).toMatch(
+      /\.gs-hero-title\s*\{[^}]*font-size:\s*clamp\([^;]*calc\(\(100vw - 48px\)[^;]*\)\s*;\s*\}/s,
     );
-    expect(read('app/(site)/layout.tsx')).not.toContain('MotionReel');
-    expect(read('app/globals.css')).toContain('.brand-bg-reel');
-  });
-});
-
-describe('brand routes carry no light-skin leftovers', () => {
-  // The dark skin flipped token semantics: text that sat on paper now sits
-  // on the glass field. These are the classes the migration replaced, and a
-  // leftover renders as invisible ink-on-ink text rather than an error.
-  // (bg-ink is legitimate now: ink is light, so it fills light chips/badges.)
-  const forbidden = [
-    'text-forest', 'focus:bg-ink', '!border-canvas', '!text-canvas',
-    'beacon', 'go-cta', 'go-label', 'go-stat-value', 'go-compile',
-  ];
-  const files = [
-    ...walk('app/(site)'),
-    ...walk('components/brand'),
-    'components/Navbar.tsx',
-    'components/Footer.tsx',
-    'components/SectionHeading.tsx',
-    'components/WebsiteCard.tsx',
-    'components/DemoCard.tsx',
-    'components/ProjectCover.tsx',
-  ];
-
-  it.each(files)('%s is migrated', (file) => {
-    const src = readFileSync(file, 'utf8');
-    for (const token of forbidden) {
-      expect(src, `${file} still uses ${token}`).not.toContain(token);
-    }
-    // Staying token-driven is what made this re-skin a config edit; a stray
-    // arbitrary value would pin one component to one skin forever.
-    expect(src, `${file} hardcodes a colour`).not.toMatch(/(?:bg|text|border)-\[#/);
+    // The ceiling is 6rem: past max-w-7xl the container stops growing.
+    expect(css).toMatch(/\.gs-hero-title\s*\{[^}]*,\s*6rem\)/s);
+    expect(css).toMatch(/\.gs-hero-line\s*\{[^}]*white-space:\s*nowrap/s);
+    const hero = read('components/brand/Hero.tsx');
+    expect(hero).toMatch(/<h1 className="gs-display gs-hero-title/);
+    expect((hero.match(/gs-hero-line block/g) ?? []).length).toBe(2);
   });
 });
 
 describe('floating menu panels are read off, not through', () => {
-  const css = read('app/globals.css');
-
   it('gives a menu its own material rather than reusing a card', () => {
-    // A card lets the animated field read through it. A menu is copy someone
-    // has to pick off, so it needs a body: an opaque brand green, a hard frost,
-    // and a shadow that puts it above the page.
-    const menu = css.slice(css.indexOf('.gs-menu {'), css.indexOf('.gs-menu .gs-nav-row:hover'));
-    expect(menu).toMatch(/rgb\(22 52 36 \/ 0\.9\d\)/);
+    // A card lets the field read through it. A menu is copy someone has to
+    // pick off, so it needs a body: the brand's deep forest, a hard frost, and
+    // a shadow that puts it above the page.
+    const menu = rule('.gs-menu {', '.gs-menu .gs-nav-row:hover');
+    expect(menu).toMatch(/rgb\(20 34 28 \/ 0\.9\d\)/);
     expect(menu).toMatch(/backdrop-filter: blur\(2\dpx\)/);
     expect(menu).toContain('-webkit-backdrop-filter');
     expect(menu).toMatch(/box-shadow:\s*\n?\s*0 28px/);
@@ -424,15 +463,15 @@ describe('floating menu panels are read off, not through', () => {
   });
 
   it('keeps a picked row visible against the new body', () => {
-    // 7% white disappears on a panel that is itself a colour.
-    const rows = css.slice(css.indexOf('.gs-menu .gs-nav-row:hover'));
-    expect(rows).toMatch(/background: rgb\(255 255 255 \/ 0\.14\)/);
+    // 14% white lights up a panel that is itself a colour; 10% is enough.
+    expect(rule('.gs-menu .gs-nav-row:hover,', '.gs-rule {')).toMatch(
+      /background: rgb\(255 255 255 \/ 0\.1\)/,
+    );
   });
 });
 
 describe('whatsapp enquiry control', () => {
   const fab = read('components/brand/WhatsAppFab.tsx');
-  const css = read('app/globals.css');
 
   it('rides the brand routes only', () => {
     expect(read('app/(site)/layout.tsx')).toContain('<WhatsAppFab');
@@ -461,8 +500,11 @@ describe('whatsapp enquiry control', () => {
     expect(fab).toMatch(/tabIndex=\{tucked \? -1 : undefined\}/);
   });
 
-  it('is a square plane, not a rounded foreign object', () => {
-    expect(css).toMatch(/\.gs-wa-plate\s*\{[^}]*background:\s*var\(--gs-plane\)/s);
+  it('is a square plate of the page material, not a green bubble', () => {
+    // A bright round bubble in the corner is the most templated element on the
+    // web. Square, bone-filled, hairline edge: the same object, in this skin.
+    expect(css).toMatch(/\.gs-wa-plate\s*\{[^}]*background:\s*var\(--gs-ink\)/s);
+    expect(css).toMatch(/\.gs-wa-plate\s*\{[^}]*color:\s*var\(--gs-canvas\)/s);
     expect(css).not.toMatch(/\.gs-wa[^-a-z][^}]*border-radius/s);
   });
 
@@ -491,6 +533,47 @@ describe('whatsapp enquiry control', () => {
   });
 });
 
+describe('brand routes carry no leftovers from either old skin', () => {
+  // Two migrations live here. The dark skin flipped token semantics, so text
+  // that sat on paper now sits on the field; the premium pass darkened the
+  // accent, so `text-plane` — bright green ink on a graphite page — became a
+  // contrast failure rather than a style. Both break legibility without
+  // ever erroring, which is why they are checked by name.
+  const forbidden = [
+    'text-plane',
+    'bg-plane/',
+    'border-plane',
+    'focus:bg-ink',
+    '!border-canvas',
+    '!text-canvas',
+    'beacon',
+    'go-cta',
+    'go-label',
+    'go-stat-value',
+    'go-compile',
+  ];
+  const files = [
+    ...walk('app/(site)'),
+    ...walk('components/brand'),
+    'components/Navbar.tsx',
+    'components/Footer.tsx',
+    'components/SectionHeading.tsx',
+    'components/WebsiteCard.tsx',
+    'components/DemoCard.tsx',
+    'components/ProjectCover.tsx',
+  ];
+
+  it.each(files)('%s is migrated', (file) => {
+    const src = readFileSync(file, 'utf8');
+    for (const token of forbidden) {
+      expect(src, `${file} still uses ${token}`).not.toContain(token);
+    }
+    // Staying token-driven is what made this re-skin a config edit; a stray
+    // arbitrary value would pin one component to one skin forever.
+    expect(src, `${file} hardcodes a colour`).not.toMatch(/(?:bg|text|border)-\[#/);
+  });
+});
+
 describe('the previous skins stay deleted', () => {
   // Each of these was the shell once. Leaving them in the tree invites a
   // component to reach back for them, so their absence is the contract.
@@ -505,8 +588,7 @@ describe('the previous skins stay deleted', () => {
   });
 
   it('has no dead skin blocks in globals.css', () => {
-    const css = read('app/globals.css');
-    for (const dead of ['.go-cta', '.go-logo-scene', '.beacon', '.field-drift']) {
+    for (const dead of ['.go-cta', '.go-logo-scene', '.beacon', '.field-drift', '.gs-goo']) {
       expect(css, dead).not.toContain(dead);
     }
   });

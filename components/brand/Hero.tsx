@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CountUp } from '@/components/brand/CountUp';
 import { GlyphScramble } from '@/components/brand/GlyphScramble';
 import { HeroStage } from '@/components/brand/HeroStage';
-import { OfferBadge } from '@/components/brand/OfferBand';
+import { OfferNote } from '@/components/brand/OfferBand';
 import { SiteCompiler } from '@/components/brand/SiteCompiler';
 import { products } from '@/content/brand/products';
 import { serviceSteps } from '@/content/brand/services';
@@ -55,58 +55,10 @@ function Plane({ pz, dx, dy, rot, delay = 0, from, className = '', style }: Plan
 }
 
 /**
- * Metaballs behind the compiler. The filter fuses the blobs where they
- * overlap, so the group reads as one liquid shape that slowly re-divides.
- * Decorative only, and always a sibling of text — never its parent, since
- * the alpha step would eat the glyph edges.
- */
-function GooCluster({ className = '' }: { className?: string }) {
-  const blobs = [
-    {
-      left: '1%',
-      top: '6%',
-      width: '11rem',
-      height: '11rem',
-      '--bx': '1.6rem',
-      '--by': '1.1rem',
-      '--dur': '12s',
-    } as CSSProperties,
-    {
-      left: '24%',
-      top: '24%',
-      width: '9rem',
-      height: '9rem',
-      background: 'var(--gs-forest)',
-      '--bx': '-1.3rem',
-      '--by': '1rem',
-      '--dur': '14s',
-      '--delay': '-4s',
-    } as CSSProperties,
-    {
-      left: '46%',
-      top: '2%',
-      width: '7.5rem',
-      height: '7.5rem',
-      '--bx': '1rem',
-      '--by': '1.6rem',
-      '--dur': '10s',
-      '--delay': '-7s',
-    } as CSSProperties,
-  ];
-  return (
-    <span aria-hidden className={`gs-goo absolute -inset-10 block ${className}`}>
-      {blobs.map((blob, i) => (
-        <span key={i} className="gs-blob" style={blob} />
-      ))}
-    </span>
-  );
-}
-
-/**
  * The manifesto: poster caps laid over two green planes that separate in
  * depth as the pointer moves, on a visible construction grid. The
- * interactive business-name compiler sits in its own gooey-backed band,
- * because it is the most convincing thing on the site.
+ * interactive business-name compiler carries its own frame now — the gooey
+ * metaball cluster behind it fused a shape nobody needed to explain.
  */
 export function Hero() {
   return (
@@ -114,57 +66,75 @@ export function Hero() {
       <span aria-hidden className="gs-grid" />
 
       <HeroStage className="relative mx-auto max-w-7xl px-6 pb-16 pt-8 lg:pb-20 lg:pt-10">
-        {/* Behind the type: the deep forest plane, then the bright one. */}
+        {/* Behind the type: the deep forest plane, then the bright one. The
+            drift and the tilt are roughly half what they were — a plane that
+            swings 7deg under the cursor is an effect, and one that leans a
+            degree or two is a material. They are laid out for the manifesto
+            band they now sit behind, and they stay on the desktop: a tinted
+            rectangle crossing body copy on a phone is noise, not depth, and
+            the pointer parallax they exist for does not happen there. */}
         <Plane
           pz={-190}
-          dx={16}
-          dy={11}
-          rot={-2.5}
+          dx={8}
+          dy={6}
+          rot={-1.5}
           delay={140}
-          from={{ x: '34vw', r: '9deg' }}
-          className="gs-plane-b"
-          style={{ top: '6%', right: '2%', width: 'min(38vw, 32rem)', height: 'min(32vw, 27rem)' }}
+          from={{ x: '20vw', r: '5deg' }}
+          className="gs-plane-b hidden lg:block"
+          style={{ top: '2%', right: '0%', width: 'min(38vw, 32rem)', height: 'min(20vw, 17rem)' }}
         />
         <Plane
           pz={-70}
-          dx={-32}
-          dy={-19}
-          rot={3.2}
-          from={{ x: '-20vw', y: '-14vh', r: '-11deg' }}
-          className="gs-plane-a"
-          style={{ top: '30%', right: '22%', width: 'min(25vw, 21rem)', height: 'min(23vw, 19rem)' }}
+          dx={-16}
+          dy={-10}
+          rot={1.8}
+          from={{ x: '-10vw', y: '-7vh', r: '-6deg' }}
+          className="gs-plane-a hidden lg:block"
+          style={{ top: '9%', left: '27%', width: 'min(20vw, 17rem)', height: 'min(13vw, 11rem)' }}
         />
         {/* The closest plane still sits *behind* the type (negative Z): all the
             motion stays in the background, and the caps always read first. */}
         <Plane
           pz={-30}
-          dx={-44}
-          dy={-30}
-          rot={7}
+          dx={-22}
+          dy={-15}
+          rot={3.5}
           delay={260}
-          from={{ y: '-22vh', r: '-14deg' }}
-          className="gs-plane-a"
-          style={{ top: '2%', left: '0%', width: '6.5rem', height: '4.5rem' }}
+          from={{ y: '-11vh', r: '-7deg' }}
+          className="gs-plane-a hidden lg:block"
+          style={{ top: '22%', left: '2%', width: '6.5rem', height: '4.5rem' }}
         />
 
-        <div className="relative grid gap-x-16 gap-y-14 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-9">
+        <div className="relative grid gap-x-16 gap-y-10 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* The manifesto takes the whole stage: two phrases, each on its own
+              line, at a size derived from the measure. Set inside the left
+              column it had no chance — 9.36em of poster caps do not fit in
+              613px, and the lines broke into stacked single words. */}
+          <div className="lg:col-span-2">
             <p className="gs-label gs-caps-rise">
               <span className="gs-label-hot">web</span> · software · data · ai
             </p>
 
-            <h1 className="gs-display gs-h2">
-              <span className="block gs-caps-rise" style={{ '--d': '120ms' } as CSSProperties}>
+            <h1 className="gs-display gs-hero-title mt-4">
+              <span
+                className="gs-hero-line block gs-caps-rise"
+                style={{ '--d': '120ms' } as CSSProperties}
+              >
                 <GlyphScramble text="Technology for" />
               </span>
-              <span className="block gs-caps-rise" style={{ '--d': '220ms' } as CSSProperties}>
+              <span
+                className="gs-hero-line block gs-caps-rise"
+                style={{ '--d': '220ms' } as CSSProperties}
+              >
                 <GlyphScramble text="Every Business" duration={760} />
-                <span className="text-plane">.</span>
+                <span className="text-forest">.</span>
               </span>
             </h1>
+          </div>
 
+          <div className="space-y-9">
             <p
-              className="gs-caps-rise max-w-xl text-lg leading-relaxed text-ink-2"
+              className="gs-caps-rise max-w-xl text-lg leading-relaxed text-balance text-ink-2"
               style={{ '--d': '380ms' } as CSSProperties}
             >
               From your first business website to intelligent software and AI-powered
@@ -179,17 +149,19 @@ export function Hero() {
                 <Link href="/demos" className="focus-ring gs-btn gs-btn-ghost">
                   See Our Work
                 </Link>
-                <OfferBadge />
               </div>
-              <p className="gs-label mt-4 text-ink-3">
+              {/* The offer, stated once, in the same weight as the sentence
+                  beside it. A discount badge in the hero is retail signage on
+                  a page that is trying to be read as a studio. */}
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-pretty text-ink-3">
                 Start with what you need today. The plan runs monthly, so the system keeps growing
                 with the business.
               </p>
+              <OfferNote />
             </div>
           </div>
 
           <div className="relative">
-            <GooCluster className="opacity-40" />
             <div
               className="gs-caps-rise relative z-10"
               style={{ '--d': '560ms' } as CSSProperties}
@@ -204,7 +176,7 @@ export function Hero() {
         <dl className="relative mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-3">
           {FACTS.map((fact) => (
             <div key={fact.label} className="bg-canvas p-4">
-              <dt className="gs-display text-3xl text-plane">
+              <dt className="gs-display text-3xl text-forest">
                 <CountUp value={fact.value} />
               </dt>
               <dd className="gs-label mt-1 text-ink-3">{fact.label}</dd>

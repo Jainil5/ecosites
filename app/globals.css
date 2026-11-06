@@ -41,9 +41,9 @@ body {
   height: 3.25rem;
   width: 3.25rem;
   border-radius: 16px;
-  border: 1px solid rgb(34 197 94 / 0.28);
-  background: linear-gradient(155deg, rgb(34 197 94 / 0.22), rgb(15 23 42 / 0.92) 62%);
-  box-shadow: 0 14px 26px -14px rgb(34 197 94 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.1),
+  border: 1px solid rgb(28 94 66 / 0.28);
+  background: linear-gradient(155deg, rgb(28 94 66 / 0.22), rgb(15 23 42 / 0.92) 62%);
+  box-shadow: 0 14px 26px -14px rgb(28 94 66 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.1),
     0 2px 0 rgb(0 0 0 / 0.35);
   transform-style: preserve-3d;
   transition: transform 260ms ease-out, box-shadow 260ms ease-out;
@@ -66,7 +66,7 @@ body {
 a:hover > .plinth,
 .plinth:hover {
   transform: translateZ(16px) rotateX(14deg);
-  box-shadow: 0 22px 34px -14px rgb(34 197 94 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.16),
+  box-shadow: 0 22px 34px -14px rgb(28 94 66 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.16),
     0 2px 0 rgb(0 0 0 / 0.35);
 }
 .group:hover .plinth::after,
@@ -93,7 +93,7 @@ a:hover > .plinth::after {
 /* Gradient animated text */
 .text-gradient {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #4ade80, #22d3ee, #a78bfa, #4ade80);
+  background-image: linear-gradient(90deg, #3f8f68, #22d3ee, #a78bfa, #3f8f68);
   background-size: 200% auto;
   @apply animate-gradient-pan;
 }
@@ -400,27 +400,29 @@ button:focus-visible {
 
 /* ============================================================
    Website & Intelligence brand skin — dark "glass plane" language (gs-*).
-   The form was sampled from shaders.com's own pixels: a near-black
-   field with an animated glow layer, frosted translucent panels,
-   poster-scale heavy caps, a *visible* construction grid, and mono
-   corner labels. Zero radius, square glass — the poster identity
-   survives the re-skin; only the material changes.
-   Depth is real here: the planes sit on a perspective stage and
-   separate along Z, which is where the 3D motion comes from.
+   A graphite field, warm bone type at poster scale, hairline edges and
+   square glass. The green is kept, but as a material: deep emerald panels
+   and a sage signal, never a neon fill. What the skin used to borrow from
+   shaders.com — an animated glow behind everything, bright lime on every
+   label — is what made a studio site read as a product landing page, so the
+   depth moved from the background into the type, the rules and the shadows.
+   Depth is real here: the planes sit on a perspective stage and separate
+   along Z, which is where the 3D motion comes from.
    ============================================================ */
 
 @layer components {
   :root {
-    --gs-canvas: #0c0d0c;
-    --gs-paper: rgba(255, 255, 255, 0.05);
-    --gs-ink: #f2f5f2;
-    --gs-hair: rgba(255, 255, 255, 0.12);
-    --gs-plane: #22c55e;
-    --gs-forest: #4ade80;
-    --gs-lime: #bef264;
-    --gs-deep: #0e2417;
+    --gs-canvas: #0a0b0b;
+    --gs-paper: rgba(255, 255, 255, 0.035);
+    --gs-ink: #e9e6df;
+    --gs-hair: rgba(255, 255, 255, 0.09);
+    --gs-hair-lit: rgba(255, 255, 255, 0.2);
+    --gs-plane: #1c5e42;
+    --gs-forest: #3f8f68;
+    --gs-lime: #a9c6a8;
+    --gs-deep: #101a15;
     /* Text that sits on a filled plane, where --gs-ink would disappear. */
-    --gs-plane-ink: #071209;
+    --gs-plane-ink: #0a0b0b;
   }
 
   /* The stage: a perspective box that every --pz layer reads against.
@@ -433,8 +435,10 @@ button:focus-visible {
     transform-style: preserve-3d;
   }
 
-  /* Visible construction grid: hairlines at the third and half marks,
-     like the reference. Backdrop only — it never contains layout. */
+  /* Visible construction grid: hairlines at the third and half marks. It is
+     the armature the type is set on, not a texture — at 0.75 it competed with
+     the copy, so it sits just above the field now. Backdrop only: it never
+     contains layout. */
   .gs-grid {
     position: absolute;
     inset: 0;
@@ -443,7 +447,7 @@ button:focus-visible {
       linear-gradient(to right, var(--gs-hair) 0 1px, transparent 1px),
       linear-gradient(to bottom, var(--gs-hair) 0 1px, transparent 1px);
     background-size: 33.333% 100%, 33.333% 100%, 100% 50%;
-    opacity: 0.75;
+    opacity: 0.22;
   }
 
   /* One flat plane. --pz seats its depth, --rot the few degrees of tilt
@@ -458,27 +462,28 @@ button:focus-visible {
     transform: translate3d(
         calc(var(--mx, 0) * var(--dx, 0) * 1px + var(--scroll-v, 0) * var(--dy, 0) * 1px),
         calc(var(--my, 0) * var(--dy, 0) * 1px + var(--scroll-v, 0) * var(--dx, 0) * 1px),
-        calc(var(--pz, 0) - var(--scroll-v, 0) * 26px)
+        calc(var(--pz, 0) - var(--scroll-v, 0) * 10px)
       )
-      rotate(calc(var(--rot, 0deg) + var(--scroll-v, 0) * 2deg));
+      rotate(calc(var(--rot, 0deg) + var(--scroll-v, 0) * 0.6deg));
     will-change: transform;
     /* The transition is what makes the pointer read as weight rather than
        jitter. It stays inert during gs-plane-in, which animates transform. */
     transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .gs-plane-a {
-    /* a tinted glass sheet: the green reads as colour poured into the pane,
-       not paint on top of it */
-    background: rgb(34 197 94 / 0.16);
-    border: 1px solid rgb(34 197 94 / 0.35);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    /* Smoked glass: the green sits *in* the pane at the level of a tint, so
+       the plane reads as another sheet of the same material rather than as a
+       sheet of green cellophane laid over the page. */
+    background: rgb(28 94 66 / 0.1);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
   .gs-plane-b {
     background: var(--gs-deep);
-    border: 1px solid rgb(255 255 255 / 0.06);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.05);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
   }
 
   /* Poster caps. The whole identity lives in these four declarations. */
@@ -492,30 +497,54 @@ button:focus-visible {
   }
   .gs-h1 {
     font-size: clamp(3.1rem, 10.5vw, 9rem);
+    text-wrap: balance;
   }
   .gs-h2 {
     font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+    /* Poster caps at 88px wrap wherever the line runs out, which leaves an
+       orphan word the eye reads as a mistake. Balance costs nothing where the
+       heading already fits on two lines. */
+    text-wrap: balance;
+  }
+  /* The hero's own scale, derived from the measure rather than picked: the
+     manifesto is two phrases and each one has to land on a single line.
+     "TECHNOLOGY FOR" measures 9.36em in Archivo 800 at this tracking, and the
+     stage's content box is the viewport less the page gutter (48px) up to the
+     max-w-7xl wall — so dividing the one into the other holds both phrases
+     from 320px upward, and 6rem is the size where the wall, not the viewport,
+     stops the growth. The h2 ceiling broke "Technology for" after its first
+     word, and the page read as four stacked words instead of a statement. */
+  .gs-hero-title {
+    font-size: clamp(1.5rem, calc((100vw - 48px) / 9.9), 6rem);
+  }
+  /* The scale does the fitting; this makes sure nothing wraps anyway. */
+  .gs-hero-line {
+    white-space: nowrap;
   }
   .gs-h3 {
     font-size: clamp(1.6rem, 3.4vw, 2.75rem);
     letter-spacing: -0.02em;
   }
 
-  /* Mono corner labels, tracked wide. The hot variant is the single
-     lime accent the reference reserves for its metadata line. */
+  /* Mono corner labels, tracked wide. The hot variant is the single accent
+     the skin reserves for its metadata line. 0.22em was texture on a phone
+     and shouting on a desktop; 0.18em keeps the terminal rhythm without the
+     volume. */
   .gs-label {
     font-family: var(--font-label), ui-monospace, monospace;
     font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #8b9c8e;
+    color: #8f968e;
   }
   .gs-label-hot {
     color: var(--gs-forest);
   }
 
-  /* Square, heavy, no shadow. The fill swap on hover is the feedback. */
+  /* Square, heavy, no shadow. The label is set in the poster face rather
+     than the mono: mono caps on a button is a terminal convention, and a
+     button is the one place the page asks for a decision. */
   .gs-btn {
     display: inline-flex;
     align-items: center;
@@ -523,34 +552,35 @@ button:focus-visible {
     gap: 0.55rem;
     border: 1px solid transparent;
     border-radius: 0;
-    padding: 0.95rem 1.6rem;
-    font-family: var(--font-label), ui-monospace, monospace;
-    font-size: 0.75rem;
+    padding: 0.9rem 1.55rem;
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      color 240ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: background-color 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 260ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .gs-btn-solid {
-    background: var(--gs-plane);
-    color: var(--gs-plane-ink);
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
   }
   .gs-btn-solid:hover {
-    background: var(--gs-lime);
-    color: var(--gs-plane-ink);
+    background: #f7f5f0;
+    color: var(--gs-canvas);
+    transform: translateY(-1px);
   }
   .gs-btn-ghost {
     border-color: var(--gs-hair);
     color: var(--gs-ink);
-    background: rgb(255 255 255 / 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: transparent;
   }
   .gs-btn-ghost:hover {
-    background: rgb(255 255 255 / 0.1);
+    border-color: var(--gs-hair-lit);
+    background: rgb(255 255 255 / 0.045);
     color: var(--gs-ink);
   }
 
@@ -559,6 +589,30 @@ button:focus-visible {
   .gs-btn-sm {
     padding: 0.5rem 0.9rem;
     font-size: 0.68rem;
+  }
+
+  /* A decision that is not a button. A filled block is the loudest thing a
+     page can ask for, so the skin gets one per page; a grid of cards where
+     every row shouts the same ask reads as a wall of calls-to-action. The
+     rule under the label is the affordance, and the arrow carries the hover. */
+  .gs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-bottom: 1px solid var(--gs-hair);
+    padding-bottom: 0.2rem;
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--gs-ink);
+    text-decoration: none;
+    transition: border-color 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .gs-link:hover {
+    border-color: var(--gs-forest);
+    color: #fff;
   }
 
   /* 0.68rem mono at 0.22em is a terminal read on a 1440px canvas; on a phone
@@ -574,20 +628,61 @@ button:focus-visible {
     }
   }
 
-  /* One card: frosted glass, lit hairline edge, square. The backdrop blur
-     is what makes the animated field read *through* the panel. */
+  /* One card: frosted glass, lit hairline edge, square. The frost still
+     reads the field behind it, but the field is quiet now, so the panel is
+     doing less work: a 3.5% wash and a 9% edge are enough to separate it. */
   .gs-card {
     background: var(--gs-paper);
     border: 1px solid var(--gs-hair);
     border-radius: 0;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
-    transition: border-color 240ms ease, transform 240ms ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+    transition: border-color 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .gs-card-hover:hover {
-    border-color: rgb(34 197 94 / 0.5);
-    transform: translateY(-3px);
+    border-color: var(--gs-hair-lit);
+    transform: translateY(-2px);
+  }
+
+  /* The header box is taller than the bar inside it — it carries the top
+     padding — and that strip used to be clear glass, so every headline
+     passed through the gap above the nav before it hit the card. The shell
+     fills the whole box with the page colour, fading out at its own bottom
+     edge, and sits behind the bar in the header's stacking context. */
+  .gs-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(10 11 11 / 0.97) 0%,
+      rgb(10 11 11 / 0.8) 64%,
+      rgb(10 11 11 / 0) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* The nav is the one panel that has to stay readable while copy moves under
+     it, so it takes the menu's material rather than the card's: a graphite
+     body at 88%, hardened frost, an edge that catches the light once. Five
+     percent of white over a moving page let headlines read through the bar,
+     which looks like a bug at every scroll position but the top. */
+  .gs-bar {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0) 58%),
+      rgb(10 11 11 / 0.88);
+    border: 1px solid var(--gs-hair);
+    border-radius: 0;
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    box-shadow:
+      0 18px 40px -32px rgb(0 0 0 / 0.9),
+      inset 0 1px 0 rgb(255 255 255 / 0.05);
   }
 
   /* Menu rows: the glass fills and a plane-coloured left edge lights up.
@@ -601,8 +696,8 @@ button:focus-visible {
   .gs-nav-row:focus-visible,
   .gs-nav-row[data-current='true'],
   .gs-nav-row[data-active='true'] {
-    background: rgb(255 255 255 / 0.07);
-    border-left-color: var(--gs-plane);
+    background: rgb(255 255 255 / 0.05);
+    border-left-color: var(--gs-forest);
   }
 
   /* The floating panels — the mega-menu, the mobile sheet, the command
@@ -614,68 +709,45 @@ button:focus-visible {
      shadow so it clearly sits above the page rather than in it. */
   .gs-menu {
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0) 42%),
-      linear-gradient(165deg, rgb(22 52 36 / 0.95), rgb(9 18 13 / 0.97));
-    border: 1px solid rgb(255 255 255 / 0.18);
-    backdrop-filter: blur(22px) saturate(1.5);
-    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0) 42%),
+      linear-gradient(165deg, rgb(20 34 28 / 0.96), rgb(8 10 10 / 0.98));
+    border: 1px solid rgb(255 255 255 / 0.14);
+    backdrop-filter: blur(22px) saturate(1.2);
+    -webkit-backdrop-filter: blur(22px) saturate(1.2);
     box-shadow:
-      0 28px 64px -24px rgb(0 0 0 / 0.9),
-      inset 0 1px 0 rgb(255 255 255 / 0.12);
+      0 28px 64px -28px rgb(0 0 0 / 0.92),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
   }
 
   /* The picked row has to read against a panel that is now opaque green rather
-     than near-transparent, so 7% white is no longer enough to see. Inside a
+     than near-transparent, so the page fill is not enough to see. Inside a
      menu the fill goes up; page cards keep the lighter one. */
   .gs-menu .gs-nav-row:hover,
   .gs-menu .gs-nav-row:focus-visible,
   .gs-menu .gs-nav-row[data-current='true'],
   .gs-menu .gs-nav-row[data-active='true'] {
-    background: rgb(255 255 255 / 0.14);
+    background: rgb(255 255 255 / 0.1);
   }
   .gs-rule {
     border: 0;
     border-top: 1px solid var(--gs-hair);
   }
 
-  /* Flat colour plate behind a glyph — the deck puts its icons on cut
-     squares, never on lit glass plinths. */
+  /* An outlined plate behind a glyph. Filled squares of bright green made
+     every card lead with a sticker; the hairline keeps the geometry the skin
+     is built on and lets the title be the loudest thing in the row. */
   .gs-icon {
     display: grid;
     place-items: center;
     width: 2.75rem;
     height: 2.75rem;
-    background: var(--gs-plane);
-    color: var(--gs-plane-ink);
+    background: transparent;
+    border: 1px solid var(--gs-hair);
+    color: var(--gs-forest);
   }
   .gs-icon-sm {
     width: 2rem;
     height: 2rem;
-  }
-
-  /* Gooey metaballs. The filter is declared once in the DOM (GooDefs) and
-     referenced by id. It is applied to the blob layer ONLY: an alpha-step
-     filter destroys glyph edges, so any label has to be its own sibling
-     above the filtered element, never a child of it. */
-  .gs-goo {
-    filter: url(#gs-goo);
-    isolation: isolate;
-  }
-  .gs-blob {
-    position: absolute;
-    border-radius: 9999px;
-    /* solid fill: the goo filter steps the alpha, so a translucent blob
-       would be erased by it — dim the whole cluster instead (Hero) */
-    background: var(--gs-plane);
-    will-change: transform;
-  }
-  .gs-goo-host {
-    position: relative;
-    display: inline-block;
-  }
-  .gs-goo-host > .gs-goo-label {
-    position: relative;
-    z-index: 1;
   }
 
   /* Hover tilt: the card leans toward the cursor and its plane layer
@@ -759,15 +831,6 @@ button:focus-visible {
       transform: none;
     }
   }
-  @keyframes gs-blob-drift {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    50% {
-      transform: translate3d(var(--bx, 1.4rem), var(--by, -0.9rem), 0) scale(1.12);
-    }
-  }
   @keyframes gs-drop {
     from {
       opacity: 0;
@@ -791,10 +854,6 @@ button:focus-visible {
     .gs-caps-rise {
       animation: gs-caps-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
       animation-delay: var(--d, 0ms);
-    }
-    .gs-blob {
-      animation: gs-blob-drift var(--dur, 9s) ease-in-out infinite;
-      animation-delay: var(--delay, 0s);
     }
     .gs-drop {
       animation: gs-drop 180ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
@@ -840,45 +899,9 @@ button:focus-visible {
   }
 
   /* Seamless client wordmark loop; the mask fades both ends. */
-  .gs-marquee {
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-  }
-  .gs-marquee-track {
-    display: flex;
-    width: max-content;
-    white-space: nowrap;
-  }
-  .gs-marquee-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 0 2rem;
-    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--gs-ink);
-  }
-  @keyframes gs-marquee-run {    to {
-      transform: translateX(-50%);
-    }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .gs-marquee-track {
-      animation: gs-marquee-run 32s linear infinite;
-    }
-    .gs-marquee:hover .gs-marquee-track {
-      animation-play-state: paused;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .gs-marquee {
-      overflow-x: auto;
-    }
-  }
+  /* The client list is a still grid (ClientGrid), not a running tape: an
+     infinite marquee is the most recognisable tell of a template landing
+     page, and it moves while the visitor is trying to read. */
 
   /* The growth band's circuit tree. The trunk draws, each tier of branches
      cuts in above it, the pads pop last, and the whole crown sways on a long
@@ -1039,14 +1062,14 @@ button:focus-visible {
   .gs-lit {
     background-image: radial-gradient(
       22rem 22rem at var(--gx, 50%) var(--gy, -300%),
-      rgb(34 197 94 / 0.17),
+      rgb(28 94 66 / 0.12),
       transparent 62%
     );
   }
   /* Drift is opt-in: register cells share a 1px hairline seam, and a tile
      that slides 5px would tear it. Free-floating cards can move. */
   .gs-lit-drift {
-    transform: translate3d(calc(var(--lx, 0) * 5px), calc(var(--ly, 0) * 6px), 0);
+    transform: translate3d(calc(var(--lx, 0) * 3px), calc(var(--ly, 0) * 4px), 0);
     transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms ease;
   }
 
@@ -1085,9 +1108,10 @@ button:focus-visible {
     }
   }
 
-  /* Floating WhatsApp enquiry. Square and plane-filled — the skin has no
-     rounded anything, and a green bubble would be the one foreign object on
-     the page. The tag hangs off to the left so the plate itself never moves. */
+  /* Floating WhatsApp enquiry. Square and bone-filled: a bright green
+     bubble in the corner is the single most templated element on the modern
+     web, and the plate has to look like it belongs to this skin. The tag
+     hangs off to the left so the plate itself never moves. */
   .gs-wa {
     position: fixed;
     z-index: 40;
@@ -1100,18 +1124,17 @@ button:focus-visible {
     place-items: center;
     width: 3.25rem;
     height: 3.25rem;
-    background: var(--gs-plane);
-    color: var(--gs-plane-ink);
-    border: 1px solid rgb(255 255 255 / 0.16);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14),
-      0 14px 34px -14px rgb(0 0 0 / 0.9);
+    background: var(--gs-ink);
+    color: var(--gs-canvas);
+    border: 1px solid rgb(255 255 255 / 0.28);
+    box-shadow: 0 14px 34px -14px rgb(0 0 0 / 0.92);
   }
   .gs-wa-mark {
     width: 1.5rem;
     height: 1.5rem;
   }
   .gs-wa:hover .gs-wa-plate {
-    background: var(--gs-lime);
+    background: #f7f5f0;
   }
 
   /* The plate alone is the mark; the tag is its sentence, and it arrives on
@@ -1168,11 +1191,13 @@ button:focus-visible {
 }
 
 /* ============================================================
-   Brand background field — the animated layer behind the glass.
-   One fixed, non-interactive field: a deep radial wash plus one of
-   three CSS-only effects (ripple / wave / orbit), chosen per route
-   by BrandBackground. The gs-card blur frosts whatever drifts
-   behind it, which is the whole point of the skin.
+   Brand background field — the still layer behind the glass.
+   One fixed, non-interactive wash: a graphite gradient, a single soft
+   light above the fold, a perspective grid running to a horizon under
+   it, and fine grain over the whole field.
+   Nothing here moves. The depth the animated mesh used to supply now
+   comes from the planes, the reveals and the shadows, where it reads as
+   craft rather than as a screensaver and stops competing with the copy.
    ============================================================ */
 .brand-bg {
   position: fixed;
@@ -1181,115 +1206,30 @@ button:focus-visible {
   overflow: hidden;
   pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% -12%, #101611 0%, transparent 58%),
-    radial-gradient(90% 70% at 50% 114%, #0e1a12 0%, transparent 55%),
-    #0c0d0c;
+    radial-gradient(110% 80% at 50% -14%, #121814 0%, transparent 60%),
+    radial-gradient(90% 60% at 50% 118%, #10201a 0%, transparent 58%),
+    #0a0b0b;
 }
-.brand-bg-layer {
+
+/* One soft light, high in the frame, so the field is not a flat rectangle.
+   A gradient stop rather than a lamp: nothing drifts behind the type. */
+.brand-bg-wash {
   position: absolute;
   inset: 0;
-  /* grid + centring: harmless for the full-bleed washes, and it is what
-     seats the orbit ring in the middle of the field */
-  display: none;
-  place-items: center;
+  background: radial-gradient(62% 44% at 50% 6%, rgb(28 94 66 / 0.13) 0%, transparent 72%);
 }
 
-/* The canvas plane: a perspective floor under the fold, faded out at both
-   ends so no moving line sits directly behind a headline or a form field. */
-.brand-bg-motion {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 94%, transparent 100%);
-}
-
-/* The footage layer, under everything else and only on the landing page.
-   Two wireframe planes — the film's and the canvas's — would moiré into each
-   other at full strength, so the clip is pre-softened at build time and held
-   at half light here, and the radial mask keeps its rectangle from ever
-   reading as a box. Reduced motion needs no rule: the element is never told
-   to play, so it stays on its poster, which is the same picture. */
-.brand-bg-reel {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(120% 100% at 50% 42%, #000 0%, transparent 78%);
-  mask-image: radial-gradient(120% 100% at 50% 42%, #000 0%, transparent 78%);
-}
-.brand-bg[data-effect='ripple'] .brand-bg-ripple,
-.brand-bg[data-effect='wave'] .brand-bg-wave,
-.brand-bg[data-effect='orbit'] .brand-bg-orbit {
-  display: grid;
-}
-
-/* Ripple: rings expanding from one submerged point, like a drop in dark water. */
-.brand-bg-ripple {
-  background-image:
-    repeating-radial-gradient(circle at 50% 40%, rgb(34 197 94 / 0.1) 0 2px, transparent 2px 15rem),
-    repeating-radial-gradient(circle at 50% 40%, rgb(190 242 100 / 0.05) 0 1px, transparent 1px 9rem);
-  background-size: 200% 200%, 200% 200%;
-  background-position: 50% 50%, 50% 50%;
-  -webkit-mask-image: radial-gradient(85% 75% at 50% 40%, black 0%, transparent 78%);
-  mask-image: radial-gradient(85% 75% at 50% 40%, black 0%, transparent 78%);
-}
-
-/* Wave: broad diagonal light bands sliding under the glass. */
-.brand-bg-wave {
-  background-image: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgb(34 197 94 / 0.08) 18%,
-    transparent 34%,
-    rgb(190 242 100 / 0.05) 52%,
-    transparent 68%,
-    rgb(34 197 94 / 0.07) 84%,
-    transparent 100%
-  );
-  background-size: 260% 100%;
-}
-
-/* Orbit: two glows circling a shared centre, so the edge lighting rotates.
-   The ring is centred by the layer's grid; the rotation carries it around. */
-.brand-bg-orbit-ring {
-  position: relative;
-  width: 72vmax;
-  height: 72vmax;
-}
-.brand-bg-orbit-glow {
-  position: absolute;
-  inset: 26%;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.8;
-}
-.brand-bg-orbit-glow-a {
-  left: auto;
-  right: 0;
-  background: rgb(34 197 94 / 0.42);
-}
-.brand-bg-orbit-glow-b {
-  inset: 30%;
-  left: 0;
-  right: auto;
-  background: rgb(190 242 100 / 0.22);
-}
-
-/* The futuristic field, shared by all three effects: a floor grid running
-   away to a horizon, and a single scanline sweeping down the page. Both sit
-   under the effect layer, so whichever field is chosen keeps the same depth. */
+/* The horizon: a floor grid running away to a vanishing line, masked out at
+   both ends so no rule sits directly behind a headline or a form field.
+   The same construction the animated field drew, laid down once at a
+   fraction of the light. */
 .brand-bg-horizon {
   position: absolute;
   inset: auto 0 0 0;
-  height: 46vh;
+  height: 42vh;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 82%);
-  mask-image: linear-gradient(to top, black 0%, transparent 82%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 80%);
+  mask-image: linear-gradient(to top, black 0%, transparent 80%);
 }
 .brand-bg-horizon::before {
   content: '';
@@ -1299,102 +1239,23 @@ button:focus-visible {
   inset: -60% -25% -25% -25%;
   background-image: repeating-linear-gradient(
       90deg,
-      rgb(34 197 94 / 0.22) 0 1px,
-      transparent 1px 4.5rem
+      rgb(28 94 66 / 0.16) 0 1px,
+      transparent 1px 5.5rem
     ),
-    repeating-linear-gradient(0deg, rgb(190 242 100 / 0.14) 0 1px, transparent 1px 4.5rem);
+    repeating-linear-gradient(0deg, rgb(169 198 168 / 0.06) 0 1px, transparent 1px 5.5rem);
   transform: perspective(420px) rotateX(64deg);
   transform-origin: 50% 100%;
 }
 
-/* Scan: one bright rule falling through the field, with a static fine
-   raster so the sweep has something to travel across. */
-.brand-bg-scan {
+/* Grain, not a raster. Large dark areas read as a printed surface once
+   something breaks the flat black up; an SVG turbulence tile costs a few
+   hundred bytes and never animates. */
+.brand-bg-grain {
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgb(255 255 255 / 0.035) 0 1px,
-    transparent 1px 4px
-  );
-  opacity: 0.55;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.brand-bg-scan::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 34vh;
-  background: linear-gradient(to bottom, transparent, rgb(34 197 94 / 0.13) 72%, var(--gs-plane));
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 96%);
-  mask-image: linear-gradient(to bottom, transparent, black 96%);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .brand-bg-scan::after {
-    animation: brand-bg-scan 9s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  }
-  .brand-bg-horizon::before {
-    animation: brand-bg-horizon 7s linear infinite;
-  }
-}
-@keyframes brand-bg-scan {
-  0% {
-    transform: translate3d(0, -110%, 0);
-    opacity: 0;
-  }
-  12%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(0, 320%, 0);
-    opacity: 0;
-  }
-}
-/* The floor scrolls toward the viewer; one cell of travel per loop, so the
-   grid never visibly jumps. */
-@keyframes brand-bg-horizon {
-  to {
-    background-position: 0 4.5rem;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .brand-bg-ripple {
-    animation: brand-bg-ripple 11s linear infinite;
-  }
-  .brand-bg-wave {
-    animation: brand-bg-wave 24s ease-in-out infinite;
-  }
-  .brand-bg-orbit-ring {
-    animation: brand-bg-orbit 36s linear infinite;
-  }
-}
-@keyframes brand-bg-ripple {
-  from {
-    background-size: 100% 100%, 84% 84%;
-  }
-  to {
-    background-size: 320% 320%, 268% 268%;
-  }
-}
-@keyframes brand-bg-wave {
-  0% {
-    background-position: 0% 0%;
-  }
-  50% {
-    background-position: 100% 0%;
-  }
-  100% {
-    background-position: 0% 0%;
-  }
-}
-@keyframes brand-bg-orbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* ============================================================
    Scroll motion — Lenis (components/brand/ScrollMotion) publishes
    three numbers on <html> and every effect below reads them, so the
@@ -1448,19 +1309,22 @@ html.lenis body {
     opacity: calc(var(--hero-rec, 0) * 0.62);
   }
 
-  /* Momentum lean, in depth. The poster caps tip toward or away from the
-     camera with the fling (up to 5 degrees) and drag 7px behind it, while the
+  /* Momentum lean, in depth. The poster caps tip a couple of degrees toward
+     the camera with the fling and drag a few px behind it, while the
      construction grid slides at its own rate — so a hard scroll separates the
      typography in Z instead of just shifting it. Perspective lives on the
      heading itself, so no wrapper transform is involved and the text stays
-     selectable. --scroll-v decays to zero, which means a settled page is
-     exactly as straight as it was before any of this existed. */
+     selectable. The amplitudes are a third of what they were: type that
+     visibly swings as you scroll fights the reader, type that leans by a
+     degree reads as a physical object. --scroll-v decays to zero, which means
+     a settled page is exactly as straight as it was before any of this
+     existed. */
   .gs-display {
-    transform: perspective(700px) rotateX(calc(var(--scroll-v, 0) * -5deg))
-      translate3d(0, calc(var(--scroll-v, 0) * 7px), 0);
+    transform: perspective(700px) rotateX(calc(var(--scroll-v, 0) * -2deg))
+      translate3d(0, calc(var(--scroll-v, 0) * 4px), 0);
   }
   .gs-grid {
-    transform: translate3d(0, calc(var(--scroll-v, 0) * 22px), 0);
+    transform: translate3d(0, calc(var(--scroll-v, 0) * 10px), 0);
   }
 }
 

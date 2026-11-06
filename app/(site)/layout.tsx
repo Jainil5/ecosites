@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { BrandBackground } from '@/components/brand/BrandBackground';
-import { GooDefs } from '@/components/brand/GooDefs';
 import { LeadTracker } from '@/components/brand/LeadTracker';
 import { ScrollMotion } from '@/components/brand/ScrollMotion';
 import { WhatsAppFab } from '@/components/brand/WhatsAppFab';
@@ -14,10 +13,8 @@ export default function PortfolioLayout({
 }>) {
   return (
     <div className="relative flex min-h-screen flex-col bg-transparent">
-      {/* The animated field the glass cards frost over. */}
+      {/* The still field the glass cards frost over: a wash, a horizon, grain. */}
       <BrandBackground />
-      {/* The gooey layers reference this by id; it must exist once per route. */}
-      <GooDefs />
       {/* Lenis and the scroll-momentum variables the brand effects read. */}
       <ScrollMotion />
       {/* Which enquiry control a visitor actually reached for, by placement. */}

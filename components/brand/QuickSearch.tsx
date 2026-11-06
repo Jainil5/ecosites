@@ -136,7 +136,7 @@ export function QuickSearch({ onClose }: { onClose: () => void }) {
                     </span>
                   </span>
                   {index === active ? (
-                    <CornerDownLeft aria-hidden className="mt-1 h-4 w-4 shrink-0 text-plane" />
+                    <CornerDownLeft aria-hidden className="mt-1 h-4 w-4 shrink-0 text-forest" />
                   ) : (
                     <span className="gs-label mt-1 shrink-0">{row.tag ?? row.href}</span>
                   )}

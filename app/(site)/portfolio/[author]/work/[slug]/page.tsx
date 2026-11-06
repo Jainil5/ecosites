@@ -44,7 +44,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     <article className="space-y-8 pt-12 sm:pt-16">
       <Link
         href={`/portfolio/${author.slug}`}
-        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-plane"
+        className="focus-ring inline-flex w-fit cursor-pointer items-center gap-1.5 rounded font-label text-sm text-ink-2 transition-colors hover:text-forest"
       >
         <ArrowLeft aria-hidden className="h-4 w-4" />
         {author.name}
@@ -53,7 +53,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           {site.category ? (
-            <span className="bg-plane px-3 py-1 font-label text-xs uppercase tracking-widest text-plane-ink">
+            <span className="border border-hairline px-3 py-1 font-label text-xs uppercase tracking-widest text-lime">
               {site.category}
             </span>
           ) : null}
@@ -83,7 +83,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <ul className="mt-4 space-y-3">
             {site.highlights.map((h) => (
               <li key={h} className="flex items-start gap-3 leading-relaxed text-ink-2">
-                <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-plane" />
+                <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-forest" />
                 <span>{h}</span>
               </li>
             ))}

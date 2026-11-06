@@ -117,11 +117,24 @@ describe('the surfaces that show it', () => {
     expect(band).toMatch(/campaign\.period/);
   });
 
-  it('is on the catalogue page, the cards, and the opening screen', () => {
+  it('is on the opening screen, in a band, and at the foot of the feature', () => {
     expect(read('app/(site)/products/page.tsx')).toMatch(/<OfferBand index="04" \/>/);
-    expect(read('components/brand/ProductsGrid.tsx')).toMatch(/<OfferBadge \/>/);
-    expect(read('components/brand/Hero.tsx')).toMatch(/<OfferBadge \/>/);
+    expect(read('components/brand/Hero.tsx')).toMatch(/<OfferNote \/>/);
     expect(read('components/brand/ProductFeature.tsx')).toMatch(/<OfferRibbon \/>/);
+  });
+
+  // A badge per card is retail signage, and it argued with everything around
+  // it. The offer is a sentence now, so nothing may put the rate back on a
+  // sticker or repeat it on a product card.
+  it('is written as a sentence, never stuck on a card', () => {
+    const band = read('components/brand/OfferBand.tsx');
+    expect(band).not.toMatch(/OfferBadge/);
+    expect(band).toMatch(/export function OfferNote/);
+    expect(read('components/brand/ProductsGrid.tsx')).not.toMatch(/Offer/);
+    // The rate keeps its size inside the band, in bone, beside a rule — not on
+    // a filled block of accent colour.
+    expect(band).toMatch(/gs-display text-5xl leading-none text-ink/);
+    expect(band).not.toMatch(/bg-plane|bg-accent/);
   });
 
   it('disappears with the record', () => {

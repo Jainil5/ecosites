@@ -39,11 +39,11 @@ function CardBody({
             <p className="gs-label mt-1">{site.business}</p>
           </div>
           {external ? (
-            <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-plane" />
+            <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-forest" />
           ) : (
             <ArrowUpRight
               aria-hidden
-              className="mt-1 h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-plane"
+              className="mt-1 h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-forest"
             />
           )}
         </div>

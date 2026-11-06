@@ -33,7 +33,7 @@ function RowMarker({ row }: { row: NavRow }) {
       />
     );
   }
-  return <span aria-hidden className="mt-2 inline-block h-1.5 w-1.5 shrink-0 bg-plane" />;
+  return <span aria-hidden className="mt-2 inline-block h-1.5 w-1.5 shrink-0 bg-forest" />;
 }
 
 function DropdownRow({ row, onPick }: { row: NavRow; onPick: () => void }) {
@@ -109,8 +109,9 @@ function PanelFooter({ row, onPick }: { row: NavRow; onPick: () => void }) {
 
 export function Navbar() {
   const pathname = usePathname();
-  // The bar is a floating glass card from first paint — on this skin the
-  // animated field has to stay visible around it, so it never waits for a scroll.
+  // The bar carries its own body: content scrolls under a sticky card of frosted
+  // glass, and a headline showing through the nav reads as a defect, not depth.
+  // So it is darker and less transparent than the cards on the page.
   const [open, setOpen] = useState<string | null>(null);
   const [sheet, setSheet] = useState(false);
   const [search, setSearch] = useState(false);
@@ -147,16 +148,16 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:pt-5">
+    <header className="gs-shell sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:pt-5">
       <div ref={barRef} className="relative mx-auto max-w-7xl">
         <nav
           aria-label="Primary"
-          className="gs-card flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4"
+          className="gs-bar flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4"
         >
           <div className="flex min-w-0 items-center gap-4">
             <Link
               href="/"
-              className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-display text-base font-extrabold uppercase tracking-tight text-ink"
+              className="focus-ring inline-flex min-h-10 items-center gap-2 rounded font-display text-sm font-extrabold uppercase leading-[1.15] tracking-tight text-ink sm:text-base sm:leading-normal"
             >
               <Logo className="h-5 w-5 text-accent" />
               <Wordmark />

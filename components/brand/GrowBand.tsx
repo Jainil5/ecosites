@@ -54,7 +54,7 @@ export function GrowBand() {
             ))}
           </ul>
 
-          <p className="gs-label mt-5 text-plane">{company.badge}</p>
+          <p className="gs-label mt-5 text-forest">{company.badge}</p>
         </div>
 
         {/* The brand mark planted and grown: the same circuit tree, drawn

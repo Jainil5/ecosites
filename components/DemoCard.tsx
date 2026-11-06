@@ -42,7 +42,7 @@ export function DemoCard({ site }: DemoCardProps) {
             <h3 className="gs-display text-lg">{site.title}</h3>
             <ArrowUpRight
               aria-hidden
-              className="mt-1 h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-plane"
+              className="mt-1 h-4 w-4 shrink-0 text-ink-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-forest"
             />
           </div>
           <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-ink-2">
