@@ -2,19 +2,22 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { LineReveal } from '@/components/brand/LineReveal';
 import { company } from '@/content/brand/company';
-import { campaign, endsOnLabel, offerLabel } from '@/content/brand/campaign';
+import { campaign, offerLabel } from '@/content/brand/campaign';
 import { whatsappHrefMessage } from '@/content/brand/links';
 
 /**
  * The campaign, in three weights. All three read the same record in
  * `content/brand/campaign.ts`, so the note on the landing page, the line at
  * the foot of a band and the announcement on the catalogue can never disagree
- * about the rate, the scope or the closing date. When the campaign is switched
- * off every one of them renders nothing.
+ * about the rate or the scope. When the campaign is switched off every one of
+ * them renders nothing.
  *
  * None of them is a sticker any more. A discount badge on every card is
  * retail signage, and it argued with the rest of the page; the offer is now
  * written as a sentence, in the same type weight as the sentence beside it.
+ * And it carries no date: the offer is open for a limited time, and the ask
+ * is a conversation. The button walks to the page that takes a brief; the
+ * secondary action starts the same conversation in a chat window.
  */
 
 /** One sentence, for a page that has an offer but is not a sale. */
@@ -22,13 +25,13 @@ export function OfferNote() {
   if (!campaign) return null;
   return (
     <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-3">
+      {offerLabel(campaign.percent)} {campaign.subject} {campaign.period}.{' '}
       <Link
-        href="/products#offer"
+        href={campaign.ctaHref}
         className="text-ink underline decoration-hairline underline-offset-4 transition-colors hover:decoration-forest"
       >
-        {offerLabel(campaign.percent)} {campaign.subject} {campaign.period}
+        Contact us
       </Link>
-      , on any brief that reaches us before {endsOnLabel(campaign.endsOn)}.
     </p>
   );
 }
@@ -41,20 +44,16 @@ export function OfferRibbon() {
       <p className="max-w-xl text-sm leading-relaxed text-ink-2">
         <span className="text-ink">{offerLabel(campaign.percent)}</span> {campaign.subject},{' '}
         {campaign.period} — then the standard rate, agreed before the first month rather than after
-        it. The plan is monthly either way: the work does not stop the day the system goes live. Any
-        brief that reaches us before <span className="text-ink">{endsOnLabel(campaign.endsOn)}</span>{' '}
-        starts at this rate.
+        it. The plan is monthly either way: the work does not stop the day the system goes live.
       </p>
-      <a
-        href={whatsappHrefMessage(company.contact, campaign.whatsappMessage)}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href={campaign.ctaHref}
         data-cta="offer-ribbon"
         className="focus-ring gs-btn gs-btn-sm gs-btn-ghost shrink-0"
       >
         {campaign.cta}
         <ArrowRight aria-hidden className="h-4 w-4" />
-      </a>
+      </Link>
     </div>
   );
 }
@@ -94,7 +93,7 @@ export function OfferBand({ index }: OfferBandProps) {
             <br />
             {campaign.period}
             <br />
-            <span className="text-ink-2">closes {endsOnLabel(campaign.endsOn)}</span>
+            <span className="text-ink-2">while it is open — the ask is a conversation</span>
           </span>
         </div>
 
@@ -107,19 +106,22 @@ export function OfferBand({ index }: OfferBandProps) {
         </ul>
 
         <div className="mt-9 flex flex-wrap gap-3">
-          <a
-            href={whatsappHrefMessage(company.contact, campaign.whatsappMessage)}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={campaign.ctaHref}
             data-cta="offer-band"
             className="focus-ring gs-btn gs-btn-solid"
           >
             {campaign.cta}
             <ArrowRight aria-hidden className="h-4 w-4" />
-          </a>
-          <Link href="/contact" className="focus-ring gs-btn gs-btn-ghost">
-            Send the brief by mail
           </Link>
+          <a
+            href={whatsappHrefMessage(company.contact, campaign.whatsappMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring gs-btn gs-btn-ghost"
+          >
+            Start it on WhatsApp
+          </a>
         </div>
       </div>
     </section>

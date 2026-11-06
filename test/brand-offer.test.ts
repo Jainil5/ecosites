@@ -1,13 +1,12 @@
 // test/brand-offer.test.ts
 //
 // A discount is a promise about money, so it is the one piece of marketing
-// copy that cannot be allowed to drift: the rate, what it comes off, how long
-// it holds and the closing date have to read the same everywhere, and they
-// have to stay true after the campaign ends. Everything below is a guard on
-// that record — and on the monthly relationship the record now offers.
+// copy that cannot be allowed to drift: the rate, what it comes off and how
+// long it holds have to read the same everywhere. Everything below is a guard
+// on that record — and on the monthly relationship the record offers.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { campaign, endsOnLabel, offerLabel } from '@/content/brand/campaign';
+import { campaign, offerLabel } from '@/content/brand/campaign';
 import { engagement } from '@/content/brand/solutions';
 import { processSteps } from '@/content/brand/process';
 import { pillars, whyPoints } from '@/content/brand/whyus';
@@ -22,13 +21,10 @@ describe('the campaign record', () => {
     }
     expect(campaign.percent).toBeGreaterThan(0);
     expect(campaign.percent).toBeLessThan(100);
-    expect(campaign.endsOn).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    // A date left on the books after it passed would keep advertising an expired
-    // offer on every page until somebody noticed. This test is the somebody.
-    expect(
-      new Date(`${campaign.endsOn}T23:59:59`).getTime(),
-      `offer closed on ${campaign.endsOn} — set campaign to null or move the date`,
-    ).toBeGreaterThanOrEqual(Date.now());
+    // A closing date is a promise somebody has to keep policing, and every
+    // page that prints it keeps advertising an expired offer the day it
+    // passes. There is no deadline field to forget to switch off.
+    expect(campaign).not.toHaveProperty('endsOn');
   });
 
   it('never lets the prose contradict the number', () => {
@@ -89,11 +85,26 @@ describe('the campaign record', () => {
     expect(text).not.toMatch(/₹|Rs\.?\s*\d|starting at|price[d]? from/i);
   });
 
-  it('reads as a date a person can check, not a countdown', () => {
+  // No date and no timer: the offer says it is open for a limited time and the
+  // next move is a conversation, so nothing here can go stale on its own.
+  it('carries no date and no countdown', () => {
     const band = read('components/brand/OfferBand.tsx');
     expect(band).not.toMatch(/setInterval|setTimeout|requestAnimationFrame|Date\.now/);
-    expect(endsOnLabel('2026-11-30')).toMatch(/^30 \w+ 2026$/);
+    expect(band).not.toMatch(/endsOnLabel|closes|deadline|ends on/i);
     expect(offerLabel(50)).toBe('50% off');
+  });
+
+  // "50% off for a limited time" is only an offer if the reader is told where
+  // to take it, and the page that takes a brief is the only place to go.
+  it('routes every offer action to the page that takes a brief', () => {
+    if (!campaign) return;
+    expect(campaign.cta).toBe('Contact us');
+    expect(campaign.ctaHref).toBe('/contact');
+    const band = read('components/brand/OfferBand.tsx');
+    expect(band).toMatch(/href=\{campaign\.ctaHref\}/);
+    // The record's href is used, never a hard-coded route: change the
+    // destination in one place and all three surfaces follow it.
+    expect(band).not.toMatch(/href="\/contact"/);
   });
 });
 
@@ -101,7 +112,6 @@ describe('the surfaces that show it', () => {
   it('all of them render from the record and write no number of their own', () => {
     const band = read('components/brand/OfferBand.tsx');
     expect(band).toMatch(/campaign\.percent/);
-    expect(band).toMatch(/endsOnLabel\(campaign\.endsOn\)/);
     expect(band).toMatch(/whatsappHrefMessage\(company\.contact, campaign\.whatsappMessage\)/);
     // Not one literal percentage in the component that draws the offer.
     expect(band).not.toMatch(/\d{1,3}\s*%/);
