@@ -17,7 +17,7 @@ export const audiences: Audience[] = [
     campaign: 'Grow Online.',
     headline: 'A professional online presence that turns searches into customers.',
     pitch:
-      'Get found, get understood, get contacted. Websites, digital menus and catalogues, enquiry and booking flows — and a monthly plan that keeps them running — for shops, clinics and local service providers.',
+      'Get found, get understood, get contacted. Websites, digital menus and catalogues, enquiry and booking flows, an agent that answers the same ten questions at midnight — and a monthly plan that keeps them running — for shops, clinics and local service providers.',
     path: '/local-business',
     cta: 'Get Your Business Online',
   },
@@ -27,7 +27,7 @@ export const audiences: Audience[] = [
     campaign: 'Build Smarter.',
     headline: 'Software, data and AI systems that make your team more effective.',
     pitch:
-      'Custom applications, business dashboards, data pipelines, automation and AI integrations — engineered around your business problem, not a template.',
+      'Custom applications, mobile apps for the field, business dashboards, data pipelines, automation and AI agents — engineered around your business problem, not a template, and run by the team that built it.',
     path: '/enterprise',
     cta: 'Discuss Your Project',
   },

@@ -2,14 +2,14 @@ import type { Company } from './types';
 
 export const company: Company = {
   name: 'Website & Intelligence',
-  tagline: 'Technology for Every Business.',
+  tagline: 'Any Idea, Online.',
   pitch:
-    'From your first business website to intelligent software, data and AI workflows — practical digital solutions that help businesses get found, run smoother, understand their numbers and grow smarter as they scale. Start with what you need today. Add more as your business grows.',
-  badge: 'Web, Software & AI',
+    'An AI-first tech team for any business, big or small. Websites, mobile applications, AI agents and automations — with the software and the backend behind them — so an idea is online and working in days, with no hiring and nothing to buy.',
+  badge: 'AI-First Web & Tech Team',
   contact: {
     email: 'mail.websitein@gmail.com',
     phone: '8238889347',
     phoneDisplay: '+91 82388 89347',
-    whatsappMessage: 'Hi Website & Intelligence! I would like a website for my business.',
+    whatsappMessage: 'Hi Website & Intelligence! Here is my idea — I would like it online: ',
   },
 };

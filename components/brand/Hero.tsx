@@ -81,7 +81,7 @@ export function Hero() {
           delay={140}
           from={{ x: '20vw', r: '5deg' }}
           className="gs-plane-b hidden lg:block"
-          style={{ top: '2%', right: '0%', width: 'min(38vw, 32rem)', height: 'min(20vw, 17rem)' }}
+          style={{ top: '0%', left: '30%', width: 'min(32vw, 27rem)', height: 'min(17vw, 14rem)' }}
         />
         <Plane
           pz={-70}
@@ -90,7 +90,7 @@ export function Hero() {
           rot={1.8}
           from={{ x: '-10vw', y: '-7vh', r: '-6deg' }}
           className="gs-plane-a hidden lg:block"
-          style={{ top: '9%', left: '27%', width: 'min(20vw, 17rem)', height: 'min(13vw, 11rem)' }}
+          style={{ top: '15%', left: '47%', width: 'min(15vw, 12rem)', height: 'min(10vw, 8rem)' }}
         />
         {/* The closest plane still sits *behind* the type (negative Z): all the
             motion stays in the background, and the caps always read first. */}
@@ -106,13 +106,14 @@ export function Hero() {
         />
 
         <div className="relative grid gap-x-16 gap-y-10 lg:grid-cols-[1.05fr_0.95fr]">
-          {/* The manifesto takes the whole stage: two phrases, each on its own
-              line, at a size derived from the measure. Set inside the left
-              column it had no chance — 9.36em of poster caps do not fit in
-              613px, and the lines broke into stacked single words. */}
+          {/* The manifesto takes the whole stage: the tagline in two phrases,
+              each on its own line, at a size derived from the measure. Set
+              inside the left column it had no chance — 5.03em of poster caps
+              do not fit in 613px, and the lines broke into stacked single
+              words. */}
           <div className="lg:col-span-2">
             <p className="gs-label gs-caps-rise">
-              <span className="gs-label-hot">web</span> · software · data · ai
+              <span className="gs-label-hot">ai-first</span> · web · mobile · agents
             </p>
 
             <h1 className="gs-display gs-hero-title mt-4">
@@ -120,13 +121,13 @@ export function Hero() {
                 className="gs-hero-line block gs-caps-rise"
                 style={{ '--d': '120ms' } as CSSProperties}
               >
-                <GlyphScramble text="Technology for" />
+                <GlyphScramble text="Any Idea," />
               </span>
               <span
                 className="gs-hero-line block gs-caps-rise"
                 style={{ '--d': '220ms' } as CSSProperties}
               >
-                <GlyphScramble text="Every Business" duration={760} />
+                <GlyphScramble text="Online" duration={760} />
                 <span className="text-forest">.</span>
               </span>
             </h1>
@@ -137,8 +138,9 @@ export function Hero() {
               className="gs-caps-rise max-w-xl text-lg leading-relaxed text-balance text-ink-2"
               style={{ '--d': '380ms' } as CSSProperties}
             >
-              From your first business website to intelligent software and AI-powered
-              workflows, we help you build the digital tools your business needs to grow.
+              Tell us the idea and it goes online — a website, an app, an agent that answers your
+              customers, an automation that runs a process. We work as your tech team, so nobody
+              here has to be hired and nothing here has to be bought.
             </p>
 
             <div className="gs-caps-rise" style={{ '--d': '480ms' } as CSSProperties}>

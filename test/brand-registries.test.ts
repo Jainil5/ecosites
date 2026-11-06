@@ -210,8 +210,8 @@ describe('IA registries', () => {
     expect(audiences.map((a) => a.campaign)).toEqual(['Grow Online.', 'Build Smarter.']);
   });
 
-  it('has seven capabilities, eight industries and five solutions with unique slugs', () => {
-    expect(capabilities).toHaveLength(7);
+  it('has eight capabilities, eight industries and five solutions with unique slugs', () => {
+    expect(capabilities).toHaveLength(8);
     expect(industries).toHaveLength(8);
     expect(solutions).toHaveLength(5);
     for (const list of [capabilities, industries, solutions]) {

@@ -5,8 +5,9 @@ export interface WhyPoint {
 
 export const whyPoints: WhyPoint[] = [
   {
-    title: 'One partner, multiple capabilities',
-    detail: 'Web, software, data and AI under one roof.',
+    title: 'One team, every layer',
+    detail:
+      'Website, mobile app, agent, automation and the backend underneath it — an AI-first team, not four vendors.',
   },
   {
     title: 'A right-sized approach',
@@ -19,8 +20,7 @@ export const whyPoints: WhyPoint[] = [
   },
   {
     title: 'Practical outcomes',
-    detail:
-      'Focus on customer experience, efficiency, visibility, and better decisions.',
+    detail: 'Found by customers, run without spreadsheets, decided on real numbers.',
   },
   {
     title: 'Clear communication',
@@ -45,7 +45,8 @@ export const pillars: WhyPoint[] = [
   },
   {
     title: 'Intelligence with purpose',
-    detail: 'Use data and AI where they create a practical benefit.',
+    detail:
+      'Data and AI where they create a practical benefit — the records you already keep are the asset.',
   },
   {
     title: 'Long-term partnership',

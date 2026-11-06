@@ -5,17 +5,17 @@ import { ContactCta } from '@/components/brand/ContactCta';
 import { PageHeader } from '@/components/brand/PageHeader';
 import { ServicesGrid } from '@/components/brand/ServicesGrid';
 import { audiences } from '@/content/brand/audiences';
+import { capabilities } from '@/content/brand/capabilities';
 
 export const metadata: Metadata = {
   title: 'Services',
-  description:
-    'Six capabilities — websites, digital commerce, business software, data and analytics, AI and automation, cloud and integrations — combined into a solution designed around your business.',
+  description: `${capabilities.length} capabilities — websites, mobile applications, commerce, business software, operations, data, AI agents and cloud — combined into a solution designed around your business.`,
 };
 
 export default function ServicesPage() {
   return (
     <div className="space-y-20 pt-12 sm:pt-16">
-      <PageHeader index="03" label="services" title="The right technology for your next stage.">
+      <PageHeader index="03" label="services" title="What we build, and what we run.">
         Choose a focused service or combine capabilities into a solution designed around
         your business. Every capability below is something we actually build — the work
         page shows what that looks like.
@@ -50,8 +50,8 @@ export default function ServicesPage() {
         <span aria-hidden className="gs-grid opacity-20" />
         <div className="relative mx-auto max-w-7xl px-6">
           <PageHeader index="06" label="next step" title="Send one message. We reply the same day.">
-            Tell us the business and the problem — we will tell you which of the six
-            capabilities you actually need, and what step one looks like.
+            Tell us the business and the problem — we will tell you which of the{' '}
+            {capabilities.length} capabilities you actually need, and what step one looks like.
           </PageHeader>
           <ContactCta />
         </div>

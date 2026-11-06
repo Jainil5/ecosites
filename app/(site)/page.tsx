@@ -29,9 +29,9 @@ export default function HomePage() {
         heading={{
           index: '02',
           label: 'services',
-          title: 'The right technology for your next stage.',
+          title: 'What we build, and what we run.',
           intro:
-            'Choose a focused service or combine capabilities into a solution designed around your business.',
+            'Websites, mobile applications, AI agents and automations, the software and the backend behind them. Choose one service, or let the same team run the whole stack.',
         }}
       />
 
@@ -61,8 +61,9 @@ export default function HomePage() {
             Let&apos;s build what your business needs next.
           </h2>
           <p className="mt-5 max-w-xl leading-relaxed text-ink-2">
-            Whether you need a website, a business system, a dashboard, or an AI
-            solution, start with a conversation about the problem you want to solve.
+            A website, a mobile app, a business system, a dashboard, an agent that answers and
+            sells for you — start with a conversation about the problem, and we will tell you what
+            it takes. No hiring, no hardware: the team is already here.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/contact" className="focus-ring gs-btn gs-btn-solid">

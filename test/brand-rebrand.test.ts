@@ -17,9 +17,30 @@ function* files(dir: string): Generator<string> {
 describe('Website & Intelligence rename', () => {
   it('carries the new brand fields', () => {
     expect(company.name).toBe('Website & Intelligence');
-    expect(company.tagline).toBe('Technology for Every Business.');
-    expect(company.badge).toBe('Web, Software & AI');
+    expect(company.tagline).toBe('Any Idea, Online.');
+    expect(company.badge).toBe('AI-First Web & Tech Team');
     expect(company.contact.whatsappMessage).toContain('Website & Intelligence');
+  });
+
+  // The positioning is the claim, so it is checked as a claim: an AI-first
+  // agency has to say AI-first somewhere a crawler reads it, and it has to say
+  // who it is for — any size of business, not one kind of shop.
+  it('states the AI-first positioning in the registry', () => {
+    expect(company.badge.toLowerCase()).toContain('ai-first');
+    expect(company.pitch.toLowerCase()).toContain('ai-first');
+    for (const layer of ['mobile application', 'agent', 'automation', 'backend']) {
+      expect(company.pitch.toLowerCase(), layer).toContain(layer);
+    }
+  });
+
+  // The poster headline is the tagline, typeset in two phrases. It used to be
+  // retyped in the hero, which is how a tagline change left the old one on the
+  // opening screen. One split, one guard.
+  it('sets the hero headline from the tagline', () => {
+    const hero = readFileSync('components/brand/Hero.tsx', 'utf8');
+    const phrases = [...hero.matchAll(/<GlyphScramble text="([^"]+)"/g)].map((m) => m[1]);
+    expect(phrases).toHaveLength(2);
+    expect(`${phrases[0]} ${phrases[1]}.`).toBe(company.tagline);
   });
 
   it('leaves no trace of the old name in rendered sources', () => {
