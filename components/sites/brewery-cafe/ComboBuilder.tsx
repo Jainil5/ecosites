@@ -73,30 +73,30 @@ function MiniBarrel({ label, items, selected, onSelect }: MiniBarrelProps) {
   }, [n, spinTo]);
 
   return (
-    <div className="cc-combo-wheel" role="listbox" aria-label={label}>
-      <p className="cc-display cc-combo-wheel-label">{label}</p>
-      <div className="cc-combo-stage" style={{ '--n': n } as CSSProperties}>
-        <ul ref={ringRef} className="cc-barrel-ring cc-combo-ring">
+    <div className="bc-combo-wheel" role="listbox" aria-label={label}>
+      <p className="bc-display bc-combo-wheel-label">{label}</p>
+      <div className="bc-combo-stage" style={{ '--n': n } as CSSProperties}>
+        <ul ref={ringRef} className="bc-barrel-ring bc-combo-ring">
           {items.map((item, i) => (
             <li
               key={item.id}
-              className="cc-barrel-slot cc-combo-slot"
+              className="bc-barrel-slot bc-combo-slot"
               style={{ '--a': `${(i * step).toFixed(3)}deg` } as CSSProperties}
             >
               <button
                 type="button"
                 role="option"
                 aria-selected={i === selected}
-                className="cc-barrel-card cc-combo-card"
+                className="bc-barrel-card bc-combo-card"
                 data-active={i === selected ? 'true' : 'false'}
                 onClick={() => spinTo(i)}
               >
-                <span className="cc-barrel-img">
+                <span className="bc-barrel-img">
                   <Image src={item.src} alt="" width={280} height={280} sizes="140px" className="!h-full !w-full object-cover" />
                 </span>
-                <span className="cc-barrel-cap">
-                  <span className="cc-barrel-name">{item.name}</span>
-                  <span className="cc-barrel-price">{item.price}</span>
+                <span className="bc-barrel-cap">
+                  <span className="bc-barrel-name">{item.name}</span>
+                  <span className="bc-barrel-price">{item.price}</span>
                 </span>
               </button>
             </li>
@@ -125,30 +125,30 @@ export function ComboBuilder({ dispatch }: ComboBuilderProps) {
   };
 
   return (
-    <div className="cc-combo" aria-label="Build your combo">
-      <div className="cc-combo-header">
-        <h3 className="cc-display text-2xl text-[var(--cc-paper)]">Pick your perfect pair</h3>
+    <div className="bc-combo" aria-label="Build your combo">
+      <div className="bc-combo-header">
+        <h3 className="bc-display text-2xl text-[var(--bc-paper)]">Pick your perfect pair</h3>
         <p className="text-sm text-[rgba(251,244,233,0.72)]">
           Spin each wheel to settle on a coffee and a plate, then put the pair on your tray in one go.
         </p>
       </div>
 
-      <div className="cc-combo-wheels">
+      <div className="bc-combo-wheels">
         <MiniBarrel label="Coffee" items={coffeeItems} selected={coffeeIdx} onSelect={setCoffeeIdx} />
-        <span className="cc-combo-plus" aria-hidden>+</span>
+        <span className="bc-combo-plus" aria-hidden>+</span>
         <MiniBarrel label="Food" items={foodItems} selected={foodIdx} onSelect={setFoodIdx} />
       </div>
 
-      <div className="cc-combo-summary">
-        <div className="cc-combo-pair">
+      <div className="bc-combo-summary">
+        <div className="bc-combo-pair">
           <span>{coffee.name}</span>
-          <span className="cc-combo-sep" aria-hidden>+</span>
+          <span className="bc-combo-sep" aria-hidden>+</span>
           <span>{food.name}</span>
         </div>
-        <div className="cc-combo-price">
-          <span className="cc-display cc-combo-now">{inr(comboPrice)}</span>
+        <div className="bc-combo-price">
+          <span className="bc-display bc-combo-now">{inr(comboPrice)}</span>
         </div>
-        <button type="button" className="cc-btn cc-btn-solid cc-combo-add" onClick={addCombo}>
+        <button type="button" className="bc-btn bc-btn-solid bc-combo-add" onClick={addCombo}>
           Add combo to order
         </button>
       </div>

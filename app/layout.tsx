@@ -15,7 +15,7 @@ const display = Archivo({
 });
 
 // Brand-scoped mono. This deliberately does NOT replace --font-mono:
-// 13 screener files read font-mono, and Coffee Cups's .cc-display inherits
+// 13 screener files read font-mono, and Brewery Cafe's .bc-display inherits
 // var(--font-sans) at weight 800.
 const label = Geist_Mono({
   subsets: ['latin'],

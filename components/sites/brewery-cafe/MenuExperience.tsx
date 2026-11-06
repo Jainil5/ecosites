@@ -20,14 +20,14 @@ const allItems = menuGroups.flatMap((group) =>
 
 function MenuStar({ label }: { label: string }) {
   return (
-    <span className="cc-card-star" aria-hidden>
-      <svg viewBox="0 0 24 24" className="cc-star-icon" aria-hidden>
+    <span className="bc-card-star" aria-hidden>
+      <svg viewBox="0 0 24 24" className="bc-star-icon" aria-hidden>
         <path
           d="M12 2.6l2.6 6 6.4.6-4.8 4.3 1.4 6.3L12 16.6 6.4 19.8l1.4-6.3L3 9.2l6.4-.6z"
           fill="currentColor"
         />
       </svg>
-      <span className="cc-card-star-label">{label}</span>
+      <span className="bc-card-star-label">{label}</span>
     </span>
   );
 }
@@ -81,17 +81,17 @@ export function MenuExperience() {
   ];
 
   return (
-    <section id="menu" aria-label="The menu" className="cc-menu relative scroll-mt-20">
-      <div aria-hidden className="cc-pick-wash" />
-      <div aria-hidden className="cc-stains" />
-      <div aria-hidden className="cc-beans" />
+    <section id="menu" aria-label="The menu" className="bc-menu relative scroll-mt-20">
+      <div aria-hidden className="bc-pick-wash" />
+      <div aria-hidden className="bc-stains" />
+      <div aria-hidden className="bc-beans" />
       <BeansField />
-      <div aria-hidden className="cc-hero-grain absolute inset-0" />
+      <div aria-hidden className="bc-hero-grain absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:pt-14">
         <h2 className="sr-only">The whole menu, straight up</h2>
         <Reveal>
-          <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
+          <p className="bc-display text-[11px] uppercase tracking-[0.26em] text-[rgba(251,244,233,0.78)]">
             The whole menu, straight up
           </p>
         </Reveal>
@@ -100,15 +100,15 @@ export function MenuExperience() {
           <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
             <div className="min-w-0">
               <Reveal>
-                <div className="cc-tab-row">
-                  <div className="cc-cat-tabs" role="tablist" aria-label="Menu section">
+                <div className="bc-tab-row">
+                  <div className="bc-cat-tabs" role="tablist" aria-label="Menu section">
                     <button
                       type="button"
                       role="tab"
-                      id="cc-tab-all"
+                      id="bc-tab-all"
                       aria-selected={cat === 'all'}
-                      aria-controls="cc-menu-board"
-                      className="cc-display cc-cat-tab"
+                      aria-controls="bc-menu-board"
+                      className="bc-display bc-cat-tab"
                       onClick={() => setCat('all')}
                     >
                       All
@@ -118,10 +118,10 @@ export function MenuExperience() {
                         key={g.id}
                         type="button"
                         role="tab"
-                        id={`cc-tab-${g.id}`}
+                        id={`bc-tab-${g.id}`}
                         aria-selected={cat === g.id}
-                        aria-controls="cc-menu-board"
-                        className="cc-display cc-cat-tab"
+                        aria-controls="bc-menu-board"
+                        className="bc-display bc-cat-tab"
                         onClick={() => setCat(g.id)}
                       >
                         {g.title}
@@ -130,19 +130,19 @@ export function MenuExperience() {
                     <button
                       type="button"
                       role="tab"
-                      id="cc-tab-combo"
+                      id="bc-tab-combo"
                       aria-selected={cat === 'combo'}
-                      aria-controls="cc-menu-board"
-                      className="cc-display cc-cat-tab"
+                      aria-controls="bc-menu-board"
+                      className="bc-display bc-cat-tab"
                       onClick={() => setCat('combo')}
                     >
                       Combo
                     </button>
                   </div>
-                  <div className="cc-mode" role="group" aria-label="Menu style">
+                  <div className="bc-mode" role="group" aria-label="Menu style">
                     <span
                       aria-hidden
-                      className="cc-mode-pill"
+                      className="bc-mode-pill"
                       style={{ '--pos': mode === 'genz' ? 0 : 1 } as CSSProperties}
                     />
                     {(['genz', 'trad'] as const).map((m) => (
@@ -150,7 +150,7 @@ export function MenuExperience() {
                         key={m}
                         type="button"
                         aria-pressed={m === mode}
-                        className="cc-display cc-mode-btn"
+                        className="bc-display bc-mode-btn"
                         onClick={() => setMode(m)}
                       >
                         {m === 'genz' ? 'Gen Z' : 'Traditional'}
@@ -161,27 +161,27 @@ export function MenuExperience() {
               </Reveal>
 
               <div
-                id="cc-menu-board"
+                id="bc-menu-board"
                 role="tabpanel"
-                aria-labelledby={`cc-tab-${cat}`}
+                aria-labelledby={`bc-tab-${cat}`}
               >
                 <Reveal>
                   {mode === 'trad' ? (
-                    <div className="cc-menu-list">
+                    <div className="bc-menu-list">
                     {tabGroups
                       .filter((g) => cat === 'all' || g.id === cat)
                       .map((group) => (
                         <section key={group.id} aria-label={group.title}>
-                          <h2 className="cc-serif cc-list-heading">{group.title}</h2>
+                          <h2 className="bc-serif bc-list-heading">{group.title}</h2>
                           {group.items.map((item) => (
                             <button
                               key={item.id}
                               type="button"
-                              className="cc-list-row"
+                              className="bc-list-row"
                               onClick={() => setOpenedId(item.id)}
                               aria-label={`${item.name}, ${item.price}, ${group.title}. Open for details`}
                             >
-                              <span className="cc-list-thumb">
+                              <span className="bc-list-thumb">
                                 <Image
                                   src={item.src}
                                   alt=""
@@ -190,38 +190,38 @@ export function MenuExperience() {
                                   className="!h-full !w-full object-cover"
                                 />
                               </span>
-                              <span className="cc-list-name">{item.name}</span>
+                              <span className="bc-list-name">{item.name}</span>
                               {isRecommended(item) ? (
-                                <span className="cc-list-star" aria-hidden>
+                                <span className="bc-list-star" aria-hidden>
                                   ★
                                 </span>
                               ) : null}
-                              <span className="cc-list-leader" aria-hidden />
+                              <span className="bc-list-leader" aria-hidden />
                               {cartQtyForItem(cart, item.id) ? (
-                                <span className="cc-list-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                                <span className="bc-list-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
                                   {cartQtyForItem(cart, item.id)}
                                 </span>
                               ) : null}
-                              <span className="cc-list-price">{item.price}</span>
+                              <span className="bc-list-price">{item.price}</span>
                             </button>
                           ))}
                         </section>
                       ))}
                   </div>
                 ) : cat === 'all' ? (
-                  <div className="cc-square-grid">
+                  <div className="bc-square-grid">
                   {visible.map(({ item, groupTitle }, i) => (
                     <button
                       key={item.id}
                       type="button"
-                      className="cc-tile"
+                      className="bc-tile"
                       style={{ '--i': i } as CSSProperties}
                       onClick={() => setOpenedId(item.id)}
                       onPointerMove={tiltTo}
                       onPointerLeave={untilt}
                       aria-label={`${item.name}, ${item.price}, ${groupTitle}. Open for details`}
                     >
-                      <span className="cc-tile-img">
+                      <span className="bc-tile-img">
                         <Image
                           src={item.src}
                           alt=""
@@ -233,14 +233,14 @@ export function MenuExperience() {
                         />
                       </span>
                       {isRecommended(item) ? <MenuStar label={item.badge ?? 'House pick'} /> : null}
-                      <span className="cc-tile-cat">{groupTitle}</span>
-                      <span className="cc-tile-cap">
-                        <span className="cc-tile-name">{item.name}</span>
-                        <span className="cc-tile-price">{item.price}</span>
-                        <span className="cc-tile-note">{item.note}</span>
+                      <span className="bc-tile-cat">{groupTitle}</span>
+                      <span className="bc-tile-cap">
+                        <span className="bc-tile-name">{item.name}</span>
+                        <span className="bc-tile-price">{item.price}</span>
+                        <span className="bc-tile-note">{item.note}</span>
                       </span>
                       {cartQtyForItem(cart, item.id) ? (
-                        <span className="cc-tile-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                        <span className="bc-tile-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
                           {cartQtyForItem(cart, item.id)}
                         </span>
                       ) : null}
@@ -264,12 +264,12 @@ export function MenuExperience() {
               </div>
 
               <Reveal delay={80}>
-                <div className="cc-menu-foot">
+                <div className="bc-menu-foot">
                   <div className="flex flex-wrap gap-3">
-                    <a href="/coffee-cups#visit" className="focus-ring cc-btn cc-btn-cream">
+                    <a href="/brewery-cafe#visit" className="focus-ring bc-btn bc-btn-cream">
                       Find the door
                     </a>
-                    <a href="/coffee-cups#room" className="focus-ring cc-btn cc-btn-ghost">
+                    <a href="/brewery-cafe#room" className="focus-ring bc-btn bc-btn-ghost">
                       See the room
                     </a>
                   </div>

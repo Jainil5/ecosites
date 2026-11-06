@@ -68,9 +68,9 @@ describe('rankItems', () => {
     expect(r[1]).toEqual({ name: 'Bagel', qty: 0, revenue: 0 });
   });
   it('carries the menu photo through for dashboard thumbnails', () => {
-    const withSrc = [{ ...menu[0], src: '/coffee-cups/menu/a.jpg' }];
+    const withSrc = [{ ...menu[0], src: '/brewery-cafe/menu/a.jpg' }];
     const r = rankItems([o({})], withSrc);
-    expect(r[0].src).toBe('/coffee-cups/menu/a.jpg');
+    expect(r[0].src).toBe('/brewery-cafe/menu/a.jpg');
   });
 });
 
@@ -247,15 +247,15 @@ describe('itemSeries and itemStats', () => {
 describe('reportCsv', () => {
   const rows = revenueByDay([o({ createdAt: '2026-10-16T10:00:00Z' })], '2026-10-16', '2026-10-17');
   it('prints a header, one line per day and a total', () => {
-    const csv = reportCsv(rows, 'Coffee Cups', 'All categories');
+    const csv = reportCsv(rows, 'Brewery Cafe', 'All categories');
     const lines = csv.split('\n');
-    expect(lines[0]).toBe('# Coffee Cups — All categories');
+    expect(lines[0]).toBe('# Brewery Cafe — All categories');
     expect(lines[1]).toBe('date,revenue,bills');
     expect(lines[2]).toBe('2026-10-16,420.00,1');
     expect(lines[3]).toBe('2026-10-17,0.00,0');
     expect(lines[lines.length - 1]).toBe('total,420.00,1');
   });
   it('escapes a scope name that contains a comma', () => {
-    expect(reportCsv([], 'Coffee Cups', 'Coffee, 30d')).toContain('# "Coffee Cups — Coffee, 30d"');
+    expect(reportCsv([], 'Brewery Cafe', 'Coffee, 30d')).toContain('# "Brewery Cafe — Coffee, 30d"');
   });
 });

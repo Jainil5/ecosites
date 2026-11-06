@@ -33,7 +33,7 @@ const PLATES: Plate[] = [
             <stop offset="100%" stopColor="#E4572E" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <circle className="cc-pour-halo" cx="100" cy="134" r="86" fill="url(#dcPourHalo)" />
+        <circle className="bc-pour-halo" cx="100" cy="134" r="86" fill="url(#dcPourHalo)" />
       </>
     ),
   },
@@ -68,7 +68,7 @@ const PLATES: Plate[] = [
         </defs>
         <path d={OUTER} fill="url(#dcPourGlass)" />
         <g clipPath="url(#dcPourInnerBack)">
-          <g className="cc-pour-level">
+          <g className="bc-pour-level">
             <rect x="50" y="130" width="100" height="92" fill="url(#dcPourMilk)" />
             <rect x="50" y="130" width="100" height="92" fill="url(#dcPourShade)" />
             <ellipse cx="100" cy="130" rx="36" ry="7.6" fill="#FFF6E6" opacity="0.9" />
@@ -93,11 +93,11 @@ const PLATES: Plate[] = [
           </linearGradient>
         </defs>
         <g stroke="url(#dcPourShot)" strokeWidth={2.9} strokeLinecap="round" fill="none">
-          <path className="cc-pour-stream" style={step(0)} pathLength={100} d="M94 12c3 32-3 66 5 112" />
-          <path className="cc-pour-stream" style={step(1)} pathLength={100} d="M106 12c-3 32 3 66-5 112" />
+          <path className="bc-pour-stream" style={step(0)} pathLength={100} d="M94 12c3 32-3 66 5 112" />
+          <path className="bc-pour-stream" style={step(1)} pathLength={100} d="M106 12c-3 32 3 66-5 112" />
         </g>
         <path
-          className="cc-pour-stream"
+          className="bc-pour-stream"
           style={step(2)}
           pathLength={100}
           d="M95 18c3 28-3 58 4 94"
@@ -127,9 +127,9 @@ const PLATES: Plate[] = [
           </clipPath>
         </defs>
         <g clipPath="url(#dcPourInnerCrema)">
-          <g className="cc-pour-level">
+          <g className="bc-pour-level">
             <ellipse
-              className="cc-pour-plume"
+              className="bc-pour-plume"
               style={step(0)}
               cx="85"
               cy="139"
@@ -138,7 +138,7 @@ const PLATES: Plate[] = [
               fill="#9B6236"
             />
             <ellipse
-              className="cc-pour-plume"
+              className="bc-pour-plume"
               style={step(1)}
               cx="116"
               cy="146"
@@ -147,7 +147,7 @@ const PLATES: Plate[] = [
               fill="#8A5230"
             />
             <ellipse
-              className="cc-pour-plume"
+              className="bc-pour-plume"
               style={step(2)}
               cx="100"
               cy="155"
@@ -156,7 +156,7 @@ const PLATES: Plate[] = [
               fill="#8F5A32"
             />
             <ellipse
-              className="cc-pour-crema"
+              className="bc-pour-crema"
               cx="100"
               cy="130"
               rx="30"
@@ -164,7 +164,7 @@ const PLATES: Plate[] = [
               fill="url(#dcPourCrema)"
             />
             <ellipse
-              className="cc-pour-ripple"
+              className="bc-pour-ripple"
               style={step(0)}
               cx="99"
               cy="130"
@@ -175,7 +175,7 @@ const PLATES: Plate[] = [
               strokeWidth={1.6}
             />
             <ellipse
-              className="cc-pour-ripple"
+              className="bc-pour-ripple"
               style={step(1)}
               cx="101"
               cy="131"
@@ -186,7 +186,7 @@ const PLATES: Plate[] = [
               strokeWidth={1.2}
             />
             <ellipse
-              className="cc-pour-ripple"
+              className="bc-pour-ripple"
               style={step(2)}
               cx="100"
               cy="130"
@@ -219,7 +219,7 @@ const PLATES: Plate[] = [
         />
         <path d={OUTER} fill="none" stroke="rgba(42,33,27,0.14)" strokeWidth={1} />
         <path
-          className="cc-pour-shine"
+          className="bc-pour-shine"
           style={step(0)}
           d="M70 114 L77 196"
           stroke="#FFFDF8"
@@ -227,7 +227,7 @@ const PLATES: Plate[] = [
           strokeLinecap="round"
         />
         <path
-          className="cc-pour-shine"
+          className="bc-pour-shine"
           style={step(1)}
           d="M132 118 L127 190"
           stroke="#FFFDF8"
@@ -243,16 +243,16 @@ const PLATES: Plate[] = [
     d: '470ms',
     body: (
       <g fill="none" stroke="#FFFDF8" strokeWidth={2} strokeLinecap="round">
-        <path className="cc-pour-steam" style={step(0)} d="M72 96c-7-16 5-26-2-42" opacity={0} />
-        <path className="cc-pour-steam" style={step(1)} d="M128 94c7-17-5-27 2-44" opacity={0} />
-        <path className="cc-pour-steam" style={step(2)} d="M100 92c-6-14 4-24-1-38" opacity={0} />
+        <path className="bc-pour-steam" style={step(0)} d="M72 96c-7-16 5-26-2-42" opacity={0} />
+        <path className="bc-pour-steam" style={step(1)} d="M128 94c7-17-5-27 2-44" opacity={0} />
+        <path className="bc-pour-steam" style={step(2)} d="M100 92c-6-14 4-24-1-38" opacity={0} />
       </g>
     ),
   },
 ];
 
 interface PourSceneProps {
-  /** Positions and sizes the scene, e.g. 'cc-pour-anchor'. */
+  /** Positions and sizes the scene, e.g. 'bc-pour-anchor'. */
   className?: string;
 }
 
@@ -288,12 +288,12 @@ export function PourScene({ className = '' }: PourSceneProps) {
       role="img"
       onPointerMove={lean}
       onPointerLeave={settle}
-      className={`cc-pour-scene ${className}`}
+      className={`bc-pour-scene ${className}`}
     >
-      <div ref={stage} className="cc-pour-stage">
-        <div className="cc-pour-idle">
+      <div ref={stage} className="bc-pour-stage">
+        <div className="bc-pour-idle">
           {PLATES.map((plate) => (
-            <div key={plate.key} className="cc-pour-plate" style={{ '--lz': plate.lz, '--d': plate.d } as CSSProperties}>
+            <div key={plate.key} className="bc-pour-plate" style={{ '--lz': plate.lz, '--d': plate.d } as CSSProperties}>
               <svg viewBox="0 0 200 260" fill="none" aria-hidden="true">
                 {plate.body}
               </svg>

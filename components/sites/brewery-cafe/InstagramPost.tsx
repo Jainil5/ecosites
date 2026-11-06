@@ -36,8 +36,8 @@ export function InstagramPost({ url, caption }: { url: string; caption: string }
   }, [code]);
 
   return (
-    <figure className="cc-post">
-      <div className="cc-post-frame">
+    <figure className="bc-post">
+      <div className="bc-post-frame">
         {src && !failed ? (
           <iframe
             src={src}
@@ -48,14 +48,14 @@ export function InstagramPost({ url, caption }: { url: string; caption: string }
             style={{ height, width: '100%', border: 0 }}
           />
         ) : (
-          <div className="cc-post-fallback">
-            <span aria-hidden className="cc-post-fallback-mark" />
-            <p className="cc-serif cc-post-fallback-caption">{caption}</p>
+          <div className="bc-post-fallback">
+            <span aria-hidden className="bc-post-fallback-mark" />
+            <p className="bc-serif bc-post-fallback-caption">{caption}</p>
             <a
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring cc-btn cc-btn-solid cc-post-fallback-btn"
+              className="focus-ring bc-btn bc-btn-solid bc-post-fallback-btn"
             >
               <ExternalLink aria-hidden className="h-4 w-4" /> Open on Instagram
             </a>

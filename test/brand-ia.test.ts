@@ -36,7 +36,7 @@ describe('Phase 1 IA', () => {
     const urls = (sitemap() as { url: string }[]).map((entry) => entry.url);
     for (const route of [
       '/orderbook',
-      '/orderbook/coffee-cups-demo',
+      '/orderbook/brewery-cafe-demo',
       '/orderbook/hair-adore-demo',
       '/orderbook/ember-larder-demo',
     ]) {

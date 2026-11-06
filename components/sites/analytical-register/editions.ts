@@ -11,7 +11,7 @@ import { products as larder } from '../ember-larder/data';
  * split and the shape of the trading day, because a café, a salon and a
  * live-fire kitchen do not sell the same way.
  *
- * The catalogues are the ones already built in this app: the Coffee Cups menu,
+ * The catalogues are the ones already built in this app: the Brewery Cafe menu,
  * the Hair Adore service list and the Ember Larder fire-and-pantry shelf. That
  * keeps every edition's numbers real to its own business instead of invented.
  */
@@ -73,7 +73,7 @@ export const editions: Edition[] = [
   {
     id: 'cafe',
     label: 'OrderBook for cafés',
-    counter: 'coffee-cups-demo',
+    counter: 'brewery-cafe-demo',
     kicker: 'Coffee, food and cold pours',
     line: 'A counter that never stops: tap a pour onto the ticket, bill it, and the regular is already in the book.',
     bullets: [
@@ -165,7 +165,7 @@ export function editionById(id: EditionId | undefined): Edition {
   return editions.find((e) => e.id === id) ?? editions[0];
 }
 
-/** Only the café counter shares a bridge with the Coffee Cups ordering page. */
+/** Only the café counter shares a bridge with the Brewery Cafe ordering page. */
 export const bridgesToCafe = (id: EditionId) => id === 'cafe';
 
 /** Where OrderBook lives, and how each counter is addressed underneath it. */

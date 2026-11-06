@@ -28,17 +28,17 @@ export const websites = [
     screenshot: '/showcase/stock-screener/preview.png',
   },
   {
-    slug: 'coffee-cups',
+    slug: 'brewery-cafe',
     author: 'jainil-patel',
-    title: 'Coffee Cups',
+    title: 'Brewery Cafe',
     business: 'Coffee bar and bagel bakery',
     description:
       'A neighbourhood coffee bar built around the first shot of the day: one espresso base through the hours, hand-rolled dough proved overnight, and a pressed-lunch board. Sunrise editorial theme on a single scroll — the coffee, then the whole menu to order from, then the regulars, the Instagram reel, the room and the door.',
-    path: '/coffee-cups',
+    path: '/brewery-cafe',
     theme: 'Sunrise editorial',
     accent: '#E4572E',
     techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
-    screenshot: '/showcase/coffee-cups/preview.png',
+    screenshot: '/showcase/brewery-cafe/preview.png',
   },
   {
     slug: 'savour',
@@ -60,7 +60,7 @@ export const websites = [
     business: 'Order management for a coffee bar',
     description:
       'The counter at a coffee bar: a pour tapped onto a ticket, a tax-correct bill, the regular already in the book. Small bills all morning on a 31-item menu at 5% GST, with the order history, the menu itself and a report of revenue, top items, category mix and busy hours behind the same screen.',
-    path: '/orderbook/coffee-cups-demo',
+    path: '/orderbook/brewery-cafe-demo',
     theme: 'Light operator POS',
     accent: '#B5651D',
     techStack: ['Next.js', 'Tailwind CSS', 'TypeScript', 'SVG charts'],

@@ -1900,45 +1900,45 @@ html.lenis body {
 }
 
 /* ============================================================
-   Coffee Cups — sunrise editorial (cc-*)
+   Brewery Cafe — sunrise editorial (bc-*)
    Warm ember-to-apricot light over cream, grounded in a deep
    botanical green. Scoped so the brand shell and the other
    client sites keep their own tokens.
    ============================================================ */
-.coffee-cups {
-  --cc-cream: #fbf4e9;
-  --cc-paper: #fffdf8;
-  --cc-ink: #2a211b;
-  --cc-muted: #7a6a5d;
-  --cc-line: rgba(42, 33, 27, 0.12);
-  --cc-ember: #e4572e;
-  --cc-ember-deep: #c03f1c;
-  --cc-apricot: #f2a65a;
-  --cc-honey: #f7d08a;
-  --cc-lilac: #c2a9cb;
-  --cc-green: #1f4d3a;
-  --cc-green-deep: #143026;
-  background: var(--cc-cream);
-  color: var(--cc-ink);
+.brewery-cafe {
+  --bc-cream: #fbf4e9;
+  --bc-paper: #fffdf8;
+  --bc-ink: #2a211b;
+  --bc-muted: #7a6a5d;
+  --bc-line: rgba(42, 33, 27, 0.12);
+  --bc-ember: #e4572e;
+  --bc-ember-deep: #c03f1c;
+  --bc-apricot: #f2a65a;
+  --bc-honey: #f7d08a;
+  --bc-lilac: #c2a9cb;
+  --bc-green: #1f4d3a;
+  --bc-green-deep: #143026;
+  background: var(--bc-cream);
+  color: var(--bc-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
 }
 
 /* Display face: Inter pushed heavy and tight, the way a painted board is. */
-.coffee-cups .cc-display {
+.brewery-cafe .bc-display {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.025em;
 }
 
-.coffee-cups .cc-serif {
+.brewery-cafe .bc-serif {
   font-family: var(--font-serif), Georgia, serif;
 }
 
 /* --- Hero ---------------------------------------------------- */
 /* Two washes: a fixed scrim for legibility, and a slow sunrise pan
    that keeps the still photograph moving. */
-.coffee-cups .cc-hero-wash {
+.brewery-cafe .bc-hero-wash {
   background:
     linear-gradient(
       100deg,
@@ -1950,7 +1950,7 @@ html.lenis body {
     linear-gradient(180deg, rgba(20, 15, 12, 0.42) 0%, transparent 38%, rgba(20, 15, 12, 0.6) 100%);
 }
 
-.coffee-cups .cc-hero-grain {
+.brewery-cafe .bc-hero-grain {
   background-image: linear-gradient(
     115deg,
     rgba(247, 208, 138, 0.34) 0%,
@@ -1961,10 +1961,10 @@ html.lenis body {
   );
   background-size: 320% 320%;
   mix-blend-mode: soft-light;
-  animation: cc-sunrise 22s ease-in-out infinite alternate;
+  animation: bc-sunrise 22s ease-in-out infinite alternate;
 }
 
-@keyframes cc-sunrise {
+@keyframes bc-sunrise {
   0% {
     background-position: 0% 50%;
   }
@@ -1974,7 +1974,7 @@ html.lenis body {
 }
 
 /* --- Buttons -------------------------------------------------- */
-.coffee-cups .cc-btn {
+.brewery-cafe .bc-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1990,41 +1990,41 @@ html.lenis body {
     box-shadow 180ms ease;
 }
 
-.coffee-cups .cc-btn-solid {
-  background: var(--cc-ember);
-  color: var(--cc-paper);
+.brewery-cafe .bc-btn-solid {
+  background: var(--bc-ember);
+  color: var(--bc-paper);
   box-shadow: 0 14px 28px -16px rgba(228, 87, 46, 0.95);
 }
-.coffee-cups .cc-btn-solid:hover {
-  background: var(--cc-ember-deep);
+.brewery-cafe .bc-btn-solid:hover {
+  background: var(--bc-ember-deep);
   transform: translateY(-2px);
 }
 
-.coffee-cups .cc-btn-ghost {
+.brewery-cafe .bc-btn-ghost {
   border: 1px solid rgba(255, 253, 248, 0.5);
-  color: var(--cc-paper);
+  color: var(--bc-paper);
   background: rgba(20, 15, 12, 0.18);
   backdrop-filter: blur(6px);
 }
-.coffee-cups .cc-btn-ghost:hover {
+.brewery-cafe .bc-btn-ghost:hover {
   background: rgba(255, 253, 248, 0.16);
   transform: translateY(-2px);
 }
 
 /* Ember on ember disappears, so the picker's primary button inverts. */
-.coffee-cups .cc-btn-cream {
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+.brewery-cafe .bc-btn-cream {
+  background: var(--bc-paper);
+  color: var(--bc-ink);
   box-shadow: 0 14px 30px rgba(58, 18, 4, 0.28);
 }
 
-.coffee-cups .cc-btn-cream:hover {
-  background: var(--cc-cream);
-  color: var(--cc-ember-deep);
+.brewery-cafe .bc-btn-cream:hover {
+  background: var(--bc-cream);
+  color: var(--bc-ember-deep);
 }
 
 /* --- Tab row: category pills + mode toggle in one line ----------- */
-.coffee-cups .cc-tab-row {
+.brewery-cafe .bc-tab-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2037,13 +2037,13 @@ html.lenis body {
    One row of pills above the grid. The menu shows everything by
    default; a tab is just a shortcut for the customer who only wants
    coffee. The grid underneath never changes shape. */
-.coffee-cups .cc-cat-tabs {
+.brewery-cafe .bc-cat-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.coffee-cups .cc-cat-tab {
+.brewery-cafe .bc-cat-tab {
   min-height: 40px;
   padding: 8px 16px;
   border: 1px solid rgba(251, 244, 233, 0.35);
@@ -2059,46 +2059,46 @@ html.lenis body {
     transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-cat-tab:hover {
+.brewery-cafe .bc-cat-tab:hover {
   border-color: rgba(251, 244, 233, 0.65);
   color: #fff;
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-cat-tab[aria-selected='true'] {
-  background: var(--cc-honey);
-  border-color: var(--cc-honey);
-  color: var(--cc-ink-deep, #2a1408);
+.brewery-cafe .bc-cat-tab[aria-selected='true'] {
+  background: var(--bc-honey);
+  border-color: var(--bc-honey);
+  color: var(--bc-ink-deep, #2a1408);
 }
 
-.coffee-cups .cc-cat-tab:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery-cafe .bc-cat-tab:focus-visible {
+  outline: 2px solid var(--bc-honey);
   outline-offset: 3px;
 }
 
 /* --- Square tile grid ------------------------------------------- */
 /* Every item on the menu as one grid of square tiles; the Gen Z /
    Traditional switch only restyles the tile skin, never the layout. */
-.coffee-cups .cc-square-grid {
+.brewery-cafe .bc-square-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   perspective: 900px;
 }
 @media (min-width: 640px) {
-  .coffee-cups .cc-square-grid {
+  .brewery-cafe .bc-square-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-  .coffee-cups .cc-square-grid {
+  .brewery-cafe .bc-square-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-.coffee-cups .cc-tile {
-  --cc-bob: -6px;
-  --cc-lean: 2deg;
+.brewery-cafe .bc-tile {
+  --bc-bob: -6px;
+  --bc-lean: 2deg;
   position: relative;
   aspect-ratio: 1 / 1;
   padding: 0;
@@ -2106,74 +2106,74 @@ html.lenis body {
   cursor: pointer;
   text-align: left;
   overflow: hidden;
-  animation: cc-float 6s ease-in-out infinite;
+  animation: bc-float 6s ease-in-out infinite;
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
 }
 
 /* Ambient 3D breathing: tiles bob and lean under the grid's perspective.
    It rides the individual translate/rotate properties so the pointer-tilt
    hover transform composes on top instead of being overridden. */
-@keyframes cc-float {
+@keyframes bc-float {
   0%,
   100% {
     translate: 0 0;
     rotate: x 0deg;
   }
   50% {
-    translate: 0 var(--cc-bob, -6px);
-    rotate: x var(--cc-lean, 2deg);
+    translate: 0 var(--bc-bob, -6px);
+    rotate: x var(--bc-lean, 2deg);
   }
 }
 
 /* Phones: a 6px bob on a ~170px tile reads as still — swing harder below
    the two-column breakpoint so the grid visibly breathes. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-tile {
-    --cc-bob: -10px;
-    --cc-lean: 3deg;
+  .brewery-cafe .bc-tile {
+    --bc-bob: -10px;
+    --bc-lean: 3deg;
   }
 }
 
-.coffee-cups .cc-tile:nth-child(4n + 2) {
+.brewery-cafe .bc-tile:nth-child(4n + 2) {
   animation-duration: 7s;
   animation-delay: -1.4s;
 }
 
-.coffee-cups .cc-tile:nth-child(4n + 3) {
+.brewery-cafe .bc-tile:nth-child(4n + 3) {
   animation-duration: 5.6s;
   animation-delay: -2.8s;
 }
 
-.coffee-cups .cc-tile:nth-child(4n) {
+.brewery-cafe .bc-tile:nth-child(4n) {
   animation-duration: 6.4s;
   animation-delay: -4.2s;
 }
 
-.coffee-cups .cc-tile:hover {
+.brewery-cafe .bc-tile:hover {
   transform: translateY(-4px);
 }
 
-.coffee-cups .cc-tile:active {
+.brewery-cafe .bc-tile:active {
   transform: translateY(-1px) scale(0.97);
   transition-duration: 110ms;
 }
 
-.coffee-cups .cc-tile:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery-cafe .bc-tile:focus-visible {
+  outline: 2px solid var(--bc-honey);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-tile-img {
+.brewery-cafe .bc-tile-img {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-.coffee-cups .cc-tile-img img {
+.brewery-cafe .bc-tile-img img {
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tile:hover .cc-tile-img img {
+.brewery-cafe .bc-tile:hover .bc-tile-img img {
   transform: scale(1.07);
 }
 
@@ -2181,17 +2181,17 @@ html.lenis body {
    drifts against the tilt for parallax depth. Touch keeps the plain
    press-squash above, and the reduce block disables this entirely. */
 @media (hover: hover) and (pointer: fine) {
-  .coffee-cups .cc-tile:hover {
+  .brewery-cafe .bc-tile:hover {
     transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
       translateY(-4px);
   }
 
-  .coffee-cups .cc-tile:hover .cc-tile-img img {
+  .brewery-cafe .bc-tile:hover .bc-tile-img img {
     transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(1.12);
   }
 }
 
-.coffee-cups .cc-tile-cap {
+.brewery-cafe .bc-tile-cap {
   position: absolute;
   left: 0;
   right: 0;
@@ -2205,7 +2205,7 @@ html.lenis body {
   padding: 22px 10px 9px;
 }
 
-.coffee-cups .cc-tile-name {
+.brewery-cafe .bc-tile-name {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 12.5px;
   font-weight: 700;
@@ -2213,7 +2213,7 @@ html.lenis body {
   letter-spacing: -0.01em;
 }
 
-.coffee-cups .cc-tile-price {
+.brewery-cafe .bc-tile-price {
   flex-shrink: 0;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 12px;
@@ -2223,7 +2223,7 @@ html.lenis body {
 
 /* The one-line description. On the wide board it rides the dusk gradient as
    a single clipped line; on a phone it gets two, below the name. */
-.coffee-cups .cc-tile-note {
+.brewery-cafe .bc-tile-note {
   grid-column: 1 / -1;
   min-width: 0;
   display: -webkit-box;
@@ -2236,7 +2236,7 @@ html.lenis body {
   color: rgba(251, 244, 233, 0.72);
 }
 
-.coffee-cups .cc-tile-cat {
+.brewery-cafe .bc-tile-cat {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -2252,7 +2252,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-.coffee-cups .cc-tile-qty {
+.brewery-cafe .bc-tile-qty {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -2263,7 +2263,7 @@ html.lenis body {
   height: 24px;
   padding: 0 6px;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--bc-ember);
   color: #fff;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
@@ -2273,32 +2273,32 @@ html.lenis body {
 }
 
 /* The star steps aside when a tray count owns the corner. */
-.coffee-cups .cc-tile:has(.cc-tile-qty) .cc-card-star {
+.brewery-cafe .bc-tile:has(.bc-tile-qty) .bc-card-star {
   right: 40px;
 }
 
 /* Gen Z tiles: full-bleed photo squares with a dusk-gradient caption.
    Traditional no longer skins these tiles — it renders a printed
-   listing (.cc-menu-list) instead, so only the Gen Z skin remains. */
-.coffee-cups .cc-square-grid .cc-tile {
+   listing (.bc-menu-list) instead, so only the Gen Z skin remains. */
+.brewery-cafe .bc-square-grid .bc-tile {
   border-radius: 18px;
   box-shadow: 0 16px 34px -18px rgba(20, 8, 3, 0.6);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-cap {
+.brewery-cafe .bc-square-grid .bc-tile-cap {
   background: linear-gradient(180deg, transparent, rgba(46, 14, 4, 0.88));
 }
 
-.coffee-cups .cc-square-grid .cc-tile-name {
-  color: var(--cc-cream);
+.brewery-cafe .bc-square-grid .bc-tile-name {
+  color: var(--bc-cream);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-price {
-  color: var(--cc-honey);
+.brewery-cafe .bc-square-grid .bc-tile-price {
+  color: var(--bc-honey);
 }
 
-.coffee-cups .cc-square-grid .cc-tile-cat {
-  color: var(--cc-ink);
+.brewery-cafe .bc-square-grid .bc-tile-cat {
+  color: var(--bc-ink);
   background: rgba(255, 253, 248, 0.9);
 }
 
@@ -2307,34 +2307,34 @@ html.lenis body {
    own paper strip underneath it. The order part lives in the floating bar
    instead, which is what frees this room in the first place. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-tile {
+  .brewery-cafe .bc-tile {
     aspect-ratio: auto;
     display: flex;
     flex-direction: column;
-    background: var(--cc-paper);
-    border: 1px solid var(--cc-line);
+    background: var(--bc-paper);
+    border: 1px solid var(--bc-line);
   }
-  .coffee-cups .cc-tile-img {
+  .brewery-cafe .bc-tile-img {
     position: relative;
     inset: auto;
     aspect-ratio: 4 / 3;
   }
-  .coffee-cups .cc-tile-cap {
+  .brewery-cafe .bc-tile-cap {
     position: static;
     padding: 9px 11px 11px;
   }
-  .coffee-cups .cc-square-grid .cc-tile-cap {
+  .brewery-cafe .bc-square-grid .bc-tile-cap {
     background: none;
   }
-  .coffee-cups .cc-square-grid .cc-tile-name {
+  .brewery-cafe .bc-square-grid .bc-tile-name {
     font-size: 13.5px;
-    color: var(--cc-ink);
+    color: var(--bc-ink);
   }
-  .coffee-cups .cc-square-grid .cc-tile-price {
+  .brewery-cafe .bc-square-grid .bc-tile-price {
     font-size: 13px;
-    color: var(--cc-ember);
+    color: var(--bc-ember);
   }
-  .coffee-cups .cc-tile-note {
+  .brewery-cafe .bc-tile-note {
     -webkit-line-clamp: 2;
     font-size: 11.5px;
     color: rgba(43, 22, 10, 0.66);
@@ -2348,7 +2348,7 @@ html.lenis body {
    keep a real gap all the way round, and cos() of a card's angle to
    camera drives its fade and scale. One custom property (--rot) per
    frame moves the whole barrel. */
-.coffee-cups .cc-barrel {
+.brewery-cafe .bc-barrel {
   --cw: clamp(196px, 60vw, 248px);
   --ch: calc(var(--cw) * 1.3);
   --gap: 22px;
@@ -2360,7 +2360,7 @@ html.lenis body {
 }
 
 @media (min-width: 640px) {
-  .coffee-cups .cc-barrel {
+  .brewery-cafe .bc-barrel {
     --cw: clamp(232px, 26vw, 268px);
     --gap: 30px;
     --persp: 1350px;
@@ -2369,13 +2369,13 @@ html.lenis body {
 }
 
 @media (min-width: 1024px) {
-  .coffee-cups .cc-barrel {
+  .brewery-cafe .bc-barrel {
     --cw: 286px;
     --gap: 34px;
   }
 }
 
-.coffee-cups .cc-barrel-stage {
+.brewery-cafe .bc-barrel-stage {
   --step: calc(360deg / var(--n, 8));
   /* Radius that keeps a `gap` between neighbours all the way round:
      chord = 2R·sin(step/2), solved for R. */
@@ -2394,11 +2394,11 @@ html.lenis body {
   -webkit-user-select: none;
 }
 
-.coffee-cups .cc-barrel-stage:active {
+.brewery-cafe .bc-barrel-stage:active {
   cursor: grabbing;
 }
 
-.coffee-cups .cc-barrel-glow {
+.brewery-cafe .bc-barrel-glow {
   position: absolute;
   inset: 14% 8%;
   border-radius: 50%;
@@ -2412,7 +2412,7 @@ html.lenis body {
 }
 
 /* --- Swipe hint overlay on the barrel ---------------------------- */
-.coffee-cups .cc-swipe-hint {
+.brewery-cafe .bc-swipe-hint {
   position: absolute;
   inset: 0;
   z-index: 6;
@@ -2428,11 +2428,11 @@ html.lenis body {
 
 /* Armed by an IntersectionObserver once the barrel is on screen, so the
    hint is actually seen rather than burning its seconds behind the hero. */
-.coffee-cups .cc-swipe-hint[data-live='true'] {
+.brewery-cafe .bc-swipe-hint[data-live='true'] {
   opacity: 1;
 }
 
-.coffee-cups .cc-swipe-label {
+.brewery-cafe .bc-swipe-label {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -2444,24 +2444,24 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.16);
 }
 
-.coffee-cups .cc-swipe-arrow {
+.brewery-cafe .bc-swipe-arrow {
   font-size: 28px;
   line-height: 1;
-  color: var(--cc-honey);
-  animation: cc-swipe-bounce 1.6s ease-in-out infinite;
+  color: var(--bc-honey);
+  animation: bc-swipe-bounce 1.6s ease-in-out infinite;
 }
-.coffee-cups .cc-swipe-arrow-l {
-  animation-name: cc-swipe-bounce-l;
+.brewery-cafe .bc-swipe-arrow-l {
+  animation-name: bc-swipe-bounce-l;
 }
-.coffee-cups .cc-swipe-arrow-r {
-  animation-name: cc-swipe-bounce-r;
+.brewery-cafe .bc-swipe-arrow-r {
+  animation-name: bc-swipe-bounce-r;
 }
 
-@keyframes cc-swipe-bounce-l {
+@keyframes bc-swipe-bounce-l {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(-8px); }
 }
-@keyframes cc-swipe-bounce-r {
+@keyframes bc-swipe-bounce-r {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(8px); }
 }
@@ -2472,7 +2472,7 @@ html.lenis body {
    The tilt wraps the scene, so it goes on the outside of that push-back:
    move the cylinder off the camera first, then tip it, which keeps the
    facing card dead centre instead of sliding it down the stage. */
-.coffee-cups .cc-barrel-ring {
+.brewery-cafe .bc-barrel-ring {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -2482,7 +2482,7 @@ html.lenis body {
   transform: rotateX(var(--tilt)) translateZ(calc(var(--r) * -1)) rotateY(var(--rot, 0deg));
 }
 
-.coffee-cups .cc-barrel-slot {
+.brewery-cafe .bc-barrel-slot {
   --rel: calc(var(--a, 0deg) + var(--rot, 0deg));
   /* cos() of the angle to camera: 1 facing us, 0 at the sides. */
   --face: max(0, cos(var(--rel)));
@@ -2499,7 +2499,7 @@ html.lenis body {
   backface-visibility: hidden;
 }
 
-.coffee-cups .cc-barrel-card {
+.brewery-cafe .bc-barrel-card {
   position: absolute;
   inset: 0;
   display: block;
@@ -2508,7 +2508,7 @@ html.lenis body {
   border-radius: 20px;
   overflow: hidden;
   background: #2a1408;
-  color: var(--cc-cream);
+  color: var(--bc-cream);
   text-align: left;
   cursor: pointer;
   /* The far side of the cylinder would otherwise show through the near
@@ -2519,29 +2519,29 @@ html.lenis body {
     border-color 260ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] {
+.brewery-cafe .bc-barrel-card[data-active='true'] {
   translate: 0 -8px;
   border-color: rgba(247, 208, 138, 0.62);
   box-shadow: 0 34px 62px -26px rgba(20, 8, 3, 0.95), 0 0 0 3px rgba(247, 208, 138, 0.16);
 }
 
-.coffee-cups .cc-barrel-card:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery-cafe .bc-barrel-card:focus-visible {
+  outline: 2px solid var(--bc-honey);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-barrel-img {
+.brewery-cafe .bc-barrel-img {
   position: absolute;
   inset: 0;
   display: block;
 }
 
-.coffee-cups .cc-barrel-img img {
+.brewery-cafe .bc-barrel-img img {
   -webkit-user-drag: none;
   user-select: none;
 }
 
-.coffee-cups .cc-barrel-cap {
+.brewery-cafe .bc-barrel-cap {
   position: absolute;
   left: 0;
   right: 0;
@@ -2553,17 +2553,17 @@ html.lenis body {
   background: linear-gradient(180deg, transparent, rgba(30, 12, 4, 0.74) 44%, rgba(20, 8, 3, 0.95));
 }
 
-.coffee-cups .cc-barrel-name {
+.brewery-cafe .bc-barrel-name {
   font-size: 15px;
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--cc-cream);
+  color: var(--bc-cream);
 }
 
 /* The note only unfolds on the card facing the customer, so the side
    cards stay quiet and the barrel reads as one object. */
-.coffee-cups .cc-barrel-note {
+.brewery-cafe .bc-barrel-note {
   max-height: 0;
   overflow: hidden;
   font-size: 11px;
@@ -2573,12 +2573,12 @@ html.lenis body {
   transition: max-height 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-note {
+.brewery-cafe .bc-barrel-card[data-active='true'] .bc-barrel-note {
   max-height: 48px;
   opacity: 1;
 }
 
-.coffee-cups .cc-barrel-line {
+.brewery-cafe .bc-barrel-line {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -2586,14 +2586,14 @@ html.lenis body {
   margin-top: 3px;
 }
 
-.coffee-cups .cc-barrel-price {
+.brewery-cafe .bc-barrel-price {
   font-size: 13.5px;
   font-weight: 800;
-  color: var(--cc-honey);
+  color: var(--bc-honey);
   font-variant-numeric: tabular-nums;
 }
 
-.coffee-cups .cc-barrel-cta {
+.brewery-cafe .bc-barrel-cta {
   flex-shrink: 0;
   padding: 3px 8px;
   border-radius: 999px;
@@ -2606,12 +2606,12 @@ html.lenis body {
   transition: background 220ms ease, color 220ms ease;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-cta {
-  background: var(--cc-honey);
+.brewery-cafe .bc-barrel-card[data-active='true'] .bc-barrel-cta {
+  background: var(--bc-honey);
   color: #2a1408;
 }
 
-.coffee-cups .cc-barrel-qty {
+.brewery-cafe .bc-barrel-qty {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -2622,7 +2622,7 @@ html.lenis body {
   height: 24px;
   padding: 0 6px;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--bc-ember);
   color: #fff;
   font-size: 11px;
   font-weight: 800;
@@ -2630,16 +2630,16 @@ html.lenis body {
   box-shadow: 0 3px 10px rgba(20, 8, 3, 0.35);
 }
 
-.coffee-cups .cc-barrel-card:has(.cc-barrel-qty) .cc-card-star {
+.brewery-cafe .bc-barrel-card:has(.bc-barrel-qty) .bc-card-star {
   right: 40px;
 }
 
-.coffee-cups .cc-barrel-card[data-active='true'] .cc-card-star-label {
+.brewery-cafe .bc-barrel-card[data-active='true'] .bc-card-star-label {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
-.coffee-cups .cc-barrel-curtain {
+.brewery-cafe .bc-barrel-curtain {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -2648,7 +2648,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-.coffee-cups .cc-barrel-curtain-l {
+.brewery-cafe .bc-barrel-curtain-l {
   left: 0;
   background: linear-gradient(
     90deg,
@@ -2658,7 +2658,7 @@ html.lenis body {
   );
 }
 
-.coffee-cups .cc-barrel-curtain-r {
+.brewery-cafe .bc-barrel-curtain-r {
   right: 0;
   background: linear-gradient(
     270deg,
@@ -2668,7 +2668,7 @@ html.lenis body {
   );
 }
 
-.coffee-cups .cc-barrel-hud {
+.brewery-cafe .bc-barrel-hud {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2676,7 +2676,7 @@ html.lenis body {
   margin-top: 4px;
 }
 
-.coffee-cups .cc-barrel-nav {
+.brewery-cafe .bc-barrel-nav {
   display: grid;
   place-items: center;
   width: 44px;
@@ -2684,34 +2684,34 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.3);
   border-radius: 999px;
   background: rgba(20, 8, 3, 0.28);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
   cursor: pointer;
   transition: background 200ms ease, border-color 200ms ease,
     transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-barrel-nav svg {
+.brewery-cafe .bc-barrel-nav svg {
   width: 20px;
   height: 20px;
 }
 
-.coffee-cups .cc-barrel-nav:hover:not(:disabled) {
+.brewery-cafe .bc-barrel-nav:hover:not(:disabled) {
   border-color: rgba(251, 244, 233, 0.62);
   background: rgba(251, 244, 233, 0.14);
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-barrel-nav:disabled {
+.brewery-cafe .bc-barrel-nav:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.coffee-cups .cc-barrel-nav:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery-cafe .bc-barrel-nav:focus-visible {
+  outline: 2px solid var(--bc-honey);
   outline-offset: 3px;
 }
 
-.coffee-cups .cc-barrel-count {
+.brewery-cafe .bc-barrel-count {
   display: flex;
   align-items: baseline;
   gap: 4px;
@@ -2724,21 +2724,21 @@ html.lenis body {
   font-variant-numeric: tabular-nums;
 }
 
-.coffee-cups .cc-barrel-count-now {
-  color: var(--cc-honey);
+.brewery-cafe .bc-barrel-count-now {
+  color: var(--bc-honey);
   font-size: 15px;
 }
 
-.coffee-cups .cc-barrel-count-name {
+.brewery-cafe .bc-barrel-count-name {
   margin-left: 8px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
   text-transform: none;
-  color: var(--cc-cream);
+  color: var(--bc-cream);
 }
 
-.coffee-cups .cc-barrel-dots {
+.brewery-cafe .bc-barrel-dots {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -2747,7 +2747,7 @@ html.lenis body {
   list-style: none;
 }
 
-.coffee-cups .cc-barrel-dot {
+.brewery-cafe .bc-barrel-dot {
   display: grid;
   place-items: center;
   width: var(--dot-hit);
@@ -2758,7 +2758,7 @@ html.lenis body {
   cursor: pointer;
 }
 
-.coffee-cups .cc-barrel-dot::after {
+.brewery-cafe .bc-barrel-dot::after {
   content: '';
   width: 7px;
   height: 7px;
@@ -2767,22 +2767,22 @@ html.lenis body {
   transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease;
 }
 
-.coffee-cups .cc-barrel-dot:hover::after {
+.brewery-cafe .bc-barrel-dot:hover::after {
   background: rgba(251, 244, 233, 0.7);
 }
 
-.coffee-cups .cc-barrel-dot[aria-current='true']::after {
+.brewery-cafe .bc-barrel-dot[aria-current='true']::after {
   width: 20px;
-  background: var(--cc-honey);
+  background: var(--bc-honey);
 }
 
-.coffee-cups .cc-barrel-dot:focus-visible {
-  outline: 2px solid var(--cc-honey);
+.brewery-cafe .bc-barrel-dot:focus-visible {
+  outline: 2px solid var(--bc-honey);
   outline-offset: -2px;
   border-radius: 999px;
 }
 
-.coffee-cups .cc-barrel-hint {
+.brewery-cafe .bc-barrel-hint {
   margin: 6px 0 0;
   text-align: center;
   font-size: 11px;
@@ -2793,47 +2793,47 @@ html.lenis body {
    taller stage for the lifted card, tighter curtains, and type big enough to
    read at arm's length without opening the dialog first. */
 @media (max-width: 639px) {
-  .coffee-cups .cc-barrel {
+  .brewery-cafe .bc-barrel {
     --ch: calc(var(--cw) * 1.36);
   }
-  .coffee-cups .cc-barrel-stage {
+  .brewery-cafe .bc-barrel-stage {
     height: calc(var(--ch) + 92px);
   }
-  .coffee-cups .cc-barrel-curtain {
+  .brewery-cafe .bc-barrel-curtain {
     width: 16%;
   }
-  .coffee-cups .cc-barrel-name {
+  .brewery-cafe .bc-barrel-name {
     font-size: 17px;
   }
-  .coffee-cups .cc-barrel-note {
+  .brewery-cafe .bc-barrel-note {
     font-size: 12.5px;
   }
-  .coffee-cups .cc-barrel-price {
+  .brewery-cafe .bc-barrel-price {
     font-size: 15px;
   }
-  .coffee-cups .cc-barrel-card[data-active='true'] .cc-barrel-note {
+  .brewery-cafe .bc-barrel-card[data-active='true'] .bc-barrel-note {
     max-height: 66px;
   }
-  .coffee-cups .cc-barrel-hint {
+  .brewery-cafe .bc-barrel-hint {
     font-size: 11.5px;
     padding: 0 8px;
   }
 }
 
 /* --- Combo builder ----------------------------------------------- */
-.coffee-cups .cc-combo {
+.brewery-cafe .bc-combo {
   padding: 28px 20px 32px;
   border-radius: 20px;
   background: linear-gradient(160deg, #241108 0%, #4a2510 60%, #7a3d14 100%);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
 }
 
-.coffee-cups .cc-combo-header {
+.brewery-cafe .bc-combo-header {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.coffee-cups .cc-combo-wheels {
+.brewery-cafe .bc-combo-wheels {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2841,14 +2841,14 @@ html.lenis body {
 }
 
 @media (min-width: 768px) {
-  .coffee-cups .cc-combo-wheels {
+  .brewery-cafe .bc-combo-wheels {
     flex-direction: row;
     justify-content: center;
     gap: 28px;
   }
 }
 
-.coffee-cups .cc-combo-wheel {
+.brewery-cafe .bc-combo-wheel {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2857,14 +2857,14 @@ html.lenis body {
   max-width: 320px;
 }
 
-.coffee-cups .cc-combo-wheel-label {
+.brewery-cafe .bc-combo-wheel-label {
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cc-honey);
+  color: var(--bc-honey);
 }
 
-.coffee-cups .cc-combo-stage {
+.brewery-cafe .bc-combo-stage {
   position: relative;
   width: 100%;
   height: 260px;
@@ -2872,34 +2872,34 @@ html.lenis body {
   overflow: hidden;
 }
 
-.coffee-cups .cc-combo-ring {
+.brewery-cafe .bc-combo-ring {
   --r: 160px;
   --tilt: 4deg;
 }
 
-.coffee-cups .cc-combo-slot {
+.brewery-cafe .bc-combo-slot {
   width: 130px;
   height: 220px;
 }
 
-.coffee-cups .cc-combo-card {
+.brewery-cafe .bc-combo-card {
   min-height: auto;
   padding: 10px;
   font-size: 12px;
 }
 
-.coffee-cups .cc-combo-card .cc-barrel-img {
+.brewery-cafe .bc-combo-card .bc-barrel-img {
   height: 100px;
 }
 
-.coffee-cups .cc-combo-plus {
+.brewery-cafe .bc-combo-plus {
   font-size: 32px;
   font-weight: 700;
-  color: var(--cc-honey);
+  color: var(--bc-honey);
   line-height: 1;
 }
 
-.coffee-cups .cc-combo-summary {
+.brewery-cafe .bc-combo-summary {
   margin-top: 28px;
   display: flex;
   flex-direction: column;
@@ -2907,7 +2907,7 @@ html.lenis body {
   gap: 10px;
 }
 
-.coffee-cups .cc-combo-pair {
+.brewery-cafe .bc-combo-pair {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2915,23 +2915,23 @@ html.lenis body {
   font-weight: 600;
 }
 
-.coffee-cups .cc-combo-sep {
-  color: var(--cc-honey);
+.brewery-cafe .bc-combo-sep {
+  color: var(--bc-honey);
   font-weight: 700;
 }
 
-.coffee-cups .cc-combo-price {
+.brewery-cafe .bc-combo-price {
   display: flex;
   align-items: baseline;
   gap: 10px;
 }
 
-.coffee-cups .cc-combo-now {
+.brewery-cafe .bc-combo-now {
   font-size: 24px;
-  color: var(--cc-honey);
+  color: var(--bc-honey);
 }
 
-.coffee-cups .cc-combo-add {
+.brewery-cafe .bc-combo-add {
   margin-top: 8px;
   min-width: 200px;
 }
@@ -2940,19 +2940,19 @@ html.lenis body {
    A paper menu sheet: serif section headings with side rules and
    rows of thumbnail · name · dotted leader · price. Tapping a row
    opens the same center dialog as a tile. */
-.coffee-cups .cc-menu-list {
+.brewery-cafe .bc-menu-list {
   padding: 26px 18px 30px;
   border-radius: 14px;
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+  background: var(--bc-paper);
+  border: 1px solid var(--bc-line);
   box-shadow: 0 24px 50px -30px rgba(20, 8, 3, 0.75);
 }
 
-.coffee-cups .cc-menu-list section + section {
+.brewery-cafe .bc-menu-list section + section {
   margin-top: 26px;
 }
 
-.coffee-cups .cc-list-heading {
+.brewery-cafe .bc-list-heading {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -2960,17 +2960,17 @@ html.lenis body {
   font-size: 15px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-list-heading::before,
-.coffee-cups .cc-list-heading::after {
+.brewery-cafe .bc-list-heading::before,
+.brewery-cafe .bc-list-heading::after {
   content: '';
   flex: 1;
-  border-top: 1px solid var(--cc-line);
+  border-top: 1px solid var(--bc-line);
 }
 
-.coffee-cups .cc-list-row {
+.brewery-cafe .bc-list-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2985,53 +2985,53 @@ html.lenis body {
   transition: background 180ms ease;
 }
 
-.coffee-cups .cc-list-row:hover {
+.brewery-cafe .bc-list-row:hover {
   background: rgba(122, 58, 18, 0.07);
 }
 
-.coffee-cups .cc-list-thumb {
+.brewery-cafe .bc-list-thumb {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
   border-radius: 9px;
   overflow: hidden;
-  border: 1px solid var(--cc-line);
+  border: 1px solid var(--bc-line);
 }
 
-.coffee-cups .cc-list-name {
+.brewery-cafe .bc-list-name {
   font-family: var(--font-serif), Georgia, serif;
   font-size: 15px;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-list-star {
-  color: var(--cc-ember);
+.brewery-cafe .bc-list-star {
+  color: var(--bc-ember);
   font-size: 13px;
 }
 
-.coffee-cups .cc-list-leader {
+.brewery-cafe .bc-list-leader {
   flex: 1;
   min-width: 22px;
   border-bottom: 2px dotted rgba(42, 33, 27, 0.35);
   transform: translateY(3px);
 }
 
-.coffee-cups .cc-list-price {
+.brewery-cafe .bc-list-price {
   flex-shrink: 0;
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 700;
   font-size: 14px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
+  color: var(--bc-ember);
 }
 
-.coffee-cups .cc-list-qty {
+.brewery-cafe .bc-list-qty {
   flex-shrink: 0;
   min-width: 22px;
   height: 22px;
   border-radius: 999px;
-  background: var(--cc-ember);
-  color: var(--cc-paper);
+  background: var(--bc-ember);
+  color: var(--bc-paper);
   font-size: 11px;
   font-weight: 800;
   display: grid;
@@ -3040,7 +3040,7 @@ html.lenis body {
 }
 
 /* --- Menu footer: the mode switch lives under the cards --------- */
-.coffee-cups .cc-menu-foot {
+.brewery-cafe .bc-menu-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -3049,24 +3049,24 @@ html.lenis body {
   margin-top: 22px;
 }
 
-.coffee-cups .cc-pill {
+.brewery-cafe .bc-pill {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--cc-line);
+  border: 1px solid var(--bc-line);
   border-radius: 999px;
   padding: 0.15rem 0.6rem;
   font-size: 0.66rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--cc-muted);
-  background: var(--cc-paper);
+  color: var(--bc-muted);
+  background: var(--bc-paper);
 }
 
 /* --- The menu section ------------------------------------------- */
 /* The whole menu on one sunrise wash: square tiles first, the style
    switch and the wayfinding buttons underneath them. The wash is a
    deep espresso-to-caramel table glow with window light top-right. */
-.coffee-cups .cc-menu {
+.brewery-cafe .bc-menu {
   background:
     radial-gradient(90% 70% at 78% 8%, rgba(247, 208, 138, 0.34), transparent 60%),
     radial-gradient(60% 50% at 12% 88%, rgba(201, 138, 75, 0.28), transparent 65%),
@@ -3074,7 +3074,7 @@ html.lenis body {
 }
 
 /* Cup rings left on the table: faint double-edge circles, no asset. */
-.coffee-cups .cc-stains {
+.brewery-cafe .bc-stains {
   position: absolute;
   inset: 0;
   background:
@@ -3087,17 +3087,17 @@ html.lenis body {
 }
 
 /* Roasted-bean and steam-swirl doodles, tiled as one inline SVG. */
-.coffee-cups .cc-beans {
+.brewery-cafe .bc-beans {
   position: absolute;
   inset: -12%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='0.55' stroke-width='2' stroke-linecap='round'%3E%3Cellipse cx='42' cy='48' rx='15' ry='9.5' transform='rotate(-24 42 48)'/%3E%3Cpath d='M29 43q13 6 26 0'/%3E%3Cellipse cx='132' cy='126' rx='13' ry='8' transform='rotate(32 132 126)'/%3E%3Cpath d='M121 122q11 5 22 0'/%3E%3Cpath d='M108 34c6-6-6-11 0-17M118 37c6-6-6-11 0-17'/%3E%3Cpath d='M36 140c5-5-5-10 0-15'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 180px 180px;
   opacity: 0.07;
-  animation: cc-beans-drift 26s linear infinite alternate;
+  animation: bc-beans-drift 26s linear infinite alternate;
   pointer-events: none;
 }
 
-@keyframes cc-beans-drift {
+@keyframes bc-beans-drift {
   from {
     background-position: 0 0;
   }
@@ -3107,23 +3107,23 @@ html.lenis body {
 }
 
 /* Individual roasted beans adrift over the hero and the menu board. */
-.coffee-cups .cc-beans-field {
+.brewery-cafe .bc-beans-field {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-.coffee-cups .cc-bean {
+.brewery-cafe .bc-bean {
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--sw);
   opacity: var(--op);
-  animation: cc-bean-float var(--dur) ease-in-out var(--delay) infinite alternate;
+  animation: bc-bean-float var(--dur) ease-in-out var(--delay) infinite alternate;
 }
 
-@keyframes cc-bean-float {
+@keyframes bc-bean-float {
   from {
     transform: translate(0, 0) rotate(var(--r1));
   }
@@ -3132,35 +3132,35 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-hero-cta {
+.brewery-cafe .bc-hero-cta {
   align-self: flex-start;
   min-height: 52px;
   font-size: 15px;
 }
 
 /* --- Instagram feed shelf ------------------------------------- */
-.coffee-cups .cc-feed-grid {
+.brewery-cafe .bc-feed-grid {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.coffee-cups .cc-post {
-  border: 1px solid var(--cc-line);
+.brewery-cafe .bc-post {
+  border: 1px solid var(--bc-line);
   border-radius: 18px;
-  background: var(--cc-paper);
+  background: var(--bc-paper);
   padding: 10px;
   box-shadow: 0 18px 40px rgba(42, 33, 27, 0.08);
 }
 
-.coffee-cups .cc-post-frame {
+.brewery-cafe .bc-post-frame {
   min-height: 320px;
   overflow: hidden;
   border-radius: 12px;
-  background: var(--cc-cream);
+  background: var(--bc-cream);
 }
 
-.coffee-cups .cc-post-fallback {
+.brewery-cafe .bc-post-fallback {
   display: flex;
   min-height: 320px;
   flex-direction: column;
@@ -3171,48 +3171,48 @@ html.lenis body {
   text-align: center;
 }
 
-.coffee-cups .cc-post-fallback-mark {
+.brewery-cafe .bc-post-fallback-mark {
   width: 44px;
   height: 44px;
-  border: 3px solid var(--cc-ember);
+  border: 3px solid var(--bc-ember);
   border-radius: 13px;
 }
 
-.coffee-cups .cc-post-fallback-caption {
-  color: var(--cc-muted);
+.brewery-cafe .bc-post-fallback-caption {
+  color: var(--bc-muted);
 }
 
 /* --- Testimonial carousel (motion.dev) -------------------------- */
-.coffee-cups .cc-voices-section {
+.brewery-cafe .bc-voices-section {
   background: linear-gradient(160deg, #241108 0%, #5a2d12 48%, #a85a20 100%);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
 }
 
-.coffee-cups .cc-carousel {
+.brewery-cafe .bc-carousel {
   position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.coffee-cups .cc-carousel-viewport {
+.brewery-cafe .bc-carousel-viewport {
   flex: 1;
   min-width: 0;
   overflow: hidden;
 }
 
-.coffee-cups .cc-carousel-track {
+.brewery-cafe .bc-carousel-track {
   display: flex;
   gap: var(--gap, 20px);
   cursor: grab;
   touch-action: pan-y;
 }
 
-.coffee-cups .cc-carousel-track:active {
+.brewery-cafe .bc-carousel-track:active {
   cursor: grabbing;
 }
 
-.coffee-cups .cc-carousel-card {
+.brewery-cafe .bc-carousel-card {
   /* --card-w comes from the same measurement the track offset uses. */
   flex: 0 0 var(--card-w, 100%);
   display: flex;
@@ -3223,11 +3223,11 @@ html.lenis body {
   border: 1px solid rgba(251, 244, 233, 0.16);
   border-radius: 20px;
   background: rgba(255, 253, 248, 0.07);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
   text-align: left;
 }
 
-.coffee-cups .cc-carousel-btn {
+.brewery-cafe .bc-carousel-btn {
   display: grid;
   place-items: center;
   width: 44px;
@@ -3236,18 +3236,18 @@ html.lenis body {
   border-radius: 999px;
   border: 1px solid rgba(251, 244, 233, 0.28);
   background: rgba(255, 253, 248, 0.1);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
   transition:
     background 0.25s,
     transform 0.25s;
 }
 
-.coffee-cups .cc-carousel-btn:hover {
+.brewery-cafe .bc-carousel-btn:hover {
   background: rgba(255, 253, 248, 0.22);
   transform: scale(1.06);
 }
 
-.coffee-cups .cc-carousel-dot {
+.brewery-cafe .bc-carousel-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
@@ -3257,13 +3257,13 @@ html.lenis body {
     transform 0.25s;
 }
 
-.coffee-cups .cc-carousel-dot[data-active='true'] {
-  background: var(--cc-honey);
+.brewery-cafe .bc-carousel-dot[data-active='true'] {
+  background: var(--bc-honey);
   transform: scale(1.3);
 }
 
 /* The carousel drifts on its own, so the customer gets a real pause. */
-.coffee-cups .cc-carousel-pause {
+.brewery-cafe .bc-carousel-pause {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3278,62 +3278,62 @@ html.lenis body {
     background 0.25s;
 }
 
-.coffee-cups .cc-carousel-pause:hover {
-  color: var(--cc-paper);
-  border-color: var(--cc-honey);
+.brewery-cafe .bc-carousel-pause:hover {
+  color: var(--bc-paper);
+  border-color: var(--bc-honey);
 }
 
-.coffee-cups .cc-carousel-pause[aria-pressed='true'] {
-  color: var(--cc-ink);
-  background: var(--cc-honey);
-  border-color: var(--cc-honey);
+.brewery-cafe .bc-carousel-pause[aria-pressed='true'] {
+  color: var(--bc-ink);
+  background: var(--bc-honey);
+  border-color: var(--bc-honey);
 }
 
-.coffee-cups .cc-voice-top {
+.brewery-cafe .bc-voice-top {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.coffee-cups .cc-voice-avatar {
+.brewery-cafe .bc-voice-avatar {
   display: grid;
   width: 40px;
   height: 40px;
   place-items: center;
   border-radius: 999px;
-  background: var(--cc-ember);
-  color: var(--cc-paper);
+  background: var(--bc-ember);
+  color: var(--bc-paper);
   font-weight: 600;
 }
 
-.coffee-cups .cc-voice-name {
+.brewery-cafe .bc-voice-name {
   display: block;
-  color: var(--cc-paper);
+  color: var(--bc-paper);
   font-weight: 600;
 }
 
-.coffee-cups .cc-voice-when {
+.brewery-cafe .bc-voice-when {
   display: block;
   font-size: 11px;
   color: rgba(251, 244, 233, 0.6);
 }
 
-.coffee-cups .cc-voice-quote {
+.brewery-cafe .bc-voice-quote {
   flex: 1;
   font-size: 15px;
   line-height: 1.55;
   color: rgba(251, 244, 233, 0.92);
 }
 
-.coffee-cups .cc-voice-tag {
+.brewery-cafe .bc-voice-tag {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
   gap: 8px;
   padding: 5px 12px 5px 5px;
   border-radius: 999px;
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+  background: var(--bc-paper);
+  color: var(--bc-ink);
   font-size: 12px;
   font-weight: 600;
 }
@@ -3341,22 +3341,22 @@ html.lenis body {
 @media (max-width: 1023px) {
   /* Card width and gap are measured in JS now (--card-w / --gap), so this
      breakpoint only decides whether the arrow buttons are worth showing. */
-  .coffee-cups .cc-carousel-btn {
+  .brewery-cafe .bc-carousel-btn {
     display: none;
   }
 }
 
-.coffee-cups .cc-pick-wash {
+.brewery-cafe .bc-pick-wash {
   position: absolute;
   inset: -22%;
   background:
     radial-gradient(40% 40% at 24% 30%, rgba(242, 166, 90, 0.55), transparent 70%),
     radial-gradient(36% 36% at 74% 74%, rgba(247, 208, 138, 0.42), transparent 72%);
-  animation: cc-pick-breathe 15s ease-in-out infinite alternate;
+  animation: bc-pick-breathe 15s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-@keyframes cc-pick-breathe {
+@keyframes bc-pick-breathe {
   from {
     opacity: 0.8;
     transform: scale(1);
@@ -3370,7 +3370,7 @@ html.lenis body {
 /* --- Mode toggle (Gen Z / Traditional) ------------------------- */
 /* Two equal columns, each at least as wide as its label: the pill stays
    at 50% while "Traditional" never gets clipped by a shrinking button. */
-.coffee-cups .cc-mode {
+.brewery-cafe .bc-mode {
   position: relative;
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(max-content, 1fr));
@@ -3380,20 +3380,20 @@ html.lenis body {
   box-shadow: inset 0 0 0 1px rgba(251, 244, 233, 0.18);
 }
 
-.coffee-cups .cc-mode-pill {
+.brewery-cafe .bc-mode-pill {
   position: absolute;
   top: 4px;
   bottom: 4px;
   left: 4px;
   width: calc(50% - 4px);
   border-radius: 999px;
-  background: var(--cc-honey);
+  background: var(--bc-honey);
   transform: translateX(calc(var(--pos, 0) * 100%));
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: 0 8px 20px rgba(42, 21, 12, 0.3);
 }
 
-.coffee-cups .cc-mode-btn {
+.brewery-cafe .bc-mode-btn {
   position: relative;
   z-index: 1;
   padding: 0.5rem 1.05rem;
@@ -3407,11 +3407,11 @@ html.lenis body {
   transition: color 260ms ease;
 }
 
-.coffee-cups .cc-mode-btn[aria-pressed='true'] {
-  color: var(--cc-ink);
+.brewery-cafe .bc-mode-btn[aria-pressed='true'] {
+  color: var(--bc-ink);
 }
 
-@keyframes cc-pick-rise {
+@keyframes bc-pick-rise {
   from {
     opacity: 0;
     transform: translateY(12px);
@@ -3422,7 +3422,7 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-card-star {
+.brewery-cafe .bc-card-star {
   position: absolute;
   top: 7px;
   right: 7px;
@@ -3434,25 +3434,25 @@ html.lenis body {
   background: rgba(20, 8, 3, 0.66);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
-  color: var(--cc-honey);
+  color: var(--bc-honey);
 }
 
-.coffee-cups .cc-star-icon {
+.brewery-cafe .bc-star-icon {
   display: block;
   width: 15px;
   height: 15px;
   filter: drop-shadow(0 1px 3px rgba(20, 8, 3, 0.5));
 }
 
-.coffee-cups .cc-card-star-label {
+.brewery-cafe .bc-card-star-label {
   position: absolute;
   top: 50%;
   right: calc(100% + 6px);
   transform: translateY(-50%) translateX(5px);
   padding: 3px 8px;
   border-radius: 999px;
-  background: var(--cc-paper);
-  color: var(--cc-ink);
+  background: var(--bc-paper);
+  color: var(--bc-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 700;
@@ -3464,17 +3464,17 @@ html.lenis body {
   transition: opacity 220ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tile:hover .cc-card-star-label,
-.coffee-cups .cc-tile:focus-visible .cc-card-star-label {
+.brewery-cafe .bc-tile:hover .bc-card-star-label,
+.brewery-cafe .bc-tile:focus-visible .bc-card-star-label {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coffee-cups .cc-card-star {
-    animation: cc-star-pulse 2.9s ease-in-out infinite;
+  .brewery-cafe .bc-card-star {
+    animation: bc-star-pulse 2.9s ease-in-out infinite;
   }
-  @keyframes cc-star-pulse {
+  @keyframes bc-star-pulse {
     0%,
     100% {
       transform: scale(1);
@@ -3486,11 +3486,11 @@ html.lenis body {
 }
 
 /* --- Order tray ---------------------------------------------------- */
-.coffee-cups .cc-tray {
+.brewery-cafe .bc-tray {
   min-width: 0;
 }
 @media (min-width: 1024px) {
-  .coffee-cups .cc-tray {
+  .brewery-cafe .bc-tray {
     position: sticky;
     top: 96px;
   }
@@ -3498,24 +3498,24 @@ html.lenis body {
 
 /* The floating bar and sheet belong to the phone only; the desktop
    sticky panel above already owns the tray there. */
-.coffee-cups .cc-tray-bar {
+.brewery-cafe .bc-tray-bar {
   display: none;
 }
-.coffee-cups .cc-tray-scrim {
+.brewery-cafe .bc-tray-scrim {
   display: none;
 }
 
 @media (max-width: 1023px) {
   /* The bar is pinned for the whole scroll, so every band has to end clear
      of it — the last menu row and the footer line both sat under it. */
-  .coffee-cups .cc-menu {
+  .brewery-cafe .bc-menu {
     padding-bottom: 96px;
   }
-  .coffee-cups .cc-footer {
+  .brewery-cafe .bc-footer {
     padding-bottom: 88px;
   }
 
-  .coffee-cups .cc-tray-bar {
+  .brewery-cafe .bc-tray-bar {
     position: fixed;
     left: 12px;
     right: 12px;
@@ -3528,32 +3528,32 @@ html.lenis body {
     padding: 10px 18px;
     border: none;
     border-radius: 999px;
-    background: var(--cc-ink);
-    color: var(--cc-cream);
+    background: var(--bc-ink);
+    color: var(--bc-cream);
     box-shadow: 0 18px 40px -14px rgba(20, 8, 3, 0.7);
     font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
-  .coffee-cups .cc-tray-bar-total {
+  .brewery-cafe .bc-tray-bar-total {
     margin-left: auto;
-    color: var(--cc-honey);
+    color: var(--bc-honey);
     font-size: 16px;
   }
 
   /* An empty tray has nothing to say, so the bar stays out of the hero until
      the first item lands on it. */
-  .coffee-cups .cc-tray[data-idle='true'] .cc-tray-bar {
+  .brewery-cafe .bc-tray[data-idle='true'] .bc-tray-bar {
     display: none;
   }
 
-  .coffee-cups .cc-tray-bar-chev {
+  .brewery-cafe .bc-tray-bar-chev {
     font-size: 13px;
     opacity: 0.85;
   }
 
-  .coffee-cups .cc-tray-scrim {
+  .brewery-cafe .bc-tray-scrim {
     display: block;
     position: fixed;
     inset: 0;
@@ -3564,7 +3564,7 @@ html.lenis body {
     transition: opacity 260ms ease;
   }
 
-  .coffee-cups .cc-tray[data-open='true'] .cc-tray-scrim {
+  .brewery-cafe .bc-tray[data-open='true'] .bc-tray-scrim {
     opacity: 1;
     pointer-events: auto;
   }
@@ -3573,7 +3573,7 @@ html.lenis body {
      until the bar opens it. Same DOM, same cart state. It also drops out of
      the tab order while parked, so a keyboard or a screen reader never lands
      on a + button nobody can see. */
-  .coffee-cups .cc-tray-panel {
+  .brewery-cafe .bc-tray-panel {
     position: fixed;
     left: 12px;
     right: 12px;
@@ -3588,7 +3588,7 @@ html.lenis body {
       visibility 0s linear 320ms;
   }
 
-  .coffee-cups .cc-tray[data-open='true'] .cc-tray-panel {
+  .brewery-cafe .bc-tray[data-open='true'] .bc-tray-panel {
     transform: none;
     visibility: visible;
     transition:
@@ -3597,27 +3597,27 @@ html.lenis body {
   }
 }
 
-.coffee-cups .cc-tray-panel {
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+.brewery-cafe .bc-tray-panel {
+  background: var(--bc-paper);
+  border: 1px solid var(--bc-line);
   border-radius: 18px;
   padding: 16px;
   box-shadow: 0 18px 40px -24px rgba(58, 18, 4, 0.45);
 }
 
-.coffee-cups .cc-tray-head {
+.brewery-cafe .bc-tray-head {
   font-size: 15px;
   margin-bottom: 10px;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-tray-empty p {
+.brewery-cafe .bc-tray-empty p {
   font-size: 13px;
   line-height: 1.5;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
 }
 
-.coffee-cups .cc-tray-lines {
+.brewery-cafe .bc-tray-lines {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -3626,21 +3626,21 @@ html.lenis body {
   gap: 10px;
 }
 
-.coffee-cups .cc-tray-line {
+.brewery-cafe .bc-tray-line {
   display: flex;
   align-items: center;
   gap: 10px;
-  animation: cc-line-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: bc-line-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-line-in {
+@keyframes bc-line-in {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.97);
   }
 }
 
-.coffee-cups .cc-tray-thumb {
+.brewery-cafe .bc-tray-thumb {
   width: 44px;
   height: 44px;
   border-radius: 10px;
@@ -3648,68 +3648,68 @@ html.lenis body {
   flex-shrink: 0;
 }
 
-.coffee-cups .cc-tray-line-info {
+.brewery-cafe .bc-tray-line-info {
   flex: 1;
   min-width: 0;
 }
 
-.coffee-cups .cc-tray-each {
+.brewery-cafe .bc-tray-each {
   font-size: 11px;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
 }
 
-.coffee-cups .cc-tray-variant {
+.brewery-cafe .bc-tray-variant {
   font-size: 11px;
-  color: var(--cc-ember-deep);
+  color: var(--bc-ember-deep);
   font-weight: 600;
 }
 
-.coffee-cups .cc-tray-step {
+.brewery-cafe .bc-tray-step {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.coffee-cups .cc-tray-step button {
+.brewery-cafe .bc-tray-step button {
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  border: 1px solid var(--cc-line);
-  background: var(--cc-cream);
+  border: 1px solid var(--bc-line);
+  background: var(--bc-cream);
   font-size: 14px;
   font-weight: 800;
   line-height: 1;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
   cursor: pointer;
   transition: background 160ms ease, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tray-step button:hover {
-  background: var(--cc-honey);
+.brewery-cafe .bc-tray-step button:hover {
+  background: var(--bc-honey);
   transform: scale(1.1);
 }
 
-.coffee-cups .cc-tray-step button:active {
+.brewery-cafe .bc-tray-step button:active {
   transform: scale(0.9);
 }
 
-.coffee-cups .cc-tray-step span {
+.brewery-cafe .bc-tray-step span {
   min-width: 18px;
   text-align: center;
   font-size: 13px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-tray-line-total {
+.brewery-cafe .bc-tray-line-total {
   font-size: 13px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
+  color: var(--bc-ember);
 }
 
-.coffee-cups .cc-tray-foot {
+.brewery-cafe .bc-tray-foot {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -3717,75 +3717,75 @@ html.lenis body {
   padding-top: 12px;
   border-top: 2px dashed rgba(42, 33, 27, 0.25);
   font-size: 13px;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-tray-total {
+.brewery-cafe .bc-tray-total {
   font-size: 18px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember);
-  animation: cc-pick-rise 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  color: var(--bc-ember);
+  animation: bc-pick-rise 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-tray-place {
+.brewery-cafe .bc-tray-place {
   width: 100%;
   margin-top: 12px;
   justify-content: center;
-  background: var(--cc-ember);
+  background: var(--bc-ember);
   color: #fff;
-  border-color: var(--cc-ember);
+  border-color: var(--bc-ember);
 }
 
-.coffee-cups .cc-tray-place:hover {
-  background: var(--cc-ember-deep);
+.brewery-cafe .bc-tray-place:hover {
+  background: var(--bc-ember-deep);
 }
 
 /* --- Order ticket --------------------------------------------------- */
-.coffee-cups .cc-ticket {
+.brewery-cafe .bc-ticket {
   text-align: center;
   padding: 18px 14px;
-  background: var(--cc-cream);
-  border: 2px dashed var(--cc-ember);
+  background: var(--bc-cream);
+  border: 2px dashed var(--bc-ember);
   border-radius: 12px;
-  animation: cc-ticket-print 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: bc-ticket-print 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-ticket-print {
+@keyframes bc-ticket-print {
   from {
     opacity: 0;
     transform: translateY(-14px) scaleY(0.9);
   }
 }
 
-.coffee-cups .cc-ticket-stamp {
+.brewery-cafe .bc-ticket-stamp {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--cc-ember-deep);
+  color: var(--bc-ember-deep);
 }
 
-.coffee-cups .cc-ticket-no {
+.brewery-cafe .bc-ticket-no {
   font-size: 30px;
   margin: 6px 0;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-ticket-eta {
+.brewery-cafe .bc-ticket-eta {
   font-size: 12.5px;
   line-height: 1.5;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
   margin-bottom: 12px;
 }
 
-.coffee-cups .cc-tray-restart {
+.brewery-cafe .bc-tray-restart {
   display: block;
   width: 100%;
   min-height: 44px;
-  border: 2px solid var(--cc-ink);
+  border: 2px solid var(--bc-ink);
   border-radius: 999px;
   background: transparent;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
   font-family: var(--font-display), serif;
   font-size: 12px;
   font-weight: 700;
@@ -3795,15 +3795,15 @@ html.lenis body {
   transition: background 200ms ease, color 200ms ease;
 }
 
-.coffee-cups .cc-tray-restart:hover {
-  background: var(--cc-ink);
-  color: var(--cc-paper);
+.brewery-cafe .bc-tray-restart:hover {
+  background: var(--bc-ink);
+  color: var(--bc-paper);
 }
 
 /* --- Item dialog --------------------------------------------------
    Tapping a tile opens the item centred: photo, full story, and one
    big add control. Everything inside is sized for a thumb. */
-.coffee-cups .cc-dialog-scrim {
+.brewery-cafe .bc-dialog-scrim {
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -3812,35 +3812,35 @@ html.lenis body {
   padding: 20px;
   background: rgba(20, 8, 3, 0.62);
   backdrop-filter: blur(6px);
-  animation: cc-scrim-fade 220ms ease;
+  animation: bc-scrim-fade 220ms ease;
 }
 
-.coffee-cups .cc-dialog {
+.brewery-cafe .bc-dialog {
   position: relative;
   width: min(420px, 100%);
   max-height: min(86vh, 720px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--cc-paper);
+  background: var(--bc-paper);
   border-radius: 22px;
   box-shadow: 0 40px 90px rgba(10, 4, 1, 0.55);
-  animation: cc-dialog-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: bc-dialog-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes cc-scrim-fade {
+@keyframes bc-scrim-fade {
   from {
     opacity: 0;
   }
 }
 
-@keyframes cc-dialog-in {
+@keyframes bc-dialog-in {
   from {
     opacity: 0;
     transform: translateY(18px) scale(0.96);
   }
 }
 
-.coffee-cups .cc-dialog-close {
+.brewery-cafe .bc-dialog-close {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -3857,42 +3857,42 @@ html.lenis body {
   transition: background 200ms ease, transform 180ms ease;
 }
 
-.coffee-cups .cc-dialog-close:hover {
+.brewery-cafe .bc-dialog-close:hover {
   background: rgba(20, 8, 3, 0.78);
   transform: scale(1.06);
 }
 
-.coffee-cups .cc-dialog-close svg {
+.brewery-cafe .bc-dialog-close svg {
   width: 20px;
   height: 20px;
 }
 
-.coffee-cups .cc-dialog-img {
+.brewery-cafe .bc-dialog-img {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
-.coffee-cups .cc-dialog-img img {
+.brewery-cafe .bc-dialog-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.coffee-cups .cc-dialog-body {
+.brewery-cafe .bc-dialog-body {
   padding: 18px 20px 22px;
 }
 
-.coffee-cups .cc-dialog-cat {
+.brewery-cafe .bc-dialog-cat {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
   margin-bottom: 4px;
 }
 
-.coffee-cups .cc-dialog-row {
+.brewery-cafe .bc-dialog-row {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -3900,77 +3900,77 @@ html.lenis body {
   gap: 8px;
 }
 
-.coffee-cups .cc-dialog-name {
+.brewery-cafe .bc-dialog-name {
   font-family: var(--font-display), serif;
   font-size: 26px;
   line-height: 1.1;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-dialog-price {
+.brewery-cafe .bc-dialog-price {
   font-family: var(--font-display), serif;
   font-size: 22px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ember-deep);
+  color: var(--bc-ember-deep);
 }
 
-.coffee-cups .cc-dialog-reason {
+.brewery-cafe .bc-dialog-reason {
   display: inline-block;
   margin-top: 8px;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cc-ink);
-  background: var(--cc-honey);
+  color: var(--bc-ink);
+  background: var(--bc-honey);
   border-radius: 999px;
   padding: 4px 10px;
 }
 
-.coffee-cups .cc-dialog-note {
+.brewery-cafe .bc-dialog-note {
   margin-top: 10px;
   font-size: 14.5px;
   line-height: 1.55;
   color: rgba(38, 22, 12, 0.82);
 }
 
-.coffee-cups .cc-dialog-label {
+.brewery-cafe .bc-dialog-label {
   margin: 16px 0 2px;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
 }
 
-.coffee-cups .cc-dialog-text {
+.brewery-cafe .bc-dialog-text {
   font-size: 13.5px;
   line-height: 1.55;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
 }
 
-.coffee-cups .cc-dialog-kcal {
+.brewery-cafe .bc-dialog-kcal {
   margin-top: 14px;
   font-size: 12.5px;
-  color: var(--cc-muted);
+  color: var(--bc-muted);
   font-variant-numeric: tabular-nums;
 }
 
 /* --- Variant pickers (size + add-ons) ---------------------------- */
-.coffee-cups .cc-dialog-variants {
+.brewery-cafe .bc-dialog-variants {
   margin-top: 14px;
   border: none;
   padding: 0;
 }
 
-.coffee-cups .cc-variant-group {
+.brewery-cafe .bc-variant-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 6px;
 }
 
-.coffee-cups .cc-variant-btn {
+.brewery-cafe .bc-variant-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -3979,36 +3979,36 @@ html.lenis body {
   border: 1px solid rgba(42, 33, 27, 0.2);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.6);
-  color: var(--cc-ink);
+  color: var(--bc-ink);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: background 180ms, border-color 180ms, transform 150ms;
 }
 
-.coffee-cups .cc-variant-btn[data-active='true'] {
-  background: var(--cc-ember);
-  border-color: var(--cc-ember);
+.brewery-cafe .bc-variant-btn[data-active='true'] {
+  background: var(--bc-ember);
+  border-color: var(--bc-ember);
   color: #fff;
 }
 
-.coffee-cups .cc-variant-btn:hover {
+.brewery-cafe .bc-variant-btn:hover {
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-variant-extra {
+.brewery-cafe .bc-variant-extra {
   font-size: 11px;
   opacity: 0.75;
 }
 
-.coffee-cups .cc-dialog-add {
+.brewery-cafe .bc-dialog-add {
   display: block;
   width: 100%;
   margin-top: 18px;
   min-height: 48px;
   border: none;
   border-radius: 999px;
-  background: var(--cc-ember);
+  background: var(--bc-ember);
   color: #fff;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 13px;
@@ -4019,16 +4019,16 @@ html.lenis body {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease;
 }
 
-.coffee-cups .cc-dialog-add:hover {
-  background: var(--cc-ember-deep);
+.brewery-cafe .bc-dialog-add:hover {
+  background: var(--bc-ember-deep);
   transform: translateY(-1px);
 }
 
-.coffee-cups .cc-dialog-add:active {
+.brewery-cafe .bc-dialog-add:active {
   transform: scale(0.97);
 }
 
-.coffee-cups .cc-dialog-actions {
+.brewery-cafe .bc-dialog-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4036,21 +4036,21 @@ html.lenis body {
   margin-top: 18px;
 }
 
-.coffee-cups .cc-dialog-line-total {
+.brewery-cafe .bc-dialog-line-total {
   font-family: var(--font-display), serif;
   font-size: 18px;
   font-variant-numeric: tabular-nums;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
   margin-right: auto;
 }
 
-.coffee-cups .cc-dialog-done {
+.brewery-cafe .bc-dialog-done {
   min-height: 44px;
   padding: 0 22px;
-  border: 2px solid var(--cc-ink);
+  border: 2px solid var(--bc-ink);
   border-radius: 999px;
   background: transparent;
-  color: var(--cc-ink);
+  color: var(--bc-ink);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -4059,9 +4059,9 @@ html.lenis body {
   transition: background 200ms ease, color 200ms ease;
 }
 
-.coffee-cups .cc-dialog-done:hover {
-  background: var(--cc-ink);
-  color: var(--cc-paper);
+.brewery-cafe .bc-dialog-done:hover {
+  background: var(--bc-ink);
+  color: var(--bc-paper);
 }
 
 /* --- Touch targets -------------------------------------------------
@@ -4069,83 +4069,83 @@ html.lenis body {
    ordering control grows to a comfortable ~44px tap area without
    changing the compact desktop pills. */
 @media (max-width: 1023px) {
-  .coffee-cups .cc-tray-step button {
+  .brewery-cafe .bc-tray-step button {
     width: 44px;
     height: 44px;
     font-size: 18px;
   }
 
-  .coffee-cups .cc-tray-step span {
+  .brewery-cafe .bc-tray-step span {
     min-width: 26px;
     font-size: 15px;
   }
 
-  .coffee-cups .cc-mode-btn {
+  .brewery-cafe .bc-mode-btn {
     min-height: 44px;
   }
 
   /* The star icon stays on tiles, but its text reason pill has no room
      inside a square phone tile. */
-  .coffee-cups .cc-card-star-label {
+  .brewery-cafe .bc-card-star-label {
     display: none;
   }
 }
 
 /* --- Story band ----------------------------------------------- */
-.coffee-cups .cc-story {
-  background: var(--cc-green);
-  color: var(--cc-cream);
+.brewery-cafe .bc-story {
+  background: var(--bc-green);
+  color: var(--bc-cream);
 }
 
-.coffee-cups .cc-story-glow {
+.brewery-cafe .bc-story-glow {
   background:
     radial-gradient(58% 46% at 18% 8%, rgba(228, 87, 46, 0.5), transparent 70%),
     radial-gradient(52% 44% at 84% 92%, rgba(194, 169, 203, 0.34), transparent 72%);
 }
 
 /* --- Cards ---------------------------------------------------- */
-.coffee-cups .cc-card {
-  background: var(--cc-paper);
-  border: 1px solid var(--cc-line);
+.brewery-cafe .bc-card {
+  background: var(--bc-paper);
+  border: 1px solid var(--bc-line);
   border-radius: 18px;
   box-shadow: 0 18px 40px -30px rgba(42, 33, 27, 0.55);
 }
 
 /* --- Mosaic --------------------------------------------------- */
-.coffee-cups .cc-mosaic {
+.brewery-cafe .bc-mosaic {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 9rem;
   gap: 1.1rem;
 }
 @media (min-width: 768px) {
-  .coffee-cups .cc-mosaic {
+  .brewery-cafe .bc-mosaic {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-rows: 13rem;
     gap: 1.5rem;
   }
 }
-.coffee-cups .cc-mosaic-tall {
+.brewery-cafe .bc-mosaic-tall {
   grid-row: span 2;
 }
 
-.coffee-cups .cc-shot {
+.brewery-cafe .bc-shot {
   position: relative;
   height: 100%;
   overflow: hidden;
   border-radius: 14px;
-  border: 5px solid var(--cc-paper);
-  background: var(--cc-paper);
+  border: 5px solid var(--bc-paper);
+  background: var(--bc-paper);
   box-shadow: 0 22px 44px -26px rgba(42, 33, 27, 0.7);
   transform: rotate(var(--tilt, 0deg));
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease;
 }
-.coffee-cups .cc-shot:hover {
+.brewery-cafe .bc-shot:hover {
   transform: rotate(0deg) translateY(-7px) scale(1.015);
   box-shadow: 0 34px 60px -28px rgba(42, 33, 27, 0.8);
 }
 
-.coffee-cups .cc-shot-caption {
+.brewery-cafe .bc-shot-caption {
   position: absolute;
   left: 0.65rem;
   bottom: 0.65rem;
@@ -4155,35 +4155,35 @@ html.lenis body {
   border-radius: 999px;
   background: rgba(20, 15, 12, 0.62);
   backdrop-filter: blur(5px);
-  color: var(--cc-cream);
+  color: var(--bc-cream);
   padding: 0.3rem 0.7rem;
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.coffee-cups .cc-shot-dot {
+.brewery-cafe .bc-shot-dot {
   height: 0.35rem;
   width: 0.35rem;
   border-radius: 999px;
-  background: var(--cc-honey);
+  background: var(--bc-honey);
 }
 
 /* --- Footer --------------------------------------------------- */
-.coffee-cups .cc-footer {
-  background: var(--cc-green-deep);
-  color: var(--cc-cream);
+.brewery-cafe .bc-footer {
+  background: var(--bc-green-deep);
+  color: var(--bc-cream);
 }
 
 /* --- The pour: six plates at real depths, one shared timeline ---- */
-.coffee-cups .cc-pour-scene {
-  --cc-loop: 9s;
+.brewery-cafe .bc-pour-scene {
+  --bc-loop: 9s;
   perspective: 720px;
 }
 
 /* Sized down and faded on small screens so the headline keeps the room,
    and lifted clear of the bottom edge so the glass stays in the first view. */
-.coffee-cups .cc-pour-anchor {
+.brewery-cafe .bc-pour-anchor {
   position: absolute;
   right: -3%;
   bottom: 21%;
@@ -4193,7 +4193,7 @@ html.lenis body {
 }
 
 @media (min-width: 768px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery-cafe .bc-pour-anchor {
     top: 52%;
     bottom: auto;
     right: 2%;
@@ -4205,7 +4205,7 @@ html.lenis body {
 }
 
 @media (min-width: 1024px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery-cafe .bc-pour-anchor {
     right: 3.5%;
     width: 29%;
     max-width: 350px;
@@ -4214,12 +4214,12 @@ html.lenis body {
 }
 
 @media (min-width: 1440px) {
-  .coffee-cups .cc-pour-anchor {
+  .brewery-cafe .bc-pour-anchor {
     right: 6.5%;
   }
 }
 
-.coffee-cups .cc-pour-stage {
+.brewery-cafe .bc-pour-stage {
   position: relative;
   width: 100%;
   aspect-ratio: 200 / 260;
@@ -4228,28 +4228,28 @@ html.lenis body {
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.coffee-cups .cc-pour-idle {
+.brewery-cafe .bc-pour-idle {
   position: relative;
   height: 100%;
   transform-style: preserve-3d;
 }
 
-.coffee-cups .cc-pour-plate {
+.brewery-cafe .bc-pour-plate {
   position: absolute;
   inset: 0;
   transform: translateZ(var(--lz, 0px));
-  animation: cc-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: bc-pour-assemble 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: var(--d, 0ms);
 }
 
-.coffee-cups .cc-pour-plate > svg {
+.brewery-cafe .bc-pour-plate > svg {
   display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
 }
 
-@keyframes cc-pour-assemble {
+@keyframes bc-pour-assemble {
   from {
     opacity: 0;
     transform: translateZ(calc(var(--lz, 0px) - 130px)) rotateY(-32deg);
@@ -4262,84 +4262,84 @@ html.lenis body {
 
 /* Every part below rests in its finished state, so a browser that asks for
    reduced motion gets a full glass with the shot still running into it. */
-.coffee-cups .cc-pour-halo {
+.brewery-cafe .bc-pour-halo {
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.coffee-cups .cc-pour-level {
+.brewery-cafe .bc-pour-level {
   transform-box: view-box;
   transform-origin: 100px 206px;
 }
 
-.coffee-cups .cc-pour-crema {
+.brewery-cafe .bc-pour-crema {
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0.9;
 }
 
-.coffee-cups .cc-pour-plume {
+.brewery-cafe .bc-pour-plume {
   transform-box: fill-box;
   transform-origin: center;
   filter: blur(5px);
   opacity: 0.32;
 }
 
-.coffee-cups .cc-pour-ripple {
+.brewery-cafe .bc-pour-ripple {
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
 }
 
-.coffee-cups .cc-pour-stream {
+.brewery-cafe .bc-pour-stream {
   stroke-dasharray: 100;
 }
 
-.coffee-cups .cc-pour-shine {
+.brewery-cafe .bc-pour-shine {
   opacity: 0.2;
 }
 
-.coffee-cups .cc-pour-steam {
+.brewery-cafe .bc-pour-steam {
   transform-box: fill-box;
   transform-origin: 50% 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .coffee-cups .cc-pour-idle {
-    animation: cc-pour-yaw 16s ease-in-out infinite;
+  .brewery-cafe .bc-pour-idle {
+    animation: bc-pour-yaw 16s ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-halo {
-    animation: cc-pour-halo var(--cc-loop) ease-in-out infinite;
+  .brewery-cafe .bc-pour-halo {
+    animation: bc-pour-halo var(--bc-loop) ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-level {
-    animation: cc-pour-level var(--cc-loop) ease-in-out infinite;
+  .brewery-cafe .bc-pour-level {
+    animation: bc-pour-level var(--bc-loop) ease-in-out infinite;
   }
-  .coffee-cups .cc-pour-stream {
-    animation: cc-pour-stream var(--cc-loop) linear infinite;
+  .brewery-cafe .bc-pour-stream {
+    animation: bc-pour-stream var(--bc-loop) linear infinite;
     animation-delay: calc(var(--k, 0) * -0.3s);
   }
-  .coffee-cups .cc-pour-crema {
-    animation: cc-pour-crema var(--cc-loop) ease-out infinite;
+  .brewery-cafe .bc-pour-crema {
+    animation: bc-pour-crema var(--bc-loop) ease-out infinite;
   }
-  .coffee-cups .cc-pour-plume {
-    animation: cc-pour-plume var(--cc-loop) ease-out infinite;
+  .brewery-cafe .bc-pour-plume {
+    animation: bc-pour-plume var(--bc-loop) ease-out infinite;
     animation-delay: calc(var(--k, 0) * -0.55s);
   }
-  .coffee-cups .cc-pour-ripple {
-    animation: cc-pour-ripple 3s ease-out infinite;
+  .brewery-cafe .bc-pour-ripple {
+    animation: bc-pour-ripple 3s ease-out infinite;
     animation-delay: calc(var(--k, 0) * 0.8s);
   }
-  .coffee-cups .cc-pour-shine {
-    animation: cc-pour-shine var(--cc-loop) ease-in-out infinite;
+  .brewery-cafe .bc-pour-shine {
+    animation: bc-pour-shine var(--bc-loop) ease-in-out infinite;
     animation-delay: calc(var(--k, 0) * -1.2s);
   }
-  .coffee-cups .cc-pour-steam {
-    animation: cc-pour-steam var(--cc-loop) ease-out infinite;
+  .brewery-cafe .bc-pour-steam {
+    animation: bc-pour-steam var(--bc-loop) ease-out infinite;
     animation-delay: calc(var(--k, 0) * -2.6s);
   }
 }
 
-@keyframes cc-pour-yaw {
+@keyframes bc-pour-yaw {
   0%,
   100% {
     transform: rotateY(-6deg);
@@ -4349,7 +4349,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-halo {
+@keyframes bc-pour-halo {
   0%,
   100% {
     opacity: 0.86;
@@ -4362,7 +4362,7 @@ html.lenis body {
 }
 
 /* The shot lands, the level swells, then settles back over the rest of the loop. */
-@keyframes cc-pour-level {
+@keyframes bc-pour-level {
   0%,
   12% {
     transform: scaleY(1);
@@ -4375,7 +4375,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-stream {
+@keyframes bc-pour-stream {
   0%,
   7% {
     opacity: 0;
@@ -4401,7 +4401,7 @@ html.lenis body {
 }
 
 /* The disc starts spreading the moment the shot reaches the surface. */
-@keyframes cc-pour-crema {
+@keyframes bc-pour-crema {
   0%,
   14% {
     opacity: 0.55;
@@ -4421,7 +4421,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-plume {
+@keyframes bc-pour-plume {
   0%,
   16% {
     opacity: 0;
@@ -4442,7 +4442,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-ripple {
+@keyframes bc-pour-ripple {
   0% {
     opacity: 0;
     transform: scale(0.25);
@@ -4456,7 +4456,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-shine {
+@keyframes bc-pour-shine {
   0%,
   100% {
     opacity: 0.2;
@@ -4466,7 +4466,7 @@ html.lenis body {
   }
 }
 
-@keyframes cc-pour-steam {
+@keyframes bc-pour-steam {
   0%,
   48% {
     opacity: 0;
@@ -4486,92 +4486,92 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coffee-cups .cc-hero-grain,
-  .coffee-cups .cc-pour-plate {
+  .brewery-cafe .bc-hero-grain,
+  .brewery-cafe .bc-pour-plate {
     animation: none;
   }
-  .coffee-cups .cc-shot,
-  .coffee-cups .cc-shot:hover {
+  .brewery-cafe .bc-shot,
+  .brewery-cafe .bc-shot:hover {
     transform: none;
     transition: none;
   }
-  .coffee-cups .cc-btn:hover {
+  .brewery-cafe .bc-btn:hover {
     transform: none;
   }
-  .coffee-cups .cc-pick-wash {
+  .brewery-cafe .bc-pick-wash {
     animation: none;
   }
-  .coffee-cups .cc-beans {
+  .brewery-cafe .bc-beans {
     animation: none;
   }
-  .coffee-cups .cc-bean {
+  .brewery-cafe .bc-bean {
     animation: none;
   }
-  .coffee-cups .cc-carousel-btn:hover {
+  .brewery-cafe .bc-carousel-btn:hover {
     transform: none;
   }
-  .coffee-cups .cc-swipe-hint {
+  .brewery-cafe .bc-swipe-hint {
     animation: none;
     transition: none;
     opacity: 1;
   }
-  .coffee-cups .cc-swipe-arrow {
+  .brewery-cafe .bc-swipe-arrow {
     animation: none;
   }
-  .coffee-cups .cc-tile,
-  .coffee-cups .cc-tile:hover,
-  .coffee-cups .cc-tile:active {
+  .brewery-cafe .bc-tile,
+  .brewery-cafe .bc-tile:hover,
+  .brewery-cafe .bc-tile:active {
     transform: none;
     transition: none;
     animation: none;
     translate: none;
     rotate: none;
   }
-  .coffee-cups .cc-tile-img img,
-  .coffee-cups .cc-tile:hover .cc-tile-img img {
+  .brewery-cafe .bc-tile-img img,
+  .brewery-cafe .bc-tile:hover .bc-tile-img img {
     transform: none;
     transition: none;
   }
-  .coffee-cups .cc-card-star {
+  .brewery-cafe .bc-card-star {
     animation: none;
   }
-  .coffee-cups .cc-card-star-label {
+  .brewery-cafe .bc-card-star-label {
     transition: none;
   }
   /* The barrel keeps its shape — the curve is geometry, not movement — but
      it stops lifting, unfolding and easing between poses. JS snaps the spin
      to the next card instantly for the same reason. */
-  .coffee-cups .cc-barrel-stage {
+  .brewery-cafe .bc-barrel-stage {
     cursor: default;
   }
-  .coffee-cups .cc-barrel-card,
-  .coffee-cups .cc-barrel-card[data-active='true'] {
+  .brewery-cafe .bc-barrel-card,
+  .brewery-cafe .bc-barrel-card[data-active='true'] {
     translate: none;
     transition: none;
   }
-  .coffee-cups .cc-barrel-note,
-  .coffee-cups .cc-barrel-cta,
-  .coffee-cups .cc-barrel-dot::after,
-  .coffee-cups .cc-barrel-nav {
+  .brewery-cafe .bc-barrel-note,
+  .brewery-cafe .bc-barrel-cta,
+  .brewery-cafe .bc-barrel-dot::after,
+  .brewery-cafe .bc-barrel-nav {
     transition: none;
   }
-  .coffee-cups .cc-tray-line,
-  .coffee-cups .cc-ticket,
-  .coffee-cups .cc-tray-total {
+  .brewery-cafe .bc-tray-line,
+  .brewery-cafe .bc-ticket,
+  .brewery-cafe .bc-tray-total {
     animation: none;
   }
-  .coffee-cups .cc-tray-step button:hover,
-  .coffee-cups .cc-tray-step button:active,
-  .coffee-cups .cc-dialog-add:hover,
-  .coffee-cups .cc-dialog-add:active,
-  .coffee-cups .cc-dialog-close:hover {
+  .brewery-cafe .bc-tray-step button:hover,
+  .brewery-cafe .bc-tray-step button:active,
+  .brewery-cafe .bc-dialog-add:hover,
+  .brewery-cafe .bc-dialog-add:active,
+  .brewery-cafe .bc-dialog-close:hover {
     transform: none;
   }
-  .coffee-cups .cc-dialog-scrim,
-  .coffee-cups .cc-dialog {
+  .brewery-cafe .bc-dialog-scrim,
+  .brewery-cafe .bc-dialog {
     animation: none;
   }
-  .coffee-cups .cc-mode-pill {
+  .brewery-cafe .bc-mode-pill {
     transition: none;
   }
 }

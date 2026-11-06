@@ -64,7 +64,7 @@ describe('ember larder store registry entry', () => {
     // that cooks and sells jars, which none of the others do.
     expect(site?.business).toMatch(/restaurant/i);
     expect(site?.business).toMatch(/pantry/i);
-    expect(site?.slug).not.toBe('coffee-cups');
+    expect(site?.slug).not.toBe('brewery-cafe');
     expect(site?.slug).not.toBe('savour');
     expect(site?.slug).not.toMatch(/^orderbook-/);
   });

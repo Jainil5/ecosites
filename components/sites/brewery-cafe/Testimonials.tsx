@@ -65,15 +65,15 @@ export function Testimonials() {
       id="voices"
       aria-roledescription="carousel"
       aria-label="What the regulars say"
-      className="cc-voices-section relative scroll-mt-20 overflow-hidden py-20 sm:py-24"
+      className="bc-voices-section relative scroll-mt-20 overflow-hidden py-20 sm:py-24"
     >
       <BeansField />
       <div className="relative mx-auto max-w-6xl px-5">
         <Reveal className="text-center">
-          <p className="cc-display text-[11px] uppercase tracking-[0.26em] text-[var(--cc-honey)]">
+          <p className="bc-display text-[11px] uppercase tracking-[0.26em] text-[var(--bc-honey)]">
             Word of mouth
           </p>
-          <h2 className="cc-display mt-3 text-4xl text-[var(--cc-paper)] sm:text-5xl">
+          <h2 className="bc-display mt-3 text-4xl text-[var(--bc-paper)] sm:text-5xl">
             What the regulars say
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-[rgba(251,244,233,0.72)]">
@@ -83,7 +83,7 @@ export function Testimonials() {
         </Reveal>
 
         <div
-          className="cc-carousel mt-14"
+          className="bc-carousel mt-14"
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
           onFocus={() => setHovering(true)}
@@ -93,14 +93,14 @@ export function Testimonials() {
             type="button"
             aria-label="Previous testimonials"
             onClick={() => go(-1)}
-            className="focus-ring cc-carousel-btn cc-carousel-btn-left"
+            className="focus-ring bc-carousel-btn bc-carousel-btn-left"
           >
             <ChevronLeft aria-hidden className="h-5 w-5" />
           </button>
 
-          <div ref={viewportRef} className="cc-carousel-viewport">
+          <div ref={viewportRef} className="bc-carousel-viewport">
             <motion.div
-              className="cc-carousel-track"
+              className="bc-carousel-track"
               style={
                 {
                   '--card-w': metrics.cardW ? `${metrics.cardW}px` : '100%',
@@ -118,19 +118,19 @@ export function Testimonials() {
                 const item = itemsById.get(t.itemId);
                 const inWindow = i >= page && i < page + metrics.perView;
                 return (
-                  <div key={t.name} className="cc-carousel-card" aria-hidden={!inWindow}>
-                    <span className="cc-voice-top">
-                      <span aria-hidden className="cc-voice-avatar">
+                  <div key={t.name} className="bc-carousel-card" aria-hidden={!inWindow}>
+                    <span className="bc-voice-top">
+                      <span aria-hidden className="bc-voice-avatar">
                         {t.name.charAt(0)}
                       </span>
                       <span>
-                        <span className="cc-voice-name">{t.name}</span>
-                        <span className="cc-voice-when">{t.when}</span>
+                        <span className="bc-voice-name">{t.name}</span>
+                        <span className="bc-voice-when">{t.when}</span>
                       </span>
                     </span>
-                    <span className="cc-voice-quote cc-serif">“{t.quote}”</span>
+                    <span className="bc-voice-quote bc-serif">“{t.quote}”</span>
                     {item && (
-                      <span className="cc-voice-tag">
+                      <span className="bc-voice-tag">
                         <Image
                           src={item.src}
                           alt=""
@@ -156,26 +156,26 @@ export function Testimonials() {
             type="button"
             aria-label="Next testimonials"
             onClick={() => go(1)}
-            className="focus-ring cc-carousel-btn cc-carousel-btn-right"
+            className="focus-ring bc-carousel-btn bc-carousel-btn-right"
           >
             <ChevronRight aria-hidden className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="cc-carousel-foot mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        <div className="bc-carousel-foot mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
           <button
             type="button"
             aria-pressed={userPaused}
             aria-label={userPaused ? 'Resume the testimonials' : 'Pause the testimonials'}
             onClick={() => setUserPaused((p) => !p)}
-            className="focus-ring cc-carousel-pause"
+            className="focus-ring bc-carousel-pause"
           >
             {userPaused ? 'Play' : 'Pause'}
           </button>
           <div
             role="tablist"
             aria-label="Choose a testimonial page"
-            className="cc-carousel-dots flex flex-wrap justify-center gap-2.5"
+            className="bc-carousel-dots flex flex-wrap justify-center gap-2.5"
           >
             {Array.from({ length: pageCount }, (_, i) => (
               <button
@@ -185,7 +185,7 @@ export function Testimonials() {
                 aria-selected={i === page}
                 aria-label={`Go to testimonial page ${i + 1}`}
                 onClick={() => setPage(i)}
-                className="focus-ring cc-carousel-dot"
+                className="focus-ring bc-carousel-dot"
                 data-active={i === page ? 'true' : 'false'}
               />
             ))}
@@ -193,7 +193,7 @@ export function Testimonials() {
         </div>
 
         <Reveal className="mt-16 text-center">
-          <a href="#menu" className="focus-ring cc-btn cc-btn-solid">
+          <a href="#menu" className="focus-ring bc-btn bc-btn-solid">
             Order what they are talking about
           </a>
         </Reveal>

@@ -39,7 +39,7 @@ describe('the edition catalogue', () => {
     expect(editionById('nonsense' as never).id).toBe('cafe');
   });
 
-  it('runs the café on the same catalogue the Coffee Cups site sells', () => {
+  it('runs the café on the same catalogue the Brewery Cafe site sells', () => {
     const cafe = byId('cafe');
     expect(cafe.brand).toBe(defaultBrand);
     expect(cafe.menu).toBe(defaultMenu);
@@ -74,7 +74,7 @@ describe('the edition catalogue', () => {
     expect(byId('salon').brand.gstRate).toBe(0.18);
     expect(new Set(editions.map((e) => e.brand.accent)).size).toBe(editions.length);
     expect(new Set(editions.map((e) => e.brand.name))).toEqual(
-      new Set(['Coffee Cups', 'Hair Adore', 'Ember Larder']),
+      new Set(['Brewery Cafe', 'Hair Adore', 'Ember Larder']),
     );
   });
 
@@ -89,7 +89,7 @@ describe('the edition catalogue', () => {
     expect(byId('salon').profile.weekday).toBeLessThan(byId('cafe').profile.weekday);
   });
 
-  it('shares the Coffee Cups order bridge with the café counter only', () => {
+  it('shares the Brewery Cafe order bridge with the café counter only', () => {
     expect(bridgesToCafe('cafe')).toBe(true);
     expect(bridgesToCafe('salon')).toBe(false);
     expect(bridgesToCafe('larder')).toBe(false);
@@ -116,7 +116,7 @@ describe('switching counter', () => {
     const paths = editions.map((e) => counterPath(e));
     expect(new Set(paths).size).toBe(editions.length);
     expect(paths).toEqual([
-      '/orderbook/coffee-cups-demo',
+      '/orderbook/brewery-cafe-demo',
       '/orderbook/hair-adore-demo',
       '/orderbook/ember-larder-demo',
     ]);

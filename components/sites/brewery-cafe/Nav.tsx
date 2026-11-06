@@ -36,7 +36,7 @@ export function Nav() {
 
   return (
     <>
-      <div className="bg-[var(--cc-green)] text-center">
+      <div className="bg-[var(--bc-green)] text-center">
         <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-1">
           <Link
             href="/"
@@ -52,16 +52,16 @@ export function Nav() {
         aria-label="Main"
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'border-b border-[var(--cc-line)] bg-[#fbf4e9]/90 backdrop-blur-md'
+            ? 'border-b border-[var(--bc-line)] bg-[#fbf4e9]/90 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent'
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-          <Link href="/coffee-cups" className="focus-ring cc-brand group flex min-h-10 items-center gap-2.5">
-            <SunriseMark className="h-7 w-7 text-[var(--cc-ember)]" />
-            <span className="cc-display text-xl leading-none">
-              <span className="cc-serif italic font-normal text-[var(--cc-ember)]">Coffee</span>
-              <span className="ml-1 uppercase tracking-[0.14em]">Cups</span>
+          <Link href="/brewery-cafe" className="focus-ring bc-brand group flex min-h-10 items-center gap-2.5">
+            <SunriseMark className="h-7 w-7 text-[var(--bc-ember)]" />
+            <span className="bc-display text-xl leading-none">
+              <span className="bc-serif italic font-normal text-[var(--bc-ember)]">Brewery</span>
+              <span className="ml-1 uppercase tracking-[0.14em]">Cafe</span>
             </span>
           </Link>
 
@@ -70,12 +70,12 @@ export function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="focus-ring cc-display rounded text-[13px] uppercase tracking-[0.16em] text-[#2a211b]/70 transition-colors hover:text-[var(--cc-ember)]"
+                className="focus-ring bc-display rounded text-[13px] uppercase tracking-[0.16em] text-[#2a211b]/70 transition-colors hover:text-[var(--bc-ember)]"
               >
                 {l.label}
               </a>
             ))}
-            <a href="#menu" className="focus-ring cc-btn cc-btn-solid">
+            <a href="#menu" className="focus-ring bc-btn bc-btn-solid">
               Order ahead
             </a>
           </nav>
@@ -85,21 +85,21 @@ export function Nav() {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="focus-ring cc-display inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--cc-ink)] md:hidden"
+            className="focus-ring bc-display inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--bc-ink)] md:hidden"
           >
             {open ? <X aria-hidden className="h-6 w-6" /> : <Menu aria-hidden className="h-6 w-6" />}
           </button>
         </div>
 
         {open ? (
-          <div className="border-t border-[var(--cc-line)] bg-[var(--cc-cream)] px-5 py-3 md:hidden">
+          <div className="border-t border-[var(--bc-line)] bg-[var(--bc-cream)] px-5 py-3 md:hidden">
             <div className="flex flex-col">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="focus-ring cc-display flex min-h-11 items-center rounded text-sm uppercase tracking-[0.16em] text-[#2a211b]/80"
+                  className="focus-ring bc-display flex min-h-11 items-center rounded text-sm uppercase tracking-[0.16em] text-[#2a211b]/80"
                 >
                   {l.label}
                 </a>
@@ -107,7 +107,7 @@ export function Nav() {
               <a
                 href="#menu"
                 onClick={() => setOpen(false)}
-                className="focus-ring cc-btn cc-btn-solid mt-2 w-full"
+                className="focus-ring bc-btn bc-btn-solid mt-2 w-full"
               >
                 Order ahead
               </a>

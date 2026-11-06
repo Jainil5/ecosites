@@ -24,8 +24,8 @@ const FILES = [
   'components/sites/ember-larder/CartDrawer.tsx',
   'components/sites/ember-larder/SiteFooter.tsx',
   'components/sites/ember-larder/data.ts',
-  'components/sites/coffee-cups/Testimonials.tsx',
-  'components/sites/coffee-cups/testimonialsData.ts',
+  'components/sites/brewery-cafe/Testimonials.tsx',
+  'components/sites/brewery-cafe/testimonialsData.ts',
   'components/sites/hair-adore/Register.tsx',
   'components/sites/hair-adore/orders.ts',
   'components/sites/hair-adore/useOrders.ts',
@@ -33,7 +33,7 @@ const FILES = [
   'components/sites/analytical-register/overview-data.ts',
   'components/sites/analytical-register/menu-data.ts',
   'components/sites/savour/Savour.tsx',
-  'components/sites/coffee-cups/cafe.ts',
+  'components/sites/brewery-cafe/cafe.ts',
   // The catalogue's own words, and the campaign that sits on top of it.
   'content/brand/products.ts',
   'content/brand/campaign.ts',
@@ -68,7 +68,7 @@ describe('the copy a visitor reads', () => {
     expect(namesake).toMatch(/Built for the product/);
     const footer = read('components/sites/ember-larder/SiteFooter.tsx');
     expect(footer).toMatch(/our own house/i);
-    const voices = read('components/sites/coffee-cups/Testimonials.tsx');
+    const voices = read('components/sites/brewery-cafe/Testimonials.tsx');
     expect(voices).toMatch(/Voices we wrote for the room/);
   });
 });

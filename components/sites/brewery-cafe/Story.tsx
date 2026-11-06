@@ -6,17 +6,17 @@ import { SunriseMark } from './SunriseMark';
 
 export function Story() {
   return (
-    <section id="story" className="cc-story relative scroll-mt-20 overflow-hidden py-20 sm:py-24">
-      <div aria-hidden className="cc-story-glow absolute inset-0" />
+    <section id="story" className="bc-story relative scroll-mt-20 overflow-hidden py-20 sm:py-24">
+      <div aria-hidden className="bc-story-glow absolute inset-0" />
       <div className="relative mx-auto max-w-4xl px-5 text-center">
         <Reveal>
           <h2 className="sr-only">The story behind the counter</h2>
-          <SunriseMark className="mx-auto h-9 w-9 text-[var(--cc-honey)]" />
-          <blockquote className="cc-serif mt-8 text-2xl italic leading-snug text-[var(--cc-cream)] sm:text-[2rem]">
+          <SunriseMark className="mx-auto h-9 w-9 text-[var(--bc-honey)]" />
+          <blockquote className="bc-serif mt-8 text-2xl italic leading-snug text-[var(--bc-cream)] sm:text-[2rem]">
             “A coffee bar lives or dies by the first shot of the day. Everything else on this
             counter is just waiting for the light to come up.”
           </blockquote>
-          <p className="cc-display mt-6 text-[11px] uppercase tracking-[0.26em] text-[var(--cc-honey)]">
+          <p className="bc-display mt-6 text-[11px] uppercase tracking-[0.26em] text-[var(--bc-honey)]">
             Why we dial in before dawn
           </p>
         </Reveal>

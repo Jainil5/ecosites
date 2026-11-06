@@ -73,7 +73,7 @@ const item = (
   tags,
   badge,
   details,
-  src: `/coffee-cups/menu/${id}.jpg`,
+  src: `/brewery-cafe/menu/${id}.jpg`,
 });
 
 const pick = (i: MenuItem): MenuItem => ({ ...i, featured: true });

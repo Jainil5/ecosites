@@ -59,14 +59,14 @@ const clamp = (min: number, v: number, max: number) => Math.min(max, Math.max(mi
 
 function BarrelStar({ label }: { label: string }) {
   return (
-    <span className="cc-card-star" aria-hidden>
-      <svg viewBox="0 0 24 24" className="cc-star-icon" aria-hidden>
+    <span className="bc-card-star" aria-hidden>
+      <svg viewBox="0 0 24 24" className="bc-star-icon" aria-hidden>
         <path
           d="M12 2.6l2.6 6 6.4.6-4.8 4.3 1.4 6.3L12 16.6 6.4 19.8l1.4-6.3L3 9.2l6.4-.6z"
           fill="currentColor"
         />
       </svg>
-      <span className="cc-card-star-label">{label}</span>
+      <span className="bc-card-star-label">{label}</span>
     </span>
   );
 }
@@ -329,7 +329,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
 
   return (
     <div
-      className="cc-barrel"
+      className="bc-barrel"
       role="group"
       aria-label={`${label} — barrel gallery`}
       onFocus={() => {
@@ -341,7 +341,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
     >
       <div
         ref={stageRef}
-        className="cc-barrel-stage"
+        className="bc-barrel-stage"
         style={{ '--n': n } as CSSProperties}
         onPointerEnter={() => {
           hoveringRef.current = true;
@@ -356,27 +356,27 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
         onWheel={onWheel}
         onKeyDown={onKeyDown}
       >
-        <div aria-hidden className="cc-barrel-glow" />
+        <div aria-hidden className="bc-barrel-glow" />
         {showHint && (
-          <div className="cc-swipe-hint" data-live={hintArmed ? 'true' : 'false'} aria-hidden>
-            <span className="cc-swipe-arrow cc-swipe-arrow-l">‹</span>
-            <span className="cc-swipe-label">Swipe to browse</span>
-            <span className="cc-swipe-arrow cc-swipe-arrow-r">›</span>
+          <div className="bc-swipe-hint" data-live={hintArmed ? 'true' : 'false'} aria-hidden>
+            <span className="bc-swipe-arrow bc-swipe-arrow-l">‹</span>
+            <span className="bc-swipe-label">Swipe to browse</span>
+            <span className="bc-swipe-arrow bc-swipe-arrow-r">›</span>
           </div>
         )}
-        <ul ref={ringRef} className="cc-barrel-ring">
+        <ul ref={ringRef} className="bc-barrel-ring">
           {entries.map(({ item, groupTitle }, i) => {
             const facing = i === active;
             return (
               <li
                 key={item.id}
                 ref={i === 0 ? slotRef : null}
-                className="cc-barrel-slot"
+                className="bc-barrel-slot"
                 style={{ '--a': `${(i * step).toFixed(3)}deg` } as CSSProperties}
               >
                 <button
                   type="button"
-                  className="cc-barrel-card"
+                  className="bc-barrel-card"
                   data-active={facing ? 'true' : 'false'}
                   onClick={() => onCard(i)}
                   onFocus={(e) => onCardFocus(i, e)}
@@ -384,7 +384,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
                     facing ? 'Open for details' : 'Bring to the front'
                   }`}
                 >
-                  <span className="cc-barrel-img">
+                  <span className="bc-barrel-img">
                     <Image
                       src={item.src}
                       alt=""
@@ -398,16 +398,16 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
                   </span>
                   {isRecommended(item) ? <BarrelStar label={item.badge ?? 'House pick'} /> : null}
                   {cartQtyForItem(cart, item.id) ? (
-                    <span className="cc-barrel-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
+                    <span className="bc-barrel-qty" aria-label={`${cartQtyForItem(cart, item.id)} on your tray`}>
                       {cartQtyForItem(cart, item.id)}
                     </span>
                   ) : null}
-                  <span className="cc-barrel-cap">
-                    <span className="cc-barrel-name">{item.name}</span>
-                    <span className="cc-barrel-note">{item.note}</span>
-                    <span className="cc-barrel-line">
-                      <span className="cc-barrel-price">{item.price}</span>
-                      {facing ? <span className="cc-barrel-cta">Open</span> : null}
+                  <span className="bc-barrel-cap">
+                    <span className="bc-barrel-name">{item.name}</span>
+                    <span className="bc-barrel-note">{item.note}</span>
+                    <span className="bc-barrel-line">
+                      <span className="bc-barrel-price">{item.price}</span>
+                      {facing ? <span className="bc-barrel-cta">Open</span> : null}
                     </span>
                   </span>
                 </button>
@@ -415,14 +415,14 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
             );
           })}
         </ul>
-        <span aria-hidden className="cc-barrel-curtain cc-barrel-curtain-l" />
-        <span aria-hidden className="cc-barrel-curtain cc-barrel-curtain-r" />
+        <span aria-hidden className="bc-barrel-curtain bc-barrel-curtain-l" />
+        <span aria-hidden className="bc-barrel-curtain bc-barrel-curtain-r" />
       </div>
 
-      <div className="cc-barrel-hud">
+      <div className="bc-barrel-hud">
         <button
           type="button"
-          className="cc-barrel-nav"
+          className="bc-barrel-nav"
           onClick={() => spinTo(wrap(active - 1))}
           disabled={n < 2}
           aria-label={`Previous ${label} item`}
@@ -438,15 +438,15 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
             />
           </svg>
         </button>
-        <p className="cc-barrel-count" aria-live="polite">
-          <span className="cc-barrel-count-now">{String(active + 1).padStart(2, '0')}</span>
-          <span className="cc-barrel-count-sep">/</span>
-          <span className="cc-barrel-count-all">{String(n).padStart(2, '0')}</span>
-          <span className="cc-barrel-count-name">{entries[active]?.item.name}</span>
+        <p className="bc-barrel-count" aria-live="polite">
+          <span className="bc-barrel-count-now">{String(active + 1).padStart(2, '0')}</span>
+          <span className="bc-barrel-count-sep">/</span>
+          <span className="bc-barrel-count-all">{String(n).padStart(2, '0')}</span>
+          <span className="bc-barrel-count-name">{entries[active]?.item.name}</span>
         </p>
         <button
           type="button"
-          className="cc-barrel-nav"
+          className="bc-barrel-nav"
           onClick={() => spinTo(wrap(active + 1))}
           disabled={n < 2}
           aria-label={`Next ${label} item`}
@@ -464,12 +464,12 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
         </button>
       </div>
 
-      <ul className="cc-barrel-dots" aria-label={`${label} items, jump to one`}>
+      <ul className="bc-barrel-dots" aria-label={`${label} items, jump to one`}>
         {entries.map(({ item }, i) => (
           <li key={item.id}>
             <button
               type="button"
-              className="cc-barrel-dot"
+              className="bc-barrel-dot"
               aria-current={i === active ? 'true' : undefined}
               aria-label={item.name}
               onClick={() => spinTo(i)}
@@ -478,7 +478,7 @@ export function BarrelGallery({ label, entries, cart, onOpen }: BarrelGalleryPro
         ))}
       </ul>
 
-      <p className="cc-barrel-hint">{hint}</p>
+      <p className="bc-barrel-hint">{hint}</p>
     </div>
   );
 }

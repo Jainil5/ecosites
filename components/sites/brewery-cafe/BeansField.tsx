@@ -45,11 +45,11 @@ const BEANS: Bean[] = [
 
 export function BeansField({ className = '' }: { className?: string }) {
   return (
-    <div aria-hidden className={`cc-beans-field ${className}`}>
+    <div aria-hidden className={`bc-beans-field ${className}`}>
       {BEANS.map((b, i) => (
         <svg
           key={i}
-          className="cc-bean"
+          className="bc-bean"
           viewBox="0 0 32 22"
           style={
             {

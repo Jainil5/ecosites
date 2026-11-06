@@ -4,11 +4,11 @@ import { join } from 'path';
 import { describe, expect, it } from 'vitest';
 import { defaultBrand, defaultMenu } from '@/components/sites/analytical-register/menu-data';
 import { seedOrders } from '@/components/sites/analytical-register/seed';
-import { menuGroups } from '@/components/sites/coffee-cups/menu';
+import { menuGroups } from '@/components/sites/brewery-cafe/menu';
 
 const cafeItems = menuGroups.flatMap((g) => g.items.map((i) => ({ ...i, category: g.title })));
 
-describe('OrderBook shares the Coffee Cups menu', () => {
+describe('OrderBook shares the Brewery Cafe menu', () => {
   it('has the same ids, in the same order, as the cafe menu', () => {
     expect(defaultMenu.map((m) => m.id)).toEqual(cafeItems.map((i) => i.id));
   });
@@ -23,8 +23,8 @@ describe('OrderBook shares the Coffee Cups menu', () => {
       expect(ob.active).toBe(true);
     }
   });
-  it('brands the register as Coffee Cups', () => {
-    expect(defaultBrand.name).toBe('Coffee Cups');
+  it('brands the register as Brewery Cafe', () => {
+    expect(defaultBrand.name).toBe('Brewery Cafe');
     expect(defaultBrand.currency).toBe('₹');
     expect(defaultBrand.gstRate).toBe(0.05);
   });
@@ -55,7 +55,7 @@ describe('OrderBook shares the Coffee Cups menu', () => {
     // hydrating one onto the salon till would sell coffee in a salon.
     expect(src).toMatch(/'orderbook:v3'/);
     expect(src).toMatch(/editions\.some\(\(e\) => e\.id === parsed\.edition\)/);
-    // The Coffee Cups bridge feeds the café book and no other counter's.
+    // The Brewery Cafe bridge feeds the café book and no other counter's.
     expect(src).toMatch(/if \(!bridgesToCafe\(st\.edition\)\) return st;/);
   });
 

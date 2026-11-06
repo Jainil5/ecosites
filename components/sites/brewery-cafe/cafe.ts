@@ -1,18 +1,18 @@
 /**
- * Everything the Coffee Cups pages assert about the business. The venue is a
+ * Everything the Brewery Cafe pages assert about the business. The venue is a
  * studio build, so contact lines stay placeholders on the reserved
  * `.example` TLD and the address names no real corner.
  */
 export const cafe = {
-  name: 'Coffee Cups',
+  name: 'Brewery Cafe',
   tagline: 'Slow coffee, bagels, and the morning sun',
   kicker: 'One espresso base, pulled all day',
   intro:
     'Ground to order, tamped by hand and pulled short and sweet off a single espresso base, then carried to a room where the dough has already proved overnight and the first tray lands around seven.',
   story:
     'We started with one deck oven, a second-hand two-group, a bag of bread flour and the stubborn idea that a neighbourhood deserves somewhere to be unhurried before work. Everything is still made in the room you eat in — rolled by hand, boiled, then baked until the crust catches the sun.',
-  heroImage: '/coffee-cups/hero.jpg',
-  email: 'hello@coffeecups.example',
+  heroImage: '/brewery-cafe/hero.jpg',
+  email: 'hello@brewerycafe.example',
   address: 'Sunrise Lane at 4th, ground floor, yellow door',
   hours: [
     { days: 'Mon–Thu', time: '7:00 – 16:00' },
@@ -45,7 +45,7 @@ export interface GalleryShot {
 
 export const galleryShots: GalleryShot[] = [
   {
-    src: '/coffee-cups/bagels.jpg',
+    src: '/brewery-cafe/bagels.jpg',
     alt: 'A board of seeded bagels, one sliced open to show the crumb, with butter and cream cheese beside it',
     caption: 'The 7:10 tray',
     w: 1200,
@@ -54,7 +54,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -2.5,
   },
   {
-    src: '/coffee-cups/coffee.jpg',
+    src: '/brewery-cafe/coffee.jpg',
     alt: 'Milk being poured from a steel pitcher into a flat white with leaf latte art, steam catching the light',
     caption: 'Pulled short and sweet',
     w: 1200,
@@ -62,7 +62,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: 1.8,
   },
   {
-    src: '/coffee-cups/toast.jpg',
+    src: '/brewery-cafe/toast.jpg',
     alt: 'A seeded bagel open-faced with smashed avocado, microgreens, chilli flakes and soft-boiled egg halves',
     caption: 'Avocado and egg',
     w: 1200,
@@ -70,7 +70,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -1.2,
   },
   {
-    src: '/coffee-cups/interior.jpg',
+    src: '/brewery-cafe/interior.jpg',
     alt: 'Sunlit cafe interior with marble tables, bentwood chairs, hanging plants and a glass pastry case',
     caption: 'Room for sixteen',
     w: 1800,
@@ -79,7 +79,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: 2.2,
   },
   {
-    src: '/coffee-cups/pastry.jpg',
+    src: '/brewery-cafe/pastry.jpg',
     alt: 'Croissants, almond pastries and blueberry muffins arranged inside a glass display case',
     caption: 'Case at opening',
     w: 1200,
@@ -87,7 +87,7 @@ export const galleryShots: GalleryShot[] = [
     rotate: -2,
   },
   {
-    src: '/coffee-cups/lunch.jpg',
+    src: '/brewery-cafe/lunch.jpg',
     alt: 'A pressed toastie cut in half, a bowl of tomato soup and a citrus salad on a pale wooden table',
     caption: 'Noon plate',
     w: 1200,

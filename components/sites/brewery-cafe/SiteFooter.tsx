@@ -12,15 +12,15 @@ const links = [
 
 export function SiteFooter() {
   return (
-    <footer className="cc-footer">
+    <footer className="bc-footer">
       <div className="mx-auto max-w-6xl px-5 py-14">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <SunriseMark className="h-7 w-7 text-[var(--cc-honey)]" />
-              <span className="cc-display text-xl leading-none text-[var(--cc-cream)]">
-                <span className="cc-serif font-normal italic text-[var(--cc-honey)]">Coffee</span>
-                <span className="ml-1 uppercase tracking-[0.14em]">Cups</span>
+              <SunriseMark className="h-7 w-7 text-[var(--bc-honey)]" />
+              <span className="bc-display text-xl leading-none text-[var(--bc-cream)]">
+                <span className="bc-serif font-normal italic text-[var(--bc-honey)]">Brewery</span>
+                <span className="ml-1 uppercase tracking-[0.14em]">Cafe</span>
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-[#fbf4e9]/60">{cafe.tagline}</p>
@@ -31,7 +31,7 @@ export function SiteFooter() {
               <a
                 key={l.href}
                 href={l.href}
-                className="focus-ring cc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--cc-honey)]"
+                className="focus-ring bc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--bc-honey)]"
               >
                 {l.label}
               </a>
@@ -40,7 +40,7 @@ export function SiteFooter() {
               <a
                 key={s.label}
                 href={s.href}
-                className="focus-ring cc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--cc-honey)]"
+                className="focus-ring bc-display inline-flex min-h-10 items-center rounded text-[12px] uppercase tracking-[0.18em] text-[#fbf4e9]/70 transition-colors hover:text-[var(--bc-honey)]"
               >
                 {s.label}
               </a>
@@ -52,7 +52,7 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {cafe.name}. Brewed daily, sold out by two most Saturdays.
           </p>
-          <p className="cc-display uppercase tracking-[0.14em]">{cafe.address}</p>
+          <p className="bc-display uppercase tracking-[0.14em]">{cafe.address}</p>
         </div>
       </div>
     </footer>

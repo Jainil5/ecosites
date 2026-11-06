@@ -15,9 +15,9 @@ import { Visit } from './Visit';
  * straight into the goods, the story band, the social proof, and the room.
  * Menu sits directly under the hero because that is what people come for.
  */
-export function CoffeeCups() {
+export function BreweryCafe() {
   return (
-    <div className="coffee-cups min-h-screen">
+    <div className="brewery-cafe min-h-screen">
       <Nav />
       <main>
         <Hero />

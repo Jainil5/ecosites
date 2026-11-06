@@ -26,7 +26,7 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
   const place = () => {
     const num = orderNumber();
     publishOrder(window.localStorage, {
-      id: `cc-${Date.now()}-${num}`,
+      id: `bc-${Date.now()}-${num}`,
       createdAt: new Date().toISOString(),
       lines: lines.map(({ item, qty, unitPrice }) => ({ menuItemId: item.id, name: item.name, qty, unitPrice })),
     });
@@ -36,7 +36,7 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
 
   return (
     <aside
-      className="cc-tray"
+      className="bc-tray"
       aria-label="Your order"
       data-open={open ? 'true' : 'false'}
       data-idle={idle ? 'true' : 'false'}
@@ -45,36 +45,36 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
           scrolling menu; desktop hides it and keeps the sticky side panel. */}
       <button
         type="button"
-        className="cc-tray-bar cc-display"
+        className="bc-tray-bar bc-display"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
       >
         <span>{count > 0 ? `${count} on your tray` : 'Your order'}</span>
-        <span className="cc-tray-bar-total" key={total}>{inr(total)}</span>
-        <span className="cc-tray-bar-chev" aria-hidden>{open ? '▾' : '▴'}</span>
+        <span className="bc-tray-bar-total" key={total}>{inr(total)}</span>
+        <span className="bc-tray-bar-chev" aria-hidden>{open ? '▾' : '▴'}</span>
       </button>
-      <div className="cc-tray-scrim" aria-hidden onClick={() => setOpen(false)} />
-      <div className="cc-tray-panel">
+      <div className="bc-tray-scrim" aria-hidden onClick={() => setOpen(false)} />
+      <div className="bc-tray-panel">
         {ticket && lines.length === 0 ? (
-          <div className="cc-ticket" key={ticket}>
-            <p className="cc-ticket-stamp cc-display">Order placed</p>
-            <p className="cc-ticket-no cc-display">{ticket}</p>
-            <p className="cc-ticket-eta">
+          <div className="bc-ticket" key={ticket}>
+            <p className="bc-ticket-stamp bc-display">Order placed</p>
+            <p className="bc-ticket-no bc-display">{ticket}</p>
+            <p className="bc-ticket-eta">
               Ready at the counter in about 15 minutes. We will call this number, not your name.
             </p>
-            <button type="button" className="cc-tray-restart" onClick={() => setTicket(null)}>
+            <button type="button" className="bc-tray-restart" onClick={() => setTicket(null)}>
               Start another order
             </button>
           </div>
         ) : lines.length === 0 ? (
-          <div className="cc-tray-empty">
-            <p className="cc-tray-head cc-display">Your order</p>
+          <div className="bc-tray-empty">
+            <p className="bc-tray-head bc-display">Your order</p>
             <p>Nothing on the tray yet — tap + on anything.</p>
           </div>
         ) : (
           <>
-            <p className="cc-tray-head cc-display">Your order</p>
-            <ul className="cc-tray-lines">
+            <p className="bc-tray-head bc-display">Your order</p>
+            <ul className="bc-tray-lines">
               {lines.map(({ key, item, qty, unitPrice }) => {
                 const { sizeId, addonIds } = parseVariantKey(key);
                 const sizeLabel = sizeId && item.sizes ? item.sizes.find(s => s.id === sizeId)?.label : null;
@@ -83,14 +83,14 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
                   : [];
                 const variantText = [sizeLabel, ...addonLabels].filter(Boolean).join(', ');
                 return (
-                  <li key={key} className="cc-tray-line">
-                    <Image src={item.src} alt="" width={96} height={96} className="cc-tray-thumb" />
-                    <div className="cc-tray-line-info">
-                      <p className="cc-display text-[13px] leading-tight text-[var(--cc-ink)]">{item.name}</p>
-                      {variantText && <p className="cc-tray-variant">{variantText}</p>}
-                      <p className="cc-tray-each">{inr(unitPrice)} each</p>
+                  <li key={key} className="bc-tray-line">
+                    <Image src={item.src} alt="" width={96} height={96} className="bc-tray-thumb" />
+                    <div className="bc-tray-line-info">
+                      <p className="bc-display text-[13px] leading-tight text-[var(--bc-ink)]">{item.name}</p>
+                      {variantText && <p className="bc-tray-variant">{variantText}</p>}
+                      <p className="bc-tray-each">{inr(unitPrice)} each</p>
                     </div>
-                    <div className="cc-tray-step">
+                    <div className="bc-tray-step">
                       <button
                         type="button"
                         aria-label={`One fewer ${item.name}`}
@@ -107,18 +107,18 @@ export function OrderTray({ cart, dispatch }: { cart: CartState; dispatch: (acti
                         +
                       </button>
                     </div>
-                    <span className="cc-tray-line-total">{inr(unitPrice * qty)}</span>
+                    <span className="bc-tray-line-total">{inr(unitPrice * qty)}</span>
                   </li>
                 );
               })}
             </ul>
-            <div className="cc-tray-foot">
-              <span className="cc-display">Total</span>
-              <span className="cc-tray-total" key={total}>
+            <div className="bc-tray-foot">
+              <span className="bc-display">Total</span>
+              <span className="bc-tray-total" key={total}>
                 {inr(total)}
               </span>
             </div>
-            <button type="button" className="cc-btn cc-tray-place" onClick={place}>
+            <button type="button" className="bc-btn bc-tray-place" onClick={place}>
               Place order
             </button>
           </>

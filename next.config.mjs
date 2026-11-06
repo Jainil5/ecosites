@@ -12,10 +12,20 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // The cafe site was renamed to Coffee Cups. Cards, bookmarks and shared
-      // links still carry the old slug, so the whole subtree moves with a 301.
-      { source: '/dream-cafe', destination: '/coffee-cups', permanent: true },
-      { source: '/dream-cafe/:path*', destination: '/coffee-cups/:path*', permanent: true },
+      // The cafe site has changed hands twice: Dream Cafe, then Coffee Cups,
+      // now Brewery Cafe. Cards, bookmarks and shared links still carry the old
+      // slugs, so both retired subtrees move with a 301.
+      { source: '/dream-cafe', destination: '/brewery-cafe', permanent: true },
+      { source: '/dream-cafe/:path*', destination: '/brewery-cafe/:path*', permanent: true },
+      { source: '/coffee-cups', destination: '/brewery-cafe', permanent: true },
+      { source: '/coffee-cups/:path*', destination: '/brewery-cafe/:path*', permanent: true },
+      // The café's OrderBook counter moved with the café: its address carries
+      // the brand slug, so the one already handed round needs following.
+      {
+        source: '/orderbook/coffee-cups-demo',
+        destination: '/orderbook/brewery-cafe-demo',
+        permanent: true,
+      },
       // OrderBook's internal slug was `analytical-register`; the product is now
       // addressed by name, with one address per counter underneath it.
       { source: '/analytical-register', destination: '/orderbook', permanent: true },

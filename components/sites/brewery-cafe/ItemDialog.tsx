@@ -45,18 +45,18 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
   };
 
   return (
-    <div className="cc-dialog-scrim" onClick={onClose}>
+    <div className="bc-dialog-scrim" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
         aria-label={`${item.name}, ${groupTitle}`}
-        className="cc-dialog"
+        className="bc-dialog"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           ref={closeRef}
           type="button"
-          className="cc-dialog-close"
+          className="bc-dialog-close"
           onClick={onClose}
           aria-label={`Close ${item.name}`}
         >
@@ -71,41 +71,41 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
           </svg>
         </button>
 
-        <div className="cc-dialog-img">
+        <div className="bc-dialog-img">
           <Image src={item.src} alt={item.name} width={720} height={540} priority className="!h-full !w-full object-cover" />
         </div>
 
-        <div className="cc-dialog-body">
-          <p className="cc-dialog-cat">{groupTitle}</p>
-          <div className="cc-dialog-row">
-            <h3 className="cc-dialog-name">{item.name}</h3>
-            <span className="cc-dialog-price">{inr(unitPrice)}</span>
+        <div className="bc-dialog-body">
+          <p className="bc-dialog-cat">{groupTitle}</p>
+          <div className="bc-dialog-row">
+            <h3 className="bc-dialog-name">{item.name}</h3>
+            <span className="bc-dialog-price">{inr(unitPrice)}</span>
           </div>
-          {isRecommended(item) && item.badge ? <p className="cc-dialog-reason">★ {item.badge}</p> : null}
-          <p className="cc-dialog-note">{item.note}</p>
+          {isRecommended(item) && item.badge ? <p className="bc-dialog-reason">★ {item.badge}</p> : null}
+          <p className="bc-dialog-note">{item.note}</p>
 
           <div className="mt-3 flex flex-wrap gap-1.5">
             {item.tags.map((tag) => (
-              <span key={tag} className="cc-pill">
+              <span key={tag} className="bc-pill">
                 {tag}
               </span>
             ))}
           </div>
 
           {item.sizes && (
-            <fieldset className="cc-dialog-variants">
-              <legend className="cc-dialog-label">Size</legend>
-              <div className="cc-variant-group">
+            <fieldset className="bc-dialog-variants">
+              <legend className="bc-dialog-label">Size</legend>
+              <div className="bc-variant-group">
                 {item.sizes.map((s) => (
                   <button
                     key={s.id}
                     type="button"
-                    className="cc-variant-btn"
+                    className="bc-variant-btn"
                     data-active={sizeId === s.id ? 'true' : 'false'}
                     onClick={() => setSizeId(s.id)}
                   >
                     {s.label}
-                    {s.extra > 0 && <span className="cc-variant-extra">+{inr(s.extra)}</span>}
+                    {s.extra > 0 && <span className="bc-variant-extra">+{inr(s.extra)}</span>}
                   </button>
                 ))}
               </div>
@@ -113,37 +113,37 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
           )}
 
           {item.addons && (
-            <fieldset className="cc-dialog-variants">
-              <legend className="cc-dialog-label">Add-ons</legend>
-              <div className="cc-variant-group">
+            <fieldset className="bc-dialog-variants">
+              <legend className="bc-dialog-label">Add-ons</legend>
+              <div className="bc-variant-group">
                 {item.addons.map((a) => (
                   <button
                     key={a.id}
                     type="button"
-                    className="cc-variant-btn"
+                    className="bc-variant-btn"
                     data-active={addonIds.includes(a.id) ? 'true' : 'false'}
                     onClick={() => toggleAddon(a.id)}
                     aria-pressed={addonIds.includes(a.id)}
                   >
                     {a.label}
-                    <span className="cc-variant-extra">+{inr(a.price)}</span>
+                    <span className="bc-variant-extra">+{inr(a.price)}</span>
                   </button>
                 ))}
               </div>
             </fieldset>
           )}
 
-          <p className="cc-dialog-label">In it</p>
-          <p className="cc-dialog-text">{item.details.ingredients.join(' · ')}</p>
-          <p className="cc-dialog-label">Allergens</p>
-          <p className="cc-dialog-text">
+          <p className="bc-dialog-label">In it</p>
+          <p className="bc-dialog-text">{item.details.ingredients.join(' · ')}</p>
+          <p className="bc-dialog-label">Allergens</p>
+          <p className="bc-dialog-text">
             {item.details.allergens.length ? item.details.allergens.join(', ') : 'None worth flagging'}
           </p>
-          <p className="cc-dialog-kcal">{item.details.kcal} kcal</p>
+          <p className="bc-dialog-kcal">{item.details.kcal} kcal</p>
 
           {qty > 0 ? (
-            <div className="cc-dialog-actions">
-              <div className="cc-tray-step" role="group" aria-label={`How many ${item.name}`}>
+            <div className="bc-dialog-actions">
+              <div className="bc-tray-step" role="group" aria-label={`How many ${item.name}`}>
                 <button
                   type="button"
                   onClick={() => dispatch({ type: 'setQty', id: key, qty: qty - 1 })}
@@ -161,15 +161,15 @@ export function ItemDialog({ item, groupTitle, qty, dispatch, onClose }: ItemDia
                   +
                 </button>
               </div>
-              <span className="cc-dialog-line-total">{inr(unitPrice * qty)}</span>
-              <button type="button" className="cc-dialog-done" onClick={onClose}>
+              <span className="bc-dialog-line-total">{inr(unitPrice * qty)}</span>
+              <button type="button" className="bc-dialog-done" onClick={onClose}>
                 Done
               </button>
             </div>
           ) : (
             <button
               type="button"
-              className="cc-dialog-add"
+              className="bc-dialog-add"
               onClick={() => dispatch({ type: 'add', id: key })}
             >
               + Add to order — {inr(unitPrice)}

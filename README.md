@@ -29,13 +29,15 @@ The brand site, the portfolio and the product sites share one app but live in se
 | Hair Adore | `/hair-adore` | Salon marketing site: service menu, before/after gallery, booking |
 | Savour | `/savour`, `/savour/[slug]` | Dish-first restaurant guide; `/savour/[slug]` is one page per venue |
 | Market Pulse | `/stock-screener` | NSE screener on live Yahoo Finance data, via the API routes below |
-| Coffee Cups | `/coffee-cups` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
+| Brewery Cafe | `/brewery-cafe` | Bagel bakery and coffee bar: 3D barrel menu board, sunrise ticker, rotated photo mosaic |
 | OrderBook | `/analytical-register` | Opens on the product introduction — a trading day, twelve capability groups, who it fits, and which half runs here — then the POS register, GST cash memo, WhatsApp bill send, orders log and analytics dashboard |
 | Ember Larder | `/ember-larder` | Live-fire restaurant **and** its retail pantry shelf: variant-priced basket across plates and jars, page-wide ember canvas behind frosted-glass panels, 3D tilt cards, scroll-drawn set dinner, quote belt |
 
-Coffee Cups shipped first as *Dream Cafe*. The name, route, component folder, `cc-*` class family and
-`public/` assets all moved in one pass, and `next.config.mjs` keeps `/dream-cafe*` redirecting so old
-shares still land on the café.
+Brewery Cafe has been renamed twice — it shipped first as *Dream Cafe*, then as *Coffee Cups*. Each time
+the name, route, component folder, scoped theme class and its whole class family, `public/` assets and
+storage keys all moved in one pass, and `next.config.mjs` keeps `/dream-cafe*` and `/coffee-cups*`
+redirecting so old shares still land on the café. The word *coffee* stays where it names a pour, not the
+brand: the menu, the categories and the photographs are still a coffee bar's.
 
 `/api/stocks/{ohlc,chart,news,market,tick}` are server-side proxies that keep the Yahoo Finance
 request and the NVIDIA NIM key out of the browser bundle.
@@ -81,11 +83,11 @@ bash scripts/brand-reel.sh
 
 ### Café menu boards
 
-`/coffee-cups/menu` serves the same `menuGroups` data three ways, so a customer can browse the way they like:
+`/brewery-cafe/menu` serves the same `menuGroups` data three ways, so a customer can browse the way they like:
 
 | Board | When it is served | Component |
 | --- | --- | --- |
-| Barrel — cards standing on a spinning cylinder | Gen Z skin, one section at a time (Coffee, Food, Beverages) | `components/sites/coffee-cups/BarrelGallery.tsx` |
+| Barrel — cards standing on a spinning cylinder | Gen Z skin, one section at a time (Coffee, Food, Beverages) | `components/sites/brewery-cafe/BarrelGallery.tsx` |
 | Square tiles — the whole menu on one floating grid | Gen Z skin, `All` | `MenuExperience.tsx` |
 | Printed listing — thumbnail · name · leader · price | Traditional skin | `MenuExperience.tsx` |
 
@@ -216,7 +218,7 @@ Design decisions (brand color, type pairing) live as tokens in `tailwind.config.
 - [x] `/contact` channels and the `/store` alias for older links
 - [x] `/portfolio` builder index, `/portfolio/[author]` and `/portfolio/[author]/work/[slug]`
 - [x] Sitemap, robots and favicon generated from the registries
-- [x] Seven standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/coffee-cups`, `/analytical-register`, `/namesake`, `/ember-larder`)
+- [x] Seven standalone client sites (`/hair-adore`, `/savour`, `/stock-screener`, `/brewery-cafe`, `/analytical-register`, `/namesake`, `/ember-larder`)
 - [x] Savour on Supabase with RLS + bundled fallback data
 - [x] Market Pulse live-data proxy (`/api/stocks/*`)
 - [x] OrderBook POS register, GST billing and analytics dashboard

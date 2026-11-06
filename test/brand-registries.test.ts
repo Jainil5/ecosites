@@ -111,7 +111,7 @@ describe('products registry', () => {
     expect(products[0].demoPath).toBe('/orderbook');
     // The introduction is a route, and every counter it advertises has its own.
     expect(resolveRoute('/orderbook'), '/orderbook').not.toBeNull();
-    for (const path of ['/orderbook/coffee-cups-demo', '/orderbook/hair-adore-demo', '/orderbook/ember-larder-demo']) {
+    for (const path of ['/orderbook/brewery-cafe-demo', '/orderbook/hair-adore-demo', '/orderbook/ember-larder-demo']) {
       expect(resolveRoute(path), path).not.toBeNull();
       expect(websites.some((w) => w.path === path), path).toBe(true);
     }
