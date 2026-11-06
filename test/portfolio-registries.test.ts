@@ -89,6 +89,7 @@ describe('delivered websites on the builder work page', () => {
       'orderbook-kitchens',
       'namesake',
       'ember-larder',
+      'ruhani',
     ]);
     expect(getWebsitesByAuthor('nobody')).toEqual([]);
   });

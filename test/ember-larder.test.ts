@@ -552,8 +552,15 @@ describe('ember larder motion', () => {
 
   it('stops the belts, the breathing hero and the glow when motion is asked for', () => {
     const css = read('app/globals.css');
-    // The theme's own block is the last reduced-motion query in the sheet.
-    const reduce = css.slice(css.lastIndexOf('@media (prefers-reduced-motion: reduce)'));
+    // Themes are appended below one another, so "the last block in the sheet"
+    // was only true until the next site shipped. Take the reduced-motion query
+    // that belongs to this theme: the first one after its own header.
+    const from = css.indexOf('Ember Larder — charcoal and ember');
+    expect(from, 'the theme header is in the sheet').toBeGreaterThan(-1);
+    const reduceAt = css.indexOf('@media (prefers-reduced-motion: reduce)', from);
+    expect(reduceAt, 'the theme has a reduced-motion block').toBeGreaterThan(from);
+    const nextAt = css.indexOf('@media (prefers-reduced-motion: reduce)', reduceAt + 1);
+    const reduce = css.slice(reduceAt, nextAt === -1 ? undefined : nextAt);
     expect(reduce.slice(0, 1200)).toMatch(/\.ember-larder \.el-belt-track/);
     expect(reduce.slice(0, 1200)).toMatch(/\.ember-larder \.el-hero-img/);
     expect(reduce.slice(0, 1200)).toMatch(/animation: none !important/);

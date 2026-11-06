@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Archivo, Fira_Code, Fraunces, Geist_Mono, Inter, Playfair_Display } from 'next/font/google';
+import { Archivo, Cormorant_Garamond, Fira_Code, Fraunces, Geist_Mono, Inter, Playfair_Display } from 'next/font/google';
 import { company } from '@/content/brand/company';
 import { siteUrl } from '@/content/brand/site';
 import './globals.css';
@@ -59,6 +59,16 @@ const displaySerif = Fraunces({
   display: 'swap',
 });
 
+// Ruhani's own face, and nobody else's. A Garamond at 400 is the lightest
+// thing in the family that still holds a headline at 60px, which is the whole
+// argument for a jewellery page that whispers rather than a shop that shouts.
+const rjDisplay = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-rj-display',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -83,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${display.variable} ${label.variable} ${mono.variable} ${sans.variable} ${serif.variable} ${displaySerif.variable}`}
+      className={`dark ${display.variable} ${label.variable} ${mono.variable} ${sans.variable} ${serif.variable} ${displaySerif.variable} ${rjDisplay.variable}`}
     >
       <body className="font-body text-ink antialiased">{children}</body>
     </html>

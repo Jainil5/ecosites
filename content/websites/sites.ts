@@ -118,6 +118,19 @@ export const websites = [
     techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
     screenshot: '/showcase/ember-larder/preview.png',
   },
+  {
+    slug: 'ruhani',
+    author: 'jainil-patel',
+    title: 'Ruhani',
+    business: 'Handmade jewellery, made after you order',
+    description:
+      'A single workbench with the shop front it could not build itself: twelve pieces drawn at the bench on a paper shelf that filters by wear and by metal, a size chosen before the metal is cut, prices written inclusive of 3% GST with the tax kept as its own line, a courier that turns free above ₹4,000, and a box that sends the finished ticket to WhatsApp for a date rather than a checkout.',
+    path: '/ruhani',
+    theme: 'Warm paper and hairlines',
+    accent: '#C9A96E',
+    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript', 'SVG line drawings'],
+    screenshot: '/showcase/ruhani/preview.png',
+  },
 ] satisfies SampleWebsite[];
 
 export function getWebsiteBySlug(slug: string): SampleWebsite | undefined {
