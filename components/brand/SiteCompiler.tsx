@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import type { CSSProperties, FormEvent } from 'react';
 import { company } from '@/content/brand/company';
+import { instantHost } from '@/content/brand/site';
 import { whatsappHref } from '@/content/brand/links';
 
 /** Deterministic "generated" taglines — the card is a tease, not a quote. */
@@ -85,7 +86,7 @@ export function SiteCompiler() {
               <span aria-hidden className="h-2 w-2 rounded-full bg-lime" />
               <span aria-hidden className="h-2 w-2 rounded-full bg-forest" />
               <span className="ml-3 truncate font-label text-[11px] tracking-widest text-ink-3">
-                www.{slugOf(compiled)}.in
+                {slugOf(compiled)}.{instantHost}
               </span>
             </div>
             <div className="p-6 sm:p-8">
@@ -105,9 +106,39 @@ export function SiteCompiler() {
               <p className="gs-caps-rise mt-2 text-sm font-semibold text-forest" style={d(520)}>
                 {taglineFor(compiled)}
               </p>
+
+              {/* Two addresses, because there are two real answers to "where
+                  does it live". Ours loads the day the draft is agreed and is
+                  the one the bar above shows; theirs is the name on the
+                  visiting card, and whether it can be had is a question for
+                  the registry, not for this page. */}
+              <dl
+                className="gs-caps-rise mt-6 grid gap-px border border-hairline bg-hairline sm:grid-cols-2"
+                style={d(640)}
+              >
+                <div className="bg-canvas p-4">
+                  <dt className="gs-label">Live with us today</dt>
+                  <dd className="mt-1.5 truncate font-label text-[13px] text-forest">
+                    {slugOf(compiled)}.{instantHost}
+                  </dd>
+                  <p className="mt-1.5 text-[11px] leading-snug text-ink-3">
+                    The address the draft goes to the moment it is agreed.
+                  </p>
+                </div>
+                <div className="bg-canvas p-4">
+                  <dt className="gs-label">Yours to keep</dt>
+                  <dd className="mt-1.5 truncate font-label text-[13px] text-ink">
+                    www.{slugOf(compiled)}.com
+                  </dd>
+                  <p className="mt-1.5 text-[11px] leading-snug text-ink-3">
+                    Bought or pointed at us — we check it is free before you commit to it.
+                  </p>
+                </div>
+              </dl>
+
               <div
                 className="gs-caps-rise mt-6 flex flex-wrap items-center gap-4 border-t border-hairline pt-5"
-                style={d(660)}
+                style={d(760)}
               >
                 <a
                   href={previewHref(compiled)}

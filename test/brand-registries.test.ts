@@ -1,10 +1,11 @@
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { company } from '@/content/brand/company';
 import { audiences } from '@/content/brand/audiences';
 import { capabilities } from '@/content/brand/capabilities';
 import { whatsappHrefMessage } from '@/content/brand/links';
+import { instantHost, siteUrl } from '@/content/brand/site';
 import { productGroups, products } from '@/content/brand/products';
 import { PRODUCT_ICONS } from '@/components/brand/product-icons';
 import type { Proof } from '@/content/brand/proof';
@@ -259,5 +260,33 @@ describe('IA registries', () => {
       .toLowerCase();
     expect(text).not.toContain('pune');
     expect(text).not.toMatch(/₹|price[d]? from|starting at/);
+  });
+});
+
+// The compiler is the one place the site says "this could be your address",
+// so the two addresses it offers have to be real ones: the subdomain the
+// studio actually controls, and the domain the business would own.
+describe('the business-name compiler', () => {
+  const compiler = readFileSync('components/brand/SiteCompiler.tsx', 'utf8');
+
+  it('offers the instant subdomain and the business\'s own domain', () => {
+    expect(compiler).toMatch(/\{slugOf\(compiled\)\}\.\{instantHost\}/);
+    expect(compiler).toMatch(/www\.\{slugOf\(compiled\)\}\.com/);
+  });
+
+  it('takes the subdomain host from the canonical origin', () => {
+    // A domain typed into the component would keep promising an address the
+    // deploy does not own the day NEXT_PUBLIC_SITE_URL changes.
+    expect(instantHost).toBe(new URL(siteUrl).hostname.replace(/^www\./, ''));
+    expect(compiler).toMatch(/from '@\/content\/brand\/site'/);
+    expect(compiler).not.toMatch(/websitein\.com/);
+  });
+
+  it('says which of the two is a promise and which is a question', () => {
+    // The subdomain is ours and loads now; a .com nobody has checked may be
+    // taken, and the compiler must not claim it as available.
+    expect(compiler).toMatch(/Live with us today/);
+    expect(compiler).toMatch(/Yours to keep/);
+    expect(compiler).toMatch(/we check it is free/i);
   });
 });
