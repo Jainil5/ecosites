@@ -394,8 +394,9 @@ describe('ruhani theme tokens', () => {
   it('sets the display type in the Garamond it loads, not in the poster grotesque', () => {
     expect(section).toMatch(/\.ruhani \.rj-display \{[^}]*var\(--font-rj-display\)/s);
     const layout = read('app/layout.tsx');
-    expect(layout).toContain('Cormorant_Garamond');
-    expect(layout).toContain("variable: '--font-rj-display'");
+    const at = layout.indexOf("variable: '--font-rj-display'");
+    expect(at, 'the Garamond is not declared in app/layout.tsx').toBeGreaterThan(-1);
+    expect(layout.slice(layout.lastIndexOf('localFont({', at), at)).toContain('cormorant-garamond-latin.woff2');
   });
 
   it('stops the lift and the bar animation when motion is asked for', () => {

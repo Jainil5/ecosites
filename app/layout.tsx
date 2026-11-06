@@ -1,15 +1,28 @@
 import type { Metadata } from 'next';
-import { Archivo, Cormorant_Garamond, Fira_Code, Fraunces, Geist_Mono, Inter, Playfair_Display } from 'next/font/google';
+import localFont from 'next/font/local';
 import { company } from '@/content/brand/company';
 import { siteUrl } from '@/content/brand/site';
 import './globals.css';
 
+// Every face is read off disk at build time instead of being fetched from
+// Google Fonts. The deploy host builds behind a proxy that rewrites the font
+// URLs inside the CSS Google returns, and next/font/google then dies working
+// out a file extension from one of them: `Cannot read properties of null
+// (reading '1')`. A build that passed yesterday failed for a reason nobody in
+// this repo could see or test. The files in app/fonts are the same variable
+// fonts, latin subset, checked in — so the build needs no network and the type
+// cannot change under us between two deploys.
+//
+// Latin only: the whole corpus is Latin script, and the accented copy is é and
+// à, which sit inside the latin subset. Nothing here renders Cyrillic.
+
 // The brand's poster face. The reference form sets headlines in a heavy
 // grotesque in caps, so display carries the headlines, the buttons and the
 // card titles — and nothing else. Prose reads in Inter below.
-const display = Archivo({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+const display = localFont({
+  src: './fonts/archivo-latin.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-display',
   display: 'swap',
 });
@@ -17,16 +30,18 @@ const display = Archivo({
 // Brand-scoped mono. This deliberately does NOT replace --font-mono:
 // 13 screener files read font-mono, and Brewery Cafe's .bc-display inherits
 // var(--font-sans) at weight 800.
-const label = Geist_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const label = localFont({
+  src: './fonts/geist-mono-latin.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-label',
   display: 'swap',
 });
 
-const mono = Fira_Code({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const mono = localFont({
+  src: './fonts/fira-code-latin.woff2',
+  weight: '300 700',
+  style: 'normal',
   variable: '--font-mono',
   display: 'swap',
 });
@@ -37,35 +52,43 @@ const mono = Fira_Code({
 // weights are named because this family is now the one every paragraph
 // inherits — a missing 600 would be synthesised, and faux-bold prose is exactly
 // what the display face is there to avoid.
-const sans = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+const sans = localFont({
+  src: './fonts/inter-latin.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-sans',
   display: 'swap',
 });
 
 // Serif used by the demo websites (e.g. Hair Adore), not the main portfolio.
-const serif = Playfair_Display({
-  subsets: ['latin'],
+const serif = localFont({
+  src: './fonts/playfair-display-latin.woff2',
+  weight: '400 900',
+  style: 'normal',
   variable: '--font-serif',
+  adjustFontFallback: 'Times New Roman',
   display: 'swap',
 });
 
 // Display serif used by the Savour demo site only.
-const displaySerif = Fraunces({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const displaySerif = localFont({
+  src: './fonts/fraunces-latin.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-display-serif',
+  adjustFontFallback: 'Times New Roman',
   display: 'swap',
 });
 
 // Ruhani's own face, and nobody else's. A Garamond at 400 is the lightest
 // thing in the family that still holds a headline at 60px, which is the whole
 // argument for a jewellery page that whispers rather than a shop that shouts.
-const rjDisplay = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const rjDisplay = localFont({
+  src: './fonts/cormorant-garamond-latin.woff2',
+  weight: '300 700',
+  style: 'normal',
   variable: '--font-rj-display',
+  adjustFontFallback: 'Times New Roman',
   display: 'swap',
 });
 

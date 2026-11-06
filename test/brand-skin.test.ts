@@ -106,32 +106,46 @@ describe('brand skin tokens', () => {
 describe('brand skin fonts', () => {
   const layout = read('app/layout.tsx');
 
+  /** The localFont({...}) block that declares one CSS font variable. */
+  const face = (variable: string) => {
+    const at = layout.indexOf(`variable: '${variable}'`);
+    expect(at, `${variable} is not declared in app/layout.tsx`).toBeGreaterThan(-1);
+    return layout.slice(layout.lastIndexOf('localFont({', at), at);
+  };
+
   it('loads Archivo as the display face and Geist Mono as the label face', () => {
-    expect(layout).toContain('Archivo');
-    expect(layout).toContain('--font-display');
-    expect(layout).toContain('Geist_Mono');
-    expect(layout).toContain('--font-label');
+    expect(face('--font-display')).toContain('archivo-latin.woff2');
+    expect(face('--font-label')).toContain('geist-mono-latin.woff2');
   });
 
   it('drops the freehand serif experiment', () => {
-    expect(layout).not.toContain('Source_Serif_4');
-    expect(layout).not.toContain('Fustat');
-    expect(layout).not.toContain('Share_Tech_Mono');
+    for (const gone of ['Source_Serif_4', 'Fustat', 'Share_Tech_Mono', 'source-serif', 'fustat', 'share-tech']) {
+      expect(layout, gone).not.toContain(gone);
+    }
   });
 
   it('keeps every font the demo sites depend on', () => {
-    expect(layout).toContain('Fira_Code');
-    expect(layout).toContain('Inter');
-    expect(layout).toContain('Playfair_Display');
-    expect(layout).toContain('Fraunces');
+    expect(face('--font-mono')).toContain('fira-code-latin.woff2');
+    expect(face('--font-sans')).toContain('inter-latin.woff2');
+    expect(face('--font-serif')).toContain('playfair-display-latin.woff2');
+    expect(face('--font-display-serif')).toContain('fraunces-latin.woff2');
   });
 
-  it('never requests a weight or style the face does not ship', () => {
-    // next/font throws at build time for a missing axis. Fustat had no italic;
-    // Archivo ships 100-900 roman and italic.
-    const archivo = layout.slice(layout.indexOf('Archivo({'), layout.indexOf("variable: '--font-display'"));
-    for (const w of (archivo.match(/'(\d{3})'/g) || []).map((s) => s.replace(/'/g, ''))) {
-      expect(['100', '200', '300', '400', '500', '600', '700', '800', '900'], `Archivo ${w}`).toContain(w);
+  it('never asks for a weight outside the range the face ships', () => {
+    // A variable face renders real type only inside its declared range; past
+    // the edge the browser slants the nearest cut, and faux-bold prose is the
+    // exact thing the display face was chosen to avoid. These are the ranges
+    // Google's own axis metadata gives each family.
+    const ranges: Record<string, [number, number]> = {
+      '--font-display': [100, 900], // Archivo
+      '--font-label': [100, 900], // Geist Mono
+      '--font-mono': [300, 700], // Fira Code
+      '--font-sans': [100, 900], // Inter
+      '--font-serif': [400, 900], // Playfair Display
+      '--font-display-serif': [100, 900], // Fraunces
+    };
+    for (const [variable, [min, max]] of Object.entries(ranges)) {
+      expect(face(variable), variable).toContain(`weight: '${min} ${max}'`);
     }
   });
 

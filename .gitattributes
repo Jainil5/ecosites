@@ -5,3 +5,8 @@
 # matches on "\n" then silently misses — test/brand-skin.test.ts failing on a
 # pristine checkout was exactly this.
 * text=auto eol=lf
+
+# The checked-in variable fonts. Git detects binary by content, but
+# "never filter this" beats "trust the heuristic" for a file that would
+# render as Georgia if one stray byte pair were rewritten.
+*.woff2 binary
