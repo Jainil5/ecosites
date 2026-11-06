@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, Search, X } from 'lucide-react';
 import { Logo } from '@/components/brand/Logo';
 import { QuickSearch } from '@/components/brand/QuickSearch';
-import { ctaLink, navGroups, navLinks, type NavRow } from '@/content/brand/nav';
+import { ctaLink, navGroups, navLinks, navSections, type NavRow, type NavSection } from '@/content/brand/nav';
 
 /** The row's page is on screen, whichever anchor of it the row points at. */
 function isCurrent(href: string, pathname: string): boolean {
@@ -55,6 +55,40 @@ function DropdownRow({ row, onPick }: { row: NavRow; onPick: () => void }) {
         <span className="mt-1 block text-xs leading-snug text-ink-2">{row.description}</span>
       </span>
     </Link>
+  );
+}
+
+/**
+ * A block of rows under its own heading. The heading is aria-hidden because
+ * the group it names already carries that text, and no id is used because the
+ * same group can be on screen twice — the desktop panel and the mobile sheet.
+ */
+function PanelSection({
+  section,
+  first,
+  onPick,
+}: {
+  section: NavSection;
+  first: boolean;
+  onPick: () => void;
+}) {
+  const rows = (
+    <ul>
+      {section.rows.map((row) => (
+        <li key={row.href}>
+          <DropdownRow row={row} onPick={onPick} />
+        </li>
+      ))}
+    </ul>
+  );
+  if (!section.label) return rows;
+  return (
+    <div role="group" aria-label={section.label}>
+      <p aria-hidden className={`gs-label px-3 pb-1 text-lime ${first ? 'pt-1' : 'pt-3'}`}>
+        {section.label}
+      </p>
+      {rows}
+    </div>
   );
 }
 
@@ -186,14 +220,15 @@ export function Navbar() {
 
                     {expanded && (
                       <div className="absolute left-0 top-full z-50 pt-2">
-                        <div className="gs-drop gs-menu max-h-[min(30rem,72vh)] w-[min(23rem,calc(100vw-3rem))] overflow-y-auto overscroll-contain p-1.5">
-                          <ul>
-                            {group.rows.map((row) => (
-                              <li key={row.href}>
-                                <DropdownRow row={row} onPick={() => setOpen(null)} />
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="gs-drop gs-menu max-h-[min(34rem,80vh)] w-[min(25rem,calc(100vw-3rem))] overflow-y-auto overscroll-contain p-1.5">
+                          {navSections(group).map((section, index) => (
+                            <PanelSection
+                              key={section.label ?? group.href}
+                              section={section}
+                              first={index === 0}
+                              onPick={() => setOpen(null)}
+                            />
+                          ))}
                           <PanelFooter row={group.footer} onPick={() => setOpen(null)} />
                         </div>
                       </div>
@@ -262,13 +297,16 @@ export function Navbar() {
                           className="ml-auto h-4 w-4 text-ink-3 transition-transform duration-200 group-open:rotate-180"
                         />
                       </summary>
-                      <ul className="pb-1">
-                        {group.rows.map((row) => (
-                          <li key={row.href}>
-                            <DropdownRow row={row} onPick={() => setSheet(false)} />
-                          </li>
+                      <div className="pb-1">
+                        {navSections(group).map((section, index) => (
+                          <PanelSection
+                            key={section.label ?? 'rows'}
+                            section={section}
+                            first={index === 0}
+                            onPick={() => setSheet(false)}
+                          />
                         ))}
-                      </ul>
+                      </div>
                       <PanelFooter row={group.footer} onPick={() => setSheet(false)} />
                     </details>
                   </li>

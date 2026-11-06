@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import sitemap from '@/app/sitemap';
-import { ctaLink, footerLinks, navGroups, navLinks, searchIndex } from '@/content/brand/nav';
+import { ctaLink, footerLinks, navGroups, navLinks, navSections, searchIndex } from '@/content/brand/nav';
+import { productGroups, products as catalogue } from '@/content/brand/products';
+import { websites } from '@/content/websites/sites';
 import { siteUrl } from '@/content/brand/site';
 import { resolveRoute } from './helpers/resolve-route';
 
@@ -46,14 +48,52 @@ describe('Phase 1 IA', () => {
   });
 
   it('nav points only at built routes with the agreed labels', () => {
-    expect(navLinks.map((l) => l.href)).toEqual([
-      '/services',
-      '/products',
-      '/demos',
-      '/about',
-    ]);
+    expect(navLinks.map((l) => l.href)).toEqual(['/services', '/products', '/about']);
     for (const l of navLinks) expect(resolveRoute(l.href), l.href).not.toBeNull();
     expect(ctaLink).toEqual({ href: '/contact', label: 'Get Started' });
+  });
+
+  it('keeps Work off the bar without stranding it', () => {
+    // The tab is gone, so the way in has to be somewhere else — otherwise
+    // /demos and the twenty-something sites it indexes drop out of the
+    // navigation entirely.
+    expect(navLinks.map((l) => l.href)).not.toContain('/demos');
+    expect(footerLinks.map((l) => l.href)).toContain('/demos');
+    const products = navGroups.find((group) => group.href === '/products');
+    expect(products?.footer.href).toBe('/demos');
+    expect(searchIndex.map((row) => row.href)).toContain('/demos');
+    // And the sites the Work panel used to list are still searchable by name.
+    const hrefs = searchIndex.map((row) => row.href);
+    for (const site of websites) expect(hrefs, site.path).toContain(site.path);
+  });
+
+  it('reads the Products panel by shelf, every system exactly once', () => {
+    const products = navGroups.find((group) => group.href === '/products');
+    expect(products).toBeDefined();
+    const sections = navSections(products!);
+    // Headings are the catalogue's own shelves, in the catalogue's order, and a
+    // shelf with nothing on it draws nothing.
+    expect(sections.map((s) => s.label)).toEqual(
+      productGroups
+        .filter((group) => catalogue.some((p) => p.group === group.id))
+        .map((group) => group.label),
+    );
+    for (const product of catalogue) {
+      const home = sections.filter((s) =>
+        s.rows.some((row) => row.href === `/products#${product.slug}`),
+      );
+      expect(home.length, product.slug).toBe(1);
+      expect(home[0].label, product.slug).toBe(
+        productGroups.find((group) => group.id === product.group)?.label,
+      );
+    }
+    // The heading says what kind of system a row is, so the row itself no
+    // longer repeats it in a tag.
+    expect(sections.flatMap((s) => s.rows).every((row) => !row.tag)).toBe(true);
+    // A flat group still renders as one unlabelled block.
+    const services = navSections(navGroups.find((group) => group.href === '/services')!);
+    expect(services).toHaveLength(1);
+    expect(services[0].label).toBeNull();
   });
 
   it('audiences live only in the footer, never in the nav', () => {
